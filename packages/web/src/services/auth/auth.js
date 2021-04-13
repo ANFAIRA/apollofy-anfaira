@@ -61,3 +61,5 @@ export function getCurrentUserEmail() {
 
   return auth.currentUser.email;
 }
+
+// Some change
