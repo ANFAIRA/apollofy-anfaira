@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import "./ResetPassword.scss";
 
@@ -76,12 +76,9 @@ function ResetPassword() {
           {passwordResetError && (
             <section className="mt-4">{passwordResetError}</section>
           )}
-          <p>Already have an account? 
-          <Link
-            to={ROUTES.LOGIN}
-          >
-            &nbsp; Log in
-          </Link>
+          <p>
+            Already have an account?
+            <Link to={ROUTES.LOGIN}>&nbsp; Log in</Link>
           </p>
         </section>
       </main>

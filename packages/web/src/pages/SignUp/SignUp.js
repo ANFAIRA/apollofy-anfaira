@@ -25,7 +25,7 @@ function SignUp() {
     lastName: "",
     email: "",
     password: "",
-  })
+  });
 
   useEffect(() => {
     dispatch(resetAuthState());
@@ -40,7 +40,6 @@ function SignUp() {
     e.preventDefault();
 
     dispatch(signUpWithEmailRequest(formData));
-
   }
 
   // function handleSetEmail(e) {
@@ -50,10 +49,10 @@ function SignUp() {
   // function handleSetPassword(e) {
   //   setPassword(e.target.value);
   // }
-  
-  const handleChange = (e) =>{
-    setFormData({...formData,[e.target.name]:e.target.value});
-  }
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   if (isAuthenticated) {
     return <Redirect to={ROUTES.HOME} />;

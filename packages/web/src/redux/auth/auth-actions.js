@@ -8,7 +8,7 @@ export const resetStoreAndLogOut = () => ({
 
 export const signUpRequest = (userData) => ({
   type: AuthTypes.SIGN_UP_REQUEST,
-  payload: userData
+  payload: userData,
 });
 
 export const signUpError = (message) => ({
@@ -31,7 +31,7 @@ export function signUpWithEmailRequest(formData) {
   return async function signUpThunk(dispatch) {
     dispatch(signUpRequest(formData));
     try {
-      const {email, password} = formData;
+      const { email, password } = formData;
       await auth.singUpWithEmailAndPassword(email, password);
     } catch (error) {
       dispatch(signUpError(error.message));

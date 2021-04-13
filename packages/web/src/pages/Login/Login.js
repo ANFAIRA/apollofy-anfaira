@@ -99,12 +99,9 @@ function Login() {
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
             <hr className="mt-1 mb-4" />
-            <p>Do not have an account?
-              <Link
-                to={ROUTES.SIGN_UP}
-              >
-                &nbsp; Sign Up
-              </Link>
+            <p>
+              Do not have an account?
+              <Link to={ROUTES.SIGN_UP}>&nbsp; Sign Up</Link>
             </p>
             <hr className="mt-1 mb-4" />
             <Link
