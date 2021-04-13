@@ -21,7 +21,7 @@ async function signUp(req, res, next) {
     }
 
     await UserRepo.create({
-      _id: uid,
+      firebaseId: uid,
       email: email,
     });
 
