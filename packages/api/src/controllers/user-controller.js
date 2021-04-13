@@ -2,6 +2,7 @@ const { UserRepo } = require("../repositories");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
+  const {firstName, lastName} = req.body;
 
   try {
     const response = await UserRepo.findOne({ email: email });
@@ -23,6 +24,8 @@ async function signUp(req, res, next) {
     await UserRepo.create({
       firebaseId: uid,
       email: email,
+      firstName: firstName,
+      lastName: lastName,
     });
 
     res.status(201).send({

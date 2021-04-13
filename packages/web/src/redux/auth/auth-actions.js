@@ -6,8 +6,9 @@ export const resetStoreAndLogOut = () => ({
   type: AuthTypes.RESET_STORE_AND_LOG_OUT,
 });
 
-export const signUpRequest = () => ({
+export const signUpRequest = (userData) => ({
   type: AuthTypes.SIGN_UP_REQUEST,
+  payload: userData
 });
 
 export const signUpError = (message) => ({
@@ -26,10 +27,11 @@ export function signUpWithGoogleRequest() {
   };
 }
 
-export function signUpWithEmailRequest(email, password) {
+export function signUpWithEmailRequest(formData) {
   return async function signUpThunk(dispatch) {
-    dispatch(signUpRequest());
+    dispatch(signUpRequest(formData));
     try {
+      const {email, password} = formData;
       await auth.singUpWithEmailAndPassword(email, password);
     } catch (error) {
       dispatch(signUpError(error.message));
