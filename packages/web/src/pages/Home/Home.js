@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import "./Home.scss";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar";
 import { authSelector } from "../../redux/auth/auth-selectors";
 
 function Home() {

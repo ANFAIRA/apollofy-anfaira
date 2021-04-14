@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Account from "./pages/Account";
 
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
@@ -43,6 +44,7 @@ function App() {
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <ProtectedRoute>
           <Route path={ROUTES.HOME} component={Home} exact />
+          <Route path={ROUTES.ACCOUNT} component={Account} />
         </ProtectedRoute>
       </Switch>
     </div>

@@ -1,5 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../routes";
+
 import { signOut } from "../../redux/auth/auth-actions";
 import { authSelector } from "../../redux/auth/auth-selectors";
 
@@ -118,22 +121,22 @@ export default function Navbar() {
                   aria-orientation="vertical"
                   aria-labelledby="user-menu"
                 >
-                  <a
-                    href="#"
+                  <Link
+                    to={ROUTES.ACCOUNT}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
                     {currentUser?.data?.username}
-                  </a>
+                  </Link>
                   <a
-                    href="#"
+                    to="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
                     Settings
                   </a>
                   <a
-                    href="#"
+                    to="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
