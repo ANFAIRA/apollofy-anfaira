@@ -21,6 +21,7 @@ function SignUp() {
   );
 
   const [formData, setFormData] = useState({
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -41,14 +42,6 @@ function SignUp() {
 
     dispatch(signUpWithEmailRequest(formData));
   }
-
-  // function handleSetEmail(e) {
-  //   setEmail(e.target.value);
-  // }
-
-  // function handleSetPassword(e) {
-  //   setPassword(e.target.value);
-  // }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -74,6 +67,17 @@ function SignUp() {
           </button>
           <hr className="mt-1 mb-4" />
           <form onSubmit={handleSubmit}>
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              className="form-input"
+              value={formData.username}
+              onChange={handleChange}
+            />
             <label htmlFor="firstName" className="form-label">
               Name
             </label>

@@ -1,9 +1,8 @@
 const { UserRepo } = require("../repositories");
 
 async function signUp(req, res, next) {
-  const { uid, email } = req.user;
-  const { firstName, lastName } = req.body;
-
+  const { uid, email} = req.user;
+  const {firstName, lastName, username } = req.body.currentUser;
   try {
     const response = await UserRepo.findOne({ email: email });
 
@@ -26,6 +25,7 @@ async function signUp(req, res, next) {
       email: email,
       firstName: firstName,
       lastName: lastName,
+      username: username,
     });
 
     res.status(201).send({
