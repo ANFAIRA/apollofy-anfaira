@@ -59,11 +59,14 @@ export function syncSignIn() {
       return dispatch(signOutSuccess());
     }
 
-    const response = await api.signUp({
-      Authorization: `Bearer ${token}`,
-    }, {
-      currentUser: currentUser,
-    });
+    const response = await api.signUp(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      {
+        currentUser: currentUser,
+      },
+    );
 
     if (response.errorMessage) {
       return dispatch(signUpError(response.errorMessage));

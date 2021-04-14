@@ -5,7 +5,7 @@ const { isEmail } = require("validator");
 const UserSchema = Schema(
   {
     firebaseId: String,
-    username:{
+    username: {
       type: String,
       trim: true,
       unique: true,
