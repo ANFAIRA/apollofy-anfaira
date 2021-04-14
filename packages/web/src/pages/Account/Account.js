@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserAccount } from "../../redux/auth/auth-actions";
 
 import Navbar from "../../components/Navbar";
 
 function Account() {
+  const dispatch = useDispatch();
   const { username, firstName, lastName, email } = useSelector(
-    (state) => state.auth.currentUser.data,
+    (state) => state.auth?.currentUser?.data,
   );
   const [userData, setUserData] = useState({
     username,
@@ -16,12 +18,8 @@ function Account() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(
-      "🚀 ~ file: Account.js ~ line 11 ~ Account ~ userData",
-      userData,
-    );
 
-    // dispatch(signUpWithEmailRequest(formData));
+    dispatch(updateUserAccount(userData));
   }
 
   const handleChange = (e) => {
@@ -43,7 +41,7 @@ function Account() {
               id="username"
               name="username"
               className="form-input"
-              value={username}
+              value={userData.username}
               onChange={handleChange}
             />
             <label htmlFor="firstName" className="form-label">
@@ -54,7 +52,7 @@ function Account() {
               id="firstName"
               name="firstName"
               className="form-input"
-              value={firstName}
+              value={userData.firstName}
               onChange={handleChange}
             />
             <label htmlFor="lastName" className="form-label">
@@ -65,7 +63,7 @@ function Account() {
               id="lastName"
               name="lastName"
               className="form-input"
-              value={lastName}
+              value={userData.lastName}
               onChange={handleChange}
             />
             <label htmlFor="email" className="form-label">
@@ -76,7 +74,7 @@ function Account() {
               id="email"
               name="email"
               className="form-input"
-              value={email}
+              value={userData.email}
               onChange={handleChange}
             />
             <button className="btn btn-primary w-full" type="submit">

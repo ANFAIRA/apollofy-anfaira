@@ -147,3 +147,35 @@ export const sendPasswordResetEmailSuccess = () => ({
 export const resetAuthState = () => ({
   type: AuthTypes.RESET_AUTH_STATE,
 });
+
+export const updateUserAccountRequest = (userData) => ({
+  type: AuthTypes.UPDATE_USER_ACCOUNT_REQUEST,
+  payload: userData,
+});
+
+export const updateUserAccountSuccess = (userData) => ({
+  type: AuthTypes.UPDATE_USER_ACCOUNT_SUCCESS,
+  payload: userData,
+});
+
+export const updateUserAccountError = (message) => ({
+  type: AuthTypes.UPDATE_USER_ACCOUNT_ERROR,
+  payload: message,
+});
+
+export function updateUserAccount(userData) {
+  // return async function updateUserAccountThunk(dispatch) {
+  // dispatch(updateUserAccountRequest(userData));
+  // try {
+  //   console.log(userData);
+  //   return updateUserAccountRequest();
+  // } catch (error) {
+  //   console.log(error.message);
+  //   // dispatch(updateUserAccountError(error.message));
+  // }
+  return {
+    type: AuthTypes.UPDATE_USER_ACCOUNT,
+    payload: userData,
+  };
+  // };
+}
