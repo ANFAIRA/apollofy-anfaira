@@ -2,7 +2,7 @@ const { UserRepo } = require("../repositories");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
-  const { firstName, lastName, username } = req.body.currentUser;
+  const { firstName, lastName, username } = req?.body?.currentUser;
   try {
     const response = await UserRepo.findOne({ email: email });
 
@@ -15,7 +15,7 @@ async function signUp(req, res, next) {
 
     if (response.data) {
       return res.status(200).send({
-        data: "OK",
+        data: response.data,
         error: null,
       });
     }
@@ -29,7 +29,7 @@ async function signUp(req, res, next) {
     });
 
     res.status(201).send({
-      data: "OK",
+      data: response.data,
       error: null,
     });
   } catch (error) {
