@@ -4,7 +4,6 @@ import { Link, Redirect } from "react-router-dom";
 
 import "./Login.scss";
 
-import Header from "../../components/Header";
 import * as ROUTES from "../../routes";
 
 import {
@@ -57,19 +56,9 @@ function Login() {
   return (
     <>
       <main className="Login">
-        <Header />
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Login</h1>
           <hr className="my-4" />
-          <button
-            className="btn btn-primary w-full"
-            type="button"
-            onClick={handleLoginWithGoogle}
-            disabled={isSigningUp}
-          >
-            Login with Google
-          </button>
-          <hr className="mt-1 mb-4" />
           <form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
               Email
@@ -99,8 +88,21 @@ function Login() {
               Login
             </button>
           </form>
+          <button
+            className="btn btn-primary w-full"
+            type="button"
+            onClick={handleLoginWithGoogle}
+            disabled={isSigningUp}
+          >
+            Login with Google
+          </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
+            <hr className="mt-1 mb-4" />
+            <p>
+              Do not have an account?
+              <Link to={ROUTES.SIGN_UP}>&nbsp; Sign Up</Link>
+            </p>
             <hr className="mt-1 mb-4" />
             <Link
               to={ROUTES.RESET_PASSWORD}

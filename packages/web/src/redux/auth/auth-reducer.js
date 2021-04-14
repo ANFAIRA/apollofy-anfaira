@@ -21,6 +21,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
         ...state,
         isSigningUp: true,
         signUpError: null,
+        currentUser: action.payload,
       };
     }
     case AuthTypes.SIGN_UP_ERROR: {
@@ -38,6 +39,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
         signUpError: null,
         currentUser: {
           email: action.payload.email,
+          firstName: action.payload.firstName,
         },
       };
     }
