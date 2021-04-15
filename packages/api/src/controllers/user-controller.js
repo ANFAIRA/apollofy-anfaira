@@ -1,9 +1,16 @@
 const { UserRepo } = require("../repositories");
+// const logger = require("../services/logger");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
-  const { firstName, lastName, username } = req.body.currentUser;
   try {
+    const { firstName, lastName, username } = req.body.currentUser
+      ? req.body.currentUser
+      : {
+          firstName: "",
+          lastName: "",
+          username: email.split("@")[0],
+        };
     const response = await UserRepo.findOne({ email: email });
 
     if (response.error) {
@@ -15,7 +22,7 @@ async function signUp(req, res, next) {
 
     if (response.data) {
       return res.status(200).send({
-        data: "OK",
+        data: response.data,
         error: null,
       });
     }
@@ -29,7 +36,7 @@ async function signUp(req, res, next) {
     });
 
     res.status(201).send({
-      data: "OK",
+      data: req.body.currentUser,
       error: null,
     });
   } catch (error) {
@@ -46,7 +53,30 @@ async function signOut(req, res) {
   });
 }
 
+async function updateUser(req, res, next) {
+  const { firebaseId, firstName, lastName, username } = req.body;
+
+  try {
+    await UserRepo.findOneAndUpdate(
+      { firebaseId: firebaseId },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+        },
+      },
+      { new: true },
+    );
+
+    res.status(200).send({ data: req.body, error: null });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signUp: signUp,
   signOut: signOut,
+  updateUser: updateUser,
 };
