@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
 import { updateUserAccount } from "../../redux/auth/auth-actions";
@@ -71,6 +72,7 @@ function Account() {
           </form>
           <section className="mt-4">
             <hr className="mt-1 mb-4" />
+            <Link to="/change-password">Want to change your password?</Link>
           </section>
         </section>
       </main>

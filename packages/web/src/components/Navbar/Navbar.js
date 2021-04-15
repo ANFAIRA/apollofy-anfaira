@@ -128,20 +128,20 @@ export default function Navbar() {
                   >
                     {currentUser?.data?.username}
                   </Link>
-                  <a
-                    to="#"
+                  <Link
+                    to="/change-password"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
-                    Settings
-                  </a>
-                  <a
+                    Change password
+                  </Link>
+                  <Link
                     to="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
                     Sign out
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
