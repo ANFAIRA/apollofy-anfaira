@@ -1,6 +1,6 @@
-import * as AuthTypes from "./auth-types";
 import api from "../../api";
 import * as auth from "../../services/auth";
+import * as AuthTypes from "./auth-types";
 
 export const resetStoreAndLogOut = () => ({
   type: AuthTypes.RESET_STORE_AND_LOG_OUT,
@@ -148,6 +148,25 @@ export const resetAuthState = () => ({
   type: AuthTypes.RESET_AUTH_STATE,
 });
 
+export function updateUserAccount(userData) {
+  return async function updateUserAccountThunk(dispatch) {
+    dispatch(updateUserAccountRequest(userData));
+    try {
+      const token = await auth.getCurrentUserToken();
+      const response = await api.updateUserInfo(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        userData,
+      );
+      return updateUserAccountRequest(response.data);
+    } catch (error) {
+      dispatch(updateUserAccountError(error.message));
+    }
+    return dispatch(updateUserAccountSuccess(userData));
+  };
+}
+
 export const updateUserAccountRequest = (userData) => ({
   type: AuthTypes.UPDATE_USER_ACCOUNT_REQUEST,
   payload: userData,
@@ -162,20 +181,3 @@ export const updateUserAccountError = (message) => ({
   type: AuthTypes.UPDATE_USER_ACCOUNT_ERROR,
   payload: message,
 });
-
-export function updateUserAccount(userData) {
-  // return async function updateUserAccountThunk(dispatch) {
-  // dispatch(updateUserAccountRequest(userData));
-  // try {
-  //   console.log(userData);
-  //   return updateUserAccountRequest();
-  // } catch (error) {
-  //   console.log(error.message);
-  //   // dispatch(updateUserAccountError(error.message));
-  // }
-  return {
-    type: AuthTypes.UPDATE_USER_ACCOUNT,
-    payload: userData,
-  };
-  // };
-}

@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateUserAccount } from "../../redux/auth/auth-actions";
-
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
+import { updateUserAccount } from "../../redux/auth/auth-actions";
 
 function Account() {
   const dispatch = useDispatch();
-  const { username, firstName, lastName, email } = useSelector(
+  const { username, firstName, lastName, firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );
   const [userData, setUserData] = useState({
     username,
     firstName,
     lastName,
-    email,
+    firebaseId,
   });
 
   function handleSubmit(e) {
@@ -64,17 +63,6 @@ function Account() {
               name="lastName"
               className="form-input"
               value={userData.lastName}
-              onChange={handleChange}
-            />
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              className="form-input"
-              value={userData.email}
               onChange={handleChange}
             />
             <button className="btn btn-primary w-full" type="submit">

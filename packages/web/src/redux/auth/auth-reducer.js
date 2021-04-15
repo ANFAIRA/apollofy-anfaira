@@ -109,7 +109,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
         ...state,
         userIsUpdating: true,
         userUpdateError: null,
-        currentUser: action.payload,
+        currentUser: { data: action.payload },
       };
     }
     case AuthTypes.UPDATE_USER_ACCOUNT_SUCCESS: {
@@ -126,12 +126,6 @@ const AuthReducer = (state = AuthInitialState, action) => {
         ...state,
         userIsUpdating: false,
         userUpdateError: action.payload,
-      };
-    }
-    case AuthTypes.UPDATE_USER_ACCOUNT: {
-      console.log(action.payload);
-      return {
-        ...state,
       };
     }
     default: {
