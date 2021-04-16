@@ -1,20 +1,18 @@
 import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-import "./styles/App.scss";
-
-import * as ROUTES from "./routes";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
-import ResetPassword from "./pages/ResetPassword";
+import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Account from "./pages/Account";
 import ChangePassword from "./pages/ChangePassword";
-
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import ResetPassword from "./pages/ResetPassword";
+import SignUp from "./pages/SignUp";
+import { signOut, syncSignIn } from "./redux/auth/auth-actions";
+import * as ROUTES from "./routes";
 import { onAuthStateChanged } from "./services/auth";
-import { syncSignIn, signOut } from "./redux/auth/auth-actions";
+import "./styles/App.scss";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +43,7 @@ function App() {
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <ProtectedRoute>
           <Route path={ROUTES.HOME} component={Home} exact />
+          <Route path={ROUTES.PROFILE} component={Profile} />
           <Route path={ROUTES.ACCOUNT} component={Account} />
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
         </ProtectedRoute>

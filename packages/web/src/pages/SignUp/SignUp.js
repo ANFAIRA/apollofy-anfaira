@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-
-import "./SignUp.scss";
-
-import * as ROUTES from "../../routes";
-
+import AuthForm from "../../layout/AuthForm";
 import {
   resetAuthState,
   signUpWithEmailRequest,
   signUpWithGoogleRequest,
 } from "../../redux/auth/auth-actions";
-
 import { authSelector } from "../../redux/auth/auth-selectors";
+import * as ROUTES from "../../routes";
+import "./SignUp.scss";
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -52,7 +49,7 @@ function SignUp() {
   }
 
   return (
-    <>
+    <AuthForm>
       <main className="SignUp">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">SignUp</h1>
@@ -142,7 +139,7 @@ function SignUp() {
           </section>
         </section>
       </main>
-    </>
+    </AuthForm>
   );
 }
 

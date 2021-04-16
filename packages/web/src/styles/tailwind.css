@@ -44,4 +44,8 @@
     /* https://tailwindcss.com/docs/hover-focus-and-other-states#checked */
     @apply w-6 h-6 mr-2 shadow-sm mb-4 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
   }
+
+  .avatar {
+    @apply rounded-full bg-purple-800 flex items-center justify-center;
+  }
 }
