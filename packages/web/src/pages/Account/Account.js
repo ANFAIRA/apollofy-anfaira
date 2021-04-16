@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/Navbar";
+import { Link } from "react-router-dom";
+import Main from "../../layout/Main";
 import { updateUserAccount } from "../../redux/auth/auth-actions";
 
 function Account() {
@@ -27,8 +27,7 @@ function Account() {
   };
 
   return (
-    <>
-      <Navbar />
+    <Main>
       <main className="SignUp">
         <section className="Login__wrapper">
           <hr className="mt-1 mb-4" />
@@ -76,7 +75,7 @@ function Account() {
           </section>
         </section>
       </main>
-    </>
+    </Main>
   );
 }
 

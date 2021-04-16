@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/Navbar";
+import { useHistory } from "react-router-dom";
+import Main from "../../layout/Main";
 import { changePassword } from "../../redux/auth/auth-actions";
 
 function ChangePassword() {
@@ -33,8 +33,7 @@ function ChangePassword() {
   };
 
   return (
-    <>
-      <Navbar />
+    <Main>
       <main className="changePassword">
         <section className="Login__wrapper">
           <hr className="mt-1 mb-4" />
@@ -84,7 +83,7 @@ function ChangePassword() {
           </section>
         </section>
       </main>
-    </>
+    </Main>
   );
 }
 
