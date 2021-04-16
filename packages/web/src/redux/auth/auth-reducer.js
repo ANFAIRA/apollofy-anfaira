@@ -12,6 +12,9 @@ export const AuthInitialState = {
   userIsUpdating: false,
   userIsUpdated: false,
   userUpdateError: null,
+  passwordIsChanging: false,
+  passwordIsChanged: false,
+  passwordChangeError: null,
   currentUser: {
     email: null,
   },
@@ -128,6 +131,29 @@ const AuthReducer = (state = AuthInitialState, action) => {
         userUpdateError: action.payload,
       };
     }
+    case AuthTypes.CHANGE_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        passwordIsChanging: true,
+        passwordChangeError: null,
+      };
+    }
+    case AuthTypes.CHANGE_PASSWORD_ERROR: {
+      return {
+        ...state,
+        passwordIsChanging: false,
+        passwordChangeError: action.payload,
+      };
+    }
+    case AuthTypes.CHANGE_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        passwordIsChanged: true,
+        passwordIsChanging: false,
+        passwordChangeError: null,
+      };
+    }
+
     default: {
       return state;
     }
