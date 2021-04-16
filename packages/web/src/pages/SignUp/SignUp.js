@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
+import AuthForm from "../../layout/AuthForm";
 
 import "./SignUp.scss";
 
@@ -46,20 +47,11 @@ function SignUp() {
   }
 
   return (
-    <>
+    <AuthForm>
       <main className="SignUp">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">SignUp</h1>
-          <hr className="my-4" />
-          <button
-            className="btn btn-primary w-full"
-            type="button"
-            onClick={handleLoginWithGoogle}
-            disabled={isSigningUp}
-          >
-            SignUp with Google
-          </button>
-          <hr className="mt-1 mb-4" />
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Username"
@@ -117,26 +109,31 @@ function SignUp() {
             />
             <p>{errors.password && "Password is required"}</p>
             <button
-              className="btn btn-primary w-full"
+              className="btn rounded-full bg-purple-600 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
               Sign Up
             </button>
           </form>
+          <button
+            className="btn border-gray-400 border-2 rounded-full w-full py-3 text-xl font-semibold"
+            type="button"
+            onClick={handleLoginWithGoogle}
+            disabled={isSigningUp}
+          >
+            SignUp with Google
+          </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <Link
-              to={ROUTES.RESET_PASSWORD}
-              className="underline text-blue-gray-200 w-full text-center block"
-            >
-              Reset password
-            </Link>
+            <p>
+              Already have an account?
+              <Link to={ROUTES.LOGIN}>&nbsp; Log in</Link>
+            </p>
           </section>
         </section>
       </main>
-    </>
+    </AuthForm>
   );
 }
 
