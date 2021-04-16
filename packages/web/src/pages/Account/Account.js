@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Main from "../../layout/Main";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../components/Navbar";
 import { updateUserAccount } from "../../redux/auth/auth-actions";
+import Input from "../../components/Input";
 
 function Account() {
   const dispatch = useDispatch();
@@ -27,41 +28,36 @@ function Account() {
   };
 
   return (
-    <Main>
+    <>
+      <Navbar />
       <main className="SignUp">
         <section className="Login__wrapper">
           <hr className="mt-1 mb-4" />
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
+            <Input
+              label="Username"
               type="text"
-              id="username"
               name="username"
-              className="form-input"
+              labelClass="form-label"
+              inputClass="form-input"
               value={userData.username}
               onChange={handleChange}
             />
-            <label htmlFor="firstName" className="form-label">
-              Name
-            </label>
-            <input
+            <Input
+              label="Name"
               type="text"
-              id="firstName"
               name="firstName"
-              className="form-input"
+              labelClass="form-label"
+              inputClass="form-input"
               value={userData.firstName}
               onChange={handleChange}
             />
-            <label htmlFor="lastName" className="form-label">
-              Last Name
-            </label>
-            <input
+            <Input
+              label="Last Name"
               type="text"
-              id="lastName"
               name="lastName"
-              className="form-input"
+              labelClass="form-label"
+              inputClass="form-input"
               value={userData.lastName}
               onChange={handleChange}
             />
@@ -75,7 +71,7 @@ function Account() {
           </section>
         </section>
       </main>
-    </Main>
+    </>
   );
 }
 

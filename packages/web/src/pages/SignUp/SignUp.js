@@ -1,29 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import AuthForm from "../../layout/AuthForm";
+import { useForm } from "react-hook-form";
+import Input from "../../components/Input";
+import PasswordInput from "../../components/PasswordInput";
+
+import "./SignUp.scss";
+
+import * as ROUTES from "../../routes";
+
 import {
   resetAuthState,
   signUpWithEmailRequest,
   signUpWithGoogleRequest,
 } from "../../redux/auth/auth-actions";
+
 import { authSelector } from "../../redux/auth/auth-selectors";
-import * as ROUTES from "../../routes";
-import "./SignUp.scss";
 
 function SignUp() {
   const dispatch = useDispatch();
   const { isSigningUp, signUpError, isAuthenticated } = useSelector(
     authSelector,
   );
-
-  const [formData, setFormData] = useState({
-    username: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   useEffect(() => {
     dispatch(resetAuthState());
@@ -34,14 +37,8 @@ function SignUp() {
     dispatch(signUpWithGoogleRequest());
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    dispatch(signUpWithEmailRequest(formData));
-  }
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onSubmit = (data) => {
+    dispatch(signUpWithEmailRequest(data));
   };
 
   if (isAuthenticated) {
@@ -49,7 +46,7 @@ function SignUp() {
   }
 
   return (
-    <AuthForm>
+    <>
       <main className="SignUp">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">SignUp</h1>
@@ -63,62 +60,62 @@ function SignUp() {
             SignUp with Google
           </button>
           <hr className="mt-1 mb-4" />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="Username"
               name="username"
-              className="form-input"
-              value={formData.username}
-              onChange={handleChange}
-            />
-            <label htmlFor="firstName" className="form-label">
-              Name
-            </label>
-            <input
+              labelClass="form-label"
               type="text"
-              id="firstName"
+              inputClass="form-input"
+              {...register("username", {
+                required: true,
+              })}
+            />
+            <p>{errors.username && "Username is required"}</p>
+            <Input
+              label="First Name"
               name="firstName"
-              className="form-input"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-            <label htmlFor="lastName" className="form-label">
-              Last Name
-            </label>
-            <input
+              labelClass="form-label"
               type="text"
-              id="lastName"
+              inputClass="form-input"
+              {...register("firstName", { required: true })}
+            />
+            <p>{errors.firstName && "First name is required"}</p>
+            <Input
+              label="Last Name"
               name="lastName"
-              className="form-input"
-              value={formData.lastName}
-              onChange={handleChange}
-            />
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
+              labelClass="form-label"
               type="text"
-              id="email"
+              inputClass="form-input"
+              {...register("lastName", {
+                required: true,
+              })}
+            />
+            <p>{errors.lastName && "Last name is required"}</p>
+            <Input
+              label="Email"
               name="email"
-              className="form-input"
-              value={formData.email}
-              onChange={handleChange}
+              labelClass="form-label"
+              type="text"
+              inputClass="form-input"
+              {...register(
+                "email",
+                {
+                  required: true,
+                },
+                { pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i },
+              )}
             />
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
+            <p>{errors.email && "Email is required"}</p>
+            <PasswordInput
+              label="Password"
               name="password"
-              className="form-input"
-              value={formData.password}
-              onChange={handleChange}
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
+              {...register("password", { required: true })}
             />
+            <p>{errors.password && "Password is required"}</p>
             <button
               className="btn btn-primary w-full"
               type="submit"
@@ -139,7 +136,7 @@ function SignUp() {
           </section>
         </section>
       </main>
-    </AuthForm>
+    </>
   );
 }
 

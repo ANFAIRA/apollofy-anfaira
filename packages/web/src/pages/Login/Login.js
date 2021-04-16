@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import AuthForm from "../../layout/AuthForm";
+import { useForm } from "react-hook-form";
+import Input from "../../components/Input";
+import PasswordInput from "../../components/PasswordInput";
+
+import "./Login.scss";
+
+import * as ROUTES from "../../routes";
+
 import {
   resetAuthState,
   signInWithEmailRequest,
   signUpWithGoogleRequest,
 } from "../../redux/auth/auth-actions";
+
 import { authSelector } from "../../redux/auth/auth-selectors";
-import * as ROUTES from "../../routes";
-import "./Login.scss";
 
 function Login() {
   const dispatch = useDispatch();
   const { isSigningUp, signUpError, isAuthenticated } = useSelector(
     authSelector,
   );
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   useEffect(() => {
     dispatch(resetAuthState());
@@ -29,54 +37,44 @@ function Login() {
     dispatch(signUpWithGoogleRequest());
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    dispatch(signInWithEmailRequest(email, password));
-
-    setEmail("");
-    setPassword("");
-  }
-
-  function handleSetEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleSetPassword(e) {
-    setPassword(e.target.value);
-  }
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(signInWithEmailRequest(data.email, data.password));
+  };
 
   if (isAuthenticated) {
     return <Redirect to={ROUTES.HOME} />;
   }
 
   return (
-    <AuthForm>
+    <>
       <main className="Login">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Login</h1>
           <hr className="my-4" />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              className="form-input"
-              value={email}
-              onChange={handleSetEmail}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="Email"
+              name="email"
+              labelClass="form-label"
+              type="email"
+              inputClass="form-input"
+              {...register("email", {
+                required: true,
+              })}
             />
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
+            <p>{errors.email && "Email is required"}</p>
+            <PasswordInput
+              label="Password"
+              name="password"
+              labelClass="form-label"
               type="password"
-              id="password"
-              className="form-input"
-              value={password}
-              onChange={handleSetPassword}
+              inputClass="form-input"
+              {...register("password", {
+                required: true,
+              })}
             />
+            <p>{errors.password && "Password is required"}</p>
             <button
               className="btn btn-primary w-full"
               type="submit"
@@ -110,7 +108,7 @@ function Login() {
           </section>
         </section>
       </main>
-    </AuthForm>
+    </>
   );
 }
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Main from "../../layout/Main";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../components/Navbar";
 import { changePassword } from "../../redux/auth/auth-actions";
+import PasswordInput from "../../components/PasswordInput";
 
 function ChangePassword() {
   const dispatch = useDispatch();
@@ -33,46 +34,38 @@ function ChangePassword() {
   };
 
   return (
-    <Main>
-      <main className="changePassword">
+    <>
+      <Navbar />
+      <main className="Login">
         <section className="Login__wrapper">
           <hr className="mt-1 mb-4" />
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username" className="form-label">
-              Current Password
-            </label>
-            <input
-              type="password"
-              id="currentPassword"
+            <PasswordInput
+              label="Current Password"
               name="currentPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.currentPassword}
               onChange={handleChange}
-              required
             />
-            <label htmlFor="firstName" className="form-label">
-              New password
-            </label>
-            <input
-              type="password"
-              id="newPassword"
+            <PasswordInput
+              label="New Password"
               name="newPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.newPassword}
               onChange={handleChange}
-              required
             />
-            <label htmlFor="lastName" className="form-label">
-              Confirm password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
+            <PasswordInput
+              label="Confirm Password"
               name="confirmPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.confirmPassword}
               onChange={handleChange}
-              required
             />
             <button className="btn btn-primary w-full" type="submit">
               Submit
@@ -83,7 +76,7 @@ function ChangePassword() {
           </section>
         </section>
       </main>
-    </Main>
+    </>
   );
 }
 
