@@ -29,7 +29,6 @@ function PasswordInput({
           type={passwordShown ? "text" : type}
           value={value}
           onChange={onChange}
-          required
           placeholder={placeholder}
         />
         <button onClick={togglePasswordVisiblity} type="button">

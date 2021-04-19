@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import Navbar from "../../components/Navbar";
 import { updateUserAccount } from "../../redux/auth/auth-actions";
 import Input from "../../components/Input";
 
 function Account() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { username, firstName, lastName, firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );
-  const [userData, setUserData] = useState({
-    username,
-    firstName,
-    lastName,
-    firebaseId,
-  });
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-    dispatch(updateUserAccount(userData));
-  }
-
-  const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(updateUserAccount(data));
+    history.push("/");
   };
 
   return (
@@ -33,36 +31,37 @@ function Account() {
       <main className="SignUp">
         <section className="mt-20">
           <h2 className="mb-8 text-2xl">Edit your user account details</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="username">Username</label>
             <Input
               type="text"
               name="username"
-              labelClass="form-label"
               inputClass="form-input"
-              value={userData.username}
-              onChange={handleChange}
+              {...register("username", {
+                required: true,
+              })}
             />
+            <p>{errors.username && "Username is required"}</p>
             <label htmlFor="firstName">First Name</label>
             <Input
-              label="Name"
               type="text"
               name="firstName"
-              labelClass="form-label"
               inputClass="form-input"
-              value={userData.firstName}
-              onChange={handleChange}
+              {...register("firstName", {
+                required: true,
+              })}
             />
+            <p>{errors.firstName && "First name is required"}</p>
             <label htmlFor="lastName">Last Name</label>
             <Input
-              label="Last Name"
               type="text"
               name="lastName"
-              labelClass="form-label"
               inputClass="form-input"
-              value={userData.lastName}
-              onChange={handleChange}
+              {...register("lastName", {
+                required: true,
+              })}
             />
+            <p>{errors.lastName && "Last name is required"}</p>
             <button
               className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
               type="submit"

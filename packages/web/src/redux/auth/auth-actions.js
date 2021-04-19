@@ -208,3 +208,7 @@ export function changePassword(userPassword) {
     }
   };
 }
+
+export const resetPasswordState = () => ({
+  type: AuthTypes.RESET_PASSWORD_STATE,
+});

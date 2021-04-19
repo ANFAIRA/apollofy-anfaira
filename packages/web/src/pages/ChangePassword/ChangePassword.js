@@ -1,37 +1,47 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
-import { changePassword } from "../../redux/auth/auth-actions";
+import {
+  changePassword,
+  resetPasswordState,
+} from "../../redux/auth/auth-actions";
 import PasswordInput from "../../components/PasswordInput";
 
 function ChangePassword() {
   const dispatch = useDispatch();
   const errorMessage = useSelector((state) => state.auth?.passwordChangeError);
   const history = useHistory();
-  const [userPassword, setUserPassword] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    passwordIsChanged,
+    passwordChangeError,
+    passwordIsChanging,
+  } = useSelector((state) => state.auth);
 
-    if (userPassword.newPassword === userPassword.confirmPassword) {
-      dispatch(changePassword(userPassword));
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    if (data.newPassword === data.confirmPassword) {
+      await dispatch(changePassword(data));
     }
-  }
+  };
 
   useEffect(() => {
-    if (errorMessage === null) {
+    dispatch(resetPasswordState());
+    if (
+      passwordIsChanged === true &&
+      passwordChangeError === null &&
+      passwordIsChanging == false
+    ) {
       history.push("/");
     }
-  }, [errorMessage, history]);
-
-  const handleChange = (e) => {
-    setUserPassword({ ...userPassword, [e.target.name]: e.target.value });
-  };
+  }, [passwordIsChanged, passwordChangeError, passwordIsChanging]);
 
   return (
     <>
@@ -39,37 +49,37 @@ function ChangePassword() {
       <main className="Login">
         <section className="mt-20">
           <h2 className="mb-8 text-2xl">Change your password</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <PasswordInput
-              label="Current Password"
               name="currentPassword"
-              labelClass="form-label"
               type="password"
               inputClass="form-input"
-              value={userPassword.currentPassword}
-              onChange={handleChange}
+              {...register("currentPassword", {
+                required: true,
+              })}
               placeholder="Current password"
             />
+            <p>{errors.currentPassword && "Current Password is required"}</p>
             <PasswordInput
-              label="New Password"
               name="newPassword"
-              labelClass="form-label"
               type="password"
               inputClass="form-input"
-              value={userPassword.newPassword}
-              onChange={handleChange}
+              {...register("newPassword", {
+                required: true,
+              })}
               placeholder="New password"
             />
+            <p>{errors.newPassword && "New Password is required"}</p>
             <PasswordInput
-              label="Confirm Password"
               name="confirmPassword"
-              labelClass="form-label"
               type="password"
               inputClass="form-input"
-              value={userPassword.confirmPassword}
-              onChange={handleChange}
+              {...register("confirmPassword", {
+                required: true,
+              })}
               placeholder="Repeat new password"
             />
+            <p>{errors.confirmPassword && "Confirm Password is required"}</p>
             <button
               className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
               type="submit"
