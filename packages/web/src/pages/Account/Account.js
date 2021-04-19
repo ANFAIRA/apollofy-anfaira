@@ -38,7 +38,6 @@ function Account() {
               name="username"
               labelClass="form-label"
               inputClass="form-input"
-              value={username}
               {...register("username", {
                 required: true,
               })}
@@ -50,7 +49,6 @@ function Account() {
               name="firstName"
               labelClass="form-label"
               inputClass="form-input"
-              value={firstName}
               {...register("firstName", {
                 required: true,
               })}
@@ -62,7 +60,6 @@ function Account() {
               name="lastName"
               labelClass="form-label"
               inputClass="form-input"
-              value={lastName}
               {...register("lastName", {
                 required: true,
               })}
