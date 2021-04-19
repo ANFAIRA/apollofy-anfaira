@@ -62,6 +62,7 @@ function SignUp() {
               {...register("username", {
                 required: true,
               })}
+              placeholder="username"
             />
             <p>{errors.username && "Username is required"}</p>
             <Input
@@ -71,6 +72,7 @@ function SignUp() {
               type="text"
               inputClass="form-input"
               {...register("firstName", { required: true })}
+              placeholder="first name"
             />
             <p>{errors.firstName && "First name is required"}</p>
             <Input
@@ -82,6 +84,7 @@ function SignUp() {
               {...register("lastName", {
                 required: true,
               })}
+              placeholder="last name"
             />
             <p>{errors.lastName && "Last name is required"}</p>
             <Input
@@ -97,6 +100,7 @@ function SignUp() {
                 },
                 { pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i },
               )}
+              placeholder="email"
             />
             <p>{errors.email && "Email is required"}</p>
             <PasswordInput
@@ -106,10 +110,11 @@ function SignUp() {
               type="password"
               inputClass="form-input"
               {...register("password", { required: true })}
+              placeholder="password"
             />
             <p>{errors.password && "Password is required"}</p>
             <button
-              className="btn rounded-full bg-purple-600 w-full py-3 text-xl font-semibold"
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
@@ -126,9 +131,11 @@ function SignUp() {
           </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <p>
+            <p className="text-center">
               Already have an account?
-              <Link to={ROUTES.LOGIN}>&nbsp; Log in</Link>
+              <Link to={ROUTES.LOGIN}>
+                &nbsp;<span className="font-semibold">LOG IN</span>
+              </Link>
             </p>
           </section>
         </section>

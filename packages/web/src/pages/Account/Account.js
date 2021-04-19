@@ -31,11 +31,11 @@ function Account() {
     <>
       <Navbar />
       <main className="SignUp">
-        <section className="Login__wrapper">
-          <hr className="mt-1 mb-4" />
+        <section className="mt-20">
+          <h2 className="mb-8 text-2xl">Edit your user account details</h2>
           <form onSubmit={handleSubmit}>
+            <label htmlFor="username">Username</label>
             <Input
-              label="Username"
               type="text"
               name="username"
               labelClass="form-label"
@@ -43,6 +43,7 @@ function Account() {
               value={userData.username}
               onChange={handleChange}
             />
+            <label htmlFor="firstName">First Name</label>
             <Input
               label="Name"
               type="text"
@@ -52,6 +53,7 @@ function Account() {
               value={userData.firstName}
               onChange={handleChange}
             />
+            <label htmlFor="lastName">Last Name</label>
             <Input
               label="Last Name"
               type="text"
@@ -61,13 +63,18 @@ function Account() {
               value={userData.lastName}
               onChange={handleChange}
             />
-            <button className="btn btn-primary w-full" type="submit">
+            <button
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              type="submit"
+            >
               Submit
             </button>
           </form>
-          <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <Link to="/change-password">Want to change your password?</Link>
+          <section className="mt-4 text-center">
+            <Link to="/change-password">
+              Want to change your password? &nbsp;
+              <span className="font-semibold">CHANGE PASSWORD</span>
+            </Link>
           </section>
         </section>
       </main>

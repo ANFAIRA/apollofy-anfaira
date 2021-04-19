@@ -37,8 +37,8 @@ function ChangePassword() {
     <>
       <Navbar />
       <main className="Login">
-        <section className="Login__wrapper">
-          <hr className="mt-1 mb-4" />
+        <section className="mt-20">
+          <h2 className="mb-8 text-2xl">Change your password</h2>
           <form onSubmit={handleSubmit}>
             <PasswordInput
               label="Current Password"
@@ -48,6 +48,7 @@ function ChangePassword() {
               inputClass="form-input"
               value={userPassword.currentPassword}
               onChange={handleChange}
+              placeholder="Current password"
             />
             <PasswordInput
               label="New Password"
@@ -57,6 +58,7 @@ function ChangePassword() {
               inputClass="form-input"
               value={userPassword.newPassword}
               onChange={handleChange}
+              placeholder="New password"
             />
             <PasswordInput
               label="Confirm Password"
@@ -66,14 +68,15 @@ function ChangePassword() {
               inputClass="form-input"
               value={userPassword.confirmPassword}
               onChange={handleChange}
+              placeholder="Repeat new password"
             />
-            <button className="btn btn-primary w-full" type="submit">
+            <button
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              type="submit"
+            >
               Submit
             </button>
           </form>
-          <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-          </section>
         </section>
       </main>
     </>

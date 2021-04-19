@@ -9,10 +9,10 @@ const Profile = () => {
     <Main>
       <div className="flex items-center ">
         <Avatar
-          placeholder="tu"
+          placeholder={currentUser.data.username.charAt(0).toUpperCase()}
           height="h-32"
           width="w-32"
-          textSize="text-5xl"
+          textSize="text-7xl"
         />
         <h3 className="text-6xl font-semibold ml-4">
           {currentUser.data.username}

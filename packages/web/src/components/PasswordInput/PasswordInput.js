@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { node, string } from "prop-types";
+import { string } from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./passwordInput.css";
@@ -8,13 +8,12 @@ const eye = <FontAwesomeIcon icon={faEye} />;
 const slash = <FontAwesomeIcon icon={faEyeSlash} />;
 
 function PasswordInput({
-  label,
   name,
-  labelClass,
   type,
   inputClass,
   value,
   onChange,
+  placeholder,
 }) {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => {
@@ -22,9 +21,6 @@ function PasswordInput({
   };
   return (
     <>
-      <label htmlFor={name} className={labelClass}>
-        {label}
-      </label>
       <div className="pass-wrapper">
         <input
           id={name}
@@ -34,6 +30,7 @@ function PasswordInput({
           value={value}
           onChange={onChange}
           required
+          placeholder={placeholder}
         />
         <button onClick={togglePasswordVisiblity} type="button">
           <i>{passwordShown ? slash : eye}</i>
@@ -44,13 +41,12 @@ function PasswordInput({
 }
 
 PasswordInput.propTypes = {
-  label: string.isRequired,
   name: string.isRequired,
-  labelClass: string.isRequired,
   type: string.isRequired,
   inputClass: string.isRequired,
   value: string.isRequired,
   onChange: string.isRequired,
+  placeholder: string.isRequired,
 };
 
 export default PasswordInput;

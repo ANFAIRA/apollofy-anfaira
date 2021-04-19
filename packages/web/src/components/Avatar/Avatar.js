@@ -1,4 +1,4 @@
-import { node, string } from "prop-types";
+import { string } from "prop-types";
 import React from "react";
 
 const Avatar = ({ placeholder, height, width, textSize }) => {
@@ -10,7 +10,7 @@ const Avatar = ({ placeholder, height, width, textSize }) => {
 };
 
 Avatar.propTypes = {
-  placeholder: node.isRequired,
+  placeholder: string.isRequired,
   height: string.isRequired,
   width: string.isRequired,
   textSize: string.isRequired,

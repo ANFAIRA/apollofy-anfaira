@@ -84,6 +84,7 @@ export default function Navbar() {
                       .toUpperCase()}
                     height="h-8"
                     width="w-8"
+                    textSize="text-base"
                   />
                   <div className="ml-4">
                     <span>{currentUser?.data?.username}</span>

@@ -51,7 +51,6 @@ function Login() {
       <main className="Login">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Login</h1>
-          <hr className="my-4" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Email"
@@ -62,6 +61,7 @@ function Login() {
               {...register("email", {
                 required: true,
               })}
+              placeholder="email"
             />
             <p>{errors.email && "Email is required"}</p>
             <PasswordInput
@@ -73,6 +73,7 @@ function Login() {
               {...register("password", {
                 required: true,
               })}
+              placeholder="password"
             />
             <p>{errors.password && "Password is required"}</p>
             <Link
@@ -82,7 +83,7 @@ function Login() {
               Reset password
             </Link>
             <button
-              className="btn rounded-full bg-purple-600 w-full py-3 text-xl font-semibold"
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
@@ -99,9 +100,11 @@ function Login() {
           </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <p>
+            <p className="text-center">
               Do not have an account?
-              <Link to={ROUTES.SIGN_UP}>&nbsp; Sign Up</Link>
+              <Link to={ROUTES.SIGN_UP}>
+                &nbsp;<span className="font-semibold"> SIGN UP</span>
+              </Link>
             </p>
           </section>
         </section>
