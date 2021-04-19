@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
+import AuthForm from "../../layout/AuthForm";
 
 import "./Login.scss";
 
@@ -38,7 +39,6 @@ function Login() {
   }
 
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(signInWithEmailRequest(data.email, data.password));
   };
 
@@ -47,11 +47,10 @@ function Login() {
   }
 
   return (
-    <>
+    <AuthForm>
       <main className="Login">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Login</h1>
-          <hr className="my-4" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Email"
@@ -62,6 +61,7 @@ function Login() {
               {...register("email", {
                 required: true,
               })}
+              placeholder="email"
             />
             <p>{errors.email && "Email is required"}</p>
             <PasswordInput
@@ -73,10 +73,17 @@ function Login() {
               {...register("password", {
                 required: true,
               })}
+              placeholder="password"
             />
             <p>{errors.password && "Password is required"}</p>
+            <Link
+              to={ROUTES.RESET_PASSWORD}
+              className="underline text-blue-gray-200 w-full block mb-8 text-left"
+            >
+              Reset password
+            </Link>
             <button
-              className="btn btn-primary w-full"
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
@@ -84,7 +91,7 @@ function Login() {
             </button>
           </form>
           <button
-            className="btn btn-primary w-full"
+            className="btn border-gray-400 border-2 rounded-full w-full py-3 text-xl font-semibold"
             type="button"
             onClick={handleLoginWithGoogle}
             disabled={isSigningUp}
@@ -93,22 +100,16 @@ function Login() {
           </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <p>
+            <p className="text-center">
               Do not have an account?
-              <Link to={ROUTES.SIGN_UP}>&nbsp; Sign Up</Link>
+              <Link to={ROUTES.SIGN_UP}>
+                &nbsp;<span className="font-semibold"> SIGN UP</span>
+              </Link>
             </p>
-            <hr className="mt-1 mb-4" />
-            <Link
-              to={ROUTES.RESET_PASSWORD}
-              className="underline text-blue-gray-200 w-full text-center block"
-            >
-              Reset password
-            </Link>
           </section>
         </section>
       </main>
-    </>
+    </AuthForm>
   );
 }
 

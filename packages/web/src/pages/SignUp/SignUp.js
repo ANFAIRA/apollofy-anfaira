@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
+import AuthForm from "../../layout/AuthForm";
 
 import "./SignUp.scss";
 
@@ -46,20 +47,11 @@ function SignUp() {
   }
 
   return (
-    <>
+    <AuthForm>
       <main className="SignUp">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">SignUp</h1>
-          <hr className="my-4" />
-          <button
-            className="btn btn-primary w-full"
-            type="button"
-            onClick={handleLoginWithGoogle}
-            disabled={isSigningUp}
-          >
-            SignUp with Google
-          </button>
-          <hr className="mt-1 mb-4" />
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Username"
@@ -70,6 +62,7 @@ function SignUp() {
               {...register("username", {
                 required: true,
               })}
+              placeholder="username"
             />
             <p>{errors.username && "Username is required"}</p>
             <Input
@@ -79,6 +72,7 @@ function SignUp() {
               type="text"
               inputClass="form-input"
               {...register("firstName", { required: true })}
+              placeholder="first name"
             />
             <p>{errors.firstName && "First name is required"}</p>
             <Input
@@ -90,6 +84,7 @@ function SignUp() {
               {...register("lastName", {
                 required: true,
               })}
+              placeholder="last name"
             />
             <p>{errors.lastName && "Last name is required"}</p>
             <Input
@@ -105,6 +100,7 @@ function SignUp() {
                 },
                 { pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i },
               )}
+              placeholder="email"
             />
             <p>{errors.email && "Email is required"}</p>
             <PasswordInput
@@ -114,29 +110,37 @@ function SignUp() {
               type="password"
               inputClass="form-input"
               {...register("password", { required: true })}
+              placeholder="password"
             />
             <p>{errors.password && "Password is required"}</p>
             <button
-              className="btn btn-primary w-full"
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
               Sign Up
             </button>
           </form>
+          <button
+            className="btn border-gray-400 border-2 rounded-full w-full py-3 text-xl font-semibold"
+            type="button"
+            onClick={handleLoginWithGoogle}
+            disabled={isSigningUp}
+          >
+            SignUp with Google
+          </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <Link
-              to={ROUTES.RESET_PASSWORD}
-              className="underline text-blue-gray-200 w-full text-center block"
-            >
-              Reset password
-            </Link>
+            <p className="text-center">
+              Already have an account?
+              <Link to={ROUTES.LOGIN}>
+                &nbsp;<span className="font-semibold">LOG IN</span>
+              </Link>
+            </p>
           </section>
         </section>
       </main>
-    </>
+    </AuthForm>
   );
 }
 

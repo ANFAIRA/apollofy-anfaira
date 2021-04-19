@@ -29,49 +29,51 @@ function Account() {
     <>
       <Navbar />
       <main className="SignUp">
-        <section className="Login__wrapper">
-          <hr className="mt-1 mb-4" />
+        <section className="mt-20">
+          <h2 className="mb-8 text-2xl">Edit your user account details</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="username">Username</label>
             <Input
-              label="Username"
               type="text"
               name="username"
-              labelClass="form-label"
               inputClass="form-input"
               {...register("username", {
                 required: true,
               })}
             />
             <p>{errors.username && "Username is required"}</p>
+            <label htmlFor="firstName">First Name</label>
             <Input
-              label="Name"
               type="text"
               name="firstName"
-              labelClass="form-label"
               inputClass="form-input"
               {...register("firstName", {
                 required: true,
               })}
             />
             <p>{errors.firstName && "First name is required"}</p>
+            <label htmlFor="lastName">Last Name</label>
             <Input
-              label="Last Name"
               type="text"
               name="lastName"
-              labelClass="form-label"
               inputClass="form-input"
               {...register("lastName", {
                 required: true,
               })}
             />
             <p>{errors.lastName && "Last name is required"}</p>
-            <button className="btn btn-primary w-full" type="submit">
+            <button
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              type="submit"
+            >
               Submit
             </button>
           </form>
-          <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <Link to="/change-password">Want to change your password?</Link>
+          <section className="mt-4 text-center">
+            <Link to="/change-password">
+              Want to change your password? &nbsp;
+              <span className="font-semibold">CHANGE PASSWORD</span>
+            </Link>
           </section>
         </section>
       </main>
