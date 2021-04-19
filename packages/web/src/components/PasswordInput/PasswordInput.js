@@ -33,7 +33,6 @@ function PasswordInput({
           type={passwordShown ? "text" : type}
           value={value}
           onChange={onChange}
-          required
         />
         <button onClick={togglePasswordVisiblity} type="button">
           <i>{passwordShown ? slash : eye}</i>

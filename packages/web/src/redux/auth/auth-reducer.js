@@ -13,7 +13,7 @@ export const AuthInitialState = {
   userIsUpdated: false,
   userUpdateError: null,
   passwordIsChanging: false,
-  passwordIsChanged: false,
+  passwordIsChanged: null,
   passwordChangeError: null,
   currentUser: {
     email: null,
@@ -62,13 +62,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
     }
     case AuthTypes.SIGN_OUT_SUCCESS: {
       return {
-        ...state,
-        isSigningOut: false,
-        signOutError: null,
-        isAuthenticated: false,
-        currentUser: {
-          email: null,
-        },
+        ...AuthInitialState,
       };
     }
     case AuthTypes.SEND_PASSWORD_RESET_EMAIL_REQUEST: {
@@ -134,6 +128,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
     case AuthTypes.CHANGE_PASSWORD_REQUEST: {
       return {
         ...state,
+        passwordIsChanged: false,
         passwordIsChanging: true,
         passwordChangeError: null,
       };
@@ -141,6 +136,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
     case AuthTypes.CHANGE_PASSWORD_ERROR: {
       return {
         ...state,
+        passwordIsChanged: false,
         passwordIsChanging: false,
         passwordChangeError: action.payload,
       };
@@ -153,7 +149,14 @@ const AuthReducer = (state = AuthInitialState, action) => {
         passwordChangeError: null,
       };
     }
-
+    case AuthTypes.RESET_PASSWORD_STATE: {
+      return {
+        ...state,
+        passwordIsChanged: false,
+        passwordIsChanging: false,
+        passwordChangeError: null,
+      };
+    }
     default: {
       return state;
     }
