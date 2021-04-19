@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Main from "../../layout/Main";
+import { useDispatch, useSelector } from "react-redux";
+import Navbar from "../../components/Navbar";
 import { changePassword } from "../../redux/auth/auth-actions";
+import PasswordInput from "../../components/PasswordInput";
 
 function ChangePassword() {
   const dispatch = useDispatch();
@@ -33,57 +34,52 @@ function ChangePassword() {
   };
 
   return (
-    <Main>
-      <main className="changePassword">
-        <section className="Login__wrapper">
-          <hr className="mt-1 mb-4" />
+    <>
+      <Navbar />
+      <main className="Login">
+        <section className="mt-20">
+          <h2 className="mb-8 text-2xl">Change your password</h2>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username" className="form-label">
-              Current Password
-            </label>
-            <input
-              type="password"
-              id="currentPassword"
+            <PasswordInput
+              label="Current Password"
               name="currentPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.currentPassword}
               onChange={handleChange}
-              required
+              placeholder="Current password"
             />
-            <label htmlFor="firstName" className="form-label">
-              New password
-            </label>
-            <input
-              type="password"
-              id="newPassword"
+            <PasswordInput
+              label="New Password"
               name="newPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.newPassword}
               onChange={handleChange}
-              required
+              placeholder="New password"
             />
-            <label htmlFor="lastName" className="form-label">
-              Confirm password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
+            <PasswordInput
+              label="Confirm Password"
               name="confirmPassword"
-              className="form-input"
+              labelClass="form-label"
+              type="password"
+              inputClass="form-input"
               value={userPassword.confirmPassword}
               onChange={handleChange}
-              required
+              placeholder="Repeat new password"
             />
-            <button className="btn btn-primary w-full" type="submit">
+            <button
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              type="submit"
+            >
               Submit
             </button>
           </form>
-          <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-          </section>
         </section>
       </main>
-    </Main>
+    </>
   );
 }
 

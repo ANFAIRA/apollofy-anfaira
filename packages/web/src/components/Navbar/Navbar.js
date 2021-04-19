@@ -84,6 +84,7 @@ export default function Navbar() {
                       .toUpperCase()}
                     height="h-8"
                     width="w-8"
+                    textSize="text-base"
                   />
                   <div className="ml-4">
                     <span>{currentUser?.data?.username}</span>
@@ -114,7 +115,7 @@ export default function Navbar() {
                 </div>
                 {toggleUserMenu ? (
                   <div
-                    className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu"

@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Input from "../../components/Input";
+import PasswordInput from "../../components/PasswordInput";
 import AuthForm from "../../layout/AuthForm";
+
+import "./Login.scss";
+
+import * as ROUTES from "../../routes";
+
 import {
   resetAuthState,
   signInWithEmailRequest,
   signUpWithGoogleRequest,
 } from "../../redux/auth/auth-actions";
+
 import { authSelector } from "../../redux/auth/auth-selectors";
-import * as ROUTES from "../../routes";
-import "./Login.scss";
 
 function Login() {
   const dispatch = useDispatch();
   const { isSigningUp, signUpError, isAuthenticated } = useSelector(
     authSelector,
   );
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   useEffect(() => {
     dispatch(resetAuthState());
@@ -29,22 +38,9 @@ function Login() {
     dispatch(signUpWithGoogleRequest());
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    dispatch(signInWithEmailRequest(email, password));
-
-    setEmail("");
-    setPassword("");
-  }
-
-  function handleSetEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleSetPassword(e) {
-    setPassword(e.target.value);
-  }
+  const onSubmit = (data) => {
+    dispatch(signInWithEmailRequest(data.email, data.password));
+  };
 
   if (isAuthenticated) {
     return <Redirect to={ROUTES.HOME} />;
@@ -55,30 +51,39 @@ function Login() {
       <main className="Login">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Login</h1>
-          <hr className="my-4" />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              className="form-input"
-              value={email}
-              onChange={handleSetEmail}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="Email"
+              name="email"
+              labelClass="form-label"
+              type="email"
+              inputClass="form-input"
+              {...register("email", {
+                required: true,
+              })}
+              placeholder="email"
             />
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
+            <p>{errors.email && "Email is required"}</p>
+            <PasswordInput
+              label="Password"
+              name="password"
+              labelClass="form-label"
               type="password"
-              id="password"
-              className="form-input"
-              value={password}
-              onChange={handleSetPassword}
+              inputClass="form-input"
+              {...register("password", {
+                required: true,
+              })}
+              placeholder="password"
             />
+            <p>{errors.password && "Password is required"}</p>
+            <Link
+              to={ROUTES.RESET_PASSWORD}
+              className="underline text-blue-gray-200 w-full block mb-8 text-left"
+            >
+              Reset password
+            </Link>
             <button
-              className="btn btn-primary w-full"
+              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
               disabled={isSigningUp}
             >
@@ -86,7 +91,7 @@ function Login() {
             </button>
           </form>
           <button
-            className="btn btn-primary w-full"
+            className="btn border-gray-400 border-2 rounded-full w-full py-3 text-xl font-semibold"
             type="button"
             onClick={handleLoginWithGoogle}
             disabled={isSigningUp}
@@ -95,18 +100,12 @@ function Login() {
           </button>
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <p>
+            <p className="text-center">
               Do not have an account?
-              <Link to={ROUTES.SIGN_UP}>&nbsp; Sign Up</Link>
+              <Link to={ROUTES.SIGN_UP}>
+                &nbsp;<span className="font-semibold"> SIGN UP</span>
+              </Link>
             </p>
-            <hr className="mt-1 mb-4" />
-            <Link
-              to={ROUTES.RESET_PASSWORD}
-              className="underline text-blue-gray-200 w-full text-center block"
-            >
-              Reset password
-            </Link>
           </section>
         </section>
       </main>
