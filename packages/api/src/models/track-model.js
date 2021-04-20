@@ -38,12 +38,7 @@ const TrackSchema = Schema(
       ref: "user",
     },
     artistId: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "user",
-        },
-      ],
+      type: [String],
       default: [],
     },
     playlists: {
