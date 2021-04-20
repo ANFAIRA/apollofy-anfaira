@@ -1,4 +1,5 @@
-const { userRouter, trackRouter } = require("./user-routes");
+const { userRouter } = require("./user-routes");
+const { trackRouter } = require("./track-routes");
 
 module.exports = {
   userRouter: userRouter,

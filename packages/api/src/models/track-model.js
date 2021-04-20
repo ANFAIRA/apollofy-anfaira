@@ -10,24 +10,47 @@ const TrackSchema = Schema(
     },
     url: {
       type: String,
-      required: [true, "Track url"],
+      required: false,
+    },
+    thumbnail: {
+      type: String,
+      trim: true,
+      required: false,
     },
     duration: {
       type: Number,
-      default: 0,
+      required: false,
+    },
+    rating: {
+      type: Number,
+      required: false,
+    },
+    color: {
+      type: String,
+      trim: true,
     },
     genre: {
-      type: String,
-      default: "",
+      type: Schema.Types.ObjectId,
+      ref: "genre",
     },
     authorId: {
-      type: String,
-      required: [true, "Author Id"],
+      type: Schema.Types.ObjectId,
+      ref: "user",
     },
     artistId: {
       type: [
         {
-          type: String,
+          type: Schema.Types.ObjectId,
+          ref: "user",
+        },
+      ],
+      default: [],
+    },
+    playlists: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "playlist",
         },
       ],
       default: [],
@@ -35,7 +58,8 @@ const TrackSchema = Schema(
     likedBy: {
       type: [
         {
-          type: String,
+          type: Schema.Types.ObjectId,
+          ref: "user",
         },
       ],
       default: [],
