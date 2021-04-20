@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { bool, func } from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import {
   uploadSong,
   uploadSongReset,
@@ -9,7 +12,9 @@ import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
 
-function SongModal() {
+const close = <FontAwesomeIcon icon={faTimes} />;
+
+function SongModal({ showModal, setShowModal }) {
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
@@ -46,12 +51,21 @@ function SongModal() {
   //   setImage(uploadFile);
   // }
 
+  function handleCloseBtn() {
+    setShowModal(false);
+  }
+
   useEffect(() => {
     dispatch(uploadSongReset());
   }, [dispatch]);
 
   return (
     <section className="flex flex-col w-4/6 align-middle bg-gray-800 mt-20">
+      <div>
+        <button type="button" onClick={handleCloseBtn}>
+          <i>{close}</i>
+        </button>
+      </div>
       <form className="flex flex-col p-20" onSubmit={handleSubmit(onSubmit)}>
         {/* <input
           name="image"
@@ -117,4 +131,8 @@ function SongModal() {
   );
 }
 
+SongModal.propTypes = {
+  showModal: bool.isRequired,
+  setShowModal: func.isRequired,
+};
 export default SongModal;

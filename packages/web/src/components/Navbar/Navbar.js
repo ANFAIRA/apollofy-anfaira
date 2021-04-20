@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { bool, func } from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { signOut } from "../../redux/auth/auth-actions";
@@ -8,7 +9,7 @@ import Avatar from "../Avatar";
 import SearchBar from "../SearchBar";
 import UploadButton from "../UploadButton";
 
-export default function Navbar() {
+export default function Navbar({ showModal, setShowModal }) {
   const dispatch = useDispatch();
 
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -75,7 +76,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-            <UploadButton />
+            <UploadButton showModal={showModal} setShowModal={setShowModal} />
             {/* AVATAR */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
@@ -172,3 +173,8 @@ export default function Navbar() {
     </>
   );
 }
+
+Navbar.propTypes = {
+  showModal: bool.isRequired,
+  setShowModal: func.isRequired,
+};

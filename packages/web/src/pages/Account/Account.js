@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import Navbar from "../../components/Navbar";
+import Main from "../../layout/Main";
 import { updateUserAccount } from "../../redux/auth/auth-actions";
 import Input from "../../components/Input";
 
@@ -40,8 +40,7 @@ function Account() {
   }, [register]);
 
   return (
-    <>
-      <Navbar />
+    <Main>
       <main className="SignUp">
         <section className="mt-20">
           <h2 className="mb-8 text-2xl">Edit your user account details</h2>
@@ -88,7 +87,7 @@ function Account() {
           </section>
         </section>
       </main>
-    </>
+    </Main>
   );
 }
 

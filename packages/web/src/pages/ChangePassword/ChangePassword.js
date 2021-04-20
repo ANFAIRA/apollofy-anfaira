@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/Navbar";
+import Main from "../../layout/Main";
 import {
   changePassword,
   resetPasswordState,
@@ -50,8 +50,7 @@ function ChangePassword() {
   ]);
 
   return (
-    <>
-      <Navbar />
+    <Main>
       <main className="Login">
         <section className="mt-20">
           <h2 className="mb-8 text-2xl">Change your password</h2>
@@ -95,7 +94,7 @@ function ChangePassword() {
           </form>
         </section>
       </main>
-    </>
+    </Main>
   );
 }
 
