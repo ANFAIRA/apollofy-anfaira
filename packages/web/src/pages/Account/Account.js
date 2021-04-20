@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -12,18 +12,32 @@ function Account() {
   const { username, firstName, lastName, firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );
+  const currentUser = useSelector((state) => state.auth?.currentUser?.data);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    setValue,
+  } = useForm({
+    defaultValues: {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(updateUserAccount(data));
+    console.log({ ...data, firebaseId: firebaseId });
+    dispatch(updateUserAccount({ ...data, firebaseId: firebaseId }));
     history.push("/");
   };
+
+  useEffect(() => {
+    register("username", { required: true });
+    register("firstName", { required: true });
+    register("lastName", { required: true });
+  }, []);
 
   return (
     <>
@@ -37,9 +51,8 @@ function Account() {
               type="text"
               name="username"
               inputClass="form-input"
-              {...register("username", {
-                required: true,
-              })}
+              defaultValue={username}
+              onChange={(e) => setValue("username", e.target.value)}
             />
             <p>{errors.username && "Username is required"}</p>
             <label htmlFor="firstName">First Name</label>
@@ -47,9 +60,8 @@ function Account() {
               type="text"
               name="firstName"
               inputClass="form-input"
-              {...register("firstName", {
-                required: true,
-              })}
+              defaultValue={firstName}
+              onChange={(e) => setValue("firstName", e.target.value)}
             />
             <p>{errors.firstName && "First name is required"}</p>
             <label htmlFor="lastName">Last Name</label>
@@ -57,9 +69,8 @@ function Account() {
               type="text"
               name="lastName"
               inputClass="form-input"
-              {...register("lastName", {
-                required: true,
-              })}
+              defaultValue={lastName}
+              onChange={(e) => setValue("lastName", e.target.value)}
             />
             <p>{errors.lastName && "Last name is required"}</p>
             <button
