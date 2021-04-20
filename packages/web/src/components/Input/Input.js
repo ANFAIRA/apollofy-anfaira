@@ -1,6 +1,5 @@
 import React from "react";
-import { string } from "prop-types";
-import { func } from "prop-types";
+import { string, func } from "prop-types";
 
 const Input = ({
   name,

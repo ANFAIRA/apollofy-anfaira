@@ -6,6 +6,7 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import * as ROUTES from "../../routes";
 import Avatar from "../Avatar";
 import SearchBar from "../SearchBar";
+import UploadButton from "../UploadButton";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
+            <UploadButton />
             {/* AVATAR */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
