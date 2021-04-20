@@ -6,7 +6,6 @@ const Input = ({
   name,
   type,
   inputClass,
-  value,
   onChange,
   placeholder,
   defaultValue,
@@ -17,7 +16,6 @@ const Input = ({
       name={name}
       className={inputClass}
       type={type}
-      value={value}
       onChange={onChange}
       placeholder={placeholder}
       defaultValue={defaultValue}
@@ -29,10 +27,13 @@ Input.propTypes = {
   name: string.isRequired,
   type: string.isRequired,
   inputClass: string.isRequired,
-  value: string.isRequired,
   onChange: func.isRequired,
-  placeholder: string.isRequired,
+  placeholder: string,
   defaultValue: string.isRequired,
+};
+
+Input.defaultProps = {
+  placeholder: "",
 };
 
 export default Input;
