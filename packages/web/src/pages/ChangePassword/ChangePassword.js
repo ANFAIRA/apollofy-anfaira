@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import PasswordInput from "../../components/PasswordInput";
 
 function ChangePassword() {
   const dispatch = useDispatch();
-  const errorMessage = useSelector((state) => state.auth?.passwordChangeError);
+  // const errorMessage = useSelector((state) => state.auth?.passwordChangeError);
   const history = useHistory();
 
   const {
@@ -37,11 +37,17 @@ function ChangePassword() {
     if (
       passwordIsChanged === true &&
       passwordChangeError === null &&
-      passwordIsChanging == false
+      passwordIsChanging === false
     ) {
       history.push("/");
     }
-  }, [passwordIsChanged, passwordChangeError, passwordIsChanging]);
+  }, [
+    passwordIsChanged,
+    passwordChangeError,
+    passwordIsChanging,
+    dispatch,
+    history,
+  ]);
 
   return (
     <>

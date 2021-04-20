@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ function Account() {
   const { username, firstName, lastName, firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );
-  const currentUser = useSelector((state) => state.auth?.currentUser?.data);
+  // const currentUser = useSelector((state) => state.auth?.currentUser?.data);
 
   const {
     register,
@@ -28,7 +28,7 @@ function Account() {
   });
 
   const onSubmit = (data) => {
-    console.log({ ...data, firebaseId: firebaseId });
+    // console.log({ ...data, firebaseId: firebaseId });
     dispatch(updateUserAccount({ ...data, firebaseId: firebaseId }));
     history.push("/");
   };
@@ -37,7 +37,7 @@ function Account() {
     register("username", { required: true });
     register("firstName", { required: true });
     register("lastName", { required: true });
-  }, []);
+  }, [register]);
 
   return (
     <>
