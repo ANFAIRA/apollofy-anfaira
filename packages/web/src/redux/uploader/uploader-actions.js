@@ -1,7 +1,7 @@
-import * as UploaderTypes from "./uploader-types";
-import { getFileUrl, fileTypes } from "../../services/cloudinary";
 import api from "../../api";
 import { getCurrentUserToken } from "../../services/auth";
+import { fileTypes, getFileUrl } from "../../services/cloudinary";
+import * as UploaderTypes from "./uploader-types";
 
 export const uploadSongRequest = () => ({
   type: UploaderTypes.UPLOAD_SONG_REQUEST,
@@ -38,8 +38,6 @@ export const uploadImageSuccess = (imageUrl) => ({
 export function uploadSong({ track, title }) {
   return async function uploadThunk(dispatch) {
     dispatch(uploadSongRequest());
-    console.log(track);
-    console.log(title);
 
     try {
       const userToken = await getCurrentUserToken();
@@ -53,14 +51,11 @@ export function uploadSong({ track, title }) {
         fileType: fileTypes.AUDIO,
       });
 
-      console.log(urlRes);
-
       if (urlRes.status >= 400) {
         return dispatch(uploadSongError(urlRes.statusText));
       }
 
       const { url, duration } = urlRes.data;
-      console.log(urlRes.data);
 
       const songRes = await api.createTrack({
         body: {
