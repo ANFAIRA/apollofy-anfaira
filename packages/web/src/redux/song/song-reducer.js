@@ -23,7 +23,7 @@ const songReducer = (state = initialState, action) => {
         isFetchRequest: false,
         isFetchSuccess: true,
         isFetchFail: false,
-        songs: [...state.song, action.payload],
+        songs: action.payload,
       };
     case song.FETCH_SONG_ERROR:
       return {
