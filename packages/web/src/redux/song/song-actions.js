@@ -34,3 +34,21 @@ export const fetchSong = () => {
     }
   };
 };
+
+export const fetchMeSong = () => {
+  return async function fetchMeSongThunk(dispatch) {
+    dispatch(fetchSongRequest());
+
+    try {
+      const songs = await api.getMeSongs();
+
+      if (songs.errorMessage) {
+        return dispatch(fetchSongError(songs.errorMessage));
+      }
+
+      return dispatch(fetchSongSuccess(songs));
+    } catch (error) {
+      return dispatch(fetchSongError(error.message));
+    }
+  };
+};
