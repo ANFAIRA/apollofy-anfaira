@@ -1,54 +1,62 @@
-import React from "react";
-import {
-  // faHeart,
-  faEllipsisH,
-} from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
+import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { string } from "prop-types";
+import { object } from "prop-types";
+import React, { useState } from "react";
 import "./SongCard.scss";
 
-const likeOff = <FontAwesomeIcon icon={farHeart} />;
-// const likeOn = <FontAwesomeIcon icon={faHeart} />
 const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({ song }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
   return (
-    <div className="w-1/6 m-3">
-      <div className="relative">
+    <div className="my-1 px-1 w-full sm:w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+      <div className="card">
         <img
           src="https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
-          className="card-image"
+          alt="song-img"
+          className="object-contain"
         />
-        <div className="card-icons">
-          <button type="button" className="card-icons--icon">
-            {likeOff}
+        <div className="card--icons">
+          <button
+            type="button"
+            className="card--icons--icon"
+            onClick={() => setIsFavorite(!isFavorite)}
+          >
+            {isFavorite ? (
+              <FontAwesomeIcon icon={faHeart} />
+            ) : (
+              <FontAwesomeIcon icon={farHeart} />
+            )}
           </button>
           <button
             type="button"
-            className="card-icons--icon  card-icons--icon-play"
+            className="card--icons--icon  card--icons--icon-play"
           >
             {playCircle}
           </button>
-          <button type="button" className="card-icons--icon">
+          <button type="button" className="card--icons--icon">
             {dotsH}
           </button>
         </div>
       </div>
       <div className="mt-2">
-        <h3 className="font-semibold">{song.title}</h3>
-        <p>Artist</p>
+        <h3 className="text-2xl">{song.title}</h3>
+        {song?.artist?.map((artist) => (
+          <p key={song._id}>{artist}</p>
+        ))}
       </div>
     </div>
   );
 }
 
 SongCard.propTypes = {
-  song: string.isRequired,
+  song: object.isRequired,
 };
 
 export default SongCard;

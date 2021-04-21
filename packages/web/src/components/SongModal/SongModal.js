@@ -136,8 +136,8 @@ function SongModal({ showModal, setShowModal }) {
             onChange={(e) => setValue("title", e.target.value)}
             validation={{
               required: { value: true, message: "Title is required" },
-              maxLength: { value: 5, message: "Error max length 5" },
-              pattern: { value: /[A-Za-z]{3}/, message: "Error pattern" },
+              maxLength: { value: 20, message: "Error max length 20" },
+              pattern: { value: /[A-Za-z]{2}/, message: "Error pattern" },
             }}
             register={register}
             errors={errors.title}
