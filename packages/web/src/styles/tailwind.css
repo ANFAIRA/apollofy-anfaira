@@ -16,7 +16,7 @@
   }
 
   .form-input {
-    @apply block w-full mb-4 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-700;
+    @apply block w-full mb-4 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-700 rounded-md;
   }
 
   .form-radio {

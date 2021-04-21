@@ -18,7 +18,6 @@ function Home() {
   return (
     <Main>
       <h1 className="text-xl">Hello {currentUser.data.username} </h1>
-      <SongModal />
       {data?.map((song) => (
         <p key={song._id}>{song.title}</p>
       ))}

@@ -63,7 +63,7 @@ function Login() {
               })}
               placeholder="email"
             />
-            <p>{errors.email && "Email is required"}</p>
+            {errors.email && <p>Email is required</p>}
             <PasswordInput
               label="Password"
               name="password"
@@ -75,7 +75,7 @@ function Login() {
               })}
               placeholder="password"
             />
-            <p>{errors.password && "Password is required"}</p>
+            {errors.password && <p>Password is required</p>}
             <Link
               to={ROUTES.RESET_PASSWORD}
               className="underline text-blue-gray-200 w-full block mb-8 text-left"
