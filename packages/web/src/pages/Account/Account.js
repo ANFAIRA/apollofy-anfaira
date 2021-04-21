@@ -12,7 +12,6 @@ function Account() {
   const { username, firstName, lastName, firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );
-  // const currentUser = useSelector((state) => state.auth?.currentUser?.data);
 
   const {
     register,
@@ -28,7 +27,6 @@ function Account() {
   });
 
   const onSubmit = (data) => {
-    // console.log({ ...data, firebaseId: firebaseId });
     dispatch(updateUserAccount({ ...data, firebaseId: firebaseId }));
     history.push("/");
   };
@@ -53,7 +51,11 @@ function Account() {
               defaultValue={username}
               onChange={(e) => setValue("username", e.target.value)}
             />
-            <p>{errors.username && "Username is required"}</p>
+            {errors.username && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                Username is required
+              </p>
+            )}
             <label htmlFor="firstName">First Name</label>
             <Input
               type="text"
@@ -62,7 +64,11 @@ function Account() {
               defaultValue={firstName}
               onChange={(e) => setValue("firstName", e.target.value)}
             />
-            <p>{errors.firstName && "First name is required"}</p>
+            {errors.firstName && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                First name is required
+              </p>
+            )}
             <label htmlFor="lastName">Last Name</label>
             <Input
               type="text"
@@ -71,9 +77,13 @@ function Account() {
               defaultValue={lastName}
               onChange={(e) => setValue("lastName", e.target.value)}
             />
-            <p>{errors.lastName && "Last name is required"}</p>
+            {errors.lastName && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                Last name is required
+              </p>
+            )}
             <button
-              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
               type="submit"
             >
               Submit
