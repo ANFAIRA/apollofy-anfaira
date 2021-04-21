@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SongCard from "../../components/SongCard/SongCard";
 import Main from "../../layout/Main";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { fetchSong } from "../../redux/song/song-actions";
@@ -19,9 +20,11 @@ function Home() {
   return (
     <Main>
       <h1 className="text-xl mb-4">Hello {currentUser.data.username}</h1>
-      {data?.map((song) => (
-        <p key={song._id}>{song.title}</p>
-      ))}
+      <div className="flex flex-wrap">
+        {data?.map((song) => (
+          <SongCard key={song._id} song={song} />
+        ))}
+      </div>
     </Main>
   );
 }

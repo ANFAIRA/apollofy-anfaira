@@ -1,0 +1,21 @@
+.card-image:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.card-icons{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  display: none;
+  &--icon {
+    color: #6366F1;
+    font-size: 24px;
+    &-play{
+      font-size: 48px;
+    }
+  }
+}
