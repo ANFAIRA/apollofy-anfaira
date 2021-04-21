@@ -64,7 +64,7 @@ function SignUp() {
               })}
               placeholder="username"
             />
-            <p>{errors.username && "Username is required"}</p>
+            {errors.username && <p>Username is required</p>}
             <Input
               label="First Name"
               name="firstName"
@@ -74,7 +74,7 @@ function SignUp() {
               {...register("firstName", { required: true })}
               placeholder="first name"
             />
-            <p>{errors.firstName && "First name is required"}</p>
+            {errors.firstName && <p>First name is required</p>}
             <Input
               label="Last Name"
               name="lastName"
@@ -86,7 +86,7 @@ function SignUp() {
               })}
               placeholder="last name"
             />
-            <p>{errors.lastName && "Last name is required"}</p>
+            {errors.lastName && <p>Last name is required</p>}
             <Input
               label="Email"
               name="email"
@@ -102,7 +102,7 @@ function SignUp() {
               )}
               placeholder="email"
             />
-            <p>{errors.email && "Email is required"}</p>
+            {errors.email && <p>Email is required</p>}
             <PasswordInput
               label="Password"
               name="password"
@@ -112,7 +112,7 @@ function SignUp() {
               {...register("password", { required: true })}
               placeholder="password"
             />
-            <p>{errors.password && "Password is required"}</p>
+            {errors.password && <p>Password is required</p>}
             <button
               className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"

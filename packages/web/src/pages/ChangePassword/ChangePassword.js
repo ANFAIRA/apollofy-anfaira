@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/Navbar";
+import Main from "../../layout/Main";
 import {
   changePassword,
   resetPasswordState,
@@ -50,8 +50,7 @@ function ChangePassword() {
   ]);
 
   return (
-    <>
-      <Navbar />
+    <Main>
       <main className="Login">
         <section className="mt-20">
           <h2 className="mb-8 text-2xl">Change your password</h2>
@@ -65,7 +64,11 @@ function ChangePassword() {
               })}
               placeholder="Current password"
             />
-            <p>{errors.currentPassword && "Current Password is required"}</p>
+            {errors.currentPassword && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                Current Password is required
+              </p>
+            )}
             <PasswordInput
               name="newPassword"
               type="password"
@@ -75,7 +78,11 @@ function ChangePassword() {
               })}
               placeholder="New password"
             />
-            <p>{errors.newPassword && "New Password is required"}</p>
+            {errors.newPassword && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                New Password is required
+              </p>
+            )}
             <PasswordInput
               name="confirmPassword"
               type="password"
@@ -85,9 +92,13 @@ function ChangePassword() {
               })}
               placeholder="Repeat new password"
             />
-            <p>{errors.confirmPassword && "Confirm Password is required"}</p>
+            {errors.confirmPassword && (
+              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
+                Confirm Password is required
+              </p>
+            )}
             <button
-              className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold mt-5"
+              className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
               type="submit"
             >
               Submit
@@ -95,7 +106,7 @@ function ChangePassword() {
           </form>
         </section>
       </main>
-    </>
+    </Main>
   );
 }
 
