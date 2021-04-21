@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { bool, func } from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { bool, func } from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import {
   uploadSong,
   uploadSongReset,
@@ -31,8 +31,6 @@ function SongModal({ showModal, setShowModal }) {
   // const [image, setImage] = useState();
 
   function onSubmit(data) {
-    console.log(data);
-    console.log(data.song[0]);
     dispatch(
       uploadSong({
         track: data.song[0],
@@ -57,7 +55,8 @@ function SongModal({ showModal, setShowModal }) {
 
   useEffect(() => {
     dispatch(uploadSongReset());
-  }, [dispatch]);
+    uploadSongSuccess && setShowModal(false);
+  }, [dispatch, uploadSongSuccess, setShowModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
