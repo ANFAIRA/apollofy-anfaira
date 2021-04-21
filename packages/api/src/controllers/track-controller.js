@@ -15,7 +15,7 @@ async function createTrack(req, res, next) {
     }
 
     const user = await UserRepo.findOne({
-      firebase_id: uid,
+      firebaseId: uid,
     });
 
     const response = await TrackRepo.create({
@@ -24,7 +24,7 @@ async function createTrack(req, res, next) {
       thumbnail: thumbnail ? thumbnail : null,
       duration: duration ? duration : 0,
       genre: genre ? genre : null,
-      authorId: user._id,
+      authorId: user.data._id,
     });
 
     if (response.error) {
@@ -45,6 +45,26 @@ async function createTrack(req, res, next) {
   }
 }
 
+async function getAllSongs(req, res, next) {
+  try {
+    const { data } = await TrackRepo.findAll();
+
+    if (data.error) {
+      return res.status(404).send({
+        data: null,
+        error: data.error,
+      });
+    }
+
+    if (data) {
+      return res.status(200).send(data);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createTrack: createTrack,
+  getAllSongs: getAllSongs,
 };

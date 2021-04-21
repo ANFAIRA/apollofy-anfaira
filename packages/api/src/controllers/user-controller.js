@@ -1,5 +1,4 @@
 const { UserRepo } = require("../repositories");
-// const logger = require("../services/logger");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
