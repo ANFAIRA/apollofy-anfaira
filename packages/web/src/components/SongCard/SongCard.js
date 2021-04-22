@@ -15,7 +15,7 @@ function SongCard({ song }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <div className="my-1 px-1 w-full sm:w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+    <div className="my-1 mb-6 px-1 w-full sm:w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
       <div className="card">
         <img
           src={
@@ -24,7 +24,7 @@ function SongCard({ song }) {
               : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
           }
           alt="song-img"
-          className="object-contain"
+          className="object-contain w-full"
         />
         <div className="card--icons">
           <button
