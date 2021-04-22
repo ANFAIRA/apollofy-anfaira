@@ -18,7 +18,11 @@ function SongCard({ song }) {
     <div className="my-1 px-1 w-full sm:w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
       <div className="card">
         <img
-          src="https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
+          src={
+            song.thumbnail
+              ? song.thumbnail
+              : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
+          }
           alt="song-img"
           className="object-contain"
         />

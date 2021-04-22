@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const { json } = require("body-parser");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const { config } = require("./config");
@@ -12,7 +12,9 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(helmet());
-app.use(json());
+//app.use(json({limit:"30mb", extended:"true"}));
+app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 app.use(
   cors({
     origin: config.client.url,
