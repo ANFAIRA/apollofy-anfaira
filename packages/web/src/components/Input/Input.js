@@ -14,23 +14,19 @@ const Input = ({
 }) => {
   return (
     <>
-      {register && (
-        <>
-          <input
-            id={name}
-            name={name}
-            className={inputClass}
-            type={type}
-            onChange={onChange}
-            placeholder={placeholder}
-            defaultValue={defaultValue}
-            {...register(name, validation)}
-            validation={validation}
-          />
-          <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-            {errors?.message}
-          </p>
-        </>
+      <input
+        id={name}
+        name={name}
+        className={inputClass}
+        type={type}
+        onChange={onChange}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        {...register(name, validation)}
+        validation={validation}
+      />
+      {errors && (
+        <p className="-mt-5 mb-3 border-t-4 border-red-600">{errors.message}</p>
       )}
     </>
   );
@@ -42,7 +38,7 @@ Input.propTypes = {
   inputClass: string.isRequired,
   onChange: func.isRequired,
   placeholder: string,
-  defaultValue: string.isRequired,
+  defaultValue: string,
   register: func.isRequired,
   validation: object.isRequired,
   errors: array.isRequired,
@@ -50,6 +46,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   placeholder: "",
+  defaultValue: "",
 };
 
 export default Input;

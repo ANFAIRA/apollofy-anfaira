@@ -27,6 +27,7 @@ function Login() {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm();
 
   useEffect(() => {
@@ -53,29 +54,33 @@ function Login() {
           <h1 className="text-2xl font-bold mb-6">Login</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-              label="Email"
               name="email"
-              labelClass="form-label"
               type="email"
-              inputClass="form-input"
-              {...register("email", {
-                required: true,
-              })}
               placeholder="email"
-            />
-            {errors.email && <p>Email is required</p>}
-            <PasswordInput
-              label="Password"
-              name="password"
-              labelClass="form-label"
-              type="password"
               inputClass="form-input"
-              {...register("password", {
-                required: true,
-              })}
-              placeholder="password"
+              onChange={(e) => setValue("email", e.target.value)}
+              validation={{
+                required: { value: true, message: "Please enter your email" },
+              }}
+              register={register}
+              errors={errors.email}
             />
-            {errors.password && <p>Password is required</p>}
+            <PasswordInput
+              name="password"
+              type="password"
+              placeholder="password"
+              inputClass="form-input"
+              onChange={(e) => setValue("password", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your password",
+                },
+              }}
+              register={register}
+              errors={errors.password}
+            />
+            {signUpError && <section className="mt-4">{signUpError}</section>}
             <Link
               to={ROUTES.RESET_PASSWORD}
               className="underline text-blue-gray-200 w-full block mb-8 text-left"
@@ -98,7 +103,7 @@ function Login() {
           >
             Login with Google
           </button>
-          {signUpError && <section className="mt-4">{signUpError}</section>}
+
           <section className="mt-4">
             <p className="text-center">
               Do not have an account?

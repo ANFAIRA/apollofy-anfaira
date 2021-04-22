@@ -1,7 +1,7 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func } from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,7 +27,7 @@ function SongModal({ showModal, setShowModal }) {
     setValue,
   } = useForm();
 
-  const [song, setSong] = useState();
+  // const [song, setSong] = useState();
   // const [image, setImage] = useState();
 
   function onSubmit(data) {
@@ -41,9 +41,9 @@ function SongModal({ showModal, setShowModal }) {
     );
   }
 
-  function handleSetSong(uploadFile) {
-    setSong(uploadFile);
-  }
+  // function handleSetSong(uploadFile) {
+  //   setSong(uploadFile);
+  // }
 
   // function handleSetImage(uploadFile) {
   //   setImage(uploadFile);
