@@ -44,12 +44,11 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function getMeSongs(headers, options) {
+  function getMeSongs(headers, userId) {
     return request({
-      url: "/api/me/tracks",
+      url: `/api/${userId}/tracks`,
       requestMethod: "GET",
       headers: headers,
-      body: options,
     });
   }
 
