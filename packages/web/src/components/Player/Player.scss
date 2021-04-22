@@ -1,0 +1,44 @@
+.player {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  padding: 1em 1.5em;
+  background: #2d2d2a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &--info {
+    display: flex;
+    align-items: center;
+    &--img {
+      width: 60px;
+    }
+    &--details {
+      margin-left: 16px;
+      @media screen and (max-width: 640px) {
+        display: none;
+      }
+    }
+  }
+  &--controller {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0.5em;
+    & button {
+      margin: 0 16px 8px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    &--progressBar {
+      width: 300px;
+      @media screen and (max-width: 640px) {
+        width: 180px;
+      }
+      & input {
+        width: 100%;
+      }
+    }
+  }
+}

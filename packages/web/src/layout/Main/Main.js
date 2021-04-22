@@ -1,6 +1,7 @@
 import { node } from "prop-types";
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Player from "../../components/Player";
 import SongModal from "../../components/SongModal";
 
 const Main = ({ children }) => {
@@ -14,6 +15,7 @@ const Main = ({ children }) => {
         </section>
       )}
       <section className="md:container md:mx-auto p-8">{children}</section>
+      <Player />
     </>
   );
 };
