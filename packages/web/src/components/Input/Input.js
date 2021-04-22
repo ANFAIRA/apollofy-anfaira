@@ -1,5 +1,5 @@
+import { func, object, string } from "prop-types";
 import React from "react";
-import { string, func, object, array } from "prop-types";
 
 const Input = ({
   name,
@@ -41,12 +41,13 @@ Input.propTypes = {
   defaultValue: string,
   register: func.isRequired,
   validation: object.isRequired,
-  errors: array.isRequired,
+  errors: string,
 };
 
 Input.defaultProps = {
   placeholder: "",
   defaultValue: "",
+  errors: "",
 };
 
 export default Input;

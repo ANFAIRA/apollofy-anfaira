@@ -14,7 +14,7 @@ import Input from "../Input";
 
 const close = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
-function SongModal({ showModal, setShowModal }) {
+function SongModal({ setShowModal }) {
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
@@ -27,12 +27,11 @@ function SongModal({ showModal, setShowModal }) {
     setValue,
   } = useForm();
 
+  function onSubmit(data) {
   // const [song, setSong] = useState();
   const [image, setImage] = useState();
 
   function onSubmit(data) {
-    // console.log(data);
-    // console.log(image);
     dispatch(
       uploadSong({
         track: data.song[0],
@@ -49,7 +48,6 @@ function SongModal({ showModal, setShowModal }) {
   const handleImg = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
-      // console.log(URL.createObjectURL(file));
       setSrc(URL.createObjectURL(file));
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -159,19 +157,16 @@ function SongModal({ showModal, setShowModal }) {
                   type="file"
                   placeholder="song"
                   className="form-input hidden"
-                  fileType={fileTypes.AUDIO}
-                  // onChange={(files) => {
-                  //   handleSetSong(files[0]);
-                  // }}
+                  filetype={fileTypes.AUDIO}
                   {...register("song", { required: true })}
                 />
               </label>
-              {errors.song && <p className="mb-5">Song is required</p>}
+              {errors.song && <p className="mb-5">Song is required!</p>}
             </div>
           </div>
-          {isUploadingSong && <p>Uploading song...</p>}
-          {uploadSongSuccess && <p>Upload successful!</p>}
-          {uploadSongError && <p>Upload error!</p>}
+          {isUploadingSong && <p className="mb-3">Uploading song...</p>}
+          {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
+          {uploadSongError && <p className="mb-3">Upload error!</p>}
           <Input
             name="title"
             type="text"
@@ -179,9 +174,9 @@ function SongModal({ showModal, setShowModal }) {
             inputClass="form-input"
             onChange={(e) => setValue("title", e.target.value)}
             validation={{
-              required: { value: true, message: "Title is required" },
-              maxLength: { value: 20, message: "Error max length 20" },
-              pattern: { value: /[A-Za-z]{2}/, message: "Error pattern" },
+              required: { value: true, message: "Title is required! },
+              maxLength: { value: 20, message: "Error max length 20 char!" },
+              pattern: { value: /[A-Za-z]{2}/, message: "Error pattern does not match!" },
             }}
             register={register}
             errors={errors.title}
@@ -194,7 +189,7 @@ function SongModal({ showModal, setShowModal }) {
             inputClass="form-input"
             onChange={(e) => setValue("genre", e.target.value)}
             validation={{
-              required: { value: true, message: "Genre is required" },
+              required: { value: true, message: "Genre is required!" },
             }}
             register={register}
             errors={errors.genre}
@@ -206,7 +201,7 @@ function SongModal({ showModal, setShowModal }) {
             inputClass="form-input"
             onChange={(e) => setValue("artist", e.target.value)}
             validation={{
-              required: { value: true, message: "Artist is required" },
+              required: { value: true, message: "Artist is required!" },
             }}
             register={register}
             errors={errors.artist}

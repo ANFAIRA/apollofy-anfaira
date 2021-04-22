@@ -75,19 +75,21 @@ export default function Navbar({ showModal, setShowModal }) {
                   <SearchBar />
                 </div>
               </div>
+              <div className="hidden sm:inline-block">
+                <UploadButton
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                />
+                <UploadButton
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                />
+              </div>
             </div>
             {/* AVATAR */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
                 <div className="flex items-center">
-                  <UploadButton
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                  />
-                  <UploadButton
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                  />
                   <Avatar
                     placeholder={currentUser?.data?.username
                       .charAt(0)
@@ -169,6 +171,20 @@ export default function Navbar({ showModal, setShowModal }) {
         </div>
         {isNavbarOpen ? (
           <div className="sm:hidden" id="mobile-menu">
+            <div className="px-4">
+              <UploadButton
+                showModal={showModal}
+                setShowModal={setShowModal}
+                text=" Upload a file"
+              />
+            </div>
+            <div className="px-4">
+              <UploadButton
+                showModal={showModal}
+                setShowModal={setShowModal}
+                text=" Create a playlist"
+              />
+            </div>
             <div className="px-2 pt-2 pb-3 space-y-1">
               <SearchBar />
             </div>
