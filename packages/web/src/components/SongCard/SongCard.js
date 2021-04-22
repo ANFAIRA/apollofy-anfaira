@@ -23,6 +23,7 @@ function SongCard({ song }) {
         <img
           src="https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
           className="card-image"
+          alt="track"
         />
         <div className="card-icons">
           <button type="button" className="card-icons--icon">

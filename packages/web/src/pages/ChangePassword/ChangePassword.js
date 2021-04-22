@@ -11,7 +11,6 @@ import PasswordInput from "../../components/PasswordInput";
 
 function ChangePassword() {
   const dispatch = useDispatch();
-  // const errorMessage = useSelector((state) => state.auth?.passwordChangeError);
   const history = useHistory();
 
   const {
@@ -24,6 +23,7 @@ function ChangePassword() {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -58,45 +58,48 @@ function ChangePassword() {
             <PasswordInput
               name="currentPassword"
               type="password"
-              inputClass="form-input"
-              {...register("currentPassword", {
-                required: true,
-              })}
               placeholder="Current password"
+              inputClass="form-input"
+              onChange={(e) => setValue("currentPassword", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your current password",
+                },
+              }}
+              register={register}
+              errors={errors.currentPassword}
             />
-            {errors.currentPassword && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                Current Password is required
-              </p>
-            )}
             <PasswordInput
               name="newPassword"
               type="password"
-              inputClass="form-input"
-              {...register("newPassword", {
-                required: true,
-              })}
               placeholder="New password"
+              inputClass="form-input"
+              onChange={(e) => setValue("newPassword", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your new password",
+                },
+              }}
+              register={register}
+              errors={errors.newPassword}
             />
-            {errors.newPassword && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                New Password is required
-              </p>
-            )}
             <PasswordInput
               name="confirmPassword"
               type="password"
-              inputClass="form-input"
-              {...register("confirmPassword", {
-                required: true,
-              })}
               placeholder="Repeat new password"
+              inputClass="form-input"
+              onChange={(e) => setValue("confirmPassword", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please confirm your new password",
+                },
+              }}
+              register={register}
+              errors={errors.confirmPassword}
             />
-            {errors.confirmPassword && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                Confirm Password is required
-              </p>
-            )}
             <button
               className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
               type="submit"

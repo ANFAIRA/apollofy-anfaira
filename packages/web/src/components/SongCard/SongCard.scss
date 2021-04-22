@@ -2,7 +2,7 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.card-icons{
+.card-icons {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -12,9 +12,9 @@
   justify-content: space-around;
   display: none;
   &--icon {
-    color: #6366F1;
+    color: #6366f1;
     font-size: 24px;
-    &-play{
+    &-play {
       font-size: 48px;
     }
   }
