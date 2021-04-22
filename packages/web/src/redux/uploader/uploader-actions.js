@@ -35,7 +35,7 @@ export const uploadImageSuccess = (imageUrl) => ({
   payload: imageUrl,
 });
 
-export function uploadSong({ track, title }) {
+export function uploadSong({ track, title, artist, genre }) {
   return async function uploadThunk(dispatch) {
     dispatch(uploadSongRequest());
 
@@ -62,6 +62,8 @@ export function uploadSong({ track, title }) {
           title: title,
           url: url,
           duration: duration,
+          artist: artist,
+          genre: genre,
         },
         headers: {
           Authorization: `Bearer ${userToken}`,
