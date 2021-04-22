@@ -1,7 +1,7 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func } from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,6 +29,7 @@ function SongModal({ showModal, setShowModal }) {
 
   const [song, setSong] = useState();
   const [image, setImage] = useState();
+
 
   function onSubmit(data) {
     console.log(data);

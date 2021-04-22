@@ -51,68 +51,79 @@ function SignUp() {
       <main className="SignUp">
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">SignUp</h1>
-
           <form onSubmit={handleSubmit(onSubmit)}>
             <Input
-              label="Username"
               name="username"
-              labelClass="form-label"
               type="text"
-              inputClass="form-input"
-              {...register("username", {
-                required: true,
-              })}
               placeholder="username"
-            />
-            {errors.username && <p>Username is required</p>}
-            <Input
-              label="First Name"
-              name="firstName"
-              labelClass="form-label"
-              type="text"
               inputClass="form-input"
-              {...register("firstName", { required: true })}
-              placeholder="first name"
-            />
-            {errors.firstName && <p>First name is required</p>}
-            <Input
-              label="Last Name"
-              name="lastName"
-              labelClass="form-label"
-              type="text"
-              inputClass="form-input"
-              {...register("lastName", {
-                required: true,
-              })}
-              placeholder="last name"
-            />
-            {errors.lastName && <p>Last name is required</p>}
-            <Input
-              label="Email"
-              name="email"
-              labelClass="form-label"
-              type="text"
-              inputClass="form-input"
-              {...register(
-                "email",
-                {
-                  required: true,
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your username",
                 },
-                { pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i },
-              )}
-              placeholder="email"
+              }}
+              register={register}
+              errors={errors.username}
             />
-            {errors.email && <p>Email is required</p>}
-            <PasswordInput
-              label="Password"
-              name="password"
-              labelClass="form-label"
-              type="password"
+            <Input
+              name="firstName"
+              type="text"
+              placeholder="first name"
               inputClass="form-input"
-              {...register("password", { required: true })}
-              placeholder="password"
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your first name",
+                },
+              }}
+              register={register}
+              errors={errors.firstName}
             />
-            {errors.password && <p>Password is required</p>}
+            <Input
+              name="lastName"
+              type="text"
+              placeholder="last name"
+              inputClass="form-input"
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your last name",
+                },
+              }}
+              register={register}
+              errors={errors.lastName}
+            />
+            <Input
+              name="email"
+              type="text"
+              placeholder="email"
+              inputClass="form-input"
+              validation={{
+                required: { value: true, message: "Please enter your email" },
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Please enter a correct email address",
+                },
+              }}
+              register={register}
+              errors={errors.email}
+            />
+            <PasswordInput
+              name="password"
+              type="password"
+              placeholder="password"
+              inputClass="form-input"
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your password",
+                },
+              }}
+              register={register}
+              errors={errors.password}
+            />
+            {signUpError && <section className="mt-4">{signUpError}</section>}
             <button
               className="btn rounded-full bg-indigo-500 w-full py-3 text-xl font-semibold"
               type="submit"
@@ -129,7 +140,6 @@ function SignUp() {
           >
             SignUp with Google
           </button>
-          {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
             <p className="text-center">
               Already have an account?

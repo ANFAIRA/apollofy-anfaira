@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -31,12 +31,6 @@ function Account() {
     history.push("/");
   };
 
-  useEffect(() => {
-    register("username", { required: true });
-    register("firstName", { required: true });
-    register("lastName", { required: true });
-  }, [register]);
-
   return (
     <Main>
       <main className="SignUp">
@@ -45,43 +39,52 @@ function Account() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="username">Username</label>
             <Input
-              type="text"
               name="username"
+              type="text"
               inputClass="form-input"
               defaultValue={username}
               onChange={(e) => setValue("username", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your username",
+                },
+              }}
+              register={register}
+              errors={errors.username}
             />
-            {errors.username && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                Username is required
-              </p>
-            )}
             <label htmlFor="firstName">First Name</label>
             <Input
-              type="text"
               name="firstName"
+              type="text"
               inputClass="form-input"
               defaultValue={firstName}
               onChange={(e) => setValue("firstName", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your first name",
+                },
+              }}
+              register={register}
+              errors={errors.firstName}
             />
-            {errors.firstName && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                First name is required
-              </p>
-            )}
             <label htmlFor="lastName">Last Name</label>
             <Input
-              type="text"
               name="lastName"
+              type="text"
               inputClass="form-input"
               defaultValue={lastName}
               onChange={(e) => setValue("lastName", e.target.value)}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Please enter your last name",
+                },
+              }}
+              register={register}
+              errors={errors.lastName}
             />
-            {errors.lastName && (
-              <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-                Last name is required
-              </p>
-            )}
             <button
               className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
               type="submit"
