@@ -58,6 +58,10 @@ function SongModal({ showModal, setShowModal }) {
     uploadSongSuccess && setShowModal(false);
   }, [dispatch, uploadSongSuccess, setShowModal]);
 
+  // useEffect(() => {
+  //   register("song", { required: true });
+  // }, []);
+
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
       <div className="relative h-10">
@@ -113,9 +117,9 @@ function SongModal({ showModal, setShowModal }) {
                 placeholder="song"
                 className="form-input hidden"
                 fileType={fileTypes.AUDIO}
-                onFileSelected={(files) => {
-                  handleSetSong(files[0]);
-                }}
+                // onChange={(files) => {
+                //   handleSetSong(files[0]);
+                // }}
                 {...register("song", { required: true })}
               />
             </label>
@@ -130,39 +134,39 @@ function SongModal({ showModal, setShowModal }) {
             placeholder="title"
             inputClass="form-input"
             onChange={(e) => setValue("title", e.target.value)}
-            {...register("title", { required: true })}
+            validation={{
+              required: { value: true, message: "Title is required" },
+              maxLength: { value: 20, message: "Error max length 20" },
+              pattern: { value: /[A-Za-z]{2}/, message: "Error pattern" },
+            }}
+            register={register}
+            errors={errors.title}
           />
-          {errors.title && (
-            <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-              Song title is required
-            </p>
-          )}
+
           <Input
             name="genre"
             type="text"
             placeholder="genre"
             inputClass="form-input"
             onChange={(e) => setValue("genre", e.target.value)}
-            {...register("genre", { required: true })}
+            validation={{
+              required: { value: true, message: "Genre is required" },
+            }}
+            register={register}
+            errors={errors.genre}
           />
-          {errors.genre && (
-            <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-              Song genre is required
-            </p>
-          )}
           <Input
             name="artist"
             type="text"
             placeholder="artist"
             inputClass="form-input"
             onChange={(e) => setValue("artist", e.target.value)}
-            {...register("artist", { required: true })}
+            validation={{
+              required: { value: true, message: "Artist is required" },
+            }}
+            register={register}
+            errors={errors.artist}
           />
-          {errors.artist && (
-            <p className="-mt-5 mb-5 pt-2 border-t-4 border-red-600">
-              Artist name is required
-            </p>
-          )}
           <button
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
             type="submit"

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { bool, func } from "prop-types";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { signOut } from "../../redux/auth/auth-actions";
@@ -67,7 +67,7 @@ export default function Navbar({ showModal, setShowModal }) {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/">
-                  <h4 className="font-bold">APOLLOFY</h4>
+                  <h4 className="font-bold mr-5">APOLLOFY</h4>
                 </Link>
               </div>
               <div className="hidden sm:block m-auto">
@@ -76,11 +76,18 @@ export default function Navbar({ showModal, setShowModal }) {
                 </div>
               </div>
             </div>
-            <UploadButton showModal={showModal} setShowModal={setShowModal} />
             {/* AVATAR */}
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
                 <div className="flex items-center">
+                  <UploadButton
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                  />
+                  <UploadButton
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                  />
                   <Avatar
                     placeholder={currentUser?.data?.username
                       .charAt(0)

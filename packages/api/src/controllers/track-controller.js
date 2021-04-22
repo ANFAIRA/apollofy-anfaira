@@ -2,7 +2,7 @@ const { UserRepo, TrackRepo } = require("../repositories");
 
 async function createTrack(req, res, next) {
   const {
-    body: { title, url, thumbnail, genre, duration = 0 },
+    body: { title, url, artist, thumbnail, genre, duration = 0 },
     user: { uid },
   } = req;
 
@@ -20,6 +20,7 @@ async function createTrack(req, res, next) {
 
     const response = await TrackRepo.create({
       title: title,
+      artist: artist,
       url: url ? url : null,
       thumbnail: thumbnail ? thumbnail : null,
       duration: duration ? duration : 0,

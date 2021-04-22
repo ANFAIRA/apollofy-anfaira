@@ -1,24 +1,23 @@
-import React from "react";
+import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { bool, func } from "prop-types";
+import React from "react";
 
-const addSong = <FontAwesomeIcon icon={faPlus} />;
+const addSong = <FontAwesomeIcon title="Upload song" icon={faCloudUploadAlt} />;
 
 function UploadButton({ showModal, setShowModal }) {
   function handleClick() {
     setShowModal(true);
   }
   return (
-    <>
-      <button
-        type="button"
-        className="focus:outline-none openModal"
-        onClick={handleClick}
-      >
-        {addSong}
-      </button>
-    </>
+    <button
+      type="button"
+      aria-label="upload a song"
+      className="focus:outline-none openModal mr-4"
+      onClick={handleClick}
+    >
+      {addSong}
+    </button>
   );
 }
 
