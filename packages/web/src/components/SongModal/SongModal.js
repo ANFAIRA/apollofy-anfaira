@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func } from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,9 +27,9 @@ function SongModal({ setShowModal }) {
     setValue,
   } = useForm();
 
-  function onSubmit(data) {
   // const [song, setSong] = useState();
   const [image, setImage] = useState();
+  const [src, setSrc] = useState();
 
   function onSubmit(data) {
     dispatch(
@@ -42,8 +42,6 @@ function SongModal({ setShowModal }) {
       }),
     );
   }
-
-  const [src, setSrc] = useState();
 
   const handleImg = (e) => {
     if (e.target.files[0]) {
@@ -174,9 +172,12 @@ function SongModal({ setShowModal }) {
             inputClass="form-input"
             onChange={(e) => setValue("title", e.target.value)}
             validation={{
-              required: { value: true, message: "Title is required! },
+              required: { value: true, message: "Title is required!" },
               maxLength: { value: 20, message: "Error max length 20 char!" },
-              pattern: { value: /[A-Za-z]{2}/, message: "Error pattern does not match!" },
+              pattern: {
+                value: /[A-Za-z]{2}/,
+                message: "Error pattern does not match!",
+              },
             }}
             register={register}
             errors={errors.title}
@@ -222,4 +223,5 @@ SongModal.propTypes = {
   showModal: bool.isRequired,
   setShowModal: func.isRequired,
 };
+
 export default SongModal;
