@@ -44,12 +44,22 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function likeSong(headers, options) {
+    return request({
+      url: `/tracks/${options.songId}/like`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
     updateUserInfo: updateUserInfo,
     createTrack: createTrack,
     getAllSongs: getAllSongs,
+    likeSong: likeSong,
   };
 }
 

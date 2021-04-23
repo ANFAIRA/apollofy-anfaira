@@ -7,6 +7,7 @@ const trackRouter = Router();
 
 trackRouter.get("/api/tracks", trackController.getAllSongs);
 trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
+trackRouter.patch("/tracks/:id/like", authMiddleware, trackController.likeSong);
 
 module.exports = {
   trackRouter: trackRouter,

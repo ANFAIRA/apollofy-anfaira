@@ -28,6 +28,15 @@ const UserSchema = Schema(
         message: (props) => `The email ${props.value} is not valid`,
       },
     },
+    likedSongs: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "tracks",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
