@@ -6,12 +6,12 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { useDispatch } from "react-redux";
+import { playSong } from "../../redux/player/player-actions";
 import { object, func } from "prop-types";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
-const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({
@@ -22,7 +22,9 @@ function SongCard({
   setSelectedSong,
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   return (
     <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
@@ -42,17 +44,15 @@ function SongCard({
             className="card--icons--icon"
             onClick={() => setIsFavorite(!isFavorite)}
           >
-            {isFavorite ? (
-              <FontAwesomeIcon icon={faHeart} />
-            ) : (
-              <FontAwesomeIcon icon={farHeart} />
-            )}
+            <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
           </button>
           <button
             type="button"
+            aria-label="play"
             className="card--icons--icon  card--icons--icon-play"
+            onClick={() => dispatch(playSong(song))}
           >
-            {playCircle}
+            <FontAwesomeIcon icon={farPlayCircle} />
           </button>
           <button
             type="button"

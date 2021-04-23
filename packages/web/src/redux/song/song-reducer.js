@@ -45,6 +45,7 @@ const songReducer = (state = initialState, action) => {
         isFetchRequest: false,
         isFetchSuccess: false,
         isFetchFail: null,
+        tracksToPlay: [],
       };
     case song.UPDATE_TRACK_REQUEST:
       return {

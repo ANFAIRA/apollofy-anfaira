@@ -1,0 +1,91 @@
+.player {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  padding: 1em 4em;
+  background: #262626;
+  @media screen and (max-width: 640px) {
+    padding: 1em 2.5em;
+  }
+  &--wrapper {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &--info {
+    display: flex;
+    align-items: center;
+    &--img {
+      width: 60px;
+      @media screen and (max-width: 465px) {
+        display: none;
+      }
+    }
+    &--details {
+      margin-left: 16px;
+      @media screen and (max-width: 640px) {
+        display: none;
+      }
+    }
+  }
+  &--controller {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0.5em;
+    & button {
+      margin: 0 16px 8px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    &--progressBar {
+      display: flex;
+      align-items: center;
+      min-width: 400px;
+      @media screen and (max-width: 740px) {
+        min-width: 300px;
+      }
+      @media screen and (max-width: 640px) {
+        min-width: 180px;
+      }
+      & input[type="range"] {
+        -webkit-appearance: none;
+        height: 5px;
+        width: 100%;
+        margin: 0 10px;
+        border-radius: 8px;
+        background: #6366f1;
+        transition: background 0.2s ease;
+        cursor: pointer;
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 15px;
+          height: 15px;
+          background: #f2f2f2;
+          border-radius: 50%;
+          cursor: -moz-grab;
+          cursor: -webkit-grab;
+          cursor: move;
+        }
+      }
+    }
+  }
+  &--actions {
+    display: flex;
+    button {
+      font-size: 20px;
+      margin-left: 16px;
+      @media screen and (max-width: 465px) {
+        margin-left: 0;
+        margin: auto;
+      }
+    }
+    &--icon {
+      @media screen and (max-width: 640px) {
+        display: none;
+      }
+    }
+  }
+}
