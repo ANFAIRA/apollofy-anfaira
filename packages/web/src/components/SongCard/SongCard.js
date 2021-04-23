@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
@@ -5,13 +6,13 @@ import {
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { func, object } from "prop-types";
-import React, { useState } from "react";
 import { playSong } from "../../redux/player/player-actions";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 import { likeSong } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
 import "./SongCard.scss";
 
 const likeOn = <FontAwesomeIcon icon={faHeart} />;
@@ -19,18 +20,21 @@ const likeOff = <FontAwesomeIcon icon={farHeart} />;
 // const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({
-  song,
-  setShowModal,
-  setIsEditModal,
-  selectedSong,
-  setSelectedSong,
-}) {
-  const [isFavorite, setIsFavorite] = useState(false);
+function SongCard({ song }) {
+  const { firebaseId, likedSongs } = useSelector(
+    (state) => state.auth?.currentUser?.data,
+  );
+  const { currentUser } = useSelector((state) => state.auth);
+  console.log(currentUser);
+  const { isLikeSuccess } = useSelector(songSelector);
+  console.log(isLikeSuccess);
+  console.log(likedSongs);
   const dispatch = useDispatch();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
-  const dispatch = useDispatch();
+  const [isFavorite, setIsFavorite] = useState(
+    likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
+      true,
+  );
+  console.log(isFavorite);
 
   function handleLikeBtn() {
     setIsFavorite(!isFavorite);
