@@ -34,6 +34,7 @@ function SongCard({
               : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
           }
           alt="song-img"
+          className="object-contain w-full"
         />
         <div className="card--icons">
           <button

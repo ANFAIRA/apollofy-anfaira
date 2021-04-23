@@ -1,5 +1,6 @@
 import api from "../../api";
 import * as songTypes from "./song-type";
+import * as auth from "../../services/auth";
 
 export const fetchSongRequest = () => {
   return { type: songTypes.FETCH_SONG_REQUEST };
@@ -15,6 +16,10 @@ export const fetchSongSuccess = (data) => {
 
 export const fetchSongReset = () => {
   return { type: songTypes.FETCH_SONG_RESET };
+};
+
+export const fetchMeSongSuccess = (data) => {
+  return { type: songTypes.FETCH_ME_SONG_SUCCESS, payload: data };
 };
 
 export const fetchSong = () => {
@@ -99,3 +104,28 @@ export function editSong() {
     }
   };
 }
+export const fetchMeSong = () => {
+  return async function fetchMeSongThunk(dispatch) {
+    dispatch(fetchSongRequest());
+
+    const token = await auth.getCurrentUserToken();
+
+    if (!token) {
+      return dispatch(fetchSongError("Uset token null"));
+    }
+
+    try {
+      const MySongs = await api.getMeSongs({
+        Authorization: `Bearer ${token}`,
+      });
+
+      if (MySongs.errorMessage) {
+        return dispatch(fetchSongError(MySongs.errorMessage));
+      }
+
+      return dispatch(fetchMeSongSuccess(MySongs));
+    } catch (error) {
+      return dispatch(fetchSongError(error.message));
+    }
+  };
+};

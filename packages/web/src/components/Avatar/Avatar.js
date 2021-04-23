@@ -1,5 +1,5 @@
-import { string } from "prop-types";
 import React from "react";
+import { string } from "prop-types";
 
 const Avatar = ({ placeholder, height, width, textSize }) => {
   return (
