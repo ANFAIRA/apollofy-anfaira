@@ -4,7 +4,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object } from "prop-types";
+import { bool, func, object } from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { playSong } from "../../redux/player/player-actions";
@@ -83,9 +83,13 @@ function SongCard({
 SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
-  setIsEditModal: func.isRequired,
-  selectedSong: object.isRequired,
+  setIsEditModal: func,
+  selectedSong: bool.isRequired,
   setSelectedSong: func.isRequired,
+};
+
+SongCard.defaultProps = {
+  setIsEditModal: "",
 };
 
 export default SongCard;

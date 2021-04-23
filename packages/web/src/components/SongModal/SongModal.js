@@ -4,15 +4,12 @@ import { bool, func, object } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-
+import { editSong } from "../../redux/song/song-actions";
 import {
   uploadSong,
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-
-import { editSong } from "../../redux/song/song-actions";
-
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
 
@@ -33,8 +30,6 @@ function SongModal({
   const { _id, thumbnail, title, artist, genre } = isEditModal
     ? selectedSong
     : "";
-
-  // console.log(`selectedSong from songModal: ${_id}`);
 
   const modal = isEditModal
     ? { title: "Edit song information", type: "edit" }
@@ -216,10 +211,7 @@ function SongModal({
                     type="file"
                     placeholder="song"
                     className="form-input hidden"
-                    fileType={fileTypes.AUDIO}
-                    // onChange={(files) => {
-                    //   handleSetSong(files[0]);
-                    // }}
+                    filetype={fileTypes.AUDIO}
                     {...register("song", { required: true })}
                   />
                 </label>

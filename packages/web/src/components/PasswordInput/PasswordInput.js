@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { string, func, object, array } from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { func, object, string } from "prop-types";
+import React, { useState } from "react";
 import "./passwordInput.css";
 
 const eye = <FontAwesomeIcon icon={faEye} />;
@@ -55,7 +55,11 @@ PasswordInput.propTypes = {
   placeholder: string.isRequired,
   register: func.isRequired,
   validation: object.isRequired,
-  errors: array.isRequired,
+  errors: string,
+};
+
+PasswordInput.defaultProps = {
+  errors: "",
 };
 
 export default PasswordInput;
