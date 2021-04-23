@@ -29,10 +29,10 @@ function makeApi(request = makeRequest()) {
 
   function createTrack({ body, headers = {} }) {
     return request({
-      url: "/tracks",
+      url: "/api/tracks",
       requestMethod: "POST",
-      body: body,
       headers: headers,
+      body: body,
     });
   }
 
@@ -44,12 +44,31 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  // function getSong(headers) {
+  //   return request({
+  //     url: "/api/tracks/:id",
+  //     requestMethod: "GET",
+  //     headers: headers,
+  //   })
+  // }
+
+  function editSongInfo(headers, options) {
+    return request({
+      url: "/api/tracks",
+      requestMethod: "PATCH",
+      headers: headers,
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
     updateUserInfo: updateUserInfo,
     createTrack: createTrack,
     getAllSongs: getAllSongs,
+    // getSong: getSong,
+    editSongInfo: editSongInfo,
   };
 }
 

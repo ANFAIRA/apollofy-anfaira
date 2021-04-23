@@ -65,7 +65,44 @@ async function getAllSongs(req, res, next) {
   }
 }
 
+async function updateTrack(req, res, next) {
+  const { _id, title, artist, thumbnail, genre } = req.body;
+  console.log(req.body);
+
+  try {
+    const response = await TrackRepo.findOneAndUpdate(
+      { id: _id },
+      {
+        $set: {
+          title: title,
+          artist: artist,
+          thumbnail: thumbnail ? thumbnail : null,
+          genre: genre ? genre : null,
+        },
+      },
+      { new: true },
+    );
+
+    if (response.error) {
+      return res.status(500).send({
+        data: null,
+        error: response.error,
+      });
+    }
+
+    if (response.data) {
+      return res.status(200).send({
+        data: req.body,
+        error: null,
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createTrack: createTrack,
   getAllSongs: getAllSongs,
+  updateTrack: updateTrack,
 };
