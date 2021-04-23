@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { object } from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { playSong } from "../../redux/song/song-actions";
+import { playSong } from "../../redux/player/player-actions";
 import "./SongCard.scss";
 
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
@@ -38,6 +38,7 @@ function SongCard({ song }) {
           </button>
           <button
             type="button"
+            aria-label="play"
             className="card--icons--icon  card--icons--icon-play"
             onClick={() => dispatch(playSong(song))}
           >

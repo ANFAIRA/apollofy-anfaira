@@ -29,8 +29,8 @@ const Player = ({ tracks }) => {
 `;
 
   const startTimer = () => {
-    clearInterval(intervalRef.current);
     // Clear any timers already running
+    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setTrackProgress(audioRef.current.currentTime);
     }, [1000]);
@@ -38,7 +38,6 @@ const Player = ({ tracks }) => {
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current);
-    // Clear any timers already running
     audioRef.current.currentTime = value;
     setTrackProgress(audioRef.current.currentTime);
   };
@@ -77,7 +76,6 @@ const Player = ({ tracks }) => {
       setIsPlaying(true);
       startTimer();
     } else {
-      // Set the isReady ref as true for the next pass
       isReady.current = true;
     }
   }, [url]);
@@ -95,24 +93,32 @@ const Player = ({ tracks }) => {
         <div className="player--controller">
           <Controls isPlaying={isPlaying} onPlayPauseClick={setIsPlaying} />
           <div className="player--controller--progressBar">
+            <p>{audioRef.current.currentTime.toFixed(0)}</p>
             <input
               type="range"
               step="1"
               min="0"
               max={duration || 0}
-              value={trackProgress}
               style={{ background: trackStyling }}
+              value={trackProgress}
               onChange={(e) => onScrub(e.target.value)}
               onMouseUp={onScrubEnd}
               onKeyUp={onScrubEnd}
             />
+            <p>
+              {duration.toFixed(0) - audioRef.current.currentTime.toFixed(0)}
+            </p>
           </div>
         </div>
         <div className="player--actions">
           <button type="button">
             <FontAwesomeIcon icon={faListUl} />
           </button>
-          <button type="button" className="player--actions--icon">
+          <button
+            type="button"
+            className="player--actions--icon"
+            onClick={() => setIsFavorite(!isFavorite)}
+          >
             <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
           </button>
         </div>

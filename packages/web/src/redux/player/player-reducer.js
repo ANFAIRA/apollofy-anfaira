@@ -13,11 +13,6 @@ const playerReducer = (state = initialState, action) => {
         isPlaying: true,
         tracksToPlay: action.payload,
       };
-    case player.PAUSE_SONG:
-      return {
-        ...state,
-        isPlaying: false,
-      };
     default:
       return state;
   }
