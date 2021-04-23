@@ -7,7 +7,7 @@ import SongModal from "../../components/SongModal";
 
 const Main = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
-  const tracksToPlay = useSelector((state) => state.song.tracksToPlay);
+  const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
 
   return (
     <>

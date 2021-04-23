@@ -5,7 +5,6 @@ const initialState = {
   isFetchSuccess: false,
   isFetchFail: null,
   songs: [],
-  tracksToPlay: [],
 };
 
 const songReducer = (state = initialState, action) => {
@@ -41,8 +40,6 @@ const songReducer = (state = initialState, action) => {
         isFetchFail: null,
         tracksToPlay: [],
       };
-    case song.PLAY_SONG:
-      return { ...state, tracksToPlay: action.payload };
     default:
       return state;
   }
