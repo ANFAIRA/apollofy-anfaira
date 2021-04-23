@@ -4,7 +4,11 @@ const initialState = {
   isFetchRequest: false,
   isFetchSuccess: false,
   isFetchFail: null,
+  isUpdatingTrack: false,
+  trackUpdateSuccess: false,
+  trackUpadateError: null,
   songs: [],
+  selectedSong: {},
   MySongs: [],
 };
 
@@ -41,6 +45,28 @@ const songReducer = (state = initialState, action) => {
         isFetchRequest: false,
         isFetchSuccess: false,
         isFetchFail: null,
+      };
+    case song.UPDATE_TRACK_REQUEST:
+      return {
+        ...state,
+        isUpdatingTrack: true,
+        trackUpadateError: false,
+        selectedSong: action.payload,
+      };
+    case song.UPDATE_TRACK_SUCCESS:
+      return {
+        ...state,
+        isUpdatingTrack: false,
+        trackUpdateSuccess: true,
+        trackUpadateError: false,
+        selectedSong: action.payload,
+      };
+    case song.UPDATE_TRACK_ERROR:
+      return {
+        ...state,
+        isUpdatingTrack: false,
+        trackUpdateSuccess: false,
+        trackUpadateError: action.payload,
       };
     case song.FETCH_ME_SONG_SUCCESS:
       return {
