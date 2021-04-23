@@ -34,3 +34,7 @@ export const fetchSong = () => {
     }
   };
 };
+
+export const playSong = (track) => {
+  return { type: song.PLAY_SONG, payload: track };
+};

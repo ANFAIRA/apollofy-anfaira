@@ -1,11 +1,14 @@
 import { node } from "prop-types";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
 import Player from "../../components/Player";
 import SongModal from "../../components/SongModal";
 
 const Main = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
+  const tracksToPlay = useSelector((state) => state.song.tracksToPlay);
+
   return (
     <>
       <Navbar showModal={showModal} setShowModal={setShowModal} />
@@ -15,7 +18,7 @@ const Main = ({ children }) => {
         </section>
       )}
       <section className="md:container md:mx-auto p-8">{children}</section>
-      <Player />
+      <Player tracks={tracksToPlay} />
     </>
   );
 };
