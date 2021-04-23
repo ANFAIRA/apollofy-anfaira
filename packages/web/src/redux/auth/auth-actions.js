@@ -150,7 +150,7 @@ export const resetAuthState = () => ({
 
 export function updateUserAccount(userData) {
   return async function updateUserAccountThunk(dispatch) {
-    dispatch(updateUserAccountRequest(userData));
+    dispatch(updateUserAccountRequest());
     try {
       const token = await auth.getCurrentUserToken();
       const response = await api.updateUserInfo(
@@ -159,7 +159,8 @@ export function updateUserAccount(userData) {
         },
         userData,
       );
-      return updateUserAccountRequest(response.data);
+      console.log(response);
+      return updateUserAccountSuccess(response);
     } catch (error) {
       dispatch(updateUserAccountError(error.message));
     }
@@ -167,9 +168,8 @@ export function updateUserAccount(userData) {
   };
 }
 
-export const updateUserAccountRequest = (userData) => ({
+export const updateUserAccountRequest = () => ({
   type: AuthTypes.UPDATE_USER_ACCOUNT_REQUEST,
-  payload: userData,
 });
 
 export const updateUserAccountSuccess = (userData) => ({

@@ -68,7 +68,11 @@ async function updateUser(req, res, next) {
       { new: true },
     );
 
-    res.status(200).send({ data: req.body, error: null });
+    const updatedUser = await UserRepo.findOne({ firebaseId: firebaseId });
+
+    console.log(updatedUser);
+
+    res.status(200).send(updatedUser);
   } catch (error) {
     next(error);
   }
