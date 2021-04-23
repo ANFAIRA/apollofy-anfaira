@@ -10,8 +10,8 @@ class TrackRepository {
     return normalizeDBQuery(db.Track.findOne(query, "-__v"));
   }
 
-  findAll() {
-    return normalizeDBQuery(db.Track.find());
+  findAll(query) {
+    return normalizeDBQuery(db.Track.find(query));
   }
 }
 

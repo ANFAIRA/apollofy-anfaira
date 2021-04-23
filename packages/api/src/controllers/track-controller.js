@@ -65,7 +65,33 @@ async function getAllSongs(req, res, next) {
   }
 }
 
+async function getMeSongs(req, res, next) {
+  const { uid } = req.user;
+
+  try {
+    const user = await UserRepo.findOne({
+      firebaseId: uid,
+    });
+
+    const { data } = await TrackRepo.findAll({ authorId: user.data._id });
+
+    if (data.error) {
+      return res.status(404).send({
+        data: null,
+        error: data.error,
+      });
+    }
+
+    if (data) {
+      return res.status(200).send(data);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createTrack: createTrack,
   getAllSongs: getAllSongs,
+  getMeSongs: getMeSongs,
 };
