@@ -9,6 +9,13 @@ class TrackRepository {
   findOne(query) {
     return normalizeDBQuery(db.Track.findOne(query, "-__v"));
   }
+  findById(query) {
+    return normalizeDBQuery(db.Track.findById(query, "-__v"));
+  }
+
+  findByIdAndUpdate(query, data) {
+    return normalizeDBQuery(db.Track.findById(query, data, {}));
+  }
 
   findAll(query) {
     return normalizeDBQuery(db.Track.find(query));
@@ -16,6 +23,10 @@ class TrackRepository {
 
   findOneAndUpdate(query) {
     return normalizeDBQuery(db.Track.findOneAndUpdate(query));
+  }
+
+  findOneAndUpdate(query, data) {
+    return normalizeDBQuery(db.Track.findOneAndUpdate(query, data, {}));
   }
 }
 

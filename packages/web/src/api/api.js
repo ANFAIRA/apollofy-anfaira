@@ -60,6 +60,14 @@ function makeApi(request = makeRequest()) {
       body: options,
     });
   }
+  function likeSong(headers, options) {
+    return request({
+      url: `/tracks/${options.songId}/like`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: options,
+    });
+  }
 
   function getMeSongs(headers, options) {
     return request({
@@ -79,6 +87,7 @@ function makeApi(request = makeRequest()) {
     // getSong: getSong,
     editSongInfo: editSongInfo,
     getMeSongs: getMeSongs,
+    likeSong: likeSong,
   };
 }
 

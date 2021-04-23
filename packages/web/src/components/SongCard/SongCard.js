@@ -6,11 +6,17 @@ import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { func, object } from "prop-types";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { playSong } from "../../redux/player/player-actions";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
+import { useDispatch, useSelector } from "react-redux";
+import { likeSong } from "../../redux/song/song-actions";
+import "./SongCard.scss";
+
+const likeOn = <FontAwesomeIcon icon={faHeart} />;
+const likeOff = <FontAwesomeIcon icon={farHeart} />;
+// const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({
@@ -23,6 +29,13 @@ function SongCard({
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+  const dispatch = useDispatch();
+
+  function handleLikeBtn() {
+    setIsFavorite(!isFavorite);
+    dispatch(likeSong(song._id, firebaseId));
+  }
 
   return (
     <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
@@ -40,9 +53,9 @@ function SongCard({
           <button
             type="button"
             className="card--icons--icon"
-            onClick={() => setIsFavorite(!isFavorite)}
+            onClick={handleLikeBtn}
           >
-            <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
+            {isFavorite ? likeOn : likeOff}
           </button>
           <button
             type="button"

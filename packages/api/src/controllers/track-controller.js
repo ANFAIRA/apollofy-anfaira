@@ -82,7 +82,6 @@ async function updateTrack(req, res, next) {
       },
       { new: true },
     );
-
     if (response.error) {
       return res.status(500).send({
         data: null,
@@ -125,10 +124,66 @@ async function getMeSongs(req, res, next) {
     next(error);
   }
 }
+async function likeSong(req, res, next) {
+  const { id } = req.params;
+  const { firebaseId } = req.body;
+  try {
+    const song = await TrackRepo.findById(id);
+    const user = await UserRepo.findOne({
+      firebaseId: firebaseId,
+    });
+    const indexSong = song.data.likedBy.findIndex(
+      (id) => String(id) === String(user.data._id),
+    );
+    if (indexSong === -1) {
+      song.data.likedBy.push(user.data._id);
+    } else {
+      song.data.likedBy = song.data.likedBy.filter(
+        (id) => String(id) !== String(user.data._id),
+      );
+    }
+
+    const indexUser = user.data.likedSongs.findIndex(
+      (id) => String(id) === String(song.data._id),
+    );
+    if (indexUser === -1) {
+      user.data.likedSongs.push(song.data._id);
+    } else {
+      user.data.likedSongs = user.data.likedSongs.filter(
+        (id) => String(id) !== String(song.data._id),
+      );
+    }
+
+    await TrackRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          likedBy: song.data.likedBy,
+        },
+      },
+      { new: true },
+    );
+
+    await UserRepo.findOneAndUpdate(
+      { firebaseId: firebaseId },
+      {
+        $set: {
+          likedSongs: user.data.likedSongs,
+        },
+      },
+      { new: true },
+    );
+
+    res.status(200).send("updatedSong");
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   createTrack: createTrack,
   getAllSongs: getAllSongs,
   updateTrack: updateTrack,
   getMeSongs: getMeSongs,
+  likeSong: likeSong,
 };

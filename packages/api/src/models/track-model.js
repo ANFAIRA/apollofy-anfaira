@@ -5,7 +5,6 @@ const TrackSchema = Schema(
   {
     title: {
       type: String,
-      required: [true, "Track title required"],
       trim: true,
     },
     url: {
