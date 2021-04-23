@@ -1,5 +1,4 @@
 const { UserRepo, TrackRepo } = require("../repositories");
-const { logger } = require("../services");
 
 async function createTrack(req, res, next) {
   const {
@@ -75,7 +74,6 @@ async function getMeSongs(req, res, next) {
     });
 
     const { data } = await TrackRepo.findAll({ authorId: user.data._id });
-    logger.debug(data);
 
     if (data.error) {
       return res.status(404).send({
@@ -85,7 +83,6 @@ async function getMeSongs(req, res, next) {
     }
 
     if (data) {
-      logger.debug(data);
       return res.status(200).send(data);
     }
   } catch (error) {
