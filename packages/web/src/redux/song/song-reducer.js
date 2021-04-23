@@ -5,7 +5,7 @@ const initialState = {
   isFetchSuccess: false,
   isFetchFail: null,
   songs: [],
-  meSongs: [],
+  MySongs: [],
 };
 
 const songReducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const songReducer = (state = initialState, action) => {
         isFetchSuccess: false,
         isFetchFail: false,
         songs: [],
-        meSongs: [],
+        MySongs: [],
       };
     case song.FETCH_SONG_SUCCESS:
       return {
@@ -26,7 +26,7 @@ const songReducer = (state = initialState, action) => {
         isFetchSuccess: true,
         isFetchFail: false,
         songs: action.payload,
-        meSongs: [],
+        MySongs: [],
       };
     case song.FETCH_SONG_ERROR:
       return {
@@ -48,7 +48,7 @@ const songReducer = (state = initialState, action) => {
         isFetchRequest: false,
         isFetchSuccess: true,
         isFetchFail: false,
-        meSongs: action.payload,
+        MySongs: action.payload,
         songs: [],
       };
     default:

@@ -2,10 +2,10 @@ import React from "react";
 import { string } from "prop-types";
 import { useHistory } from "react-router-dom";
 
-function PlayListCard({ title, description }) {
+function PlayListCard({ title, description, location }) {
   const history = useHistory();
   const handleClick = () => {
-    history.push("/me-songs");
+    history.push(`/${location}`);
   };
 
   return (
@@ -29,6 +29,7 @@ function PlayListCard({ title, description }) {
 PlayListCard.propTypes = {
   title: string.isRequired,
   description: string.isRequired,
+  location: string.isRequired,
 };
 
 export default PlayListCard;

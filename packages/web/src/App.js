@@ -7,7 +7,7 @@ import ChangePassword from "./pages/ChangePassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import MeSongs from "./pages/MeSongs";
+import MySongs from "./pages/MySongs";
 import ResetPassword from "./pages/ResetPassword";
 import SignUp from "./pages/SignUp";
 import { signOut, syncSignIn } from "./redux/auth/auth-actions";
@@ -46,7 +46,7 @@ function App() {
           <Route path={ROUTES.HOME} component={Home} exact />
           <Route path={ROUTES.PROFILE} component={Profile} />
           <Route path={ROUTES.ACCOUNT} component={Account} />
-          <Route path={ROUTES.ME_SONGS} component={MeSongs} />
+          <Route path={ROUTES.MY_SONGS} component={MySongs} />
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
         </ProtectedRoute>
       </Switch>

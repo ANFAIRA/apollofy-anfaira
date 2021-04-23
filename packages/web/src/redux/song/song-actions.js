@@ -51,15 +51,15 @@ export const fetchMeSong = () => {
     }
 
     try {
-      const meSongs = await api.getMeSongs({
+      const MySongs = await api.getMeSongs({
         Authorization: `Bearer ${token}`,
       });
 
-      if (meSongs.errorMessage) {
-        return dispatch(fetchSongError(meSongs.errorMessage));
+      if (MySongs.errorMessage) {
+        return dispatch(fetchSongError(MySongs.errorMessage));
       }
 
-      return dispatch(fetchMeSongSuccess(meSongs));
+      return dispatch(fetchMeSongSuccess(MySongs));
     } catch (error) {
       return dispatch(fetchSongError(error.message));
     }

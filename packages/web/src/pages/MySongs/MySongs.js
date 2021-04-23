@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
-import { authSelector } from "../../redux/auth/auth-selectors";
 import { fetchMeSong } from "../../redux/song/song-actions";
 
-function MeSongs() {
-  const { data } = useSelector((state) => state?.song?.meSongs);
+function MySongs() {
+  const { data } = useSelector((state) => state?.song?.MySongs);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,4 +26,4 @@ function MeSongs() {
   );
 }
 
-export default MeSongs;
+export default MySongs;
