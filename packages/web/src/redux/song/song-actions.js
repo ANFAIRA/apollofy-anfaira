@@ -1,6 +1,6 @@
 import api from "../../api";
-import * as songTypes from "./song-type";
 import * as auth from "../../services/auth";
+import * as songTypes from "./song-type";
 
 export const fetchSongRequest = () => {
   return { type: songTypes.FETCH_SONG_REQUEST };
@@ -111,7 +111,7 @@ export const fetchMeSong = () => {
     const token = await auth.getCurrentUserToken();
 
     if (!token) {
-      return dispatch(fetchSongError("Uset token null"));
+      return dispatch(fetchSongError("Unset token null"));
     }
 
     try {
