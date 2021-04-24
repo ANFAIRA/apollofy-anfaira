@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
@@ -10,7 +11,6 @@ import { playSong } from "../../redux/player/player-actions";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
-import { useDispatch, useSelector } from "react-redux";
 import { likeSong } from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
 import "./SongCard.scss";
@@ -20,7 +20,14 @@ const likeOff = <FontAwesomeIcon icon={farHeart} />;
 // const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({ song }) {
+function SongCard({
+  song,
+  setShowModal,
+  setIsEditModal,
+  selectedSong,
+  setSelectedSong,
+}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId, likedSongs } = useSelector(
     (state) => state.auth?.currentUser?.data,
   );

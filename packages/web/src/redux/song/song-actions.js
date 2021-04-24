@@ -130,15 +130,15 @@ export const fetchMeSong = () => {
   };
 };
 export const likeSongRequest = () => {
-  return { type: song.LIKE_SONG_REQUEST };
+  return { type: songTypes.LIKE_SONG_REQUEST };
 };
 
 export const likeSongError = (message) => {
-  return { type: song.LIKE_SONG_ERROR, payload: message };
+  return { type: songTypes.LIKE_SONG_ERROR, payload: message };
 };
 
 export const likeSongSuccess = (data) => {
-  return { type: song.LIKE_SONG_SUCCESS, payload: data };
+  return { type: songTypes.LIKE_SONG_SUCCESS, payload: data };
 };
 
 export const likeSong = (songId, firebaseId) => {
