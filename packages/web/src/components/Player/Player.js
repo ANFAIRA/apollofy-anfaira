@@ -16,6 +16,7 @@ const Player = ({ tracks }) => {
 
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
+  const isReady = useRef(false);
 
   const currentTime = formatTime(audioRef.current.currentTime);
   const totalTime = calcRemainingTime(duration, audioRef.current.currentTime);
@@ -83,6 +84,13 @@ const Player = ({ tracks }) => {
     audioRef.current.pause();
     audioRef.current = new Audio(url);
     setTrackProgress(audioRef.current.currentTime);
+    if (isReady.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+      startTimer();
+    } else {
+      isReady.current = true;
+    }
   }, [url]);
 
   return (
@@ -123,15 +131,15 @@ const Player = ({ tracks }) => {
           </div>
         </div>
         <div className="player--actions">
-          <button type="button">
-            <FontAwesomeIcon icon={faListUl} />
-          </button>
           <button
             type="button"
             className="player--actions--icon"
             onClick={() => setIsFavorite(!isFavorite)}
           >
             <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
+          </button>
+          <button type="button">
+            <FontAwesomeIcon icon={faListUl} />
           </button>
         </div>
       </div>

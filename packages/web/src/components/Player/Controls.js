@@ -18,7 +18,7 @@ const Controls = ({
 }) => {
   return (
     <div className="player--controller--buttons">
-      <button type="button" aria-label="repeat" style={{ fontSize: "18px" }}>
+      <button type="button" aria-label="repeat" style={{ fontSize: "16px" }}>
         <FontAwesomeIcon icon={faRedo} />
       </button>
       <button type="button" aria-label="previous" onClick={onPrevClick}>
@@ -29,6 +29,7 @@ const Controls = ({
           type="button"
           onClick={() => onPlayPauseClick(false)}
           aria-label="Pause"
+          style={{ fontSize: "32px" }}
         >
           <FontAwesomeIcon icon={faPause} />
         </button>
@@ -37,6 +38,7 @@ const Controls = ({
           type="button"
           onClick={() => onPlayPauseClick(true)}
           aria-label="Play"
+          style={{ fontSize: "32px" }}
         >
           <FontAwesomeIcon icon={faPlay} />
         </button>
@@ -44,7 +46,7 @@ const Controls = ({
       <button type="button" aria-label="next" onClick={onNextClick}>
         <FontAwesomeIcon icon={faForward} />
       </button>
-      <button type="button" aria-label="shuffle" style={{ fontSize: "18px" }}>
+      <button type="button" aria-label="shuffle" style={{ fontSize: "16px" }}>
         <FontAwesomeIcon icon={faRandom} />
       </button>
     </div>
