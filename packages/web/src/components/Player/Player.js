@@ -1,20 +1,24 @@
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart, faListUl } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { object } from "prop-types";
+import { array } from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
+import { calcRemainingTime, formatTime } from "../../utils/utils";
 import Controls from "./Controls";
 import "./Player.scss";
 
 const Player = ({ tracks }) => {
-  const { artist, title, url, thumbnail, duration } = tracks;
+  const [trackIndex, setTrackIndex] = useState(0);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { artist, title, url, thumbnail, duration } = tracks[trackIndex] || "";
 
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
-  const isReady = useRef(false);
+
+  const currentTime = formatTime(audioRef.current.currentTime);
+  const totalTime = calcRemainingTime(duration, audioRef.current.currentTime);
 
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
@@ -27,6 +31,22 @@ const Player = ({ tracks }) => {
     color-stop(${currentPercentage}, #777)
   )
 `;
+
+  const toPrevTrack = () => {
+    if (trackIndex - 1 < 0) {
+      setTrackIndex(tracks.length - 1);
+    } else {
+      setTrackIndex(trackIndex - 1);
+    }
+  };
+
+  const toNextTrack = () => {
+    if (trackIndex < tracks.length - 1) {
+      setTrackIndex(trackIndex + 1);
+    } else {
+      setTrackIndex(0);
+    }
+  };
 
   const startTimer = () => {
     // Clear any timers already running
@@ -59,41 +79,35 @@ const Player = ({ tracks }) => {
   }, [isPlaying]);
 
   useEffect(() => {
-    // Pause and clean up on unmount
-    return () => {
-      audioRef.current.pause();
-      clearInterval(intervalRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
     // Handle setup when changing tracks
     audioRef.current.pause();
     audioRef.current = new Audio(url);
     setTrackProgress(audioRef.current.currentTime);
-    if (isReady.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
-      startTimer();
-    } else {
-      isReady.current = true;
-    }
   }, [url]);
 
   return (
     <div className="player">
       <div className="player--wrapper">
         <div className="player--info">
-          <img src={thumbnail} alt="song-img" className="player--info--img" />
+          <img
+            src={thumbnail}
+            alt={`thumbnail for ${title} by ${artist}`}
+            className="player--info--img"
+          />
           <div className="player--info--details">
             <h5>{title}</h5>
             <p>{artist}</p>
           </div>
         </div>
         <div className="player--controller">
-          <Controls isPlaying={isPlaying} onPlayPauseClick={setIsPlaying} />
+          <Controls
+            isPlaying={isPlaying}
+            onPlayPauseClick={setIsPlaying}
+            onPrevClick={toPrevTrack}
+            onNextClick={toNextTrack}
+          />
           <div className="player--controller--progressBar">
-            <p>{audioRef.current.currentTime.toFixed(0)}</p>
+            <p>{currentTime}</p>
             <input
               type="range"
               step="1"
@@ -105,9 +119,7 @@ const Player = ({ tracks }) => {
               onMouseUp={onScrubEnd}
               onKeyUp={onScrubEnd}
             />
-            <p>
-              {duration.toFixed(0) - audioRef.current.currentTime.toFixed(0)}
-            </p>
+            <p>{totalTime}</p>
           </div>
         </div>
         <div className="player--actions">
@@ -128,7 +140,11 @@ const Player = ({ tracks }) => {
 };
 
 Player.propTypes = {
-  tracks: object.isRequired,
+  tracks: array,
+};
+
+Player.defaultProps = {
+  tracks: [],
 };
 
 export default Player;

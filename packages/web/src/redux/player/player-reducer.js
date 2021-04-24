@@ -11,7 +11,13 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         isPlaying: true,
-        tracksToPlay: action.payload,
+        tracksToPlay: [action.payload],
+      };
+    case player.ADD_SONG_TO_QUEUE:
+      return {
+        ...state,
+        isPlaying: true,
+        tracksToPlay: [...state.tracksToPlay, action.payload],
       };
     default:
       return state;
