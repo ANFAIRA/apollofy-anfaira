@@ -8,7 +8,6 @@ import { object } from "prop-types";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { likeSong } from "../../redux/song/song-actions";
-import { songSelector } from "../../redux/song/song-selector";
 import "./SongCard.scss";
 
 const likeOn = <FontAwesomeIcon icon={faHeart} />;
@@ -17,20 +16,13 @@ const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({ song }) {
-  const { firebaseId, likedSongs } = useSelector(
-    (state) => state.auth?.currentUser?.data,
-  );
-  const { currentUser } = useSelector((state) => state.auth);
-  console.log(currentUser);
-  const { isLikeSuccess } = useSelector(songSelector);
-  console.log(isLikeSuccess);
-  console.log(likedSongs);
+  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+  const { likedSongs } = useSelector((state) => state.song.currentUser.data);
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
     likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
       true,
   );
-  console.log(isFavorite);
 
   function handleLikeBtn() {
     setIsFavorite(!isFavorite);

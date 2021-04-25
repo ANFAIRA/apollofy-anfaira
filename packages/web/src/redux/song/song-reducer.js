@@ -5,6 +5,7 @@ const initialState = {
   isFetchSuccess: false,
   isFetchFail: null,
   songs: [],
+  currentUser: {},
 };
 
 const songReducer = (state = initialState, action) => {
@@ -55,6 +56,7 @@ const songReducer = (state = initialState, action) => {
         isLikeRequest: false,
         isLikeSuccess: true,
         isLikeFail: false,
+        currentUser: action.payload.data,
       };
     case song.LIKE_SONG_ERROR:
       return {

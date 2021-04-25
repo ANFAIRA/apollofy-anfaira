@@ -115,7 +115,12 @@ async function likeSong(req, res, next) {
       { new: true },
     );
 
-    res.status(200).send("updatedSong");
+    const userUpdate = await UserRepo.findOne({
+      firebaseId: firebaseId,
+    });
+
+    console.log(userUpdate);
+    res.status(200).send(userUpdate);
   } catch (error) {
     next(error);
   }
