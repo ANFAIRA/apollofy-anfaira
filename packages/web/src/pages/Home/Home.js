@@ -5,23 +5,29 @@ import SongModal from "../../components/SongModal";
 import Main from "../../layout/Main";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { fetchSong } from "../../redux/song/song-actions";
+
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
   const { data } = useSelector((state) => state.song.songs);
   const { uploadSongSuccess } = useSelector(uploaderSelector);
+  const { trackUpdateSuccess } = useSelector(trackEditorSelector);
 
   const [showModal, setShowModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedSong, setSelectedSong] = useState(null);
+  const [selectedTrack, setSelectedTrack] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    uploadSongSuccess ? dispatch(fetchSong()) : dispatch(fetchSong());
-  }, [dispatch, uploadSongSuccess]);
+    uploadSongSuccess && dispatch(fetchSong());
+
+    // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
+    trackUpdateSuccess && dispatch(fetchSong());
+  }, [dispatch, uploadSongSuccess, trackUpdateSuccess]);
 
   return (
     <>
@@ -31,8 +37,8 @@ export default function Home() {
             setShowModal={setShowModal}
             setIsEditModal={setIsEditModal}
             isEditModal={isEditModal}
-            selectedSong={selectedSong}
-            setSelectedSong={setSelectedSong}
+            selectedTrack={selectedTrack}
+            setSelectedTrack={setSelectedTrack}
           />
         </section>
       )}
@@ -46,7 +52,7 @@ export default function Home() {
                 song={song}
                 setShowModal={setShowModal}
                 setIsEditModal={setIsEditModal}
-                setSelectedSong={setSelectedSong}
+                setSelectedTrack={setSelectedTrack}
               />
             ))}
           </div>

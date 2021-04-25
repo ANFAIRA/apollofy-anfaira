@@ -10,8 +10,12 @@ import {
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
 
-import { updateSong } from "../../redux/song/song-actions";
+import {
+  updateSong,
+  updateTrackReset,
+} from "../../redux/trackEditor/trackEditor-actions";
 
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
@@ -22,16 +26,19 @@ function SongModal({
   setShowModal,
   isEditModal,
   setIsEditModal,
-  selectedSong,
-  setSelectedSong,
+  selectedTrack,
+  setSelectedTrack,
 }) {
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
   );
+  const { isUpdatingTrack, trackUpdateSuccess, trackUpdateError } = useSelector(
+    trackEditorSelector,
+  );
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
-    ? selectedSong
+    ? selectedTrack
     : "";
 
   const modal = isEditModal
@@ -95,6 +102,7 @@ function SongModal({
     }
   };
 
+  // TODO: Add dialogue menu with button for removing image
   // function handleRemoveImg() {
   //   setSrc(null);
   // }
@@ -102,13 +110,15 @@ function SongModal({
   function handleCloseBtn() {
     setShowModal(false);
     setIsEditModal(false);
-    setSelectedSong(null);
+    setSelectedTrack(null);
   }
 
   useEffect(() => {
     dispatch(uploadSongReset());
+    dispatch(updateTrackReset());
     uploadSongSuccess && setShowModal(false);
-  }, [dispatch, uploadSongSuccess, setShowModal]);
+    trackUpdateSuccess && setShowModal(false);
+  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, setShowModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
@@ -247,6 +257,10 @@ function SongModal({
           {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
           {uploadSongError && <p className="mb-3">Upload error!</p>}
+          {isUpdatingTrack && <p className="mb-3">Updating song...</p>}
+          {trackUpdateSuccess && <p className="mb-3">Update successful!</p>}
+          {trackUpdateError && <p className="mb-3">Update error!</p>}
+
           <Input
             name="title"
             type="text"
@@ -305,8 +319,8 @@ SongModal.propTypes = {
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
   isEditModal: bool.isRequired,
-  selectedSong: object.isRequired,
-  setSelectedSong: func.isRequired,
+  selectedTrack: object.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 export default SongModal;

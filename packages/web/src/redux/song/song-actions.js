@@ -76,34 +76,6 @@ export const fetchSong = () => {
 //   };
 // }
 
-export const updateTrackRequest = () => ({
-  type: songTypes.UPDATE_TRACK_REQUEST,
-});
-
-export const updateTrackError = (message) => ({
-  type: songTypes.UPDATE_TRACK_ERROR,
-  payload: message,
-});
-
-export const updateTrackSuccess = (trackData) => ({
-  type: songTypes.UPDATE_TRACK_SUCCESS,
-  payload: trackData,
-});
-
-export function updateSong(trackData) {
-  return async function updateSongThunk(dispatch) {
-    dispatch(updateTrackRequest());
-    try {
-      const response = await api.updateSongInfo(trackData);
-      if (response.errorMessage) {
-        return dispatch(updateTrackError(response.errorMessage));
-      }
-      return dispatch(updateTrackSuccess(response.data));
-    } catch (error) {
-      return dispatch(updateTrackError(error.message));
-    }
-  };
-}
 export const fetchMeSong = () => {
   return async function fetchMeSongThunk(dispatch) {
     dispatch(fetchSongRequest());

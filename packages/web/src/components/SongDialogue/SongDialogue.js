@@ -6,7 +6,7 @@ function SongDialogue({
   setShowModal,
   setIsEditModal,
   song,
-  setSelectedSong,
+  setSelectedTrack,
 }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { authorId } = song;
@@ -16,7 +16,7 @@ function SongDialogue({
   function handleEditClick() {
     setShowModal(true);
     setIsEditModal(true);
-    setSelectedSong(song);
+    setSelectedTrack(song);
   }
 
   return (
@@ -53,7 +53,7 @@ SongDialogue.propTypes = {
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
   song: object.isRequired,
-  setSelectedSong: func.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 export default SongDialogue;
