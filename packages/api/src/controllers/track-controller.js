@@ -1,5 +1,5 @@
 const { UserRepo, TrackRepo } = require("../repositories");
-const logger = require("../services/logger");
+const { logger } = require("../services");
 
 async function createTrack(req, res, next) {
   const {
@@ -212,6 +212,29 @@ async function deleteTrack(req, res, next) {
   }
 }
 
+async function getLikedSongs(req, res, next) {
+  const { uid } = req.user;
+
+  try {
+    const user = await UserRepo.findOne({
+      firebaseId: uid,
+    });
+    logger.debug(user);
+    if (user.error) {
+      return res.status(404).send({
+        user: null,
+        error: user.error,
+      });
+    }
+
+    if (user) {
+      return res.status(200).send(user);
+    }
+  } catch (eror) {
+    next(error);
+  }
+}
+
 module.exports = {
   createTrack: createTrack,
   getAllSongs: getAllSongs,
@@ -219,4 +242,5 @@ module.exports = {
   getMeSongs: getMeSongs,
   likeSong: likeSong,
   deleteTrack: deleteTrack,
+  getLikedSongs: getLikedSongs,
 };
