@@ -35,8 +35,8 @@ function SongModal({
     : "";
 
   const modal = isEditModal
-    ? { title: "Edit song information", type: "edit" }
-    : { title: "Upload a song", type: "upload" };
+    ? { title: "Edit song information", type: "edit", button: "Update" }
+    : { title: "Upload a song", type: "upload", button: "Upload" };
 
   const {
     register,
@@ -64,7 +64,7 @@ function SongModal({
         )
       : dispatch(
           updateSong({
-            thumbnail: data.thumbnail,
+            thumbnail: image,
             title: data.title,
             genre: data.genre,
             artist: data.artist,
@@ -74,6 +74,7 @@ function SongModal({
 
     // console.log({
     //   thumbnail: data.thumbnail,
+    //   thumbnail2: image,
     //   title: data.title,
     //   genre: data.genre,
     //   artist: data.artist,
@@ -94,7 +95,7 @@ function SongModal({
     }
   };
 
-  // function handleChangeImg() {
+  // function handleRemoveImg() {
   //   setSrc(null);
   // }
 
@@ -126,21 +127,32 @@ function SongModal({
           className="flex flex-col px-10 sm:px-20 py-10"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex ">
+          <div className="flex">
             {isEditModal && (
-              <div className="mr-2 h-full md:w-60 w-full">
-                <button
-                  type="button"
-                  // onClick={handleChangeImg}
-                  className="mt-2 mb-5"
-                >
-                  <img
-                    src={thumbnail}
-                    alt="thumbnail"
-                    className="md:w-40 md:h-40"
+              <div className="mr-2 h-full md:w-60 w-full mb-5">
+                <label htmlFor="photo" className="mt-2 mb-5">
+                  {src ? (
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  ) : (
+                    <img
+                      src={thumbnail}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  )}
+
+                  <input
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    id="photo"
+                    className="hidden"
+                    onChange={handleImg}
                   />
-                  <p>Click to change</p>
-                </button>
+                </label>
               </div>
             )}
 
@@ -281,7 +293,7 @@ function SongModal({
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
             type="submit"
           >
-            Upload
+            {modal.button}
           </button>
         </form>
       </div>
