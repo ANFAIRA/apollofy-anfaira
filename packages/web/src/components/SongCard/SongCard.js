@@ -13,7 +13,13 @@ import "./SongCard.scss";
 
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({ song, setShowModal, setIsEditModal, setSelectedTrack }) {
+function SongCard({
+  song,
+  setShowModal,
+  setShowDeleteModal,
+  setIsEditModal,
+  setSelectedTrack,
+}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,6 +63,7 @@ function SongCard({ song, setShowModal, setIsEditModal, setSelectedTrack }) {
         {isMenuOpen && (
           <SongDialogue
             setShowModal={setShowModal}
+            setShowDeleteModal={setShowDeleteModal}
             setIsEditModal={setIsEditModal}
             song={song}
             setSelectedTrack={setSelectedTrack}
@@ -76,6 +83,7 @@ function SongCard({ song, setShowModal, setIsEditModal, setSelectedTrack }) {
 SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
+  setShowDeleteModal: func.isRequired,
   setIsEditModal: func.isRequired,
   setSelectedTrack: func.isRequired,
 };

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import SongCard from "../../components/SongCard";
 import SongModal from "../../components/SongModal";
+import DeleteModal from "../../components/DeleteModal";
+
 import Main from "../../layout/Main";
+
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { fetchSong } from "../../redux/song/song-actions";
-
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+
 import "./Home.scss";
 
 export default function Home() {
@@ -17,6 +21,7 @@ export default function Home() {
   const { trackUpdateSuccess } = useSelector(trackEditorSelector);
 
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
 
@@ -42,6 +47,15 @@ export default function Home() {
           />
         </section>
       )}
+      {showDeleteModal && (
+        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
+          <DeleteModal
+            setShowDeleteModal={setShowDeleteModal}
+            selectedTrack={selectedTrack}
+            setSelectedTrack={setSelectedTrack}
+          />
+        </section>
+      )}
       <Main>
         <h1 className="text-xl mb-4">Hello {currentUser.data.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
@@ -51,6 +65,7 @@ export default function Home() {
                 key={song._id}
                 song={song}
                 setShowModal={setShowModal}
+                setShowDeleteModal={setShowDeleteModal}
                 setIsEditModal={setIsEditModal}
                 setSelectedTrack={setSelectedTrack}
               />
