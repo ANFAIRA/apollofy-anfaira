@@ -52,11 +52,10 @@ function makeApi(request = makeRequest()) {
   //   })
   // }
 
-  function editSongInfo(headers, options) {
+  function updateSongInfo(options) {
     return request({
       url: "/api/tracks",
       requestMethod: "PATCH",
-      headers: headers,
       body: options,
     });
   }
@@ -77,7 +76,7 @@ function makeApi(request = makeRequest()) {
     createTrack: createTrack,
     getAllSongs: getAllSongs,
     // getSong: getSong,
-    editSongInfo: editSongInfo,
+    updateSongInfo: updateSongInfo,
     getMeSongs: getMeSongs,
   };
 }

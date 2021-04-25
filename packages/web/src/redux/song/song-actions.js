@@ -76,7 +76,7 @@ export const fetchSong = () => {
 //   };
 // }
 
-export const updateTrackRequest = (trackData) => ({
+export const updateTrackRequest = () => ({
   type: songTypes.UPDATE_TRACK_REQUEST,
 });
 
@@ -90,11 +90,11 @@ export const updateTrackSuccess = (trackData) => ({
   payload: trackData,
 });
 
-export function editSong() {
-  return async function editSongThunk(dispatch) {
-    dispatch(updateTrackRequest);
+export function updateSong(trackData) {
+  return async function updateSongThunk(dispatch) {
+    dispatch(updateTrackRequest());
     try {
-      const response = await api.editSongInfo();
+      const response = await api.updateSongInfo(trackData);
       if (response.errorMessage) {
         return dispatch(updateTrackError(response.errorMessage));
       }

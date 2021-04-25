@@ -15,16 +15,13 @@ export default function Home() {
 
   const [showModal, setShowModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedSong, setSelectedSong] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     uploadSongSuccess ? dispatch(fetchSong()) : dispatch(fetchSong());
   }, [dispatch, uploadSongSuccess]);
-
-  // console.log(`isEditModal from Home: ${isEditModal}`);
-  // console.log(`selectedSong from Home: ${selectedSong.title}`);
 
   return (
     <>
@@ -35,6 +32,7 @@ export default function Home() {
             setIsEditModal={setIsEditModal}
             isEditModal={isEditModal}
             selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -48,7 +46,6 @@ export default function Home() {
                 song={song}
                 setShowModal={setShowModal}
                 setIsEditModal={setIsEditModal}
-                selectedSong={selectedSong}
                 setSelectedSong={setSelectedSong}
               />
             ))}

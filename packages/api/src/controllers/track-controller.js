@@ -1,4 +1,5 @@
 const { UserRepo, TrackRepo } = require("../repositories");
+const logger = require("../services/logger");
 
 async function createTrack(req, res, next) {
   const {
@@ -67,11 +68,11 @@ async function getAllSongs(req, res, next) {
 
 async function updateTrack(req, res, next) {
   const { _id, title, artist, thumbnail, genre } = req.body;
-  console.log(req.body);
+  logger.debug(req.body);
 
   try {
     const response = await TrackRepo.findOneAndUpdate(
-      { id: _id },
+      { _id: _id },
       {
         $set: {
           title: title,

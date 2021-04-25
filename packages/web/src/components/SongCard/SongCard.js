@@ -17,7 +17,6 @@ function SongCard({
   song,
   setShowModal,
   setIsEditModal,
-  selectedSong,
   setSelectedSong,
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -66,7 +65,6 @@ function SongCard({
             setIsEditModal={setIsEditModal}
             song={song}
             setSelectedSong={setSelectedSong}
-            selectedSong={selectedSong}
           />
         )}
       </div>
@@ -84,7 +82,6 @@ SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
-  selectedSong: object.isRequired,
   setSelectedSong: func.isRequired,
 };
 

@@ -9,7 +9,8 @@ const Main = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
   const [isEditModal, setIsEditModal] = useState(false);
-  
+  const [selectedSong, setSelectedSong] = useState(null);
+
   return (
     <>
       {showModal && (
@@ -19,6 +20,8 @@ const Main = ({ children }) => {
             setShowModal={setShowModal}
             isEditModal={isEditModal}
             setIsEditModal={setIsEditModal}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}

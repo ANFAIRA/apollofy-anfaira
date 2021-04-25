@@ -52,7 +52,6 @@ const songReducer = (state = initialState, action) => {
         ...state,
         isUpdatingTrack: true,
         trackUpadateError: false,
-        selectedSong: action.payload,
       };
     case song.UPDATE_TRACK_SUCCESS:
       return {

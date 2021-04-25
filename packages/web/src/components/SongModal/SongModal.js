@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { bool, func, object } from "prop-types";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { bool, func, object } from "prop-types";
-import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,7 +11,7 @@ import {
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 
-import { editSong } from "../../redux/song/song-actions";
+import { updateSong } from "../../redux/song/song-actions";
 
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
@@ -33,8 +33,6 @@ function SongModal({
   const { _id, thumbnail, title, artist, genre } = isEditModal
     ? selectedSong
     : "";
-
-  // console.log(`selectedSong from songModal: ${_id}`);
 
   const modal = isEditModal
     ? { title: "Edit song information", type: "edit" }
@@ -65,22 +63,22 @@ function SongModal({
           }),
         )
       : dispatch(
-          editSong({
+          updateSong({
             thumbnail: data.thumbnail,
             title: data.title,
             genre: data.genre,
             artist: data.artist,
-            id: data._id,
+            _id: data._id,
           }),
         );
 
-    console.log({
-      thumbnail: data.thumbnail,
-      title: data.title,
-      genre: data.genre,
-      artist: data.artist,
-      id: data._id,
-    });
+    // console.log({
+    //   thumbnail: data.thumbnail,
+    //   title: data.title,
+    //   genre: data.genre,
+    //   artist: data.artist,
+    //   id: data._id,
+    // });
   }
 
   const handleImg = (e) => {
@@ -96,13 +94,14 @@ function SongModal({
     }
   };
 
-  function handleChangeImg() {
-    setSrc(null);
-  }
+  // function handleChangeImg() {
+  //   setSrc(null);
+  // }
+
   function handleCloseBtn() {
     setShowModal(false);
     setIsEditModal(false);
-    // setSelectedSong({});
+    setSelectedSong(null);
   }
 
   useEffect(() => {
@@ -130,17 +129,17 @@ function SongModal({
           <div className="flex ">
             {isEditModal && (
               <div className="mr-2 h-full md:w-60 w-full">
-                <img
-                  src={thumbnail}
-                  alt="thumbnail"
-                  className="md:w-40 md:h-40"
-                />
                 <button
                   type="button"
-                  onClick={handleChangeImg}
+                  // onClick={handleChangeImg}
                   className="mt-2 mb-5"
                 >
-                  Change image
+                  <img
+                    src={thumbnail}
+                    alt="thumbnail"
+                    className="md:w-40 md:h-40"
+                  />
+                  <p>Click to change</p>
                 </button>
               </div>
             )}
@@ -148,14 +147,20 @@ function SongModal({
             {!isEditModal &&
               (src ? (
                 <div className="mr-2 h-full md:w-60 w-full">
-                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
-                  <button
-                    type="button"
-                    onClick={handleChangeImg}
-                    className="mt-2 mb-5"
-                  >
-                    Change image
-                  </button>
+                  <label htmlFor="photo" className="mt-2 mb-5">
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                    <input
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      id="photo"
+                      className="hidden"
+                      onChange={handleImg}
+                    />
+                  </label>
                 </div>
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-grey-lighter mb-5 mr-2">

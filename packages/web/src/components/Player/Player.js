@@ -106,7 +106,7 @@ const Player = ({ tracks }) => {
               onKeyUp={onScrubEnd}
             />
             <p>
-              {duration.toFixed(0) - audioRef.current.currentTime.toFixed(0)}
+              {duration?.toFixed(0) - audioRef.current.currentTime.toFixed(0)}
             </p>
           </div>
         </div>
