@@ -87,6 +87,7 @@ function SongCard({
             setIsEditModal={setIsEditModal}
             song={song}
             setSelectedTrack={setSelectedTrack}
+            handleLikeBtn={handleLikeBtn}
           />
         )}
       </div>
