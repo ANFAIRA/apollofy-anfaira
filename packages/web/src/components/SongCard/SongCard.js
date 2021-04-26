@@ -20,20 +20,11 @@ const likeOff = <FontAwesomeIcon icon={farHeart} />;
 // const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-
-function SongCard({
-  song,
-  setShowModal,
-  setIsEditModal,
-  selectedSong,
-  setSelectedSong,
-}) {
+function SongCard({ song, setShowModal, setIsEditModal }) {
   const { likedSongs } = useSelector((state) => state.song.currentUser.data);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { firebaseId } = useSelector(
-    (state) => state.auth?.currentUser?.data,
-  );
+  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
     likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
@@ -84,6 +75,7 @@ function SongCard({
         {isMenuOpen && (
           <SongDialogue
             setShowModal={setShowModal}
+            setShowDeleteModal={setShowDeleteModal}
             setIsEditModal={setIsEditModal}
             song={song}
             setSelectedTrack={setSelectedTrack}
@@ -103,6 +95,7 @@ function SongCard({
 SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
+  setShowDeleteModal: func.isRequired,
   setIsEditModal: func.isRequired,
   setSelectedTrack: func.isRequired,
 };
