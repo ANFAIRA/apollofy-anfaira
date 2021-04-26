@@ -25,7 +25,8 @@ function SongCard({
   setIsEditModal,
   setSelectedTrack,
 }) {
-  const { likedSongs } = useSelector((state) => state.song.currentUser.data);
+  // const { likedSongs } = useSelector((state) => state.song.currentUser.data);
+  const likedSongs = useSelector((state) => state.song?.currentUser?.data);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
