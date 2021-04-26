@@ -69,6 +69,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteTrackApi(options) {
+    return request({
+      url: "/api/tracks",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -78,6 +86,7 @@ function makeApi(request = makeRequest()) {
     // getSong: getSong,
     updateSongInfo: updateSongInfo,
     getMeSongs: getMeSongs,
+    deleteTrackApi: deleteTrackApi,
   };
 }
 

@@ -17,6 +17,10 @@ class TrackRepository {
   findOneAndUpdate(query, data) {
     return normalizeDBQuery(db.Track.findOneAndUpdate(query, data, {}));
   }
+
+  findOneAndDelete(query) {
+    return normalizeDBQuery(db.Track.findOneAndDelete(query));
+  }
 }
 
 module.exports = new TrackRepository();
