@@ -1,4 +1,4 @@
-import * as likedSong from "./song-type";
+import * as likedSong from "./liked-songs-type";
 
 const initialState = {
   isFetchRequest: false,

@@ -16,7 +16,7 @@ export const fetchLikedSongSuccess = (data) => {
 
 export const fetchLikedSong = () => {
   return async function fetchLikedSongThunk(dispatch) {
-    // dispatch(fetchLikedSongRequest());
+    dispatch(fetchLikedSongRequest());
 
     const token = await auth.getCurrentUserToken();
 
