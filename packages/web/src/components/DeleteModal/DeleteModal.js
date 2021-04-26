@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { func, object } from "prop-types";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
+import {
+  deleteTrack,
+  deleteTrackReset,
+} from "../../redux/trackDelete/trackDelete-actions";
+
+import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
+
 const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
 function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
+  const dispatch = useDispatch();
+  const { isDeletingTrack, trackDeleteSuccess, trackDeleteError } = useSelector(
+    trackDeleteSelector,
+  );
+
   const { _id } = selectedTrack;
 
   const { handleSubmit } = useForm({
@@ -20,8 +32,13 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
   }
 
   function onSubmit() {
-    console.log(_id);
+    dispatch(deleteTrack({ _id: _id }));
   }
+
+  useEffect(() => {
+    dispatch(deleteTrackReset());
+    trackDeleteSuccess && setShowDeleteModal(false);
+  }, [dispatch, trackDeleteSuccess, setShowDeleteModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
@@ -59,6 +76,11 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
               </button>
             </div>
           </div>
+          {isDeletingTrack && <p className="mb-3">Removing song...</p>}
+          {trackDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
+          {trackDeleteError && (
+            <p className="mb-3">An error occured while deleting the song!</p>
+          )}
         </form>
       </div>
     </article>

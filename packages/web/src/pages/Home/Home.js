@@ -11,6 +11,7 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import { fetchSong } from "../../redux/song/song-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
 
 import "./Home.scss";
 
@@ -19,6 +20,7 @@ export default function Home() {
   const { data } = useSelector((state) => state.song.songs);
   const { uploadSongSuccess } = useSelector(uploaderSelector);
   const { trackUpdateSuccess } = useSelector(trackEditorSelector);
+  const { trackDeleteSuccess } = useSelector(trackDeleteSelector);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -29,10 +31,10 @@ export default function Home() {
 
   useEffect(() => {
     uploadSongSuccess && dispatch(fetchSong());
-
     // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
     trackUpdateSuccess && dispatch(fetchSong());
-  }, [dispatch, uploadSongSuccess, trackUpdateSuccess]);
+    trackDeleteSuccess && dispatch(fetchSong());
+  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
 
   return (
     <>
