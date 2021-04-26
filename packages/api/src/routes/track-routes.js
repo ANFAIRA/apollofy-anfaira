@@ -10,6 +10,7 @@ trackRouter.post("/api/tracks", authMiddleware, trackController.createTrack);
 trackRouter.patch("/api/tracks", trackController.updateTrack);
 trackRouter.delete("/api/tracks", trackController.deleteTrack);
 trackRouter.get("/api/me/tracks", authMiddleware, trackController.getMeSongs);
+trackRouter.patch("/tracks/:id/like", authMiddleware, trackController.likeSong);
 
 module.exports = {
   trackRouter: trackRouter,

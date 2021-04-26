@@ -106,7 +106,6 @@ const AuthReducer = (state = AuthInitialState, action) => {
         ...state,
         userIsUpdating: true,
         userUpdateError: null,
-        currentUser: { data: action.payload },
       };
     }
     case AuthTypes.UPDATE_USER_ACCOUNT_SUCCESS: {

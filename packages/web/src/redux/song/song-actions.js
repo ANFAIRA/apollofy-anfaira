@@ -101,3 +101,32 @@ export const fetchMeSong = () => {
     }
   };
 };
+export const likeSongRequest = () => {
+  return { type: songTypes.LIKE_SONG_REQUEST };
+};
+
+export const likeSongError = (message) => {
+  return { type: songTypes.LIKE_SONG_ERROR, payload: message };
+};
+
+export const likeSongSuccess = (data) => {
+  return { type: songTypes.LIKE_SONG_SUCCESS, payload: data };
+};
+
+export const likeSong = (songId, firebaseId) => {
+  return async function likeThunk(dispatch) {
+    dispatch(likeSongRequest());
+    try {
+      const token = await auth.getCurrentUserToken();
+      const data = await api.likeSong(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { songId, firebaseId },
+      );
+      return dispatch(likeSongSuccess(data));
+    } catch (err) {
+      return dispatch(likeSongError(err.message));
+    }
+  };
+};
