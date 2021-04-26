@@ -61,6 +61,7 @@ function makeApi(request = makeRequest()) {
   }
 
   function likeSong(headers, options) {
+    console.log(options);
     return request({
       url: `/tracks/${options.songId}/like`,
       requestMethod: "PATCH",
