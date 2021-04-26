@@ -135,7 +135,7 @@ async function likeSong(req, res, next) {
       firebaseId: firebaseId,
     });
     const indexSong = song.data.likedBy.findIndex(
-      (id) => String(id) === String(user.data._id),
+      (id) => String(id) === String(user.data?._id),
     );
     if (indexSong === -1) {
       song.data.likedBy.push(user.data._id);
