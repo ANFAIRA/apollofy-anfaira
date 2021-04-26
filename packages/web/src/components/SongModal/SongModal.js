@@ -95,7 +95,7 @@ function SongModal({
     }
   };
 
-  const handleUploadSong = (e) => setSongTitle(e.target.files[0].name);
+  // const handleUploadSong = (e) => setSongTitle(e.target.files[0].name);
 
   // TODO: Add dialogue menu with button for removing image
   // function handleRemoveImg() {
@@ -227,7 +227,7 @@ function SongModal({
                       className="form-input hidden"
                       fileType={fileTypes.AUDIO}
                       {...register("song", { required: true })}
-                      onChange={handleUploadSong}
+                      // onChange={handleUploadSong}
                     />
                   </label>
                   {errors.song && <p className="mb-5">Song is required</p>}
@@ -261,7 +261,7 @@ function SongModal({
                       className="form-input hidden"
                       fileType={fileTypes.AUDIO}
                       {...register("song", { required: true })}
-                      onChange={handleUploadSong}
+                      // onChange={handleUploadSong}
                     />
                   </label>
                   {errors.song && <p className="mb-5">Song is required</p>}
