@@ -1,23 +1,37 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { object } from "prop-types";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { func, object } from "prop-types";
+import { playSong } from "../../redux/player/player-actions";
+import SongDialogue from "../SongDialogue";
+import "./SongCard.scss";
+
 import { likeSong } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
 import "./SongCard.scss";
 
 const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
-const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
+// const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({ song }) {
-  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+function SongCard({
+  song,
+  setShowModal,
+  setIsEditModal,
+  selectedSong,
+  setSelectedSong,
+}) {
   const { likedSongs } = useSelector((state) => state.song.currentUser.data);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { firebaseId } = useSelector(
+    (state) => state.auth?.currentUser?.data,
+  );
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
     likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
@@ -30,7 +44,7 @@ function SongCard({ song }) {
   }
 
   return (
-    <div className="my-1 px-1 w-full sm:w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+    <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
       <div className="card">
         <img
           src={
@@ -39,7 +53,7 @@ function SongCard({ song }) {
               : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
           }
           alt="song-img"
-          className="object-contain"
+          className="object-contain w-full"
         />
         <div className="card--icons">
           <button
@@ -51,14 +65,29 @@ function SongCard({ song }) {
           </button>
           <button
             type="button"
+            aria-label="play"
             className="card--icons--icon  card--icons--icon-play"
+            onClick={() => dispatch(playSong(song))}
           >
-            {playCircle}
+            <FontAwesomeIcon icon={farPlayCircle} />
           </button>
-          <button type="button" className="card--icons--icon">
+          <button
+            type="button"
+            className="card--icons--icon"
+            onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
+          >
             {dotsH}
           </button>
         </div>
+        {isMenuOpen && (
+          <SongDialogue
+            setShowModal={setShowModal}
+            setIsEditModal={setIsEditModal}
+            song={song}
+            setSelectedSong={setSelectedSong}
+            selectedSong={selectedSong}
+          />
+        )}
       </div>
       <div className="mt-2">
         <h3 className="text-2xl">{song.title}</h3>
@@ -72,6 +101,10 @@ function SongCard({ song }) {
 
 SongCard.propTypes = {
   song: object.isRequired,
+  setShowModal: func.isRequired,
+  setIsEditModal: func.isRequired,
+  selectedSong: object.isRequired,
+  setSelectedSong: func.isRequired,
 };
 
 export default SongCard;

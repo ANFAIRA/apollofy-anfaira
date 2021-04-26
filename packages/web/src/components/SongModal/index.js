@@ -1,1 +1,3 @@
-export { default } from "./SongModal";
+import SongModal from "./SongModal";
+
+export default SongModal;

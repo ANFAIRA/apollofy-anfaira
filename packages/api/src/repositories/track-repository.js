@@ -2,8 +2,8 @@ const db = require("../models");
 const normalizeDBQuery = require("../utils/normalizeDBQuery");
 
 class TrackRepository {
-  create(options) {
-    return normalizeDBQuery(db.Track.create(options));
+  create(query) {
+    return normalizeDBQuery(db.Track.create(query));
   }
 
   findOne(query) {
@@ -16,9 +16,18 @@ class TrackRepository {
   findByIdAndUpdate(query, data) {
     return normalizeDBQuery(db.Track.findById(query, data, {}));
   }
+  
+  findAll(query) {
+    return normalizeDBQuery(db.Track.find(query));
+  }
 
-  findAll() {
-    return normalizeDBQuery(db.Track.find());
+  findOneAndUpdate(query) {
+    return normalizeDBQuery(db.Track.findOneAndUpdate(query));
+  }
+
+
+  findOneAndUpdate(query, data) {
+    return normalizeDBQuery(db.Track.findOneAndUpdate(query, data, {}));
   }
 
   findOneAndUpdate(query, data) {
