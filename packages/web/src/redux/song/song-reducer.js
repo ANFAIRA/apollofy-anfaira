@@ -8,6 +8,7 @@ const initialState = {
   trackUpdateSuccess: false,
   trackUpadateError: null,
   songs: [],
+  currentUser: {},
   selectedSong: {},
   MySongs: [],
 };
@@ -94,6 +95,28 @@ const songReducer = (state = initialState, action) => {
         isLikeRequest: false,
         isLikeSuccess: true,
         isLikeFail: false,
+      };
+    case song.LIKE_SONG_ERROR:
+      return {
+        ...state,
+        isLikeRequest: true,
+        isLikeSuccess: false,
+        isLikeFail: action.payload,
+      };
+    case song.LIKE_SONG_REQUEST:
+      return {
+        ...state,
+        isLikeRequest: true,
+        isLikeSuccess: false,
+        isLikeFail: false,
+      };
+    case song.LIKE_SONG_SUCCESS:
+      return {
+        ...state,
+        isLikeRequest: false,
+        isLikeSuccess: true,
+        isLikeFail: false,
+        currentUser: action.payload.data,
       };
     case song.LIKE_SONG_ERROR:
       return {
