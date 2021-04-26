@@ -20,7 +20,13 @@ const likeOff = <FontAwesomeIcon icon={farHeart} />;
 // const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({ song, setShowModal, setIsEditModal }) {
+function SongCard({
+  song,
+  setShowModal,
+  setShowDeleteModal,
+  setIsEditModal,
+  setSelectedTrack,
+}) {
   const { likedSongs } = useSelector((state) => state.song.currentUser.data);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
