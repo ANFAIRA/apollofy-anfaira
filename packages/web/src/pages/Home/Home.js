@@ -30,10 +30,11 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    uploadSongSuccess && dispatch(fetchSong());
-    // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
-    trackUpdateSuccess && dispatch(fetchSong());
-    trackDeleteSuccess && dispatch(fetchSong());
+    dispatch(fetchSong());
+    // uploadSongSuccess && dispatch(fetchSong());
+    // // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
+    // trackUpdateSuccess && dispatch(fetchSong());
+    // trackDeleteSuccess && dispatch(fetchSong());
   }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
 
   return (
