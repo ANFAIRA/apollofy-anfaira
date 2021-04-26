@@ -25,7 +25,7 @@ function SongCard({
   setSelectedTrack,
 }) {
   const { likedSongs } = useSelector((state) =>
-    state.song.currentUser.data
+    state.song?.currentUser?.data
       ? state.song.currentUser.data
       : state.auth?.currentUser?.data,
   );
@@ -87,6 +87,7 @@ function SongCard({
             setIsEditModal={setIsEditModal}
             song={song}
             setSelectedTrack={setSelectedTrack}
+            handleLikeBtn={handleLikeBtn}
           />
         )}
       </div>

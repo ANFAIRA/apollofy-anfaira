@@ -8,6 +8,7 @@ function SongDialogue({
   setIsEditModal,
   song,
   setSelectedTrack,
+  handleLikeBtn,
 }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { authorId } = song;
@@ -30,6 +31,7 @@ function SongDialogue({
       <button
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+        onClick={handleLikeBtn}
       >
         Like
       </button>
@@ -67,6 +69,7 @@ SongDialogue.propTypes = {
   setIsEditModal: func.isRequired,
   song: object.isRequired,
   setSelectedTrack: func.isRequired,
+  handleLikeBtn: func.isRequired,
 };
 
 export default SongDialogue;
