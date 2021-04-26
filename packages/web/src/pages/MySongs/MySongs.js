@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
-import { fetchMeSong } from "../../redux/song/song-actions";
+import { fetchMySong } from "../../redux/mySong/mySong-actions";
 
 function MySongs() {
-  const { data } = useSelector((state) => state?.song?.MySongs);
+  const { data } = useSelector((state) => state?.mySong?.mySongs);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMeSong());
+    dispatch(fetchMySong());
   }, [dispatch]);
 
   return (
