@@ -79,6 +79,10 @@ const songReducer = (state = initialState, action) => {
         isLikeSuccess: false,
         isLikeFail: action.payload,
       };
+    case song.RESET_STATE:
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

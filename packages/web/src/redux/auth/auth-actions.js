@@ -1,6 +1,7 @@
 import api from "../../api";
 import * as auth from "../../services/auth";
 import * as AuthTypes from "./auth-types";
+import * as song from "../song/song-actions";
 
 export const resetStoreAndLogOut = () => ({
   type: AuthTypes.RESET_STORE_AND_LOG_OUT,
@@ -89,7 +90,7 @@ export const signOutRequest = () => ({
 export function signOut() {
   return async function signOutThunk(dispatch) {
     dispatch(signOutRequest());
-
+    dispatch(song.resetState());
     const token = await auth.getCurrentUserToken();
 
     if (!token) {
