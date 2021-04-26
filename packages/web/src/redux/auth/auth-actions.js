@@ -159,7 +159,6 @@ export function updateUserAccount(userData) {
         },
         userData,
       );
-      console.log(response);
       return updateUserAccountSuccess(response);
     } catch (error) {
       dispatch(updateUserAccountError(error.message));

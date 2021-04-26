@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   faHeart as farHeart,
@@ -12,8 +12,6 @@ import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
 import { likeSong } from "../../redux/song/song-actions";
-import { songSelector } from "../../redux/song/song-selector";
-import "./SongCard.scss";
 
 const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
