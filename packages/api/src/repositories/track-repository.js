@@ -16,18 +16,9 @@ class TrackRepository {
   findByIdAndUpdate(query, data) {
     return normalizeDBQuery(db.Track.findById(query, data, {}));
   }
-  
+
   findAll(query) {
     return normalizeDBQuery(db.Track.find(query));
-  }
-
-  findOneAndUpdate(query) {
-    return normalizeDBQuery(db.Track.findOneAndUpdate(query));
-  }
-
-
-  findOneAndUpdate(query, data) {
-    return normalizeDBQuery(db.Track.findOneAndUpdate(query, data, {}));
   }
 
   findOneAndUpdate(query, data) {
