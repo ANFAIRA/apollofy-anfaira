@@ -113,7 +113,9 @@ export const likeSongError = (message) => {
 export const likeSongSuccess = (data) => {
   return { type: songTypes.LIKE_SONG_SUCCESS, payload: data };
 };
-
+export const resetState = () => {
+  return { type: songTypes.RESET_STATE };
+};
 export const likeSong = (songId, firebaseId) => {
   return async function likeThunk(dispatch) {
     dispatch(likeSongRequest());
