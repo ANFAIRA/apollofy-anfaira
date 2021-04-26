@@ -18,6 +18,7 @@ const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 function SongCard({ song }) {
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
   const { likedSongs } = useSelector((state) => state.song.currentUser.data);
+  console.log(likedSongs);
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
     likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
