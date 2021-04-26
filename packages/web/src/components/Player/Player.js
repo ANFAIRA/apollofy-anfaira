@@ -24,8 +24,6 @@ const Player = ({ tracks }) => {
   const totalTime = calcRemainingTime(duration, audioRef.current.currentTime);
 
   const { currentUser } = useSelector((state) => state.auth);
-  console.log(likedBy);
-  console.log(currentUser.data._id);
   const [isFavorite, setIsFavorite] = useState(
     likedBy?.findIndex((id) => String(id) === String(currentUser.data._id)) !==
       -1 && true,
@@ -34,7 +32,7 @@ const Player = ({ tracks }) => {
 
   function handleLikeBtn() {
     setIsFavorite(!isFavorite);
-    dispatch(likeSong(_id, currentUser.firebaseId));
+    dispatch(likeSong(_id, currentUser.data.firebaseId));
   }
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
