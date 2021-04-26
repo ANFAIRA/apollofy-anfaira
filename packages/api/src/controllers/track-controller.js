@@ -214,23 +214,24 @@ async function deleteTrack(req, res, next) {
 
 async function getLikedSongs(req, res, next) {
   const { uid } = req.user;
-
   try {
     const user = await UserRepo.findOne({
       firebaseId: uid,
     });
-    logger.debug(user);
-    if (user.error) {
+
+    const { data } = await TrackRepo.findLikedByUser({ _id: user.data._id });
+    logger.debug(data);
+    if (data.error) {
       return res.status(404).send({
-        user: null,
-        error: user.error,
+        data: null,
+        error: data.error,
       });
     }
 
-    if (user) {
-      return res.status(200).send(user);
+    if (data) {
+      return res.status(200).send(data);
     }
-  } catch (eror) {
+  } catch (error) {
     next(error);
   }
 }

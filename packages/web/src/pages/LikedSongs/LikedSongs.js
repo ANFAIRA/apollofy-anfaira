@@ -5,7 +5,7 @@ import Main from "../../layout/Main";
 import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
 
 function LikedSongs() {
-  const { data } = useSelector((state) => state?.song?.LikedSongs);
+  // const { data } = useSelector((state) => state?.song?.LikedSongs);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,9 +17,9 @@ function LikedSongs() {
       <h1 className="text-5xl font-bold mb-4">Liked songs</h1>
       <div className="container my-12 mx-auto px-4 md:px-12">
         <div className="flex flex-wrap -mx-1 lg:-mx-4">
-          {data?.map((song) => (
+          {/* {data?.map((song) => (
             <SongCard key={song._id} song={song} />
-          ))}
+          ))} */}
         </div>
       </div>
     </Main>
