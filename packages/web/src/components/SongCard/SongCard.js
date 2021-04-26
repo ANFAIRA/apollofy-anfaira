@@ -26,7 +26,7 @@ function SongCard({
 }) {
   const { likedSongs } = useSelector((state) =>
     state.song.currentUser.data
-      ? state.song.currentUser.data
+      ? state.song?.currentUser?.data
       : state.auth?.currentUser?.data,
   );
 
