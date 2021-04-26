@@ -12,12 +12,13 @@ const Player = ({ tracks }) => {
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const { artist, title, url, thumbnail, duration } = tracks[trackIndex] || "";
+  const { artist, title, url, thumbnail } = tracks[trackIndex] || "";
 
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
 
+  const { duration } = audioRef.current;
   const currentTime = formatTime(audioRef.current.currentTime);
   const totalTime = calcRemainingTime(duration, audioRef.current.currentTime);
 
@@ -78,14 +79,6 @@ const Player = ({ tracks }) => {
       audioRef.current.pause();
     }
   }, [isPlaying]);
-
-  useEffect(() => {
-    // Pause and clean up on unmount
-    return () => {
-      audioRef.current.pause();
-      clearInterval(intervalRef.current);
-    };
-  }, []);
 
   useEffect(() => {
     // Handle setup when changing tracks
