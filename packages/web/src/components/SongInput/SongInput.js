@@ -37,7 +37,7 @@ const SongInput = ({
 
 SongInput.propTypes = {
   onChange: func.isRequired,
-  placeholder: object.isRequired,
+  placeholder: string.isRequired,
   defaultValue: string,
   register: func.isRequired,
   validation: object.isRequired,

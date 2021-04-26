@@ -25,13 +25,13 @@ function SongCard({
   setSelectedTrack,
 }) {
   const { likedSongs } = useSelector((state) =>
-    state.song.currentUser.data
-      ? state.song?.currentUser?.data
+    state.song?.currentUser?.data
+      ? state.song.currentUser.data
       : state.auth?.currentUser?.data,
   );
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+  const firebaseId = useSelector((state) => state.auth?.currentUser?.data);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
