@@ -21,8 +21,8 @@ class TrackRepository {
     return normalizeDBQuery(db.Track.find(query));
   }
 
-  findOneAndUpdate(query) {
-    return normalizeDBQuery(db.Track.findOneAndUpdate(query));
+  findOneAndUpdate(query, data) {
+    return normalizeDBQuery(db.Track.findOneAndUpdate(query, data, {}));
   }
 
 

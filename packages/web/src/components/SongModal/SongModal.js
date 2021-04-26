@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { bool, func, object } from "prop-types";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { bool, func, object } from "prop-types";
-import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,8 +10,12 @@ import {
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
 
-import { editSong } from "../../redux/song/song-actions";
+import {
+  updateSong,
+  updateTrackReset,
+} from "../../redux/trackEditor/trackEditor-actions";
 
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
@@ -22,23 +26,24 @@ function SongModal({
   setShowModal,
   isEditModal,
   setIsEditModal,
-  selectedSong,
-  setSelectedSong,
+  selectedTrack,
+  setSelectedTrack,
 }) {
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
   );
+  const { isUpdatingTrack, trackUpdateSuccess, trackUpdateError } = useSelector(
+    trackEditorSelector,
+  );
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
-    ? selectedSong
+    ? selectedTrack
     : "";
 
-  // console.log(`selectedSong from songModal: ${_id}`);
-
   const modal = isEditModal
-    ? { title: "Edit song information", type: "edit" }
-    : { title: "Upload a song", type: "upload" };
+    ? { title: "Edit song information", type: "edit", button: "Update" }
+    : { title: "Upload a song", type: "upload", button: "Upload" };
 
   const {
     register,
@@ -52,6 +57,7 @@ function SongModal({
 
   const [image, setImage] = useState();
   const [src, setSrc] = useState();
+  const [songTitle, setSongTitle] = useState();
 
   function onSubmit(data) {
     !isEditModal
@@ -65,22 +71,14 @@ function SongModal({
           }),
         )
       : dispatch(
-          editSong({
-            thumbnail: data.thumbnail,
+          updateSong({
+            thumbnail: image,
             title: data.title,
             genre: data.genre,
             artist: data.artist,
-            id: data._id,
+            _id: data._id,
           }),
         );
-
-    console.log({
-      thumbnail: data.thumbnail,
-      title: data.title,
-      genre: data.genre,
-      artist: data.artist,
-      id: data._id,
-    });
   }
 
   const handleImg = (e) => {
@@ -96,19 +94,25 @@ function SongModal({
     }
   };
 
-  function handleChangeImg() {
-    setSrc(null);
-  }
+  const handleUploadSong = (e) => setSongTitle(e.target.files[0].name);
+
+  // TODO: Add dialogue menu with button for removing image
+  // function handleRemoveImg() {
+  //   setSrc(null);
+  // }
+
   function handleCloseBtn() {
     setShowModal(false);
     setIsEditModal(false);
-    // setSelectedSong({});
+    setSelectedTrack(null);
   }
 
   useEffect(() => {
     dispatch(uploadSongReset());
+    dispatch(updateTrackReset());
     uploadSongSuccess && setShowModal(false);
-  }, [dispatch, uploadSongSuccess, setShowModal]);
+    trackUpdateSuccess && setShowModal(false);
+  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, setShowModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
@@ -127,35 +131,52 @@ function SongModal({
           className="flex flex-col px-10 sm:px-20 py-10"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex ">
+          <div className="flex">
             {isEditModal && (
-              <div className="mr-2 h-full md:w-60 w-full">
-                <img
-                  src={thumbnail}
-                  alt="thumbnail"
-                  className="md:w-40 md:h-40"
-                />
-                <button
-                  type="button"
-                  onClick={handleChangeImg}
-                  className="mt-2 mb-5"
-                >
-                  Change image
-                </button>
+              <div className="mr-2 h-full md:w-60 w-full mb-5">
+                <label htmlFor="photo" className="mt-2 mb-5">
+                  {src ? (
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  ) : (
+                    <img
+                      src={thumbnail}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  )}
+
+                  <input
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    id="photo"
+                    className="hidden"
+                    onChange={handleImg}
+                  />
+                </label>
               </div>
             )}
 
             {!isEditModal &&
               (src ? (
                 <div className="mr-2 h-full md:w-60 w-full">
-                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
-                  <button
-                    type="button"
-                    onClick={handleChangeImg}
-                    className="mt-2 mb-5"
-                  >
-                    Change image
-                  </button>
+                  <label htmlFor="photo" className="mt-2 mb-5 cursor-pointer">
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                    <input
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      id="photo"
+                      className="hidden"
+                      onChange={handleImg}
+                    />
+                  </label>
                 </div>
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-grey-lighter mb-5 mr-2">
@@ -189,47 +210,70 @@ function SongModal({
                 </div>
               ))}
 
-            {!isEditModal && (
-              <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
-                <label
-                  htmlFor="song"
-                  className={
-                    errors.song
-                      ? "w-full sm:h-40  flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                      : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
-                  }
-                >
-                  <svg
-                    className="w-8 h-8"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
+            {!isEditModal &&
+              (songTitle ? (
+                <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
+                  <label
+                    htmlFor="song"
+                    className="w-full h-full sm:h-40 flex flex-col items-center justify-center font-semibold px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                   >
-                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                  </svg>
-                  <span className="mt-2 text-base leading-normal">
-                    Select a song
-                  </span>
-                  <input
-                    id="song"
-                    name="song"
-                    type="file"
-                    placeholder="song"
-                    className="form-input hidden"
-                    fileType={fileTypes.AUDIO}
-                    // onChange={(files) => {
-                    //   handleSetSong(files[0]);
-                    // }}
-                    {...register("song", { required: true })}
-                  />
-                </label>
-                {errors.song && <p className="mb-5">Song is required</p>}
-              </div>
-            )}
+                    {songTitle}
+                    <input
+                      id="song"
+                      name="song"
+                      type="file"
+                      placeholder="song"
+                      className="form-input hidden"
+                      fileType={fileTypes.AUDIO}
+                      {...register("song", { required: true })}
+                      onChange={handleUploadSong}
+                    />
+                  </label>
+                  {errors.song && <p className="mb-5">Song is required</p>}
+                </div>
+              ) : (
+                <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
+                  <label
+                    htmlFor="song"
+                    className={
+                      errors.song
+                        ? "w-full sm:h-40  flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                    }
+                  >
+                    <svg
+                      className="w-8 h-8"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span className="mt-2 text-base leading-normal">
+                      Select a song
+                    </span>
+                    <input
+                      id="song"
+                      name="song"
+                      type="file"
+                      placeholder="song"
+                      className="form-input hidden"
+                      fileType={fileTypes.AUDIO}
+                      {...register("song", { required: true })}
+                      onChange={handleUploadSong}
+                    />
+                  </label>
+                  {errors.song && <p className="mb-5">Song is required</p>}
+                </div>
+              ))}
           </div>
           {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
           {uploadSongError && <p className="mb-3">Upload error!</p>}
+          {isUpdatingTrack && <p className="mb-3">Updating song...</p>}
+          {trackUpdateSuccess && <p className="mb-3">Update successful!</p>}
+          {trackUpdateError && <p className="mb-3">Update error!</p>}
+
           <Input
             name="title"
             type="text"
@@ -276,7 +320,7 @@ function SongModal({
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
             type="submit"
           >
-            Upload
+            {modal.button}
           </button>
         </form>
       </div>
@@ -288,8 +332,8 @@ SongModal.propTypes = {
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
   isEditModal: bool.isRequired,
-  selectedSong: object.isRequired,
-  setSelectedSong: func.isRequired,
+  selectedTrack: object.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 export default SongModal;

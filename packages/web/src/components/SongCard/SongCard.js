@@ -20,6 +20,7 @@ const likeOff = <FontAwesomeIcon icon={farHeart} />;
 // const playCircle = <FontAwesomeIcon icon={farPlayCircle} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
+
 function SongCard({
   song,
   setShowModal,
@@ -28,6 +29,7 @@ function SongCard({
   setSelectedSong,
 }) {
   const { likedSongs } = useSelector((state) => state.song.currentUser.data);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector(
     (state) => state.auth?.currentUser?.data,
@@ -84,8 +86,7 @@ function SongCard({
             setShowModal={setShowModal}
             setIsEditModal={setIsEditModal}
             song={song}
-            setSelectedSong={setSelectedSong}
-            selectedSong={selectedSong}
+            setSelectedTrack={setSelectedTrack}
           />
         )}
       </div>
@@ -103,8 +104,7 @@ SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
-  selectedSong: object.isRequired,
-  setSelectedSong: func.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 export default SongCard;
