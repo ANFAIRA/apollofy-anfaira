@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
@@ -7,11 +5,12 @@ import {
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { func, object } from "prop-types";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { playSong } from "../../redux/player/player-actions";
+import { likeSong } from "../../redux/song/song-actions";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
-
-import { likeSong } from "../../redux/song/song-actions";
 
 const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
@@ -99,10 +98,17 @@ function SongCard({
 
 SongCard.propTypes = {
   song: object.isRequired,
-  setShowModal: func.isRequired,
-  setShowDeleteModal: func.isRequired,
-  setIsEditModal: func.isRequired,
-  setSelectedTrack: func.isRequired,
+  setShowModal: func,
+  setShowDeleteModal: func,
+  setIsEditModal: func,
+  setSelectedTrack: func,
+};
+
+SongCard.defaultProps = {
+  setShowModal: "",
+  setShowDeleteModal: "",
+  setIsEditModal: "",
+  setSelectedTrack: "",
 };
 
 export default SongCard;

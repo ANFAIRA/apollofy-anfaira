@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { bool, func, object } from "prop-types";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { bool, func, object } from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  uploadSong,
-  uploadSongReset,
-} from "../../redux/uploader/uploader-actions";
-
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
-
 import {
   updateSong,
   updateTrackReset,
 } from "../../redux/trackEditor/trackEditor-actions";
-
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+import {
+  uploadSong,
+  uploadSongReset,
+} from "../../redux/uploader/uploader-actions";
+import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { fileTypes } from "../../services/cloudinary";
 import Input from "../Input";
 
@@ -225,7 +221,7 @@ function SongModal({
                       type="file"
                       placeholder="song"
                       className="form-input hidden"
-                      fileType={fileTypes.AUDIO}
+                      filetype={fileTypes.AUDIO}
                       {...register("song", { required: true })}
                       // onChange={handleUploadSong}
                     />
@@ -259,7 +255,7 @@ function SongModal({
                       type="file"
                       placeholder="song"
                       className="form-input hidden"
-                      fileType={fileTypes.AUDIO}
+                      filetype={fileTypes.AUDIO}
                       {...register("song", { required: true })}
                       // onChange={handleUploadSong}
                     />
