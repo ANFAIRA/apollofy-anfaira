@@ -9,7 +9,7 @@ const Main = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
   const [isEditModal, setIsEditModal] = useState(false);
-  
+
   return (
     <>
       {showModal && (

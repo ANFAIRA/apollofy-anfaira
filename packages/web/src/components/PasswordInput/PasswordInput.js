@@ -18,7 +18,7 @@ const PasswordInput = ({
   errors,
 }) => {
   const [passwordShown, setPasswordShown] = useState(false);
-  const togglePasswordVisiblity = () => {
+  const togglePasswordVisibility = () => {
     setPasswordShown(!passwordShown);
   };
   return (
@@ -34,7 +34,7 @@ const PasswordInput = ({
           {...register(name, validation)}
           validation={validation}
         />
-        <button onClick={togglePasswordVisiblity} type="button">
+        <button onClick={togglePasswordVisibility} type="button">
           <i>{passwordShown ? slash : eye}</i>
         </button>
       </div>

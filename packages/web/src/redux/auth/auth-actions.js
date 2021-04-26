@@ -17,8 +17,7 @@ export const signUpError = (message) => ({
 });
 
 export function signUpWithGoogleRequest() {
-  return async function signUpThunk(dispatch, getState) {
-    const currentUser = getState().auth.currentUser;
+  return async function signUpThunk(dispatch) {
     dispatch(signUpRequest());
     try {
       await auth.singInWithGoogle();

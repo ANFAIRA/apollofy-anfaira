@@ -23,9 +23,6 @@ export default function Home() {
     uploadSongSuccess ? dispatch(fetchSong()) : dispatch(fetchSong());
   }, [dispatch, uploadSongSuccess]);
 
-  // console.log(`isEditModal from Home: ${isEditModal}`);
-  // console.log(`selectedSong from Home: ${selectedSong.title}`);
-
   return (
     <>
       {showModal && (
@@ -39,7 +36,7 @@ export default function Home() {
         </section>
       )}
       <Main>
-        <h1 className="text-xl mb-4">Hello {currentUser.data.username}</h1>
+        <h1 className="text-xl mb-4">Hello {currentUser?.data?.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
           <div className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
             {data?.map((song) => (
