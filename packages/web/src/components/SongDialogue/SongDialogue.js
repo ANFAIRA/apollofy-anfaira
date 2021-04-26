@@ -1,17 +1,28 @@
 import React from "react";
 import { func, object } from "prop-types";
+import { useSelector } from "react-redux";
 
 function SongDialogue({
   setShowModal,
+  setShowDeleteModal,
   setIsEditModal,
   song,
-  setSelectedSong,
-  selectedSong,
+  setSelectedTrack,
 }) {
+  const { _id } = useSelector((state) => state.auth.currentUser.data);
+  const { authorId } = song;
+
+  const isMySong = _id === authorId;
+
   function handleEditClick() {
     setShowModal(true);
     setIsEditModal(true);
-    setSelectedSong(song);
+    setSelectedTrack(song);
+  }
+
+  function handleDeleteClick() {
+    setShowDeleteModal(true);
+    setSelectedTrack(song);
   }
 
   return (
@@ -24,14 +35,25 @@ function SongDialogue({
       </button>
       <button
         type="button"
-        className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+        className={
+          isMySong
+            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+            : "px-5 py-1 text-gray-500 text-left focus:outline-none"
+        }
         onClick={handleEditClick}
+        disabled={!isMySong}
       >
         Edit
       </button>
       <button
         type="button"
-        className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+        className={
+          isMySong
+            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+            : "px-5 py-1 text-gray-500 text-left focus:outline-none"
+        }
+        onClick={handleDeleteClick}
+        disabled={!isMySong}
       >
         Delete
       </button>
@@ -41,10 +63,10 @@ function SongDialogue({
 
 SongDialogue.propTypes = {
   setShowModal: func.isRequired,
+  setShowDeleteModal: func.isRequired,
   setIsEditModal: func.isRequired,
   song: object.isRequired,
-  setSelectedSong: func.isRequired,
-  selectedSong: object.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 export default SongDialogue;

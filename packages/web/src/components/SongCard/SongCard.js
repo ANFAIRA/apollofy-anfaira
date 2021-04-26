@@ -16,9 +16,9 @@ const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 function SongCard({
   song,
   setShowModal,
+  setShowDeleteModal,
   setIsEditModal,
-  selectedSong,
-  setSelectedSong,
+  setSelectedTrack,
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
@@ -63,10 +63,10 @@ function SongCard({
         {isMenuOpen && (
           <SongDialogue
             setShowModal={setShowModal}
+            setShowDeleteModal={setShowDeleteModal}
             setIsEditModal={setIsEditModal}
             song={song}
-            setSelectedSong={setSelectedSong}
-            selectedSong={selectedSong}
+            setSelectedTrack={setSelectedTrack}
           />
         )}
       </div>
@@ -84,8 +84,9 @@ SongCard.propTypes = {
   song: object.isRequired,
   setShowModal: func.isRequired,
   setIsEditModal: func,
-  selectedSong: bool.isRequired,
-  setSelectedSong: func.isRequired,
+  setShowDeleteModal: func.isRequired,
+  setIsEditModal: func.isRequired,
+  setSelectedTrack: func.isRequired,
 };
 
 SongCard.defaultProps = {
