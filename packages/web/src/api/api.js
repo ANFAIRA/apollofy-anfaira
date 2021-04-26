@@ -86,12 +86,12 @@ function makeApi(request = makeRequest()) {
     });
   }
   function getLikedSongs(headers, options) {
-    return {
+    return request({
       url: "/api/me/tracks/liked",
       requestMethod: "GET",
       headers: headers,
       body: options,
-    };
+    });
   }
 
   return {

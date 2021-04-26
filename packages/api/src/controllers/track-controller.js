@@ -219,8 +219,9 @@ async function getLikedSongs(req, res, next) {
       firebaseId: uid,
     });
 
-    const { data } = await TrackRepo.findLikedByUser({ _id: user.data._id });
-    logger.debug(data);
+    const songIdArray = user.data.likedSongs;
+    const { data } = await TrackRepo.findAll({ _id: { $in: songIdArray } });
+
     if (data.error) {
       return res.status(404).send({
         data: null,
