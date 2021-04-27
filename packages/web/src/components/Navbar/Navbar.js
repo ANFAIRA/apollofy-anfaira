@@ -1,3 +1,8 @@
+import {
+  faCloudUploadAlt,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func } from "prop-types";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +14,17 @@ import Avatar from "../Avatar";
 import SearchBar from "../SearchBar";
 import UploadButton from "../UploadButton";
 
-export default function Navbar({ showModal, setShowModal }) {
+const addSong = <FontAwesomeIcon title="Upload song" icon={faCloudUploadAlt} />;
+const addPlaylist = (
+  <FontAwesomeIcon title="Create playlist" icon={faPlusCircle} />
+);
+
+export default function Navbar({
+  showModal,
+  setShowModal,
+  showPlaylistModal,
+  setShowPlaylistModal,
+}) {
   const dispatch = useDispatch();
 
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -77,13 +92,10 @@ export default function Navbar({ showModal, setShowModal }) {
               </div>
               <div className="hidden sm:inline-block">
                 <UploadButton
-                  showModal={showModal}
-                  setShowModal={setShowModal}
+                  setShowModal={setShowPlaylistModal}
+                  icon={addPlaylist}
                 />
-                <UploadButton
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                />
+                <UploadButton setShowModal={setShowModal} icon={addSong} />
               </div>
             </div>
             {/* AVATAR */}
@@ -173,8 +185,8 @@ export default function Navbar({ showModal, setShowModal }) {
           <div className="sm:hidden" id="mobile-menu">
             <div className="px-4">
               <UploadButton
-                showModal={showModal}
-                setShowModal={setShowModal}
+                showPlaylistModal={showPlaylistModal}
+                setShowPlaylistModal={setShowPlaylistModal}
                 text=" Upload a file"
               />
             </div>
@@ -200,4 +212,6 @@ export default function Navbar({ showModal, setShowModal }) {
 Navbar.propTypes = {
   showModal: bool.isRequired,
   setShowModal: func.isRequired,
+  showPlaylistModal: bool.isRequired,
+  setShowPlaylistModal: func.isRequired,
 };

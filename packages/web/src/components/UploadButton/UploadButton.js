@@ -1,11 +1,7 @@
-import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func, string } from "prop-types";
 import React from "react";
 
-const addSong = <FontAwesomeIcon title="Upload song" icon={faCloudUploadAlt} />;
-
-function UploadButton({ showModal, setShowModal, text }) {
+function UploadButton({ setShowModal, text, icon }) {
   function handleClick() {
     setShowModal(true);
   }
@@ -16,15 +12,15 @@ function UploadButton({ showModal, setShowModal, text }) {
       className="focus:outline-none openModal p-2"
       onClick={handleClick}
     >
-      {addSong}
+      {icon}
       {text}
     </button>
   );
 }
 
 UploadButton.propTypes = {
-  showModal: bool.isRequired,
   setShowModal: func.isRequired,
+  icon: string.isRequired,
   text: string,
 };
 
