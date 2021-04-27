@@ -173,7 +173,6 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
               name="publicAccessible"
               value="true"
               type="checkbox"
-              inputClass="form-input"
               onChange={(e) => setValue("publicAccessible", e.target.value)}
               // validation={{
               //   required: { value: true, message: "Artist is required!" },
@@ -183,9 +182,14 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
             />
           </div>
           <label htmlFor="description">Description</label>
-          <textarea
+
+          <Input
             name="description"
+            type="text"
+            placeholder="descrtion"
+            inputClass="form-input"
             onChange={(e) => setValue("description", e.target.value)}
+            register={register}
           />
           <button
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"

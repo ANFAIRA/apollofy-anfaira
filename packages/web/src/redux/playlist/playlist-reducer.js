@@ -47,6 +47,50 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         playlistCreationError: null,
       };
     }
+    case PlaylistType.FETCH_PLAYLISTS_REQUEST: {
+      return {
+        ...state,
+        playlistsLoading: true,
+        playlistsLoadingError: null,
+      };
+    }
+    case PlaylistType.FETCH_PLAYLISTS_ERROR: {
+      return {
+        ...state,
+        playlistsLoading: false,
+        playlistsLoadingError: action.payload,
+      };
+    }
+    // case PlaylistType.FETCH_PLAYLISTS_SUCCESS: {
+    //   return {
+    //     ...state,
+    //     playlistsLoading: false,
+    //     playlistsLoadingError: null,
+    //     playlistsFetched: action.payload,
+    //   };
+    // }
+    case PlaylistType.FETCH_PLAYLISTS_SUCCESS: {
+      const actionType = action.payload.type;
+      const newIds = { ...state.playlistIds };
+      newIds[actionType] = [...action.payload.playlistIds];
+
+      return {
+        ...state,
+        playlistsLoading: false,
+        playlistsLoadingError: null,
+        playlistsFetched: true,
+        playlistByID: {
+          ...state.playlistByID,
+          ...action.payload.playlistByID,
+        },
+        trackByID: {
+          ...state.trackByID,
+          ...action.payload.trackByID,
+        },
+        playlistIds: newIds,
+      };
+    }
+
     default: {
       return { ...state };
     }

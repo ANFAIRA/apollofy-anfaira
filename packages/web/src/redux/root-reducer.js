@@ -7,7 +7,7 @@ import trackEditorReducer from "./trackEditor/trackEditor-reducer";
 import trackDeleteReducer from "./trackDelete/trackDelete-reducer";
 import likedSongReducer from "./liked-songs/liked-songs-reducer";
 import mySongReducer from "./mySong/mySong-reducer";
-import PlaylistReducer from "./playlist/playlist-reducer";
+import playlistReducer from "./playlist/playlist-reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   trackDelete: trackDeleteReducer,
   likedSong: likedSongReducer,
   mySong: mySongReducer,
-  PlaylistReducer: PlaylistReducer,
+  playlists: playlistReducer,
 });
 
 export default rootReducer;

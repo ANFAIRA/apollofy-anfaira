@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import SongCard from "../../components/SongCard";
+import PlaylistCard from "../../components/PlayListCard";
 import SongModal from "../../components/SongModal";
 import DeleteModal from "../../components/DeleteModal";
 
@@ -13,6 +14,8 @@ import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
 import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
 
+import { fetchAllPlaylists } from "../../redux/playlist/playlist-actions";
+
 import "./Home.scss";
 
 export default function Home() {
@@ -21,6 +24,8 @@ export default function Home() {
   const { uploadSongSuccess } = useSelector(uploaderSelector);
   const { trackUpdateSuccess } = useSelector(trackEditorSelector);
   const { trackDeleteSuccess } = useSelector(trackDeleteSelector);
+  const { ALL } = useSelector((state) => state.playlists.playlistIds);
+  const { playlistByID } = useSelector((state) => state.playlists);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -28,9 +33,12 @@ export default function Home() {
   const [selectedTrack, setSelectedTrack] = useState(null);
 
   const dispatch = useDispatch();
+  // console.log(ALL);
+  // console.log(playlistByID["6088140471604a5d4c193930"].title);
 
   useEffect(() => {
     dispatch(fetchSong());
+    dispatch(fetchAllPlaylists());
     // uploadSongSuccess && dispatch(fetchSong());
     // // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
     // trackUpdateSuccess && dispatch(fetchSong());
@@ -71,6 +79,18 @@ export default function Home() {
                 setShowDeleteModal={setShowDeleteModal}
                 setIsEditModal={setIsEditModal}
                 setSelectedTrack={setSelectedTrack}
+              />
+            ))}
+            {ALL?.map((playlist) => (
+              <PlaylistCard
+                key={playlistByID[playlist]._id}
+                playlist={playlistByID[playlist]}
+                // title={playlistByID[playlist].title}
+                // description={playlistByID[playlist].description}
+                // setShowModal={setShowModal}
+                // setShowDeleteModal={setShowDeleteModal}
+                // setIsEditModal={setIsEditModal}
+                // setSelectedTrack={setSelectedTrack}
               />
             ))}
           </div>
