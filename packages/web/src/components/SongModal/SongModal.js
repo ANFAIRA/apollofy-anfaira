@@ -15,8 +15,6 @@ import {
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 
-// import { fileTypes } from "../../services/cloudinary";
-
 import Input from "../Input";
 import SongInput from "../SongInput";
 
