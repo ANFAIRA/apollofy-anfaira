@@ -10,3 +10,7 @@ export const calcRemainingTime = (duration, currentTime) => {
   const remainingTime = duration - currentTime;
   return formatTime(remainingTime);
 };
+
+export const urlWithQuery = (url, key, value) => {
+  return `${url}?${key}=${value}`;
+};

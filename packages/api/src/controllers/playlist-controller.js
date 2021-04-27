@@ -1,24 +1,23 @@
-const { PlaylistRepo, UserRepo } = require("../repositories");
+const { PlaylistRepo, UserRepo, TrackRepo } = require("../repositories");
 
 async function createPlaylist(req, res, next) {
-  console.log(req.user);
   const {
-    body: { title, type, publicAccessible, tracks },
+    body: { title, type, publicAccessible, tracks, description, thumbnail },
     user: { uid },
   } = req;
 
   try {
     const user = await UserRepo.findOne({ firebaseId: uid });
-    console.log(user);
     const dbResponse = await PlaylistRepo.create({
       title: title,
       type: type,
       author: user.data._id,
-      publicAccessible: publicAccessible,
+      publicAccessible: publicAccessible ? publicAccessible : false,
       tracks: tracks ? tracks : [],
+      description: description,
+      thumbnail: thumbnail,
     });
 
-    console.log(dbResponse);
     if (dbResponse.error) {
       res.status(400).send({
         data: null,
@@ -37,6 +36,56 @@ async function createPlaylist(req, res, next) {
   }
 }
 
+async function addFullTracksInfo(playlist) {
+  const newTracks = await Promise.all(
+    playlist.tracks.map(async (trackId) => {
+      const trackResponse = await TrackRepo.findById(trackId);
+      if (trackResponse.data) {
+        return trackResponse.data;
+      }
+      return { _id: trackId };
+    }),
+  );
+  playlist.tracks = newTracks;
+  return playlist;
+}
+
+async function fetchPlaylists(req, res, next) {
+  console.log();
+  const {
+    query: { fullFetch },
+  } = req;
+
+  try {
+    let dbResponse = await PlaylistRepo.find();
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      if (fullFetch) {
+        dbResponse.data = await Promise.all(
+          dbResponse.data.map(async (p) => {
+            const newPlaylist = await addFullTracksInfo(p);
+            return newPlaylist;
+          }),
+        );
+      }
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createPlaylist: createPlaylist,
+  fetchPlaylists: fetchPlaylists,
 };
