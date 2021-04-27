@@ -10,7 +10,7 @@ function MySongs() {
 
   useEffect(() => {
     dispatch(fetchMySong());
-  }, [dispatch]);
+  }, [dispatch, fetchMySong]);
 
   return (
     <Main>
