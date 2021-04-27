@@ -15,7 +15,6 @@ const mySongReducer = (state = initialState, action) => {
         isFetchingMySong: true,
         mySongFetchSuccess: false,
         mySongFetchError: false,
-        mySongs: [],
       };
     case mySong.FETCH_MY_SONG_SUCCESS:
       return {
@@ -31,7 +30,6 @@ const mySongReducer = (state = initialState, action) => {
         isFetchingMySong: false,
         mySongFetchSuccess: false,
         mySongFetchError: action.payload,
-        mySongs: [],
       };
     case mySong.FETCH_MY_SONG_RESET:
       return {
@@ -39,7 +37,6 @@ const mySongReducer = (state = initialState, action) => {
         isFetchingMySong: false,
         mySongFetchSuccess: false,
         mySongFetchError: null,
-        mySongs: [],
       };
     default:
       return state;

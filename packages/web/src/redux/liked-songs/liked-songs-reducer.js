@@ -15,7 +15,6 @@ const likedSongReducer = (state = initialState, action) => {
         isFetchRequest: true,
         isFetchSuccess: false,
         isFetchFail: false,
-        likedSongs: [],
       };
     case likedSong.FETCH_LIKED_SONG_SUCCESS:
       return {
