@@ -129,11 +129,13 @@ async function getMeSongs(req, res, next) {
 async function likeSong(req, res, next) {
   const { id } = req.params;
   const { firebaseId } = req.body;
+  console.log(firebaseId);
   try {
     const song = await TrackRepo.findById(id);
     const user = await UserRepo.findOne({
       firebaseId: firebaseId,
     });
+
     const indexSong = song.data.likedBy.findIndex(
       (id) => String(id) === String(user.data._id),
     );

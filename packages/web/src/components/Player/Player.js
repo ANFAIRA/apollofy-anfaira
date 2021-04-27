@@ -3,7 +3,9 @@ import { faHeart, faListUl } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { array } from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { calcRemainingTime, formatTime } from "../../utils/utils";
+import { likeSong } from "../../redux/song/song-actions";
 import Controls from "./Controls";
 import "./Player.scss";
 
@@ -11,9 +13,8 @@ const Player = ({ tracks }) => {
   const [trackIndex, setTrackIndex] = useState(0);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { artist, title, url, thumbnail } = tracks[trackIndex] || "";
-
+  const { artist, title, url, thumbnail, _id, likedBy } =
+    tracks[trackIndex] || "";
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
@@ -22,6 +23,17 @@ const Player = ({ tracks }) => {
   const currentTime = formatTime(audioRef.current.currentTime);
   const totalTime = calcRemainingTime(duration, audioRef.current.currentTime);
 
+  const { currentUser } = useSelector((state) => state.auth);
+  const [isFavorite, setIsFavorite] = useState(
+    likedBy?.findIndex((id) => String(id) === String(currentUser.data._id)) !==
+      -1 && true,
+  );
+  const dispatch = useDispatch();
+
+  function handleLikeBtn() {
+    setIsFavorite(!isFavorite);
+    dispatch(likeSong(_id, currentUser.data.firebaseId));
+  }
   const currentPercentage = duration
     ? `${(trackProgress / duration) * 100}%`
     : "0%";
@@ -82,6 +94,11 @@ const Player = ({ tracks }) => {
 
   useEffect(() => {
     // Handle setup when changing tracks
+    setIsFavorite(
+      likedBy?.findIndex(
+        (id) => String(id) === String(currentUser.data._id),
+      ) !== -1 && true,
+    );
     audioRef.current.pause();
     audioRef.current = new Audio(url);
     setTrackProgress(audioRef.current.currentTime);
@@ -134,7 +151,7 @@ const Player = ({ tracks }) => {
           <button
             type="button"
             className="player--actions--icon"
-            onClick={() => setIsFavorite(!isFavorite)}
+            onClick={handleLikeBtn}
           >
             <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
           </button>
