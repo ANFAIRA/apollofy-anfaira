@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { array } from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calcRemainingTime, formatTime } from "../../utils/utils";
 import { likeSong } from "../../redux/song/song-actions";
+import { calcRemainingTime, formatTime } from "../../utils/utils";
 import Controls from "./Controls";
 import "./Player.scss";
 
@@ -46,6 +46,9 @@ const Player = ({ tracks }) => {
   )
 `;
 
+  const likeOn = <FontAwesomeIcon icon={faHeart} />;
+  const likeOff = <FontAwesomeIcon icon={farHeart} />;
+
   const toPrevTrack = () => {
     if (trackIndex - 1 < 0) {
       setTrackIndex(tracks.length - 1);
@@ -83,6 +86,14 @@ const Player = ({ tracks }) => {
   };
 
   useEffect(() => {
+    // Pause and clean up on unmount
+    return () => {
+      audioRef.current.pause();
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     if (isPlaying) {
       audioRef.current.play();
       startTimer();
@@ -109,13 +120,17 @@ const Player = ({ tracks }) => {
     } else {
       isReady.current = true;
     }
-  }, [url]);
+  }, [url, likedBy, currentUser.data._id]);
 
   return (
     <div className="player">
       <div className="player--wrapper">
         <div className="player--info">
-          <img src={thumbnail} alt="song-img" className="player--info--img" />
+          <img
+            src={thumbnail}
+            alt={`track thumbnail for ${title} by ${artist}`}
+            className="player--info--img"
+          />
           <div className="player--info--details">
             <h5>{title}</h5>
             <p>{artist}</p>
@@ -153,7 +168,7 @@ const Player = ({ tracks }) => {
             className="player--actions--icon"
             onClick={handleLikeBtn}
           >
-            <FontAwesomeIcon icon={isFavorite ? faHeart : farHeart} />
+            {isFavorite ? likeOn : likeOff}
           </button>
         </div>
       </div>

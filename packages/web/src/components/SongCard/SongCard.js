@@ -4,7 +4,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object } from "prop-types";
+import { func, object, oneOfType, string } from "prop-types";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playSong } from "../../redux/player/player-actions";
@@ -32,7 +32,6 @@ function SongCard({
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
-  console.log(firebaseId);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
@@ -104,10 +103,10 @@ function SongCard({
 
 SongCard.propTypes = {
   song: object.isRequired,
-  setShowModal: func,
-  setShowDeleteModal: func,
-  setIsEditModal: func,
-  setSelectedTrack: func,
+  setShowModal: oneOfType([string, func]),
+  setShowDeleteModal: oneOfType([string, func]),
+  setIsEditModal: oneOfType([string, func]),
+  setSelectedTrack: oneOfType([string, func]),
 };
 
 SongCard.defaultProps = {
