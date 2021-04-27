@@ -14,8 +14,9 @@ import {
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-import { fileTypes } from "../../services/cloudinary";
+
 import Input from "../Input";
+import SongInput from "../SongInput";
 
 const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
@@ -53,14 +54,14 @@ function SongModal({
   });
 
   const [image, setImage] = useState();
+  const [song, setSong] = useState();
   const [src, setSrc] = useState();
-  const [songTitle, setSongTitle] = useState();
 
   function onSubmit(data) {
     !isEditModal
       ? dispatch(
           uploadSong({
-            track: data.song[0],
+            track: song,
             thumbnail: image,
             title: data.title,
             genre: data.genre,
@@ -91,7 +92,9 @@ function SongModal({
     }
   };
 
-  // const handleUploadSong = (e) => setSongTitle(e.target.files[0].name);
+  const handleUploadSong = (e) => {
+    setSong(e.target.files[0]);
+  };
 
   // TODO: Add dialogue menu with button for removing image
   // function handleRemoveImg() {
@@ -208,65 +211,47 @@ function SongModal({
               ))}
 
             {!isEditModal &&
-              (songTitle ? (
-                <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
-                  <label
-                    htmlFor="song"
-                    className="w-full h-full sm:h-40 flex flex-col items-center justify-center font-semibold px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
-                  >
-                    {songTitle}
-                    <input
-                      id="song"
-                      name="song"
-                      type="file"
-                      placeholder="song"
-                      className="form-input hidden"
-                      filetype={fileTypes.AUDIO}
-                      {...register("song", { required: true })}
-                      // onChange={handleUploadSong}
-                    />
-                  </label>
-                  {errors.song && <p className="mb-5">Song is required</p>}
-                </div>
+              (song ? (
+                <SongInput
+                  placeholder={song.name}
+                  onChange={handleUploadSong}
+                  validation={{
+                    required: { value: true, message: "Song is required!" },
+                  }}
+                  register={register}
+                  errors={errors.title}
+                />
               ) : (
-                <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
-                  <label
-                    htmlFor="song"
-                    className={
-                      errors.song
-                        ? "w-full sm:h-40  flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
-                    }
-                  >
-                    <svg
-                      className="w-8 h-8"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                    </svg>
-                    <span className="mt-2 text-base leading-normal">
-                      Select a song
-                    </span>
-                    <input
-                      id="song"
-                      name="song"
-                      type="file"
-                      placeholder="song"
-                      className="form-input hidden"
-                      filetype={fileTypes.AUDIO}
-                      {...register("song", { required: true })}
-                      // onChange={handleUploadSong}
-                    />
-                  </label>
-                  {errors.song && <p className="mb-5">Song is required</p>}
-                </div>
+                <SongInput
+                  placeholder={
+                    <>
+                      <svg
+                        className="w-8 h-8"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                      </svg>
+                      <span className="mt-2 text-base leading-normal">
+                        Select a song
+                      </span>
+                    </>
+                  }
+                  onChange={handleUploadSong}
+                  validation={{
+                    required: { value: true, message: "Song is required!" },
+                  }}
+                  register={register}
+                  errors={errors.title}
+                />
               ))}
           </div>
+
           {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
           {uploadSongError && <p className="mb-3">Upload error!</p>}
+
           {isUpdatingTrack && <p className="mb-3">Updating song...</p>}
           {trackUpdateSuccess && <p className="mb-3">Update successful!</p>}
           {trackUpdateError && <p className="mb-3">Update error!</p>}
