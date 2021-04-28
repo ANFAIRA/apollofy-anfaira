@@ -8,6 +8,7 @@ import Main from "../../layout/Main";
 import { playlistItemSelector } from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
 import { formatTime } from "../../utils/utils";
+import PlayListTable from "../../components/PlayListTable";
 import "./playlist.scss";
 
 const PlaylistView = () => {
@@ -18,7 +19,12 @@ const PlaylistView = () => {
   const { title, thumbnail, description, totalTracks, author, type } = playlist;
 
   const tracks = [
-    { title: "my-song", artist: "unknown", genre: "pop", duration: "125.21" },
+    {
+      title: "my-song",
+      artist: "unknown",
+      genre: "pop",
+      duration: "125.21",
+    },
   ];
 
   return (
@@ -58,66 +64,12 @@ const PlaylistView = () => {
             </button>
           </div>
         </div>
-
         <div className="mt-10">
-          <div className="flex text-gray-600">
-            <div className="p-2 w-12 flex-shrink-0" />
-            <div className="p-2 w-12 flex-shrink-0" />
-            <div className="p-2 w-full">Title</div>
-            <div className="p-2 w-full">Artist</div>
-            <div className="p-2 w-full">Genre</div>
-            <div className="p-2 w-16 flex-shrink-0">Time</div>
-          </div>
-          {tracks.map((track) => (
-            <div
-              key={track._id}
-              className="flex border-b border-gray-800 hover:bg-gray-800"
-            >
-              <button type="button" className="p-3 w-12 flex-shrink-0">
-                <FontAwesomeIcon icon={faPlay} />
-              </button>
-              <button type="button" className="p-3 w-12 flex-shrink-0">
-                <FontAwesomeIcon icon={farHeart} />
-              </button>
-              <div className="p-3 w-full">{track.title}</div>
-              <div className="p-3 w-full">{track.artist}</div>
-              <div className="p-3 w-full">{track.genre} </div>
-              <div className="p-3 w-16 flex-shrink-0">
-                {formatTime(track.duration)}
-              </div>
-            </div>
-          ))}
+          <PlayListTable songs={tracks} icon={faPlay} />
         </div>
-
         <div className="mt-10">
           <h2>Recommended Songs</h2>
-          <div className="flex text-gray-600">
-            <div className="p-2 w-12 flex-shrink-0" />
-            <div className="p-2 w-12 flex-shrink-0" />
-            <div className="p-2 w-full">Title</div>
-            <div className="p-2 w-full">Artist</div>
-            <div className="p-2 w-full">Genre</div>
-            <div className="p-2 w-16 flex-shrink-0">Time</div>
-          </div>
-          {songs.data.map((song) => (
-            <div
-              key={song._id}
-              className="flex border-b border-gray-800 hover:bg-gray-800"
-            >
-              <button type="button" className="p-3 w-12 flex-shrink-0">
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-              <button type="button" className="p-3 w-12 flex-shrink-0">
-                <FontAwesomeIcon icon={farHeart} />
-              </button>
-              <div className="p-3 w-full">{song.title}</div>
-              <div className="p-3 w-full">{song.artist}</div>
-              <div className="p-3 w-full">{song.genre} </div>
-              <div className="p-3 w-16 flex-shrink-0">
-                {formatTime(song.duration)}
-              </div>
-            </div>
-          ))}
+          <PlayListTable songs={songs.data} icon={faPlus} />
         </div>
       </div>
     </Main>
