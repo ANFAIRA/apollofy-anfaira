@@ -1,14 +1,12 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { bool, func, object } from "prop-types";
+import { bool, func } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createPlaylist } from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
 import Input from "../Input";
-
-const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
+import CloseBtn from "../CloseBtn";
+import "./PlaylistModal.scss";
 
 function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
     setValue,
   } = useForm({
     mode: "onBlur",
-    defaultValues: {},
+    defaultValues: { type: "playlist", publicAccessible: true },
   });
 
   const [image, setImage] = useState();
@@ -52,32 +50,20 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
     }
   };
 
-  function handleCloseBtn() {
-    setShowPlaylistModal(false);
-  }
-
   // useEffect(() => {
   //   playlistCreation && setShowPlaylistModal(false);
   // }, [dispatch, playlistCreation]);
 
   return (
-    <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <div className="relative h-10">
-        <button
-          className="absolute top-3 right-5"
-          type="button"
-          onClick={handleCloseBtn}
-        >
-          <i className="text-gray-400 hover:text-gray-100">{closeBtn}</i>
-        </button>
-      </div>
+    <article className="md:w-2/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
+      <CloseBtn setShowModal={setShowPlaylistModal} />
       <div>
         <h2 className="text-center text-xl font-semibold">Create Playlist</h2>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex">
+          <div className="flex pb-5">
             {src ? (
               <div className="mr-2 h-full md:w-60 w-full">
                 <label htmlFor="photo" className="mt-2 mb-5 cursor-pointer">
@@ -132,7 +118,7 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
             onChange={(e) => setValue("title", e.target.value)}
             validation={{
               required: { value: true, message: "Title is required!" },
-              maxLength: { value: 20, message: "Error max length 20 char!" },
+              maxLength: { value: 20, message: "Error max length 30 char!" },
               pattern: {
                 value: /[A-Za-z]{2}/,
                 message: "Error pattern does not match!",
@@ -141,56 +127,55 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
             register={register}
             errors={errors.title}
           />
-          <div onChange={(e) => setValue("type", e.target.value)}>
-            <label htmlFor="playlist">Playlist</label>
-            <input
-              name="type"
-              id="playlist"
-              type="radio"
-              value="playlist"
-              // validation={{
-              //   required: { value: true, message: "Type is required!" },
-              // }}
-              // register={register}
-              // errors={errors.genre}
-            />
-            <label htmlFor="album">Album</label>
-            <input
-              name="type"
-              id="album"
-              type="radio"
-              value="album"
-              // validation={{
-              //   required: { value: true, message: "Type is required!" },
-              // }}
-              // register={register}
-              // errors={errors.genre}
-            />
-          </div>
-          <div>
-            <label htmlFor="publicAccessible">Private?</label>
-            <input
-              name="publicAccessible"
-              value="true"
-              type="checkbox"
-              onChange={(e) => setValue("publicAccessible", e.target.value)}
-              // validation={{
-              //   required: { value: true, message: "Artist is required!" },
-              // }}
-              // register={register}
-              // errors={errors.artist}
-            />
-          </div>
-          <label htmlFor="description">Description</label>
 
           <Input
             name="description"
             type="text"
-            placeholder="descrtion"
+            placeholder="description"
             inputClass="form-input"
             onChange={(e) => setValue("description", e.target.value)}
             register={register}
           />
+
+          <div className="flex justify-between">
+            <div
+              onChange={(e) => setValue("type", e.target.value)}
+              className="switch-field"
+            >
+              <input
+                type="radio"
+                id="playlist"
+                name="type"
+                value="playlist"
+                checked
+              />
+              <label htmlFor="playlist">Playlist</label>
+              <input type="radio" id="album" name="type" value="album" />
+              <label htmlFor="album">Album</label>
+            </div>
+
+            <div
+              onChange={(e) => setValue("publicAccessible", e.target.value)}
+              className="switch-field"
+            >
+              <input
+                type="radio"
+                id="public"
+                name="publicAccessible"
+                value="public"
+                checked
+              />
+              <label htmlFor="public">Public</label>
+              <input
+                type="radio"
+                id="private"
+                name="publicAccessible"
+                value="private"
+              />
+              <label htmlFor="private">Private</label>
+            </div>
+          </div>
+
           <button
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
             type="submit"
