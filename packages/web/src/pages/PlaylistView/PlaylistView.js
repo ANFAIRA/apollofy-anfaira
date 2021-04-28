@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import Main from "../../layout/Main";
 import { playlistItemSelector } from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
-import { formatTime } from "../../utils/utils";
 import PlayListTable from "../../components/PlayListTable";
 import "./playlist.scss";
 
@@ -20,7 +19,13 @@ const PlaylistView = () => {
   const { title, thumbnail, description, totalTracks, author, type } = playlist;
 
   const tracks = [
-    { title: "my-song", artist: "unknown", genre: "pop", duration: "125.21" },
+    {
+      _id: "60859876ce2ce122b2d064c4",
+      title: "my-song",
+      artist: "unknown",
+      genre: "pop",
+      duration: "125.21",
+    },
   ];
 
   return (
@@ -61,11 +66,12 @@ const PlaylistView = () => {
           </div>
         </div>
         <div className="mt-10">
-          <PlayListTable songs={tracks} icon={faPlay} />
+          {/* <PlayListTable songs={tracks} icon={faPlay} /> */}
         </div>
         <div className="mt-10">
           <h2>Recommended Songs</h2>
-          <PlayListTable songs={songs.data} icon={faPlus} />
+          <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
+          {songs.data.map((song) => console.log(song))}
         </div>
       </div>
     </Main>

@@ -1,17 +1,18 @@
 import React from "react";
 import { array, string } from "prop-types";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { playSong } from "../../redux/player/player-actions";
+import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon }) => {
-  // const dispatch = useDispatch();
+const PlayListTable = ({ songs, icon, playlistId, songId }) => {
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     icon.iconName === "plus"
-      ? console.log(icon.iconName)
+      ? dispatch(addSongToPlaylist(playlistId, songId))
       : console.log(icon.iconName);
   };
 
@@ -55,6 +56,8 @@ const PlayListTable = ({ songs, icon }) => {
 PlayListTable.propTypes = {
   songs: array.isRequired,
   icon: string.isRequired,
+  playlistId: string.isRequired,
+  songId: string.isRequired,
 };
 
 export default PlayListTable;

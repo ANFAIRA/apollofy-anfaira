@@ -2,8 +2,6 @@ import React from "react";
 import { object, string } from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import "../SongCard/SongCard.scss";
-
 function PlayListCard({ title, location, playlist = null }) {
   const history = useHistory();
   const handleClick = () => {
