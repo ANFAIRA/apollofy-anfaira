@@ -85,8 +85,8 @@ export const fetchPlaylistsSuccess = ({
 });
 
 export function fetchPlaylists() {
-// fetchType = playlistTypes.ALL,
-// filters = {},
+  // fetchType = playlistTypes.ALL,
+  // filters = {},
   // switch (fetchType) {
   //   case playlistTypes.ALL:
   //     return fetchAllPlaylists();
