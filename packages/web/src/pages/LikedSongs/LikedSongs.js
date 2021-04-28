@@ -6,11 +6,17 @@ import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
 
 function LikedSongs() {
   const { data } = useSelector((state) => state?.likedSong?.likedSongs);
+  const { likedSongs } = useSelector((state) =>
+    state.song?.currentUser?.data
+      ? state.song.currentUser.data
+      : state.auth?.currentUser?.data,
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchLikedSong());
-  }, [dispatch]);
+  }, [dispatch, likedSongs]);
 
   return (
     <Main>
