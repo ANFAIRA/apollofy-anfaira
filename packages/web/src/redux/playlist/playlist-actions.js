@@ -130,3 +130,34 @@ export function fetchAllPlaylists() {
     }
   };
 }
+
+export const addSongToPlaylistRequest = () => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_REQUEST,
+});
+
+export const addSongToPlaylistError = (message) => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const addSongToPlaylistSuccess = () => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_SUCCESS,
+});
+
+export function addSongToPlaylist(playlistId, songId) {
+  return async function addSongToPlaylistThunk(dispatch) {
+    dispatch(addSongToPlaylistRequest());
+
+    try {
+      const res = await api.addSongToPlaylist({ playlistId, songId });
+
+      if (res.errorMessage) {
+        return dispatch(addSongToPlaylistError(res.errorMessage));
+      }
+
+      return dispatch(addSongToPlaylistSuccess());
+    } catch (error) {
+      return dispatch(addSongToPlaylistError(error));
+    }
+  };
+}

@@ -1,10 +1,20 @@
 import React from "react";
 import { array, string } from "prop-types";
+// import { useDispatch } from "react-redux";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { playSong } from "../../redux/player/player-actions";
 import { formatTime } from "../../utils/utils";
 
 const PlayListTable = ({ songs, icon }) => {
+  // const dispatch = useDispatch();
+
+  const handleClick = () => {
+    icon.iconName === "plus"
+      ? console.log(icon.iconName)
+      : console.log(icon.iconName);
+  };
+
   return (
     <div>
       <div className="flex text-gray-600">
@@ -20,7 +30,11 @@ const PlayListTable = ({ songs, icon }) => {
           key={song._id}
           className="flex border-b border-gray-800 hover:bg-gray-800"
         >
-          <button type="button" className="p-3 w-12 flex-shrink-0">
+          <button
+            type="button"
+            onClick={handleClick}
+            className="p-3 w-12 flex-shrink-0"
+          >
             <FontAwesomeIcon icon={icon} />
           </button>
           <button type="button" className="p-3 w-12 flex-shrink-0">

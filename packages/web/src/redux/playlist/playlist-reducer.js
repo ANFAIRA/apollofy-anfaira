@@ -13,6 +13,8 @@ export const PlaylistInitState = {
   playlistFetched: false,
   playlistByID: {},
   trackByID: {},
+  addingSong: false,
+  addSongError: null,
   playlistIds: {
     ALL: [],
     OWN: [],
@@ -88,6 +90,27 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           ...action.payload.trackByID,
         },
         playlistIds: newIds,
+      };
+    }
+    case PlaylistType.ADD_SONG_TO_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        addingSong: true,
+        addSongError: null,
+      };
+    }
+    case PlaylistType.ADD_SONG_TO_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        addingSong: false,
+        addSongError: action.payload,
+      };
+    }
+    case PlaylistType.ADD_SONG_TO_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        addingSong: false,
+        addSongError: null,
       };
     }
 

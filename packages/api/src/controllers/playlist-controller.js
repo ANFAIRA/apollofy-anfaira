@@ -85,7 +85,51 @@ async function fetchPlaylists(req, res, next) {
   }
 }
 
+async function addTrackToPlaylist(req, res, next) {
+  const { _id } = req.body;
+
+  const { id } = req.params;
+
+  console.log(req.body);
+
+  try {
+    const dbResponse = await PlaylistRepo.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        tracks: _id,
+      },
+      {
+        new: true,
+        select: {
+          __v: 0,
+        },
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+
+    // console.log(dbResponse);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createPlaylist: createPlaylist,
   fetchPlaylists: fetchPlaylists,
+  addTrackToPlaylist: addTrackToPlaylist,
 };

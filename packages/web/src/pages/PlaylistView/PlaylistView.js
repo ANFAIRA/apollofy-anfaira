@@ -16,15 +16,11 @@ const PlaylistView = () => {
   const { songs } = useSelector(songSelector);
 
   const playlist = playlistItemSelector(id);
+  console.log(playlist);
   const { title, thumbnail, description, totalTracks, author, type } = playlist;
 
   const tracks = [
-    {
-      title: "my-song",
-      artist: "unknown",
-      genre: "pop",
-      duration: "125.21",
-    },
+    { title: "my-song", artist: "unknown", genre: "pop", duration: "125.21" },
   ];
 
   return (

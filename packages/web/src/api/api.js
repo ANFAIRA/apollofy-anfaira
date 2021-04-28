@@ -113,6 +113,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function addSongToPlaylist({ options }) {
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "PATCH",
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -127,6 +135,7 @@ function makeApi(request = makeRequest()) {
     deleteTrackApi: deleteTrackApi,
     createPlaylist: createPlaylist,
     fetchPlaylists: fetchPlaylists,
+    addSongToPlaylist: addSongToPlaylist,
   };
 }
 
