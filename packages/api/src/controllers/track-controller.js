@@ -3,7 +3,7 @@ const { logger } = require("../services");
 
 async function createTrack(req, res, next) {
   const {
-    body: { title, url, artist, thumbnail, genre, duration = 0 },
+    body: { title, url, artist, thumbnail, genre, duration },
     user: { uid },
   } = req;
 

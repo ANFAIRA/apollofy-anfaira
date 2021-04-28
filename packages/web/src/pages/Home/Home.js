@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import SongCard from "../../components/SongCard";
-import PlaylistCard from "../../components/PlayListCard";
-import SongModal from "../../components/SongModal";
 import DeleteModal from "../../components/DeleteModal";
-
+import PlaylistCard from "../../components/PlayListCard";
+import SongCard from "../../components/SongCard";
+import SongModal from "../../components/SongModal";
 import Main from "../../layout/Main";
-
 import { authSelector } from "../../redux/auth/auth-selectors";
-import { fetchSong } from "../../redux/song/song-actions";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
-import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
-
 import { fetchAllPlaylists } from "../../redux/playlist/playlist-actions";
-
+import { fetchSong } from "../../redux/song/song-actions";
+import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import "./Home.scss";
 
 export default function Home() {
@@ -33,16 +28,10 @@ export default function Home() {
   const [selectedTrack, setSelectedTrack] = useState(null);
 
   const dispatch = useDispatch();
-  // console.log(ALL);
-  // console.log(playlistByID["6088140471604a5d4c193930"].title);
 
   useEffect(() => {
     dispatch(fetchSong());
     dispatch(fetchAllPlaylists());
-    // uploadSongSuccess && dispatch(fetchSong());
-    // // TODO: Refractor so that when updating song, fetch request is made only to concerned song (fetchById)
-    // trackUpdateSuccess && dispatch(fetchSong());
-    // trackDeleteSuccess && dispatch(fetchSong());
   }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
 
   return (
@@ -94,6 +83,7 @@ export default function Home() {
                 <PlaylistCard
                   key={playlistByID[playlist]._id}
                   playlist={playlistByID[playlist]}
+                  location={`playlist/${playlistByID[playlist]._id}`}
                 />
               ))}
             </section>
