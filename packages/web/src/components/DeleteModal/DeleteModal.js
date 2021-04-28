@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { func, object } from "prop-types";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +10,7 @@ import {
 
 import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
 
-const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
+import CloseBtn from "../CloseBtn";
 
 function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
   const dispatch = useDispatch();
@@ -42,15 +40,7 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
-      <div className="relative h-10">
-        <button
-          className="absolute top-3 right-5"
-          type="button"
-          onClick={handleCloseBtn}
-        >
-          <i className="text-gray-400 hover:text-gray-100">{closeBtn}</i>
-        </button>
-      </div>
+      <CloseBtn setShowModal={setShowDeleteModal} />
       <div>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"

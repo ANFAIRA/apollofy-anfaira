@@ -84,16 +84,17 @@ export const fetchPlaylistsSuccess = ({
   },
 });
 
-export function fetchPlaylists() {
-// fetchType = playlistTypes.ALL,
-// filters = {},
-  // switch (fetchType) {
-  //   case playlistTypes.ALL:
-  //     return fetchAllPlaylists();
-  //   default:
-  //     break;
-  // }
-  return fetchAllPlaylists();
+export function fetchPlaylists({
+  fetchType = playlistTypes.ALL,
+  filters = {},
+}) {
+  switch (fetchType) {
+    case playlistTypes.ALL:
+      return fetchAllPlaylists(filters);
+    default:
+      break;
+  }
+  return fetchAllPlaylists(filters);
 }
 
 export function fetchAllPlaylists() {
@@ -103,10 +104,9 @@ export function fetchAllPlaylists() {
     try {
       const userToken = await getCurrentUserToken();
 
-      if (!userToken) {
-        console.log(userToken);
-        return dispatch(signOutSuccess());
-      }
+      // if (!userToken) {
+      //   return dispatch(signOutSuccess());
+      // }
 
       const res = await api.fetchPlaylists({
         Authorization: `Bearer ${userToken}`,
@@ -130,31 +130,3 @@ export function fetchAllPlaylists() {
     }
   };
 }
-
-// export function fetchPlaylists() {
-//   return async function fetchPlaylistsThunk(dispatch) {
-//     dispatch(fetchPlaylistsRequest());
-
-//     try {
-//       const userToken = await getCurrentUserToken();
-
-//       if (!userToken) {
-//         return dispatch(signOutSuccess());
-//       }
-
-//       const res = await api.fetchPlaylists({
-//         headers: {
-//           Authorization: `Bearer ${userToken}`,
-//         },
-//       });
-
-//       if (res.errorMessage) {
-//         return dispatch(fetchPlaylistsError(res.errorMessage));
-//       }
-
-//       return dispatch(fetchPlaylistsSuccess(res.data));
-//     } catch (err) {
-//       return dispatch(fetchPlaylistsError(err));
-//     }
-//   };
-// }

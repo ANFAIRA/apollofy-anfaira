@@ -1,5 +1,3 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { bool, func, object } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,8 +15,7 @@ import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 
 import Input from "../Input";
 import SongInput from "../SongInput";
-
-const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
+import CloseBtn from "../CloseBtn";
 
 function SongModal({
   setShowModal,
@@ -101,11 +98,11 @@ function SongModal({
   //   setSrc(null);
   // }
 
-  function handleCloseBtn() {
-    setShowModal(false);
-    setIsEditModal(false);
-    setSelectedTrack(null);
-  }
+  // function handleCloseBtn() {
+  //   setShowModal(false);
+  //   setIsEditModal(false);
+  //   setSelectedTrack(null);
+  // }
 
   useEffect(() => {
     dispatch(uploadSongReset());
@@ -116,15 +113,7 @@ function SongModal({
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <div className="relative h-10">
-        <button
-          className="absolute top-3 right-5"
-          type="button"
-          onClick={handleCloseBtn}
-        >
-          <i className="text-gray-400 hover:text-gray-100">{closeBtn}</i>
-        </button>
-      </div>
+      <CloseBtn setShowModal={setShowModal} />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form

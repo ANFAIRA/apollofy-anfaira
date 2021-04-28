@@ -70,30 +70,34 @@ export default function Home() {
       <Main>
         <h1 className="text-xl mb-4">Hello {currentUser?.data?.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
-          <div className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-            {data?.map((song) => (
-              <SongCard
-                key={song._id}
-                song={song}
-                setShowModal={setShowModal}
-                setShowDeleteModal={setShowDeleteModal}
-                setIsEditModal={setIsEditModal}
-                setSelectedTrack={setSelectedTrack}
-              />
-            ))}
-            {ALL?.map((playlist) => (
-              <PlaylistCard
-                key={playlistByID[playlist]._id}
-                playlist={playlistByID[playlist]}
-                // title={playlistByID[playlist].title}
-                // description={playlistByID[playlist].description}
-                // setShowModal={setShowModal}
-                // setShowDeleteModal={setShowDeleteModal}
-                // setIsEditModal={setIsEditModal}
-                // setSelectedTrack={setSelectedTrack}
-              />
-            ))}
-          </div>
+          <article className="pb-10">
+            <h2 className="pb-2 font-semibold">Songs</h2>
+            <hr className="border-gray-600 pb-2" />
+            <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
+              {data?.map((song) => (
+                <SongCard
+                  key={song._id}
+                  song={song}
+                  setShowModal={setShowModal}
+                  setShowDeleteModal={setShowDeleteModal}
+                  setIsEditModal={setIsEditModal}
+                  setSelectedTrack={setSelectedTrack}
+                />
+              ))}
+            </section>
+          </article>
+          <article className="pb-10">
+            <h2 className="pb-2 font-semibold">Playlists</h2>
+            <hr className="border-gray-600 pb-2" />
+            <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
+              {ALL?.map((playlist) => (
+                <PlaylistCard
+                  key={playlistByID[playlist]._id}
+                  playlist={playlistByID[playlist]}
+                />
+              ))}
+            </section>
+          </article>
         </div>
       </Main>
     </>

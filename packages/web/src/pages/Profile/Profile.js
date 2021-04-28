@@ -23,15 +23,10 @@ const Profile = () => {
       </div>
       <div className="container">
         <div className="flex flex-wrap -mx-1 lg:-mx-4">
-          <PlayListCard
-            title="My songs"
-            location="my-songs"
-            description="My uploaded tracks..."
-          />
+          <PlayListCard title="My songs" location="my-songs" />
           <PlayListCard
             title="My favourite songs"
             location="my-favourite-songs"
-            description="My favourite tracks..."
           />
         </div>
       </div>
