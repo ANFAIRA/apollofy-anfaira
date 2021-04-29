@@ -86,13 +86,18 @@ const PlaylistView = () => {
             >
               <FontAwesomeIcon icon={faPlay} />
             </button>
-            <button
-              type="button"
-              className="mr-2 block p-2"
-              onClick={handleFollowPlaylist}
-            >
-              <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
-            </button>
+            {currentUser.data._id !== author[0] ? (
+              <button
+                type="button"
+                className="mr-2 block p-2"
+                onClick={handleFollowPlaylist}
+              >
+                <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
+              </button>
+            ) : (
+              ""
+            )}
+
             <button type="button" className="mr-2 block p-2">
               <FontAwesomeIcon icon={faEllipsisH} />
             </button>
