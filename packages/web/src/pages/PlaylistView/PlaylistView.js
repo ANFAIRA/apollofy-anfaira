@@ -1,21 +1,31 @@
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faPlay, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Main from "../../layout/Main";
-import { playlistItemSelector } from "../../redux/playlist/playlist-selector";
+
+import {
+  playlistItemSelector,
+  playlistStateSelector,
+} from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
+import { playCollection } from "../../redux/player/player-actions";
+import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
+
 import PlayListTable from "../../components/PlayListTable";
+import Main from "../../layout/Main";
+
 import "./playlist.scss";
 
 const PlaylistView = () => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
+  const { addingSong } = useSelector(playlistStateSelector);
 
   const playlist = playlistItemSelector(id);
-  console.log(playlist);
+
   const {
     title,
     thumbnail,
@@ -24,7 +34,14 @@ const PlaylistView = () => {
     author,
     type,
     tracks,
+    _id,
   } = playlist;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPlaylistById(_id));
+  }, [dispatch, _id, addingSong]);
 
   return (
     <Main>
@@ -52,6 +69,7 @@ const PlaylistView = () => {
             <button
               type="button"
               className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full"
+              onClick={() => dispatch(playCollection(tracks))}
             >
               <FontAwesomeIcon icon={faPlay} />
             </button>

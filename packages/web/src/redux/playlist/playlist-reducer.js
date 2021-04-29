@@ -63,14 +63,6 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         playlistsLoadingError: action.payload,
       };
     }
-    // case PlaylistType.FETCH_PLAYLISTS_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     playlistsLoading: false,
-    //     playlistsLoadingError: null,
-    //     playlistsFetched: action.payload,
-    //   };
-    // }
     case PlaylistType.FETCH_PLAYLISTS_SUCCESS: {
       const actionType = action.payload.type;
       const newIds = { ...state.playlistIds };
@@ -94,11 +86,6 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
     }
     case PlaylistType.FETCH_PLAYLIST_SUCCESS: {
       const playlistID = action.payload._id;
-      console.log(
-        "🚀 ~ file: playlist-reducer.js ~ line 97 ~ PlaylistReducer ~ action.payload",
-        action.payload,
-      );
-      console.log(Object.values(action.payload.author));
 
       return {
         ...state,

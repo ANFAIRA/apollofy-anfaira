@@ -93,7 +93,11 @@ async function fetchPlaylistById(req, res, next) {
     let playlist = await PlaylistRepo.findByIdAndPopulate(id, [
       {
         path: "author",
-        select: "_id username",
+        select: "username",
+      },
+      {
+        path: "tracks",
+        select: "-__v",
       },
     ]);
     console.log(playlist);

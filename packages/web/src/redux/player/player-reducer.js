@@ -13,6 +13,12 @@ const playerReducer = (state = initialState, action) => {
         isPlaying: true,
         tracksToPlay: [action.payload],
       };
+    case player.PLAY_COLLECTION:
+      return {
+        ...state,
+        isPlaying: true,
+        tracksToPlay: action.payload,
+      };
     case player.ADD_SONG_TO_QUEUE:
       return {
         ...state,
