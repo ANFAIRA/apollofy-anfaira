@@ -11,11 +11,7 @@ playlistRouter.post(
   playlistController.createPlaylist,
 );
 
-playlistRouter.get(
-  "/api/playlists",
-  // authMiddleware,
-  playlistController.fetchPlaylists,
-);
+playlistRouter.get("/api/playlists", playlistController.fetchPlaylists);
 
 playlistRouter.patch(
   "/api/playlists/:id",
@@ -23,6 +19,12 @@ playlistRouter.patch(
 );
 
 playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);
+
+playlistRouter.patch(
+  "/api/playlist/:id/follow",
+  authMiddleware,
+  playlistController.followPlaylist,
+);
 
 module.exports = {
   playlistRouter: playlistRouter,

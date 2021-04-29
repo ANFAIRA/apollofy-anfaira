@@ -100,7 +100,6 @@ async function fetchPlaylistById(req, res, next) {
         select: "-__v",
       },
     ]);
-    console.log(playlist);
 
     if (playlist.error) {
       res.status(400).send({
@@ -124,13 +123,12 @@ async function addTrackToPlaylist(req, res, next) {
   const { playlistId, songId } = req.body;
 
   try {
-    let play = await PlaylistRepo.findByIdAndPopulate(playlistId, [
+    await PlaylistRepo.findByIdAndPopulate(playlistId, [
       {
         path: "author",
         select: "username",
       },
     ]);
-    console.log(play);
 
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
 
@@ -169,10 +167,44 @@ async function addTrackToPlaylist(req, res, next) {
         error: null,
       });
     }
-
-    // console.log(dbResponse);
   } catch (err) {
     next(err);
+  }
+}
+
+async function followPlaylist(req, res, next) {
+  const { id } = req.params;
+  const { firebaseId } = req.body;
+
+  try {
+    const playlist = await PlaylistRepo.findById(id);
+    const user = await UserRepo.findOne({
+      firebaseId: firebaseId,
+    });
+
+    const followPlaylistIndex = playlist.data.followedBy.findIndex(
+      (id) => String(id) === String(user.data._id),
+    );
+    if (followPlaylistIndex === -1) {
+      playlist.data.followedBy.push(user.data._id);
+    } else {
+      playlist.data.followedBy = playlist.data.followedBy.filter(
+        (id) => String(id) !== String(user.data._id),
+      );
+    }
+
+    const followedPlaylist = await PlaylistRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          followedBy: playlist.data.followedBy,
+        },
+      },
+      { new: true },
+    );
+    res.status(200).send(followedPlaylist);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -181,4 +213,5 @@ module.exports = {
   fetchPlaylists: fetchPlaylists,
   addTrackToPlaylist: addTrackToPlaylist,
   fetchPlaylistById: fetchPlaylistById,
+  followPlaylist: followPlaylist,
 };
