@@ -1,5 +1,5 @@
-import { makeRequest } from "./api-utils";
 import { urlWithQuery } from "../utils/utils";
+import { makeRequest } from "./api-utils";
 
 function makeApi(request = makeRequest()) {
   function signUp(headers, options) {
@@ -62,7 +62,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function likeSong(headers, options) {
-    console.log(options);
     return request({
       url: `/tracks/${options.songId}/like`,
       requestMethod: "PATCH",
@@ -114,7 +113,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function fetchPlaylistById(options) {
-    console.log(options);
     return request({
       url: `/api/playlists/${options}`,
       requestMethod: "GET",
@@ -123,10 +121,18 @@ function makeApi(request = makeRequest()) {
   }
 
   function addSongToPlaylist(options) {
-    console.log(options);
     return request({
       url: `/api/playlists/${options.playlistId}`,
       requestMethod: "PATCH",
+      body: options,
+    });
+  }
+
+  function followPlaylist(headers, options) {
+    return request({
+      url: `/api/playlist/${options.playlistId}/follow`,
+      requestMethod: "PATCH",
+      headers: headers,
       body: options,
     });
   }
@@ -147,6 +153,7 @@ function makeApi(request = makeRequest()) {
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
     fetchPlaylistById: fetchPlaylistById,
+    followPlaylist: followPlaylist,
   };
 }
 
