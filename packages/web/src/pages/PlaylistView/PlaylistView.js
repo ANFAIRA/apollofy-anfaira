@@ -1,3 +1,8 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { func, object, oneOfType, string } from "prop-types";
+
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   faEllipsisH,
@@ -6,12 +11,8 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
-import { playCollection } from "../../redux/player/player-actions";
 import {
   fetchPlaylistById,
   followPlaylist,
@@ -21,8 +22,22 @@ import {
   playlistStateSelector,
 } from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
+import { playCollection } from "../../redux/player/player-actions";
+import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
-const PlaylistView = () => {
+import PlayListTable from "../../components/PlayListTable";
+import PlaylistDialogue from "../../components/PlaylistDialogue";
+import Main from "../../layout/Main";
+
+import "./playlist.scss";
+
+const PlaylistView = ({
+  setShowModal,
+  setShowDeleteModal,
+  setIsEditModal,
+  selectedPlaylist,
+  setSelectedPlaylist,
+}) => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
   const { addingSong } = useSelector(playlistStateSelector);
@@ -32,6 +47,7 @@ const PlaylistView = () => {
 
   const { title, thumbnail, description, author, type, tracks, _id } = playlist;
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
 
   const [isFollow, setIsFollow] = useState(
@@ -81,10 +97,10 @@ const PlaylistView = () => {
           </div>
         </div>
         <div className="mt-6 flex justify-between items-center">
-          <div className="flex">
+          <div className="relative flex">
             <button
               type="button"
-              className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full"
+              className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
               onClick={() => dispatch(playCollection(tracks))}
             >
               <FontAwesomeIcon icon={faPlay} />
@@ -101,9 +117,22 @@ const PlaylistView = () => {
               ""
             )}
 
-            <button type="button" className="mr-2 block p-2">
+            <button
+              type="button"
+              className="mr-2 block p-2 focus:outline-none"
+              onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
+            >
               <FontAwesomeIcon icon={faEllipsisH} />
             </button>
+            {isMenuOpen && (
+              <PlaylistDialogue
+                setShowModal={setShowModal}
+                setShowDeleteModal={setShowDeleteModal}
+                setIsEditModal={setIsEditModal}
+                selectedPlaylist={playlist}
+                setSelectedPlaylist={setSelectedPlaylist}
+              />
+            )}
           </div>
           <p className="text-gray-600 text-sm">
             {playlist.followedBy.length > 1
@@ -121,6 +150,21 @@ const PlaylistView = () => {
       </div>
     </Main>
   );
+};
+
+PlaylistView.propTypes = {
+  selectedPlaylist: object.isRequired,
+  setShowModal: oneOfType([string, func]),
+  setShowDeleteModal: oneOfType([string, func]),
+  setIsEditModal: oneOfType([string, func]),
+  setSelectedPlaylist: oneOfType([string, func]),
+};
+
+PlaylistView.defaultProps = {
+  setShowModal: "",
+  setShowDeleteModal: "",
+  setIsEditModal: "",
+  setSelectedPlaylist: "",
 };
 
 export default PlaylistView;
