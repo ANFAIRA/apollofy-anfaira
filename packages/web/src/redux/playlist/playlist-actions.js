@@ -149,6 +149,7 @@ export function addSongToPlaylist(playlistId, songId) {
     dispatch(addSongToPlaylistRequest());
 
     try {
+      console.log(playlistId);
       const res = await api.addSongToPlaylist({ playlistId, songId });
 
       if (res.errorMessage) {
@@ -158,6 +159,28 @@ export function addSongToPlaylist(playlistId, songId) {
       return dispatch(addSongToPlaylistSuccess());
     } catch (error) {
       return dispatch(addSongToPlaylistError(error));
+    }
+  };
+}
+
+export const fetchPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.FETCH_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function fetchPlaylistById(playlistId) {
+  return async function fetchPlaylistByIdThunk(dispatch) {
+    dispatch(fetchPlaylistsRequest());
+
+    try {
+      const res = await api.fetchPlaylistById(playlistId);
+      if (res.errorMessage) {
+        return dispatch(fetchPlaylistsError(res.errorMessage));
+      }
+
+      return dispatch(fetchPlaylistSuccess(res.data.data));
+    } catch (err) {
+      return dispatch(fetchPlaylistsError(err));
     }
   };
 }

@@ -113,7 +113,17 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function addSongToPlaylist({ options }) {
+  function fetchPlaylistById(options) {
+    console.log(options);
+    return request({
+      url: `/api/playlists/${options}`,
+      requestMethod: "GET",
+      body: options,
+    });
+  }
+
+  function addSongToPlaylist(options) {
+    console.log(options);
     return request({
       url: `/api/playlists/${options.playlistId}`,
       requestMethod: "PATCH",
@@ -136,6 +146,7 @@ function makeApi(request = makeRequest()) {
     createPlaylist: createPlaylist,
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
+    fetchPlaylistById: fetchPlaylistById,
   };
 }
 

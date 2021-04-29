@@ -16,17 +16,15 @@ const PlaylistView = () => {
 
   const playlist = playlistItemSelector(id);
   console.log(playlist);
-  const { title, thumbnail, description, totalTracks, author, type } = playlist;
-
-  const tracks = [
-    {
-      _id: "60859876ce2ce122b2d064c4",
-      title: "my-song",
-      artist: "unknown",
-      genre: "pop",
-      duration: "125.21",
-    },
-  ];
+  const {
+    title,
+    thumbnail,
+    description,
+    totalTracks,
+    author,
+    type,
+    tracks,
+  } = playlist;
 
   return (
     <Main>
@@ -46,7 +44,7 @@ const PlaylistView = () => {
             <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
             <p className="text-gray-600 mb-2 text-sm">{description}</p>
             <p className="text-gray-600 text-sm">{totalTracks}</p>
-            <p className="">{author}</p>
+            <p className="">{author[1]}</p>
           </div>
         </div>
         <div className="mt-6 flex justify-between">
@@ -66,12 +64,11 @@ const PlaylistView = () => {
           </div>
         </div>
         <div className="mt-10">
-          {/* <PlayListTable songs={tracks} icon={faPlay} /> */}
+          <PlayListTable songs={tracks} icon={faPlay} />
         </div>
         <div className="mt-10">
           <h2>Recommended Songs</h2>
           <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
-          {songs.data.map((song) => console.log(song))}
         </div>
       </div>
     </Main>

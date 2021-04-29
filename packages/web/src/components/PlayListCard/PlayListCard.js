@@ -1,11 +1,15 @@
 import React from "react";
 import { object, string } from "prop-types";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
 function PlayListCard({ title, location, playlist = null }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleClick = () => {
     history.push(`/${location}`);
+    playlist && dispatch(fetchPlaylistById(playlist._id));
   };
 
   return (

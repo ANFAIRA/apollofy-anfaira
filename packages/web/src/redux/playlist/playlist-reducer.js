@@ -92,6 +92,28 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         playlistIds: newIds,
       };
     }
+    case PlaylistType.FETCH_PLAYLIST_SUCCESS: {
+      const playlistID = action.payload._id;
+      console.log(
+        "🚀 ~ file: playlist-reducer.js ~ line 97 ~ PlaylistReducer ~ action.payload",
+        action.payload,
+      );
+      console.log(Object.values(action.payload.author));
+
+      return {
+        ...state,
+        playlistLoading: false,
+        playlistLoadingError: null,
+        playlistFetched: true,
+        playlistByID: {
+          ...state.playlistByID,
+          [playlistID]: {
+            ...action.payload,
+            author: Object.values(action.payload.author),
+          },
+        },
+      };
+    }
     case PlaylistType.ADD_SONG_TO_PLAYLIST_REQUEST: {
       return {
         ...state,

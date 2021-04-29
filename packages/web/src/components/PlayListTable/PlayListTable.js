@@ -7,10 +7,13 @@ import { playSong } from "../../redux/player/player-actions";
 import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon, playlistId, songId }) => {
+const PlayListTable = ({ songs, icon, playlistId }) => {
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    const songId = e.currentTarget.id;
+    console.log(playlistId);
+    console.log(songId);
     icon.iconName === "plus"
       ? dispatch(addSongToPlaylist(playlistId, songId))
       : console.log(icon.iconName);
@@ -33,6 +36,7 @@ const PlayListTable = ({ songs, icon, playlistId, songId }) => {
         >
           <button
             type="button"
+            id={song._id}
             onClick={handleClick}
             className="p-3 w-12 flex-shrink-0"
           >
@@ -57,7 +61,6 @@ PlayListTable.propTypes = {
   songs: array.isRequired,
   icon: string.isRequired,
   playlistId: string.isRequired,
-  songId: string.isRequired,
 };
 
 export default PlayListTable;
