@@ -130,3 +130,57 @@ export function fetchAllPlaylists() {
     }
   };
 }
+
+export const addSongToPlaylistRequest = () => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_REQUEST,
+});
+
+export const addSongToPlaylistError = (message) => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const addSongToPlaylistSuccess = () => ({
+  type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_SUCCESS,
+});
+
+export function addSongToPlaylist(playlistId, songId) {
+  return async function addSongToPlaylistThunk(dispatch) {
+    dispatch(addSongToPlaylistRequest());
+
+    try {
+      console.log(playlistId);
+      const res = await api.addSongToPlaylist({ playlistId, songId });
+
+      if (res.errorMessage) {
+        return dispatch(addSongToPlaylistError(res.errorMessage));
+      }
+
+      return dispatch(addSongToPlaylistSuccess());
+    } catch (error) {
+      return dispatch(addSongToPlaylistError(error));
+    }
+  };
+}
+
+export const fetchPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.FETCH_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function fetchPlaylistById(playlistId) {
+  return async function fetchPlaylistByIdThunk(dispatch) {
+    dispatch(fetchPlaylistsRequest());
+
+    try {
+      const res = await api.fetchPlaylistById(playlistId);
+      if (res.errorMessage) {
+        return dispatch(fetchPlaylistsError(res.errorMessage));
+      }
+
+      return dispatch(fetchPlaylistSuccess(res.data.data));
+    } catch (err) {
+      return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}

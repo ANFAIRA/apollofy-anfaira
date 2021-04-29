@@ -11,7 +11,7 @@ export const playlistItemSelector = (props) => {
 
 export const playlistsSelector = createSelector(
   [selectPlaylists],
-  (playlistsIDS) => playlistsIDS,
+  (playlistIds) => playlistIds,
 );
 
 export const playlistStateSelector = createSelector(

@@ -1,31 +1,47 @@
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faPlay, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Main from "../../layout/Main";
-import { playlistItemSelector } from "../../redux/playlist/playlist-selector";
+
+import {
+  playlistItemSelector,
+  playlistStateSelector,
+} from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
-import { formatTime } from "../../utils/utils";
+import { playCollection } from "../../redux/player/player-actions";
+import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
+
 import PlayListTable from "../../components/PlayListTable";
+import Main from "../../layout/Main";
+
 import "./playlist.scss";
 
 const PlaylistView = () => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
+  const { addingSong } = useSelector(playlistStateSelector);
 
   const playlist = playlistItemSelector(id);
-  const { title, thumbnail, description, totalTracks, author, type } = playlist;
 
-  const tracks = [
-    {
-      title: "my-song",
-      artist: "unknown",
-      genre: "pop",
-      duration: "125.21",
-    },
-  ];
+  const {
+    title,
+    thumbnail,
+    description,
+    totalTracks,
+    author,
+    type,
+    tracks,
+    _id,
+  } = playlist;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPlaylistById(_id));
+  }, [dispatch, _id, addingSong]);
 
   return (
     <Main>
@@ -45,7 +61,7 @@ const PlaylistView = () => {
             <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
             <p className="text-gray-600 mb-2 text-sm">{description}</p>
             <p className="text-gray-600 text-sm">{totalTracks}</p>
-            <p className="">{author}</p>
+            <p className="">{author[1]}</p>
           </div>
         </div>
         <div className="mt-6 flex justify-between">
@@ -53,6 +69,7 @@ const PlaylistView = () => {
             <button
               type="button"
               className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full"
+              onClick={() => dispatch(playCollection(tracks))}
             >
               <FontAwesomeIcon icon={faPlay} />
             </button>
@@ -69,7 +86,7 @@ const PlaylistView = () => {
         </div>
         <div className="mt-10">
           <h2>Recommended Songs</h2>
-          <PlayListTable songs={songs.data} icon={faPlus} />
+          <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
         </div>
       </div>
     </Main>

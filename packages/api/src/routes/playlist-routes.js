@@ -17,6 +17,13 @@ playlistRouter.get(
   playlistController.fetchPlaylists,
 );
 
+playlistRouter.patch(
+  "/api/playlists/:id",
+  playlistController.addTrackToPlaylist,
+);
+
+playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);
+
 module.exports = {
   playlistRouter: playlistRouter,
 };

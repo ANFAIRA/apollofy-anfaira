@@ -113,6 +113,24 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function fetchPlaylistById(options) {
+    console.log(options);
+    return request({
+      url: `/api/playlists/${options}`,
+      requestMethod: "GET",
+      body: options,
+    });
+  }
+
+  function addSongToPlaylist(options) {
+    console.log(options);
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "PATCH",
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -127,6 +145,8 @@ function makeApi(request = makeRequest()) {
     deleteTrackApi: deleteTrackApi,
     createPlaylist: createPlaylist,
     fetchPlaylists: fetchPlaylists,
+    addSongToPlaylist: addSongToPlaylist,
+    fetchPlaylistById: fetchPlaylistById,
   };
 }
 

@@ -1,10 +1,27 @@
 import React from "react";
 import { array, string } from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { playSong } from "../../redux/player/player-actions";
+import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon }) => {
+const PlayListTable = ({ songs, icon, playlistId }) => {
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.song.songs);
+
+  const handleClick = (e) => {
+    const songId = e.currentTarget.id;
+    if (icon.iconName === "plus") {
+      dispatch(addSongToPlaylist(playlistId, songId));
+    } else {
+      const selectedSong = data.find((song) => song._id === songId);
+      console.log(selectedSong);
+      dispatch(playSong(selectedSong));
+    }
+  };
+
   return (
     <div>
       <div className="flex text-gray-600">
@@ -20,7 +37,12 @@ const PlayListTable = ({ songs, icon }) => {
           key={song._id}
           className="flex border-b border-gray-800 hover:bg-gray-800"
         >
-          <button type="button" className="p-3 w-12 flex-shrink-0">
+          <button
+            type="button"
+            id={song._id}
+            onClick={handleClick}
+            className="p-3 w-12 flex-shrink-0"
+          >
             <FontAwesomeIcon icon={icon} />
           </button>
           <button type="button" className="p-3 w-12 flex-shrink-0">
@@ -41,6 +63,7 @@ const PlayListTable = ({ songs, icon }) => {
 PlayListTable.propTypes = {
   songs: array.isRequired,
   icon: string.isRequired,
+  playlistId: string.isRequired,
 };
 
 export default PlayListTable;
