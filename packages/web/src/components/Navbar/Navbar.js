@@ -110,9 +110,9 @@ export default function Navbar({
                     width="w-8"
                     textSize="text-base"
                   />
-                  <div className="ml-4">
+                  <Link to={ROUTES.PROFILE} className="ml-4">
                     <span>{currentUser?.data?.username}</span>
-                  </div>
+                  </Link>
                   <button
                     type="button"
                     className="bg-gray-800 flex text-sm rounded-full focus:outline-none outline-none"

@@ -8,3 +8,5 @@ export const PROFILE = "/profile";
 export const MY_SONGS = "/my-songs";
 export const MY_FAVOURITE_SONGS = "/my-favourite-songs";
 export const PLAYLIST_BY_ID = "/playlist/:id";
+export const MY_PLAYLISTS = "/my-playlists";
+export const FOLLOWING_PLAYLISTS = "/following-playlists";

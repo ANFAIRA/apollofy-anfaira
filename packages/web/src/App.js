@@ -1,20 +1,27 @@
 import React, { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Account from "./pages/Account";
-import ChangePassword from "./pages/ChangePassword";
-import Home from "./pages/Home";
-import LikedSongs from "./pages/LikedSongs";
-import Login from "./pages/Login";
-import MySongs from "./pages/MySongs";
-import PlaylistView from "./pages/PlaylistView";
-import Profile from "./pages/Profile";
-import ResetPassword from "./pages/ResetPassword";
-import SignUp from "./pages/SignUp";
+
 import { signOut, syncSignIn } from "./redux/auth/auth-actions";
 import * as ROUTES from "./routes";
 import { onAuthStateChanged } from "./services/auth";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import SignUp from "./pages/SignUp";
+import ResetPassword from "./pages/ResetPassword";
+import Login from "./pages/Login";
+import Account from "./pages/Account";
+import ChangePassword from "./pages/ChangePassword";
+import Home from "./pages/Home";
+import PlaylistView from "./pages/PlaylistView";
+import Profile from "./pages/Profile";
+import LikedSongs from "./pages/LikedSongs";
+import MySongs from "./pages/MySongs";
+import MyPlaylists from "./pages/MyPlaylists";
+import FollowingPlaylists from "./pages/FollowingPlaylists";
+
 import "./styles/App.scss";
 
 function App() {
@@ -52,6 +59,11 @@ function App() {
           <Route path={ROUTES.MY_FAVOURITE_SONGS} component={LikedSongs} />
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
           <Route path={ROUTES.PLAYLIST_BY_ID} component={PlaylistView} />
+          <Route path={ROUTES.MY_PLAYLISTS} component={MyPlaylists} />
+          <Route
+            path={ROUTES.FOLLOWING_PLAYLISTS}
+            component={FollowingPlaylists}
+          />
         </ProtectedRoute>
       </Switch>
     </div>
