@@ -86,6 +86,7 @@ function makeApi(request = makeRequest()) {
       body: options,
     });
   }
+
   function getLikedSongs(headers, options) {
     return request({
       url: "/api/me/tracks/liked",
@@ -136,6 +137,13 @@ function makeApi(request = makeRequest()) {
       body: options,
     });
   }
+  function deletePlaylist(options) {
+    return request({
+      url: "/api/playlists",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
 
   return {
     signUp: signUp,
@@ -154,6 +162,7 @@ function makeApi(request = makeRequest()) {
     addSongToPlaylist: addSongToPlaylist,
     fetchPlaylistById: fetchPlaylistById,
     followPlaylist: followPlaylist,
+    deletePlaylist: deletePlaylist,
   };
 }
 

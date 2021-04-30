@@ -35,8 +35,8 @@ import "./playlist.scss";
 const PlaylistView = ({
   setShowModal,
   setIsEditModal,
-  selectedPlaylist,
-  setSelectedPlaylist,
+  selectedTrack,
+  setSelectedTrack,
 }) => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
@@ -49,6 +49,7 @@ const PlaylistView = ({
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -166,16 +167,16 @@ const PlaylistView = ({
 };
 
 PlaylistView.propTypes = {
-  selectedPlaylist: object.isRequired,
+  selectedTrack: object.isRequired,
   setShowModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
-  setSelectedPlaylist: oneOfType([string, func]),
+  setSelectedTrack: oneOfType([string, func]),
 };
 
 PlaylistView.defaultProps = {
   setShowModal: "",
   setIsEditModal: "",
-  setSelectedPlaylist: "",
+  setSelectedTrack: "",
 };
 
 export default PlaylistView;
