@@ -1,8 +1,8 @@
-import React from "react";
-import { array, string } from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { array, object, string } from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { playSong } from "../../redux/player/player-actions";
 import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
@@ -61,8 +61,12 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
 
 PlayListTable.propTypes = {
   songs: array.isRequired,
-  icon: string.isRequired,
-  playlistId: string.isRequired,
+  icon: object.isRequired,
+  playlistId: string,
+};
+
+PlayListTable.defaultProps = {
+  playlistId: "",
 };
 
 export default PlayListTable;

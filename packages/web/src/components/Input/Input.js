@@ -1,4 +1,4 @@
-import { func, object, string } from "prop-types";
+import { func, object, oneOfType, string } from "prop-types";
 import React from "react";
 
 const Input = ({
@@ -37,7 +37,7 @@ Input.propTypes = {
   type: string.isRequired,
   inputClass: string.isRequired,
   onChange: func.isRequired,
-  placeholder: string,
+  placeholder: oneOfType([string, object]),
   defaultValue: string,
   register: func.isRequired,
   validation: object.isRequired,

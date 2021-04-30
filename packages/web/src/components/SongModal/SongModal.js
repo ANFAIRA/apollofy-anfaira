@@ -12,10 +12,9 @@ import {
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-
+import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import SongInput from "../SongInput";
-import CloseBtn from "../CloseBtn";
 
 function SongModal({
   setShowModal,
@@ -303,8 +302,13 @@ SongModal.propTypes = {
   setShowModal: func.isRequired,
   setIsEditModal: func.isRequired,
   isEditModal: bool.isRequired,
-  selectedTrack: object.isRequired,
-  setSelectedTrack: func.isRequired,
+  selectedTrack: object,
+  setSelectedTrack: func,
+};
+
+SongModal.defaultProps = {
+  selectedTrack: {},
+  setSelectedTrack: "",
 };
 
 export default SongModal;

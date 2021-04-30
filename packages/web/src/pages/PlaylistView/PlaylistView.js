@@ -30,16 +30,7 @@ const PlaylistView = () => {
 
   const playlist = playlistItemSelector(id);
 
-  const {
-    title,
-    thumbnail,
-    description,
-    totalTracks,
-    author,
-    type,
-    tracks,
-    _id,
-  } = playlist;
+  const { title, thumbnail, description, author, type, tracks, _id } = playlist;
 
   const dispatch = useDispatch();
 
@@ -73,11 +64,23 @@ const PlaylistView = () => {
             </h4>
             <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
             <p className="text-gray-600 mb-2 text-sm">{description}</p>
-            <p className="text-gray-600 text-sm">{totalTracks}</p>
-            <p className="">{author[1]}</p>
+            <div className="flex content-center">
+              <p className="text-gray-600 mb-2 text-sm">
+                Created by &nbsp;{" "}
+                <span className="text-white mr-2 text-sm">
+                  {author[1].toUpperCase()}
+                </span>
+              </p>
+              <p className="text-white mr-2 text-sm">·</p>
+              <p className="text-gray-600 mr-2 text-sm">
+                {tracks.length > 0
+                  ? `${tracks.length} songs`
+                  : `${tracks.length} song`}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 flex justify-between items-center">
           <div className="flex">
             <button
               type="button"
@@ -86,23 +89,33 @@ const PlaylistView = () => {
             >
               <FontAwesomeIcon icon={faPlay} />
             </button>
-            <button
-              type="button"
-              className="mr-2 block p-2"
-              onClick={handleFollowPlaylist}
-            >
-              <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
-            </button>
+            {currentUser.data._id !== author[0] ? (
+              <button
+                type="button"
+                className="mr-2 block p-2"
+                onClick={handleFollowPlaylist}
+              >
+                <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
+              </button>
+            ) : (
+              ""
+            )}
+
             <button type="button" className="mr-2 block p-2">
               <FontAwesomeIcon icon={faEllipsisH} />
             </button>
           </div>
+          <p className="text-gray-600 text-sm">
+            {playlist.followedBy.length > 1
+              ? `${playlist.followedBy.length} FOLLOWERS`
+              : `${playlist.followedBy.length} FOLLOWER`}
+          </p>
         </div>
         <div className="mt-10">
           <PlayListTable songs={tracks} icon={faPlay} />
         </div>
         <div className="mt-10">
-          <h2>Recommended Songs</h2>
+          <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
           <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
         </div>
       </div>

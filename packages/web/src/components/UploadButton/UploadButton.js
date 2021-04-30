@@ -1,4 +1,4 @@
-import { bool, func, string } from "prop-types";
+import { func, object, string } from "prop-types";
 import React from "react";
 
 function UploadButton({ setShowModal, text, icon }) {
@@ -20,7 +20,7 @@ function UploadButton({ setShowModal, text, icon }) {
 
 UploadButton.propTypes = {
   setShowModal: func.isRequired,
-  icon: string.isRequired,
+  icon: object.isRequired,
   text: string,
 };
 
