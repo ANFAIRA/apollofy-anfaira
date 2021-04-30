@@ -27,13 +27,13 @@ import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
 import PlayListTable from "../../components/PlayListTable";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
+import DeleteModal from "../../components/DeleteModal";
 import Main from "../../layout/Main";
 
 import "./playlist.scss";
 
 const PlaylistView = ({
   setShowModal,
-  setShowDeleteModal,
   setIsEditModal,
   selectedPlaylist,
   setSelectedPlaylist,
@@ -48,6 +48,8 @@ const PlaylistView = ({
   const { title, thumbnail, description, author, type, tracks, _id } = playlist;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const dispatch = useDispatch();
 
   const [isFollow, setIsFollow] = useState(
@@ -64,105 +66,114 @@ const PlaylistView = ({
   }, [dispatch, _id, addingSong]);
 
   return (
-    <Main>
-      <div className="text-gray-300 min-h-screen p-10">
-        <div className="flex">
-          <img
-            src={thumbnail}
-            alt="playlist-img"
-            className="mr-6"
-            width="200"
-            height="200"
+    <>
+      {showDeleteModal && (
+        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
+          <DeleteModal
+            setShowDeleteModal={setShowDeleteModal}
+            selectedTrack={selectedPlaylist}
+            setSelectedTrack={setSelectedPlaylist}
           />
-          <div className="flex flex-col justify-center">
-            <h4 className="mt-0 mb-2 uppercase text-gray-500 tracking-widest text-xs">
-              {type}
-            </h4>
-            <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
-            <p className="text-gray-600 mb-2 text-sm">{description}</p>
-            <div className="flex content-center">
-              <p className="text-gray-600 mb-2 text-sm">
-                Created by &nbsp;{" "}
-                <span className="text-white mr-2 text-sm">
-                  {author[1].toUpperCase()}
-                </span>
-              </p>
-              <p className="text-white mr-2 text-sm">·</p>
-              <p className="text-gray-600 mr-2 text-sm">
-                {tracks.length > 0
-                  ? `${tracks.length} songs`
-                  : `${tracks.length} song`}
-              </p>
+        </section>
+      )}
+      <Main>
+        <div className="text-gray-300 min-h-screen p-10">
+          <div className="flex">
+            <img
+              src={thumbnail}
+              alt="playlist-img"
+              className="mr-6"
+              width="200"
+              height="200"
+            />
+            <div className="flex flex-col justify-center">
+              <h4 className="mt-0 mb-2 uppercase text-gray-500 tracking-widest text-xs">
+                {type}
+              </h4>
+              <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
+              <p className="text-gray-600 mb-2 text-sm">{description}</p>
+              <div className="flex content-center">
+                <p className="text-gray-600 mb-2 text-sm">
+                  Created by &nbsp;{" "}
+                  <span className="text-white mr-2 text-sm">
+                    {author[1].toUpperCase()}
+                  </span>
+                </p>
+                <p className="text-white mr-2 text-sm">·</p>
+                <p className="text-gray-600 mr-2 text-sm">
+                  {tracks.length > 0
+                    ? `${tracks.length} songs`
+                    : `${tracks.length} song`}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="mt-6 flex justify-between items-center">
-          <div className="relative flex">
-            <button
-              type="button"
-              className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
-              onClick={() => dispatch(playCollection(tracks))}
-            >
-              <FontAwesomeIcon icon={faPlay} />
-            </button>
-            {currentUser.data._id !== author[0] ? (
+          <div className="mt-6 flex justify-between items-center">
+            <div className="relative flex">
               <button
                 type="button"
-                className="mr-2 block p-2"
-                onClick={handleFollowPlaylist}
+                className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
+                onClick={() => dispatch(playCollection(tracks))}
               >
-                <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
+                <FontAwesomeIcon icon={faPlay} />
               </button>
-            ) : (
-              ""
-            )}
+              {currentUser.data._id !== author[0] ? (
+                <button
+                  type="button"
+                  className="mr-2 block p-2"
+                  onClick={handleFollowPlaylist}
+                >
+                  <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
+                </button>
+              ) : (
+                ""
+              )}
 
-            <button
-              type="button"
-              className="mr-2 block p-2 focus:outline-none"
-              onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
-            >
-              <FontAwesomeIcon icon={faEllipsisH} />
-            </button>
-            {isMenuOpen && (
-              <PlaylistDialogue
-                setShowModal={setShowModal}
-                setShowDeleteModal={setShowDeleteModal}
-                setIsEditModal={setIsEditModal}
-                selectedPlaylist={playlist}
-                setSelectedPlaylist={setSelectedPlaylist}
-              />
-            )}
+              <button
+                type="button"
+                className="mr-2 block p-2 focus:outline-none"
+                onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
+              >
+                <FontAwesomeIcon icon={faEllipsisH} />
+              </button>
+              {isMenuOpen && (
+                <PlaylistDialogue
+                  setShowModal={setShowModal}
+                  setShowDeleteModal={setShowDeleteModal}
+                  setIsEditModal={setIsEditModal}
+                  selectedPlaylist={playlist}
+                  setSelectedPlaylist={setSelectedPlaylist}
+                />
+              )}
+            </div>
+            <p className="text-gray-600 text-sm">
+              {playlist.followedBy.length > 1
+                ? `${playlist.followedBy.length} FOLLOWERS`
+                : `${playlist.followedBy.length} FOLLOWER`}
+            </p>
           </div>
-          <p className="text-gray-600 text-sm">
-            {playlist.followedBy.length > 1
-              ? `${playlist.followedBy.length} FOLLOWERS`
-              : `${playlist.followedBy.length} FOLLOWER`}
-          </p>
+          <div className="mt-10">
+            <PlayListTable songs={tracks} icon={faPlay} />
+          </div>
+          <div className="mt-10">
+            <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
+            <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
+          </div>
         </div>
-        <div className="mt-10">
-          <PlayListTable songs={tracks} icon={faPlay} />
-        </div>
-        <div className="mt-10">
-          <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
-          <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
-        </div>
-      </div>
-    </Main>
+      </Main>
+    </>
   );
 };
 
 PlaylistView.propTypes = {
   selectedPlaylist: object.isRequired,
   setShowModal: oneOfType([string, func]),
-  setShowDeleteModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
   setSelectedPlaylist: oneOfType([string, func]),
 };
 
 PlaylistView.defaultProps = {
   setShowModal: "",
-  setShowDeleteModal: "",
   setIsEditModal: "",
   setSelectedPlaylist: "",
 };

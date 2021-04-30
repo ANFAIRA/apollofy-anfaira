@@ -18,7 +18,7 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
     trackDeleteSelector,
   );
 
-  const { _id } = selectedTrack;
+  // const { _id } = selectedTrack;
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
@@ -30,7 +30,8 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
   }
 
   function onSubmit() {
-    dispatch(deleteTrack({ _id: _id }));
+    // dispatch(deleteTrack({ _id: _id }));
+    console.log("onSubmit");
   }
 
   useEffect(() => {
