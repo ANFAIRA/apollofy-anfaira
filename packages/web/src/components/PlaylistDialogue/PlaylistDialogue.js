@@ -13,9 +13,6 @@ function PlaylistDialogue({
   const { author } = selectedPlaylist;
 
   const isMyPlaylist = _id === author[0];
-  console.log(author[0]);
-
-  console.log(isMyPlaylist);
 
   function handleEditClick() {
     setShowModal(true);
@@ -25,7 +22,12 @@ function PlaylistDialogue({
 
   function handleDeleteClick() {
     setShowDeleteModal(true);
-    setSelectedPlaylist(selectedPlaylist);
+    // setSelectedPlaylist(selectedPlaylist);
+    console.log("handleDeleteClick");
+  }
+
+  function handleAuthorClick() {
+    console.log("handleAuthorClick");
   }
 
   return (
@@ -41,6 +43,19 @@ function PlaylistDialogue({
         disabled={!isMyPlaylist}
       >
         Edit
+      </button>
+      <button
+        type="button"
+        className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
+        onClick={handleAuthorClick}
+      >
+        Author
+      </button>
+      <button
+        type="button"
+        className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
+      >
+        Share
       </button>
       <button
         type="button"
