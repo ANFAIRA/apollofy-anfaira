@@ -1,7 +1,7 @@
-import React from "react";
 import { object, string } from "prop-types";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
 function PlayListCard({ title, location, playlist = null }) {
@@ -64,12 +64,13 @@ function PlayListCard({ title, location, playlist = null }) {
 }
 
 PlayListCard.propTypes = {
-  title: string.isRequired,
+  title: string,
   location: string.isRequired,
   playlist: object,
 };
 
 PlayListCard.defaultProps = {
+  title: "",
   playlist: null,
 };
 

@@ -1,11 +1,10 @@
 import { bool, func } from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createPlaylist } from "../../redux/playlist/playlist-actions";
-import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
-import Input from "../Input";
 import CloseBtn from "../CloseBtn";
+import Input from "../Input";
 import "./PlaylistModal.scss";
 
 function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
@@ -135,35 +134,38 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
             inputClass="form-input"
             onChange={(e) => setValue("description", e.target.value)}
             register={register}
+            validation={{ required: { value: false } }}
           />
 
           <div className="flex justify-between">
-            <div
-              onChange={(e) => setValue("type", e.target.value)}
-              className="switch-field"
-            >
+            <div className="switch-field">
               <input
                 type="radio"
                 id="playlist"
                 name="type"
                 value="playlist"
                 checked
+                onChange={(e) => setValue("type", e.target.value)}
               />
               <label htmlFor="playlist">Playlist</label>
-              <input type="radio" id="album" name="type" value="album" />
+              <input
+                type="radio"
+                id="album"
+                name="type"
+                value="album"
+                onChange={(e) => setValue("type", e.target.value)}
+              />
               <label htmlFor="album">Album</label>
             </div>
 
-            <div
-              onChange={(e) => setValue("publicAccessible", e.target.value)}
-              className="switch-field"
-            >
+            <div className="switch-field">
               <input
                 type="radio"
                 id="public"
                 name="publicAccessible"
                 value="public"
                 checked
+                onChange={(e) => setValue("publicAccessible", e.target.value)}
               />
               <label htmlFor="public">Public</label>
               <input
@@ -171,6 +173,7 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
                 id="private"
                 name="publicAccessible"
                 value="private"
+                onChange={(e) => setValue("publicAccessible", e.target.value)}
               />
               <label htmlFor="private">Private</label>
             </div>
