@@ -231,11 +231,13 @@ async function followPlaylist(req, res, next) {
 }
 async function deletePlaylist(req, res, next) {
   const { _id } = req.body;
+  console.log(_id);
 
   try {
     const dbResponse = await PlaylistRepo.findOneAndDelete({
       _id: _id,
     });
+    console.log(dbResponse);
 
     if (dbResponse.error) {
       res.status(500).send({
@@ -246,12 +248,10 @@ async function deletePlaylist(req, res, next) {
 
     if (dbResponse.data) {
       res.status(200).send({
-        data: dbResponse.data,
+        data: req.body,
         error: null,
       });
     }
-
-    console.log(dbResponse);
   } catch (err) {
     next(err);
   }

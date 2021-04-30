@@ -23,7 +23,7 @@ export function deletePlaylist(playlistId) {
   return async function deletePlaylistThunk(dispatch) {
     dispatch(deletePlaylistRequest());
     try {
-      const response = await api.deletePlaylistApi(playlistId);
+      const response = await api.deletePlaylist(playlistId);
       if (response.errorMessage) {
         return dispatch(deletePlaylistError(response.errorMessage));
       }

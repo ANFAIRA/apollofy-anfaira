@@ -11,8 +11,6 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PlayListTable from "../../components/PlayListTable";
-import Main from "../../layout/Main";
 import {
   fetchPlaylistById,
   followPlaylist,
@@ -23,25 +21,18 @@ import {
 } from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
 import { playCollection } from "../../redux/player/player-actions";
-import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
 import PlayListTable from "../../components/PlayListTable";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
-import DeleteModal from "../../components/DeleteModal";
+import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
 import Main from "../../layout/Main";
 
-import "./playlist.scss";
-
-const PlaylistView = ({
-  setShowModal,
-  setIsEditModal,
-  selectedTrack,
-  setSelectedTrack,
-}) => {
+const PlaylistView = ({ setShowModal, setIsEditModal }) => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
   const { addingSong } = useSelector(playlistStateSelector);
   const currentUser = useSelector((state) => state.auth?.currentUser);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   const playlist = playlistItemSelector(id);
 
@@ -49,8 +40,6 @@ const PlaylistView = ({
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-
   const dispatch = useDispatch();
 
   const [isFollow, setIsFollow] = useState(
@@ -70,10 +59,10 @@ const PlaylistView = ({
     <>
       {showDeleteModal && (
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <DeleteModal
+          <PlaylistDeleteModal
             setShowDeleteModal={setShowDeleteModal}
-            selectedTrack={selectedPlaylist}
-            setSelectedTrack={setSelectedPlaylist}
+            selectedPlaylist={selectedPlaylist}
+            setSelectedPlaylist={setSelectedPlaylist}
           />
         </section>
       )}
@@ -121,7 +110,7 @@ const PlaylistView = ({
               {currentUser.data._id !== author[0] ? (
                 <button
                   type="button"
-                  className="mr-2 block p-2"
+                  className="mr-2 block p-2 focus:outline-none"
                   onClick={handleFollowPlaylist}
                 >
                   <FontAwesomeIcon icon={isFollow ? faHeart : farHeart} />
@@ -142,7 +131,7 @@ const PlaylistView = ({
                   setShowModal={setShowModal}
                   setShowDeleteModal={setShowDeleteModal}
                   setIsEditModal={setIsEditModal}
-                  selectedPlaylist={playlist}
+                  playlist={playlist}
                   setSelectedPlaylist={setSelectedPlaylist}
                 />
               )}
@@ -167,16 +156,13 @@ const PlaylistView = ({
 };
 
 PlaylistView.propTypes = {
-  selectedTrack: object.isRequired,
   setShowModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
 };
 
 PlaylistView.defaultProps = {
   setShowModal: "",
   setIsEditModal: "",
-  setSelectedTrack: "",
 };
 
 export default PlaylistView;

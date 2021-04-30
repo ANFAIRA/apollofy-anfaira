@@ -1,26 +1,35 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { func, object } from "prop-types";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  deleteTrack,
-  deleteTrackReset,
-} from "../../redux/trackDelete/trackDelete-actions";
+  deletePlaylist,
+  deletePlaylistReset,
+} from "../../redux/playlistDelete/playlistDelete-actions";
 
-import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
+import { playlistDeleteSelector } from "../../redux/playlistDelete/playlistDelete-selectors";
 
 import CloseBtn from "../CloseBtn";
 
-function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
+function PlaylistDeleteModal({
+  setShowDeleteModal,
+  selectedPlaylist,
+  setSelectedPlaylist,
+}) {
   const dispatch = useDispatch();
-  const { isDeletingTrack, trackDeleteSuccess, trackDeleteError } = useSelector(
-    trackDeleteSelector,
-  );
+  const {
+    isDeletingPlaylist,
+    playlistDeleteSuccess,
+    playlistDeleteError,
+  } = useSelector(playlistDeleteSelector);
 
-  console.log(selectedTrack);
+  const history = useHistory();
 
-  const { _id } = selectedTrack;
+  console.log(selectedPlaylist);
+
+  const { _id } = selectedPlaylist;
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
@@ -28,17 +37,19 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
 
   function handleCloseBtn() {
     setShowDeleteModal(false);
-    setSelectedTrack(null);
+    setSelectedPlaylist(null);
   }
 
   function onSubmit() {
-    dispatch(deleteTrack({ _id: _id }));
+    dispatch(deletePlaylist({ _id: _id }));
+    history.push(`/`);
+    console.log("On submit");
   }
 
   useEffect(() => {
-    dispatch(deleteTrackReset());
-    trackDeleteSuccess && setShowDeleteModal(false);
-  }, [dispatch, trackDeleteSuccess, setShowDeleteModal]);
+    dispatch(deletePlaylistReset());
+    playlistDeleteSuccess && setShowDeleteModal(false);
+  }, [dispatch, playlistDeleteSuccess, setShowDeleteModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
@@ -50,7 +61,7 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
         >
           <div className="flex flex-col">
             <h2 className="text-center text-xl font-semibold mb-8">
-              Are you sure you want to delete the track?
+              Are you sure you want to delete the playlist?
             </h2>
             <div className="flex">
               <button
@@ -68,10 +79,14 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
               </button>
             </div>
           </div>
-          {isDeletingTrack && <p className="mb-3">Removing song...</p>}
-          {trackDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
-          {trackDeleteError && (
-            <p className="mb-3">An error occured while deleting the song!</p>
+          {isDeletingPlaylist && <p className="mb-3">Removing playlist...</p>}
+          {playlistDeleteSuccess && (
+            <p className="mb-3">Successfully removed!</p>
+          )}
+          {playlistDeleteError && (
+            <p className="mb-3">
+              An error occured while deleting the playlist!
+            </p>
           )}
         </form>
       </div>
@@ -79,10 +94,10 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
   );
 }
 
-DeleteModal.propTypes = {
+PlaylistDeleteModal.propTypes = {
   setShowDeleteModal: func.isRequired,
-  selectedTrack: object.isRequired,
-  setSelectedTrack: func.isRequired,
+  selectedPlaylist: object.isRequired,
+  setSelectedPlaylist: func.isRequired,
 };
 
-export default DeleteModal;
+export default PlaylistDeleteModal;

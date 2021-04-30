@@ -29,8 +29,13 @@ class PlaylistRepository {
   findById(id) {
     return normalizeDBQuery(db.Playlist.findById(id, "-__v"));
   }
+
   findByIdAndPopulate(id, options) {
     return normalizeDBQuery(db.Playlist.findById(id, "-__v").populate(options));
+  }
+
+  findOneAndDelete(query) {
+    return normalizeDBQuery(db.Playlist.findOneAndDelete(query));
   }
 }
 
