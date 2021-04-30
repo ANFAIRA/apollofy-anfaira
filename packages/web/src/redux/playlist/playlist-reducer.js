@@ -15,6 +15,8 @@ export const PlaylistInitState = {
   trackByID: {},
   addingSong: false,
   addSongError: null,
+  followPlaylist: false,
+  followPlaylistError: null,
   playlistIds: {
     ALL: [],
     OWN: [],
@@ -120,6 +122,20 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         addingSong: false,
         addSongError: null,
       };
+    }
+
+    case PlaylistType.playlistTypes.FOLLOW_PLAYLIST_REQUEST: {
+      return { ...state, followPlaylist: true, followPlaylistError: null };
+    }
+    case PlaylistType.playlistTypes.FOLLOW_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        followPlaylist: false,
+        followPlaylistError: action.payload,
+      };
+    }
+    case PlaylistType.playlistTypes.FOLLOW_PLAYLIST_SUCCESS: {
+      return { ...state, followPlaylist: false, followPlaylistError: null };
     }
 
     default: {

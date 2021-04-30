@@ -1,5 +1,5 @@
-import { makeRequest } from "./api-utils";
 import { urlWithQuery } from "../utils/utils";
+import { makeRequest } from "./api-utils";
 
 function makeApi(request = makeRequest()) {
   function signUp(headers, options) {
@@ -136,6 +136,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function followPlaylist(headers, options) {
+    return request({
+      url: `/api/playlist/${options.playlistId}/follow`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: options,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -153,6 +162,7 @@ function makeApi(request = makeRequest()) {
     addSongToPlaylist: addSongToPlaylist,
     fetchPlaylistById: fetchPlaylistById,
     getOwnPlaylists: getOwnPlaylists,
+    followPlaylist: followPlaylist,
   };
 }
 

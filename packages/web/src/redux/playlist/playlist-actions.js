@@ -1,9 +1,9 @@
-import * as PlaylistTypes from "./playlist-types";
-import { playlistTypes } from "./playlist-types";
 import api from "../../api";
+import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
-import { normalizeFullPlaylists } from "../../schema/playlist-schema";
+import * as PlaylistTypes from "./playlist-types";
+import { playlistTypes } from "./playlist-types";
 
 // Create new playlist
 
@@ -229,3 +229,32 @@ export function addSongToPlaylist(playlistId, songId) {
     }
   };
 }
+export const followPlaylistRequest = () => {
+  return { type: PlaylistTypes.FOLLOW_PLAYLIST_REQUEST };
+};
+
+export const followPlaylistError = (message) => {
+  return { type: PlaylistTypes.FOLLOW_PLAYLIST_ERROR, payload: message };
+};
+
+export const followPlaylistSuccess = (data) => {
+  return { type: PlaylistTypes.FOLLOW_PLAYLIST_SUCCESS, payload: data };
+};
+
+export const followPlaylist = (playlistId, firebaseId) => {
+  return async function followPlaylistThunk(dispatch) {
+    dispatch(followPlaylistRequest());
+    try {
+      const token = await getCurrentUserToken();
+      const data = await api.followPlaylist(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { playlistId, firebaseId },
+      );
+      return dispatch(followPlaylistSuccess(data));
+    } catch (err) {
+      return dispatch(followPlaylistError(err.message));
+    }
+  };
+};

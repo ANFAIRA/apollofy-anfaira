@@ -1,5 +1,4 @@
 const { UserRepo, TrackRepo } = require("../repositories");
-const { logger } = require("../services");
 
 async function createTrack(req, res, next) {
   const {
@@ -68,7 +67,6 @@ async function getAllSongs(req, res, next) {
 
 async function updateTrack(req, res, next) {
   const { _id, title, artist, thumbnail, genre } = req.body;
-  logger.debug(req.body);
 
   try {
     const response = await TrackRepo.findOneAndUpdate(
@@ -129,7 +127,7 @@ async function getMeSongs(req, res, next) {
 async function likeSong(req, res, next) {
   const { id } = req.params;
   const { firebaseId } = req.body;
-  console.log(firebaseId);
+
   try {
     const song = await TrackRepo.findById(id);
     const user = await UserRepo.findOne({
@@ -182,19 +180,17 @@ async function likeSong(req, res, next) {
       firebaseId: firebaseId,
     });
 
-    console.log(userUpdate);
     res.status(200).send(userUpdate);
   } catch (error) {
     next(error);
   }
 }
+
 async function deleteTrack(req, res, next) {
   const { _id } = req.body;
-  logger.debug(req.body);
 
   try {
     const response = await TrackRepo.findOneAndDelete({ _id: _id });
-    logger.debug(response);
 
     if (response.error) {
       return res.status(500).send({
@@ -216,6 +212,7 @@ async function deleteTrack(req, res, next) {
 
 async function getLikedSongs(req, res, next) {
   const { uid } = req.user;
+
   try {
     const user = await UserRepo.findOne({
       firebaseId: uid,
