@@ -234,6 +234,27 @@ async function followPlaylist(req, res, next) {
       );
     }
 
+    const indexUser = user.data.follwedPlaylist.findIndex(
+      (id) => String(id) === String(playlist.data._id),
+    );
+    if (indexUser === -1) {
+      user.data.follwedPlaylist.push(playlist.data._id);
+    } else {
+      user.data.follwedPlaylist = user.data.likedSongs.filter(
+        (id) => String(id) !== String(playlist.data._id),
+      );
+    }
+
+    await UserRepo.findOneAndUpdate(
+      { firebaseId: firebaseId },
+      {
+        $set: {
+          follwedPlaylist: user.data.follwedPlaylist,
+        },
+      },
+      { new: true },
+    );
+
     const followedPlaylist = await PlaylistRepo.findOneAndUpdate(
       { _id: id },
       {
@@ -243,6 +264,7 @@ async function followPlaylist(req, res, next) {
       },
       { new: true },
     );
+
     res.status(200).send(followedPlaylist);
   } catch (error) {
     next(error);

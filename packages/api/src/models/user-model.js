@@ -37,6 +37,15 @@ const UserSchema = Schema(
       ],
       default: [],
     },
+    follwedPlaylist: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "playlist",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
