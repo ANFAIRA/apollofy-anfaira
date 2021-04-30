@@ -17,7 +17,6 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
       dispatch(addSongToPlaylist(playlistId, songId));
     } else {
       const selectedSong = data.find((song) => song._id === songId);
-      console.log(selectedSong);
       dispatch(playSong(selectedSong));
     }
   };
