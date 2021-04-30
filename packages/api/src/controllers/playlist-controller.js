@@ -229,6 +229,33 @@ async function followPlaylist(req, res, next) {
     next(error);
   }
 }
+async function deletePlaylist(req, res, next) {
+  const { _id } = req.body;
+  console.log(_id);
+
+  try {
+    const dbResponse = await PlaylistRepo.findOneAndDelete({
+      _id: _id,
+    });
+    console.log(dbResponse);
+
+    if (dbResponse.error) {
+      res.status(500).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: req.body,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   createPlaylist: createPlaylist,
@@ -236,4 +263,5 @@ module.exports = {
   addTrackToPlaylist: addTrackToPlaylist,
   fetchPlaylistById: fetchPlaylistById,
   followPlaylist: followPlaylist,
+  deletePlaylist: deletePlaylist,
 };
