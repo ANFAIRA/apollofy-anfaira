@@ -62,7 +62,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function likeSong(headers, options) {
-    console.log(options);
     return request({
       url: `/tracks/${options.songId}/like`,
       requestMethod: "PATCH",
@@ -114,7 +113,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function fetchPlaylistById(options) {
-    console.log(options);
     return request({
       url: `/api/playlists/${options}`,
       requestMethod: "GET",
@@ -122,8 +120,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getOwnPlaylists(headers) {
+    return request({
+      url: urlWithQuery("/api/me/playlists", "fullFetch", true),
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   function addSongToPlaylist(options) {
-    console.log(options);
     return request({
       url: `/api/playlists/${options.playlistId}`,
       requestMethod: "PATCH",
@@ -147,6 +152,7 @@ function makeApi(request = makeRequest()) {
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
     fetchPlaylistById: fetchPlaylistById,
+    getOwnPlaylists: getOwnPlaylists,
   };
 }
 

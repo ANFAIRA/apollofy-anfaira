@@ -24,6 +24,12 @@ playlistRouter.patch(
 
 playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);
 
+playlistRouter.get(
+  "/api/me/playlists",
+  authMiddleware,
+  playlistController.fetchOwnPlaylists,
+);
+
 module.exports = {
   playlistRouter: playlistRouter,
 };

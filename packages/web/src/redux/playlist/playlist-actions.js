@@ -5,6 +5,8 @@ import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
 import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 
+// Create new playlist
+
 export const playlistCreateRequest = () => ({
   type: PlaylistTypes.CREATE_PLAYLIST_REQUEST,
 });
@@ -60,8 +62,11 @@ export function createPlaylist({
   };
 }
 
-export const fetchPlaylistsRequest = () => ({
+// Fetch a collection of playlists
+
+export const fetchPlaylistsRequest = (fetchType) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_REQUEST,
+  payload: fetchType,
 });
 
 export const fetchPlaylistsError = (message) => ({
@@ -69,8 +74,8 @@ export const fetchPlaylistsError = (message) => ({
   payload: message,
 });
 
-export const fetchPlaylistsSuccess = ({
-  fetchType = playlistTypes.ALL,
+export const fetchAllPlaylistsSuccess = ({
+  type,
   playlistByID,
   trackByID,
   playlistIds,
@@ -80,22 +85,23 @@ export const fetchPlaylistsSuccess = ({
     playlistByID: playlistByID,
     trackByID: trackByID,
     playlistIds: playlistIds,
-    type: fetchType,
+    type: type,
   },
 });
 
-export function fetchPlaylists({
-  fetchType = playlistTypes.ALL,
-  filters = {},
-}) {
+export function fetchPlaylists(fetchType) {
   switch (fetchType) {
     case playlistTypes.ALL:
-      return fetchAllPlaylists(filters);
+      return fetchAllPlaylists();
+    case playlistTypes.OWN:
+      return fetchOwnPlaylists();
     default:
       break;
   }
-  return fetchAllPlaylists(filters);
+  return fetchAllPlaylists();
 }
+
+// Fetch all playlists
 
 export function fetchAllPlaylists() {
   return async function fetchPlaylistsThunk(dispatch) {
@@ -119,10 +125,11 @@ export function fetchAllPlaylists() {
       const normalizedData = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchPlaylistsSuccess({
+        fetchAllPlaylistsSuccess({
           playlistByID: normalizedData.entities.playlists,
           trackByID: normalizedData.entities.tracks,
           playlistIds: normalizedData.result,
+          type: res.data.type,
         }),
       );
     } catch (err) {
@@ -130,6 +137,67 @@ export function fetchAllPlaylists() {
     }
   };
 }
+
+// Fetch own playlists
+
+export function fetchOwnPlaylists() {
+  return async function fetchPlaylistsThunk(dispatch) {
+    dispatch(fetchPlaylistsRequest());
+
+    const userToken = await getCurrentUserToken();
+
+    if (!userToken) {
+      return dispatch(signOutSuccess());
+    }
+
+    try {
+      const res = await api.getOwnPlaylists({
+        Authorization: `Bearer ${userToken}`,
+      });
+
+      if (res.errorMessage) {
+        return dispatch(fetchPlaylistsError(res.errorMessage));
+      }
+
+      const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
+
+      return dispatch(
+        fetchAllPlaylistsSuccess({
+          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistIds: normalizedPlaylists.result,
+          type: res.data.type,
+        }),
+      );
+    } catch (err) {
+      return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}
+
+// Fetch Playlist by ID
+
+export const fetchPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.FETCH_PLAYLIST_BY_ID_SUCCESS,
+  payload: playlist,
+});
+
+export function fetchPlaylistById(playlistId) {
+  return async function fetchPlaylistByIdThunk(dispatch) {
+    dispatch(fetchPlaylistsRequest());
+
+    try {
+      const res = await api.fetchPlaylistById(playlistId);
+      if (res.errorMessage) {
+        return dispatch(fetchPlaylistsError(res.errorMessage));
+      }
+      return dispatch(fetchPlaylistSuccess(res.data.data));
+    } catch (err) {
+      return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}
+
+// Add song to playlist
 
 export const addSongToPlaylistRequest = () => ({
   type: PlaylistTypes.ADD_SONG_TO_PLAYLIST_REQUEST,
@@ -149,7 +217,6 @@ export function addSongToPlaylist(playlistId, songId) {
     dispatch(addSongToPlaylistRequest());
 
     try {
-      console.log(playlistId);
       const res = await api.addSongToPlaylist({ playlistId, songId });
 
       if (res.errorMessage) {
@@ -159,28 +226,6 @@ export function addSongToPlaylist(playlistId, songId) {
       return dispatch(addSongToPlaylistSuccess());
     } catch (error) {
       return dispatch(addSongToPlaylistError(error));
-    }
-  };
-}
-
-export const fetchPlaylistSuccess = (playlist) => ({
-  type: PlaylistTypes.FETCH_PLAYLIST_SUCCESS,
-  payload: playlist,
-});
-
-export function fetchPlaylistById(playlistId) {
-  return async function fetchPlaylistByIdThunk(dispatch) {
-    dispatch(fetchPlaylistsRequest());
-
-    try {
-      const res = await api.fetchPlaylistById(playlistId);
-      if (res.errorMessage) {
-        return dispatch(fetchPlaylistsError(res.errorMessage));
-      }
-
-      return dispatch(fetchPlaylistSuccess(res.data.data));
-    } catch (err) {
-      return dispatch(fetchPlaylistsError(err));
     }
   };
 }

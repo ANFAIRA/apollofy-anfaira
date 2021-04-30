@@ -84,9 +84,8 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         playlistIds: newIds,
       };
     }
-    case PlaylistType.FETCH_PLAYLIST_SUCCESS: {
+    case PlaylistType.FETCH_PLAYLIST_BY_ID_SUCCESS: {
       const playlistID = action.payload._id;
-
       return {
         ...state,
         playlistLoading: false,
