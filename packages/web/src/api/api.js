@@ -121,6 +121,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getOwnPlaylists(headers) {
+    return request({
+      url: urlWithQuery("/api/me/playlists", "fullFetch", true),
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   function addSongToPlaylist(options) {
     return request({
       url: `/api/playlists/${options.playlistId}`,
@@ -145,6 +153,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getFollowedPlaylists(headers) {
+    return request({
+      url: urlWithQuery("/api/me/playlist/follow", "fullFetch", true),
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -161,7 +177,9 @@ function makeApi(request = makeRequest()) {
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
     fetchPlaylistById: fetchPlaylistById,
+    getOwnPlaylists: getOwnPlaylists,
     followPlaylist: followPlaylist,
+    getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
   };
 }

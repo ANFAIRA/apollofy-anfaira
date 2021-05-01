@@ -76,6 +76,7 @@ async function fetchPlaylists(req, res, next) {
       }
       res.status(200).send({
         data: dbResponse.data,
+        type: "ALL",
         error: null,
       });
     }
@@ -172,6 +173,46 @@ async function addTrackToPlaylist(req, res, next) {
   }
 }
 
+async function fetchOwnPlaylists(req, res, next) {
+  const { uid } = req.user;
+  const { fullFetch } = req.query;
+
+  try {
+    const user = await UserRepo.findOne({
+      firebaseId: uid,
+    });
+
+    const dbResponse = await PlaylistRepo.find({
+      author: user.data._id,
+    });
+
+    if (dbResponse.error) {
+      return res.status(404).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      if (fullFetch) {
+        dbResponse.data = await Promise.all(
+          dbResponse.data.map(async (p) => {
+            const newPlaylist = await addFullTracksInfo(p);
+            return newPlaylist;
+          }),
+        );
+      }
+      res.status(200).send({
+        data: dbResponse.data,
+        type: "OWN",
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function followPlaylist(req, res, next) {
   const { id } = req.params;
   const { firebaseId } = req.body;
@@ -257,11 +298,58 @@ async function deletePlaylist(req, res, next) {
   }
 }
 
+async function fetchFollowedPlaylists(req, res, next) {
+  const { uid } = req.user;
+  const { fullFetch } = req.query;
+
+  try {
+    const followedPlaylists = await UserRepo.findOne(
+      {
+        firebaseId: uid,
+      },
+      "follwedPlaylist",
+    );
+    const followedPlaylistsIdsArray = followedPlaylists.data.follwedPlaylist;
+
+    const dbResponse = await PlaylistRepo.find({
+      _id: { $in: followedPlaylistsIdsArray },
+    });
+
+    if (dbResponse.error) {
+      return res.status(404).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      if (fullFetch) {
+        dbResponse.data = await Promise.all(
+          dbResponse.data.map(async (p) => {
+            const newPlaylist = await addFullTracksInfo(p);
+            return newPlaylist;
+          }),
+        );
+      }
+
+      res.status(200).send({
+        data: dbResponse.data,
+        type: "FOLLOWING",
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createPlaylist: createPlaylist,
   fetchPlaylists: fetchPlaylists,
   addTrackToPlaylist: addTrackToPlaylist,
   fetchPlaylistById: fetchPlaylistById,
+  fetchOwnPlaylists: fetchOwnPlaylists,
   followPlaylist: followPlaylist,
+  fetchFollowedPlaylists: fetchFollowedPlaylists,
   deletePlaylist: deletePlaylist,
 };

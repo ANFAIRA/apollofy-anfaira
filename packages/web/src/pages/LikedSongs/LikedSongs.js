@@ -24,8 +24,6 @@ function LikedSongs() {
   return (
     <Main>
       <ProfileLayout>
-        <h2 className="pb-2 font-semibold mt-10 ">Liked songs</h2>
-        <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {data?.map((song) => (
             <SongCard key={song._id} song={song} />

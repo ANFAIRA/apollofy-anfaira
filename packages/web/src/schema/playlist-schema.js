@@ -15,9 +15,11 @@ const fullPlaylist = new schema.Entity(
 const playlistListSchema = [fullPlaylist];
 
 export function normalizePlaylists(playlists) {
+  // console.log(normalize(playlists, [playlist]));
   return normalize(playlists, [playlist]);
 }
 
 export function normalizeFullPlaylists(playlists) {
+  // console.log(normalize(playlists, playlistListSchema));
   return normalize(playlists, playlistListSchema);
 }

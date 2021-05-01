@@ -6,7 +6,11 @@ import SongCard from "../../components/SongCard";
 import SongModal from "../../components/SongModal";
 import Main from "../../layout/Main";
 import { authSelector } from "../../redux/auth/auth-selectors";
-import { fetchAllPlaylists } from "../../redux/playlist/playlist-actions";
+import {
+  fetchAllPlaylists,
+  // fetchPlaylists,
+} from "../../redux/playlist/playlist-actions";
+// import { playlistTypes } from "../../redux/playlist/playlist-types";
 import { fetchSong } from "../../redux/song/song-actions";
 import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
 import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
@@ -32,6 +36,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchSong());
     dispatch(fetchAllPlaylists());
+    // dispatch(fetchPlaylists(playlistTypes.ALL));
   }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
 
   return (
