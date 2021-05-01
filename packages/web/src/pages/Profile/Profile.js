@@ -1,13 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import PlayListCard from "../../components/PlayListCard";
 
+// import { playlistTypes } from "../../redux/playlist/playlist-types";
 import { fetchMySong } from "../../redux/mySong/mySong-actions";
 import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
+import {
+  fetchOwnPlaylists,
+  fetchFollowedPlaylists,
+  // fetchPlaylists,
+} from "../../redux/playlist/playlist-actions";
 
 import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
 import SongCard from "../../components/SongCard";
+import PlaylistCard from "../../components/PlayListCard";
 import "./Profile.scss";
 
 const Profile = () => {
@@ -15,6 +21,13 @@ const Profile = () => {
   const { data: likedSongsArray } = useSelector(
     (state) => state?.likedSong?.likedSongs,
   );
+  const { OWN: ownPlaylistsArray } = useSelector(
+    (state) => state.playlists.playlistIds,
+  );
+  const { FOLLOWING: followedPlaylistsArray } = useSelector(
+    (state) => state.playlists.playlistIds,
+  );
+  const { playlistByID } = useSelector((state) => state.playlists);
 
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
@@ -27,6 +40,10 @@ const Profile = () => {
   useEffect(() => {
     dispatch(fetchMySong());
     dispatch(fetchLikedSong());
+    // dispatch(fetchPlaylists(playlistTypes.OWN));
+    // dispatch(fetchPlaylists(playlistTypes.FOLLOWING));
+    dispatch(fetchOwnPlaylists());
+    dispatch(fetchFollowedPlaylists());
   }, [dispatch, likedSongs]);
 
   return (
@@ -42,36 +59,32 @@ const Profile = () => {
         <h2 className="pb-2 font-semibold mt-10 ">My Playlists</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {likedSongsArray?.slice(0, 6).map((song) => (
-            <SongCard key={song._id} song={song} />
+          {ownPlaylistsArray?.slice(0, 6).map((playlist) => (
+            <PlaylistCard
+              key={playlistByID[playlist]._id}
+              playlist={playlistByID[playlist]}
+              location={`playlist/${playlistByID[playlist]._id}`}
+            />
           ))}
         </section>
-        <h2 className="pb-2 font-semibold mt-10 ">Favorite Songs</h2>
+        <h2 className="pb-2 font-semibold mt-10 ">Favorites</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {likedSongsArray?.slice(0, 6).map((song) => (
             <SongCard key={song._id} song={song} />
           ))}
         </section>
-        <h2 className="pb-2 font-semibold mt-10 ">Favorite Playlists</h2>
+        <h2 className="pb-2 font-semibold mt-10 ">Following</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {likedSongsArray?.slice(0, 6).map((song) => (
-            <SongCard key={song._id} song={song} />
+          {followedPlaylistsArray?.slice(0, 6).map((playlist) => (
+            <PlaylistCard
+              key={playlistByID[playlist]._id}
+              playlist={playlistByID[playlist]}
+              location={`playlist/${playlistByID[playlist]._id}`}
+            />
           ))}
         </section>
-        {/* <div className="flex">
-          <PlayListCard title="My songs" location="my-songs" />
-          <PlayListCard
-            title="My favourite songs"
-            location="my-favourite-songs"
-          />
-          <PlayListCard title="My playlists" location="my-playlists" />
-          <PlayListCard
-            title="Followed playlists"
-            location="followed-playlists"
-          />
-        </div> */}
       </ProfileLayout>
     </Main>
   );

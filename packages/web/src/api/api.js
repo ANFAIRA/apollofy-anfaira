@@ -145,6 +145,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getFollowedPlaylists(headers) {
+    return request({
+      url: urlWithQuery("/api/me/playlist/follow", "fullFetch", true),
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -163,6 +171,7 @@ function makeApi(request = makeRequest()) {
     fetchPlaylistById: fetchPlaylistById,
     getOwnPlaylists: getOwnPlaylists,
     followPlaylist: followPlaylist,
+    getFollowedPlaylists: getFollowedPlaylists,
   };
 }
 

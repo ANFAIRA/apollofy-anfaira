@@ -3,7 +3,7 @@ import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
 import * as PlaylistTypes from "./playlist-types";
-import { playlistTypes } from "./playlist-types";
+// import { playlistTypes } from "./playlist-types";
 
 // Create new playlist
 
@@ -64,9 +64,8 @@ export function createPlaylist({
 
 // Fetch a collection of playlists
 
-export const fetchPlaylistsRequest = (fetchType) => ({
+export const fetchPlaylistsRequest = () => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_REQUEST,
-  payload: fetchType,
 });
 
 export const fetchPlaylistsError = (message) => ({
@@ -89,17 +88,17 @@ export const fetchAllPlaylistsSuccess = ({
   },
 });
 
-export function fetchPlaylists(fetchType) {
-  switch (fetchType) {
-    case playlistTypes.ALL:
-      return fetchAllPlaylists();
-    case playlistTypes.OWN:
-      return fetchOwnPlaylists();
-    default:
-      break;
-  }
-  return fetchAllPlaylists();
-}
+// export function fetchPlaylists(fetchType) {
+//   switch (fetchType) {
+//     case playlistTypes.ALL:
+//       return fetchAllPlaylists();
+//     case playlistTypes.OWN:
+//       return fetchOwnPlaylists();
+//     default:
+//       break;
+//   }
+//   return fetchAllPlaylists();
+// }
 
 // Fetch all playlists
 
@@ -229,6 +228,9 @@ export function addSongToPlaylist(playlistId, songId) {
     }
   };
 }
+
+// Follow playlists
+
 export const followPlaylistRequest = () => {
   return { type: PlaylistTypes.FOLLOW_PLAYLIST_REQUEST };
 };
@@ -258,3 +260,39 @@ export const followPlaylist = (playlistId, firebaseId) => {
     }
   };
 };
+
+// Fetch followed playlists
+
+export function fetchFollowedPlaylists() {
+  return async function fetchPlaylistsThunk(dispatch) {
+    dispatch(fetchPlaylistsRequest());
+
+    const userToken = await getCurrentUserToken();
+
+    if (!userToken) {
+      return dispatch(signOutSuccess());
+    }
+
+    try {
+      const res = await api.getFollowedPlaylists({
+        Authorization: `Bearer ${userToken}`,
+      });
+
+      if (res.errorMessage) {
+        return dispatch(fetchPlaylistsError(res.errorMessage));
+      }
+
+      const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
+
+      return dispatch(
+        fetchAllPlaylistsSuccess({
+          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistIds: normalizedPlaylists.result,
+          type: res.data.type,
+        }),
+      );
+    } catch (err) {
+      return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}

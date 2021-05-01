@@ -32,6 +32,12 @@ playlistRouter.patch(
   playlistController.followPlaylist,
 );
 
+playlistRouter.get(
+  "/api/me/playlist/follow",
+  authMiddleware,
+  playlistController.fetchFollowedPlaylists,
+);
+
 module.exports = {
   playlistRouter: playlistRouter,
 };

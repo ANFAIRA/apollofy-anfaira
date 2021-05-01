@@ -48,18 +48,18 @@ const ProfileLayout = ({ children }) => {
             className="mr-12 cursor-pointer"
             activeClassName="pb-2 border-b-4 border-indigo-500"
           >
-            Favorite Songs
+            Favorites
           </NavLink>
           <NavLink
             to={ROUTES.FOLLOWING_PLAYLISTS}
             className="mr-12 cursor-pointer"
             activeClassName="pb-2 border-b-4 border-indigo-500"
           >
-            Followed Playlists
+            Following
           </NavLink>
         </div>
       </header>
-      <section className="container my-12 mx-auto px-4 md:px-12">
+      <section className="container my-8 mx-auto px-4 md:px-12">
         {children}
       </section>
     </>
