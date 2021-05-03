@@ -21,7 +21,6 @@ export const fetchLikedSong = () => {
     const token = await auth.getCurrentUserToken();
 
     if (!token) {
-      // console.log(token);
       return dispatch(fetchLikedSongError("Uset token null"));
     }
 
