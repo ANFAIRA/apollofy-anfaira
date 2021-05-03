@@ -17,14 +17,9 @@ function PlaylistModal({
   const dispatch = useDispatch();
   const { playlistCreation } = useSelector(playlistStateSelector);
 
-  const {
-    _id,
-    thumbnail,
-    title,
-    description,
-    type,
-    publicAccessible,
-  } = isEditModal ? selectedPlaylist : "";
+  const { _id, thumbnail, title, description } = isEditModal
+    ? selectedPlaylist
+    : "";
 
   const modal = isEditModal
     ? { title: "Edit playlist information", type: "edit", button: "Update" }
