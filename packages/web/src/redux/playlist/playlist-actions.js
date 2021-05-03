@@ -229,38 +229,6 @@ export function addSongToPlaylist(playlistId, songId) {
   };
 }
 
-// Follow playlists
-
-export const followPlaylistRequest = () => {
-  return { type: PlaylistTypes.FOLLOW_PLAYLIST_REQUEST };
-};
-
-export const followPlaylistError = (message) => {
-  return { type: PlaylistTypes.FOLLOW_PLAYLIST_ERROR, payload: message };
-};
-
-export const followPlaylistSuccess = (data) => {
-  return { type: PlaylistTypes.FOLLOW_PLAYLIST_SUCCESS, payload: data };
-};
-
-export const followPlaylist = (playlistId, firebaseId) => {
-  return async function followPlaylistThunk(dispatch) {
-    dispatch(followPlaylistRequest());
-    try {
-      const token = await getCurrentUserToken();
-      const data = await api.followPlaylist(
-        {
-          Authorization: `Bearer ${token}`,
-        },
-        { playlistId, firebaseId },
-      );
-      return dispatch(followPlaylistSuccess(data));
-    } catch (err) {
-      return dispatch(followPlaylistError(err.message));
-    }
-  };
-};
-
 // Fetch followed playlists
 
 export function fetchFollowedPlaylists() {

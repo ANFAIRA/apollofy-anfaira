@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   faEllipsisH,
@@ -10,23 +6,23 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  fetchPlaylistById,
-  followPlaylist,
-} from "../../redux/playlist/playlist-actions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
+import PlaylistDialogue from "../../components/PlaylistDialogue";
+import PlaylistModal from "../../components/PlaylistModal";
+import PlayListTable from "../../components/PlayListTable";
+import Main from "../../layout/Main";
+import { playCollection } from "../../redux/player/player-actions";
+import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 import {
   playlistItemSelector,
   playlistStateSelector,
 } from "../../redux/playlist/playlist-selector";
-import { songSelector } from "../../redux/song/song-selector";
+import { followPlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
-import { playCollection } from "../../redux/player/player-actions";
-
-import PlayListTable from "../../components/PlayListTable";
-import PlaylistDialogue from "../../components/PlaylistDialogue";
-import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
-import PlaylistModal from "../../components/PlaylistModal";
-import Main from "../../layout/Main";
+import { songSelector } from "../../redux/song/song-selector";
 
 const PlaylistView = () => {
   const { id } = useParams();
@@ -68,7 +64,6 @@ const PlaylistView = () => {
       {showPlaylistModal && (
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <PlaylistModal
-            setShowPlaylistModal={setShowPlaylistModal}
             isEditModal={isEditModal}
             selectedPlaylist={selectedPlaylist}
             setShowPlaylistModal={setShowPlaylistModal}

@@ -1,4 +1,5 @@
 import api from "../../api";
+import { getCurrentUserToken } from "../../services/auth";
 import * as playlistEditorTypes from "./playlistEditor-types";
 
 export const updatePlaylistRequest = () => ({
@@ -33,3 +34,21 @@ export function updatePlaylist(playlistData) {
     }
   };
 }
+
+export const followPlaylist = (playlistId, firebaseId) => {
+  return async function followPlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const token = await getCurrentUserToken();
+      const data = await api.followPlaylist(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { playlistId, firebaseId },
+      );
+      return dispatch(updatePlaylistSuccess(data));
+    } catch (err) {
+      return dispatch(updatePlaylistError(err.message));
+    }
+  };
+};
