@@ -20,12 +20,13 @@ function UploadButton({ setShowModal, text, icon }) {
 
 UploadButton.propTypes = {
   setShowModal: func.isRequired,
-  icon: object.isRequired,
+  icon: object,
   text: string,
 };
 
 UploadButton.defaultProps = {
   text: "",
+  icon: null,
 };
 
 export default UploadButton;
