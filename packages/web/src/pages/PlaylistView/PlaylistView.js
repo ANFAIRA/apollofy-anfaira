@@ -19,6 +19,7 @@ import {
   playlistStateSelector,
 } from "../../redux/playlist/playlist-selector";
 import { songSelector } from "../../redux/song/song-selector";
+import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
 import { playCollection } from "../../redux/player/player-actions";
 
 import PlayListTable from "../../components/PlayListTable";
@@ -31,11 +32,10 @@ const PlaylistView = () => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
   const { addingSong, playlistUpdate } = useSelector(playlistStateSelector);
+  const { isUpdatingPlaylist } = useSelector(playlistEditorSelector);
   const currentUser = useSelector((state) => state.auth?.currentUser);
 
   const playlist = playlistItemSelector(id);
-
-  const { title, thumbnail, description, author, type, tracks, _id } = playlist;
 
   const [showPlaylistModal, setShowPlaylistModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -44,9 +44,8 @@ const PlaylistView = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
-
   const [isFollow, setIsFollow] = useState(
-    playlist.followedBy.find((like) => like === currentUser.data._id),
+    playlist?.followedBy.find((like) => like === currentUser.data._id),
   );
 
   const handleFollowPlaylist = () => {
@@ -55,8 +54,14 @@ const PlaylistView = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchPlaylistById(_id));
-  }, [dispatch, _id, addingSong, playlistUpdate]);
+    !isUpdatingPlaylist && dispatch(fetchPlaylistById(id));
+  }, [dispatch, id, addingSong, playlistUpdate, isUpdatingPlaylist, isFollow]);
+
+  if (!playlist) {
+    return null;
+  }
+
+  const { title, thumbnail, description, author, type, tracks } = playlist;
 
   return (
     <>

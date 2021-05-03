@@ -7,6 +7,7 @@ import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 function PlayListCard({ title, location, playlist = null }) {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const handleClick = () => {
     history.push(`/${location}`);
     playlist && dispatch(fetchPlaylistById(playlist._id));
