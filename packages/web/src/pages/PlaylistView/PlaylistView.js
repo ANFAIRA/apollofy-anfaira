@@ -131,7 +131,6 @@ const PlaylistView = () => {
               ) : (
                 ""
               )}
-
               <button
                 type="button"
                 className="mr-2 block p-2 focus:outline-none"
