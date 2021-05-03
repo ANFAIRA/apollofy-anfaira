@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import DeleteModal from "../../components/DeleteModal";
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
@@ -26,6 +27,18 @@ export default function Home() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
+
+  const [characters, updateCharacters] = useState(finalSpaceCharacters);
+  console.log(characters);
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+    const items = Array.from(characters);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    updateCharacters(items);
+    console.log(characters);
+  }
 
   const dispatch = useDispatch();
 
@@ -89,7 +102,61 @@ export default function Home() {
             </section>
           </article>
         </div>
+        <div>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <ul
+                  className="characters"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {characters.map(({ id, name, thumb }, index) => {
+                    return (
+                      <Draggable key={id} draggableId={id} index={index}>
+                        {(providedd) => (
+                          <li
+                            key={id}
+                            ref={providedd.innerRef}
+                            {...providedd.draggableProps}
+                            {...providedd.dragHandleProps}
+                          >
+                            <div className="characters-thumb">
+                              <p>
+                                src={thumb} alt={`${name} Thumb`}
+                              </p>
+                            </div>
+                            <p>{name}</p>
+                          </li>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
       </Main>
     </>
   );
 }
+
+const finalSpaceCharacters = [
+  {
+    id: "gary",
+    name: "Gary Goodspeed",
+    thumb: "/images/gary.png",
+  },
+  {
+    id: "ed",
+    name: "ed Goodspeed",
+    thumb: "/images/gary.png",
+  },
+  {
+    id: "ruf",
+    name: "ruf Goodspeed",
+    thumb: "/images/gary.png",
+  },
+];

@@ -14,6 +14,7 @@ import { songSelector } from "../../redux/song/song-selector";
 import { playCollection } from "../../redux/player/player-actions";
 import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
+import PlayListTableLikedSongs from "../../components/PlayListTableLikedSongs";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
 
@@ -36,7 +37,7 @@ const PlaylistView = () => {
     tracks,
     _id,
   } = playlist;
-
+  console.log(playlist);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -82,7 +83,12 @@ const PlaylistView = () => {
           </div>
         </div>
         <div className="mt-10">
-          <PlayListTable songs={tracks} icon={faPlay} />
+          {console.log(playlist)}
+          <PlayListTableLikedSongs
+            songs={tracks}
+            icon={faPlay}
+            playlistId={id}
+          />
         </div>
         <div className="mt-10">
           <h2>Recommended Songs</h2>
