@@ -18,7 +18,6 @@ function PlaylistDialogue({
     setShowPlaylistModal(true);
     setIsEditModal(true);
     setSelectedPlaylist(playlist);
-    console.log("edit");
   }
 
   function handleDeleteClick() {
