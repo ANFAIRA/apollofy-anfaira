@@ -14,3 +14,15 @@ export const calcRemainingTime = (duration, currentTime) => {
 export const urlWithQuery = (url, key, value) => {
   return `${url}?${key}=${value}`;
 };
+
+export const formatCollectionTime = (timeInSecond) => {
+  const hours = Math.floor(((timeInSecond / 60) % 60) / 60);
+  let minutes = Math.floor((timeInSecond / 60) % 60);
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+  return hours > 0 ? `${hours}hr ${minutes}min` : `${minutes}min`;
+};
+
+export const collectionTime = (collection) => {
+  const totalTime = collection.reduce((acc, track) => acc + track.duration, 0);
+  return formatCollectionTime(totalTime);
+};
