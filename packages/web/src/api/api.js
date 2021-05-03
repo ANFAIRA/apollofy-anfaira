@@ -145,6 +145,7 @@ function makeApi(request = makeRequest()) {
       body: options,
     });
   }
+
   function deletePlaylist(options) {
     return request({
       url: "/api/playlists",
@@ -158,6 +159,14 @@ function makeApi(request = makeRequest()) {
       url: urlWithQuery("/api/me/playlist/follow", "fullFetch", true),
       requestMethod: "GET",
       headers: headers,
+    });
+  }
+
+  function updatePlaylistInfo(options) {
+    return request({
+      url: "/api/playlists",
+      requestMethod: "PATCH",
+      body: options,
     });
   }
 
@@ -181,6 +190,7 @@ function makeApi(request = makeRequest()) {
     followPlaylist: followPlaylist,
     getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
+    updatePlaylistInfo: updatePlaylistInfo,
   };
 }
 

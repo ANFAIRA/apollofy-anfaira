@@ -27,8 +27,6 @@ function PlaylistDeleteModal({
 
   const history = useHistory();
 
-  console.log(selectedPlaylist);
-
   const { _id } = selectedPlaylist;
 
   const { handleSubmit } = useForm({
@@ -43,7 +41,6 @@ function PlaylistDeleteModal({
   function onSubmit() {
     dispatch(deletePlaylist({ _id: _id }));
     history.push(`/`);
-    console.log("On submit");
   }
 
   useEffect(() => {

@@ -3,10 +3,10 @@ import { func, object } from "prop-types";
 import { useSelector } from "react-redux";
 
 function PlaylistDialogue({
-  playlist,
-  setShowModal,
+  setShowPlaylistModal,
   setShowDeleteModal,
   setIsEditModal,
+  playlist,
   setSelectedPlaylist,
 }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
@@ -15,15 +15,15 @@ function PlaylistDialogue({
   const isMyPlaylist = _id === author[0];
 
   function handleEditClick() {
-    setShowModal(true);
+    setShowPlaylistModal(true);
     setIsEditModal(true);
     setSelectedPlaylist(playlist);
+    console.log("edit");
   }
 
   function handleDeleteClick() {
     setShowDeleteModal(true);
     setSelectedPlaylist(playlist);
-    console.log("handleDeleteClick");
   }
 
   function handleAuthorClick() {
@@ -74,10 +74,10 @@ function PlaylistDialogue({
 }
 
 PlaylistDialogue.propTypes = {
-  playlist: object.isRequired,
-  setShowModal: func.isRequired,
+  setShowPlaylistModal: func.isRequired,
   setShowDeleteModal: func.isRequired,
   setIsEditModal: func.isRequired,
+  playlist: object.isRequired,
   setSelectedPlaylist: func.isRequired,
 };
 

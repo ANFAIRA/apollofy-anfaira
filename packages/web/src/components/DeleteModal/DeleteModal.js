@@ -18,8 +18,6 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
     trackDeleteSelector,
   );
 
-  console.log(selectedTrack);
-
   const { _id } = selectedTrack;
 
   const { handleSubmit } = useForm({

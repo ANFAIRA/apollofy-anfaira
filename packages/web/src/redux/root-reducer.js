@@ -9,6 +9,7 @@ import likedSongReducer from "./liked-songs/liked-songs-reducer";
 import mySongReducer from "./mySong/mySong-reducer";
 import playlistReducer from "./playlist/playlist-reducer";
 import playlistDeleteReducer from "./playlistDelete/playlistDelete-reducer";
+import playlistEditorReducer from "./playlistEditor/playlistEditor-reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   mySong: mySongReducer,
   playlists: playlistReducer,
   playlistDelete: playlistDeleteReducer,
+  playlistEditor: playlistEditorReducer,
 });
 
 export default rootReducer;

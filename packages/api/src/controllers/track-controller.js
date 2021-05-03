@@ -67,6 +67,7 @@ async function getAllSongs(req, res, next) {
 
 async function updateTrack(req, res, next) {
   const { _id, title, artist, thumbnail, genre } = req.body;
+  console.log(req.body);
 
   try {
     const response = await TrackRepo.findOneAndUpdate(
@@ -81,6 +82,8 @@ async function updateTrack(req, res, next) {
       },
       { new: true },
     );
+    console.log(response);
+
     if (response.error) {
       return res.status(500).send({
         data: null,
@@ -192,7 +195,6 @@ async function deleteTrack(req, res, next) {
   try {
     const response = await TrackRepo.findOneAndDelete({ _id: _id });
 
-    console.log(response);
     if (response.error) {
       return res.status(500).send({
         data: null,
