@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { func, object } from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { func, object, oneOfType, string } from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addSongToQueue } from "../../redux/player/player-actions";
 // import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
+  addSongToPlaylist,
   // fetchPlaylists,
   fetchOwnPlaylists,
-  addSongToPlaylist,
 } from "../../redux/playlist/playlist-actions";
 
 function SongDialogue({
@@ -19,6 +18,7 @@ function SongDialogue({
   song,
   setSelectedTrack,
   handleLikeBtn,
+  setIsMenuOpen,
 }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { authorId } = song;
@@ -34,11 +34,13 @@ function SongDialogue({
   function handleEditClick() {
     setShowModal(true);
     setIsEditModal(true);
+    setIsMenuOpen(false);
     setSelectedTrack(song);
   }
 
   function handleDeleteClick() {
     setShowDeleteModal(true);
+    setIsMenuOpen(false);
     setSelectedTrack(song);
   }
 
@@ -46,6 +48,16 @@ function SongDialogue({
     const playlistId = e.currentTarget.id;
     const songId = song._id;
     dispatch(addSongToPlaylist(playlistId, songId));
+  }
+
+  function handleLikeClick() {
+    handleLikeBtn();
+    setIsMenuOpen(false);
+  }
+
+  function handleAddSongToQueue() {
+    setIsMenuOpen(false);
+    dispatch(addSongToQueue(song));
   }
 
   useEffect(() => {
@@ -58,7 +70,14 @@ function SongDialogue({
       <button
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 font-semibold text-left focus:outline-none"
-        onClick={handleLikeBtn}
+        onClick={handleAddSongToQueue}
+      >
+        Add to queue
+      </button>
+      <button
+        type="button"
+        className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 font-semibold text-left focus:outline-none"
+        onClick={handleLikeClick}
       >
         Like
       </button>
@@ -120,12 +139,20 @@ function SongDialogue({
 }
 
 SongDialogue.propTypes = {
-  setShowModal: func.isRequired,
-  setShowDeleteModal: func.isRequired,
-  setIsEditModal: func.isRequired,
-  song: object.isRequired,
-  setSelectedTrack: func.isRequired,
   handleLikeBtn: func.isRequired,
+  setShowModal: oneOfType([string, func]),
+  setShowDeleteModal: oneOfType([string, func]),
+  setIsEditModal: oneOfType([string, func]),
+  setSelectedTrack: oneOfType([string, func]),
+  setIsMenuOpen: func.isRequired,
+  song: object.isRequired,
+};
+
+SongDialogue.defaultProps = {
+  setShowModal: "",
+  setShowDeleteModal: "",
+  setIsEditModal: "",
+  setSelectedTrack: "",
 };
 
 export default SongDialogue;

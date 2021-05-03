@@ -185,17 +185,12 @@ export default function Navbar({
           <div className="sm:hidden" id="mobile-menu">
             <div className="px-4">
               <UploadButton
-                showPlaylistModal={showPlaylistModal}
-                setShowPlaylistModal={setShowPlaylistModal}
-                text=" Upload a file"
+                setShowModal={setShowPlaylistModal}
+                text=" Create a playlist"
               />
             </div>
             <div className="px-4">
-              <UploadButton
-                showModal={showModal}
-                setShowModal={setShowModal}
-                text=" Create a playlist"
-              />
+              <UploadButton setShowModal={setShowModal} text=" Upload a file" />
             </div>
             <div className="px-2 pt-2 pb-3 space-y-1">
               <SearchBar />

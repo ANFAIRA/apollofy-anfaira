@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { bool, func, object, oneOfType, string } from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { bool, func, object } from "prop-types";
-
+import { useHistory } from "react-router-dom";
 import { createPlaylist } from "../../redux/playlist/playlist-actions";
-import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
-
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
-
+import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";
@@ -95,7 +92,7 @@ function PlaylistModal({
 
   useEffect(() => {
     playlistCreation && setShowPlaylistModal(false);
-  }, [dispatch, playlistCreation]);
+  }, [dispatch, setShowPlaylistModal, playlistCreation]);
 
   return (
     <article className="md:w-2/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
@@ -270,11 +267,12 @@ function PlaylistModal({
 
 PlaylistModal.propTypes = {
   setShowPlaylistModal: func.isRequired,
-  isEditModal: bool.isRequired,
+  isEditModal: oneOfType([bool, string]),
   selectedPlaylist: object,
 };
 PlaylistModal.defaultProps = {
   selectedPlaylist: {},
+  isEditModal: "",
 };
 
 export default PlaylistModal;

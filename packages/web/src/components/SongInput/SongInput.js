@@ -1,5 +1,5 @@
+import { func, object, oneOfType, string } from "prop-types";
 import React from "react";
-import { func, object, string } from "prop-types";
 import { fileTypes } from "../../services/cloudinary";
 
 const SongInput = ({
@@ -37,7 +37,7 @@ const SongInput = ({
 
 SongInput.propTypes = {
   onChange: func.isRequired,
-  placeholder: string.isRequired,
+  placeholder: oneOfType([string, object]),
   defaultValue: string,
   register: func.isRequired,
   validation: object.isRequired,
@@ -47,6 +47,7 @@ SongInput.propTypes = {
 SongInput.defaultProps = {
   defaultValue: "",
   errors: "",
+  placeholder: "",
 };
 
 export default SongInput;
