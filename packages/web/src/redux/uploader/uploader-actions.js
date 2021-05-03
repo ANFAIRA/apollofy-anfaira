@@ -82,12 +82,7 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
   };
 }
 
-export function uploadImage({
-  file,
-  name = "",
-  genre = "",
-  onUploadProgress = (_) => {},
-}) {
+export function uploadImage({ file, name = "", onUploadProgress = (_) => {} }) {
   return async function uploadImageThunk(dispatch) {
     dispatch(uploadImageRequest());
 

@@ -270,15 +270,14 @@ async function followPlaylist(req, res, next) {
     next(error);
   }
 }
+
 async function deletePlaylist(req, res, next) {
   const { _id } = req.body;
-  console.log(_id);
 
   try {
     const dbResponse = await PlaylistRepo.findOneAndDelete({
       _id: _id,
     });
-    console.log(dbResponse);
 
     if (dbResponse.error) {
       res.status(500).send({
@@ -321,20 +320,56 @@ async function fetchFollowedPlaylists(req, res, next) {
         error: dbResponse.error,
       });
     }
+    if (fullFetch) {
+      dbResponse.data = await Promise.all(
+        dbResponse.data.map(async (p) => {
+          const newPlaylist = await addFullTracksInfo(p);
+          return newPlaylist;
+        }),
+      );
+    }
+
+    res.status(200).send({
+      data: dbResponse.data,
+      type: "FOLLOWING",
+      error: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updatePlaylist(req, res, next) {
+  const { _id, title, type, publicAccessible, description } = req.body;
+
+  try {
+    const dbResponse = await PlaylistRepo.findOneAndUpdate(
+      {
+        _id: _id,
+      },
+      {
+        $set: {
+          title: title,
+          type: type,
+          publicAccessible: publicAccessible ? publicAccessible : true,
+          description: description,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(500).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
 
     if (dbResponse.data) {
-      if (fullFetch) {
-        dbResponse.data = await Promise.all(
-          dbResponse.data.map(async (p) => {
-            const newPlaylist = await addFullTracksInfo(p);
-            return newPlaylist;
-          }),
-        );
-      }
-
       res.status(200).send({
-        data: dbResponse.data,
-        type: "FOLLOWING",
+        data: req.body,
         error: null,
       });
     }
@@ -352,4 +387,5 @@ module.exports = {
   followPlaylist: followPlaylist,
   fetchFollowedPlaylists: fetchFollowedPlaylists,
   deletePlaylist: deletePlaylist,
+  updatePlaylist: updatePlaylist,
 };

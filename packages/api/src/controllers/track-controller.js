@@ -81,6 +81,7 @@ async function updateTrack(req, res, next) {
       },
       { new: true },
     );
+
     if (response.error) {
       return res.status(500).send({
         data: null,
@@ -192,7 +193,6 @@ async function deleteTrack(req, res, next) {
   try {
     const response = await TrackRepo.findOneAndDelete({ _id: _id });
 
-    console.log(response);
     if (response.error) {
       return res.status(500).send({
         data: null,

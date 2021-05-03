@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { func, object, oneOfType, string } from "prop-types";
 
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -25,21 +24,25 @@ import { playCollection } from "../../redux/player/player-actions";
 import PlayListTable from "../../components/PlayListTable";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
 import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
+import PlaylistModal from "../../components/PlaylistModal";
 import Main from "../../layout/Main";
 
-const PlaylistView = ({ setShowModal, setIsEditModal }) => {
+const PlaylistView = () => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
-  const { addingSong } = useSelector(playlistStateSelector);
+  const { addingSong, playlistUpdate } = useSelector(playlistStateSelector);
   const currentUser = useSelector((state) => state.auth?.currentUser);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   const playlist = playlistItemSelector(id);
 
   const { title, thumbnail, description, author, type, tracks, _id } = playlist;
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const dispatch = useDispatch();
 
   const [isFollow, setIsFollow] = useState(
@@ -53,10 +56,20 @@ const PlaylistView = ({ setShowModal, setIsEditModal }) => {
 
   useEffect(() => {
     dispatch(fetchPlaylistById(_id));
-  }, [dispatch, _id, addingSong]);
+  }, [dispatch, _id, addingSong, playlistUpdate]);
 
   return (
     <>
+      {showPlaylistModal && (
+        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
+          <PlaylistModal
+            setShowPlaylistModal={setShowPlaylistModal}
+            isEditModal={isEditModal}
+            selectedPlaylist={selectedPlaylist}
+            setShowPlaylistModal={setShowPlaylistModal}
+          />
+        </section>
+      )}
       {showDeleteModal && (
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <PlaylistDeleteModal
@@ -128,7 +141,7 @@ const PlaylistView = ({ setShowModal, setIsEditModal }) => {
               </button>
               {isMenuOpen && (
                 <PlaylistDialogue
-                  setShowModal={setShowModal}
+                  setShowPlaylistModal={setShowPlaylistModal}
                   setShowDeleteModal={setShowDeleteModal}
                   setIsEditModal={setIsEditModal}
                   playlist={playlist}
@@ -153,16 +166,6 @@ const PlaylistView = ({ setShowModal, setIsEditModal }) => {
       </Main>
     </>
   );
-};
-
-PlaylistView.propTypes = {
-  setShowModal: oneOfType([string, func]),
-  setIsEditModal: oneOfType([string, func]),
-};
-
-PlaylistView.defaultProps = {
-  setShowModal: "",
-  setIsEditModal: "",
 };
 
 export default PlaylistView;

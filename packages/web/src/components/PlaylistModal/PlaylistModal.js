@@ -1,15 +1,40 @@
-import { bool, func } from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { bool, func, object } from "prop-types";
+
 import { createPlaylist } from "../../redux/playlist/playlist-actions";
+import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
+
+import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
+
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";
 
-function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
+function PlaylistModal({
+  setShowPlaylistModal,
+  isEditModal,
+  selectedPlaylist,
+}) {
   const dispatch = useDispatch();
-  // const { playlistCreation } = useSelector(playlistStateSelector);
+  const { playlistCreation } = useSelector(playlistStateSelector);
+  const history = useHistory();
+
+  const {
+    _id,
+    thumbnail,
+    title,
+    description,
+    type,
+    publicAccessible,
+  } = isEditModal ? selectedPlaylist : "";
+
+  const modal = isEditModal
+    ? { title: "Edit playlist information", type: "edit", button: "Update" }
+    : { title: "Create a playlist", type: "upload", button: "Create" };
+
   const {
     register,
     formState: { errors },
@@ -17,23 +42,42 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
     setValue,
   } = useForm({
     mode: "onBlur",
-    defaultValues: { type: "playlist", publicAccessible: true },
+    defaultValues: {
+      _id,
+      thumbnail,
+      title,
+      description,
+      type,
+      publicAccessible,
+    },
   });
 
   const [image, setImage] = useState();
   const [src, setSrc] = useState();
 
   function onSubmit(data) {
-    dispatch(
-      createPlaylist({
-        thumbnail: image,
-        title: data.title,
-        _id: data._id,
-        type: data.type,
-        publicAccessible: data.publicAccessible,
-        description: data.description,
-      }),
-    );
+    setShowPlaylistModal(false);
+    !isEditModal
+      ? dispatch(
+          createPlaylist({
+            _id: data._id,
+            thumbnail: image,
+            title: data.title,
+            type: data.type,
+            publicAccessible: data.publicAccessible,
+            description: data.description,
+          }),
+        )
+      : dispatch(
+          updatePlaylist({
+            _id: data._id,
+            thumbnail: image,
+            title: data.title,
+            type: data.type,
+            publicAccessible: data.publicAccessible,
+            description: data.description,
+          }),
+        );
   }
 
   const handleImg = (e) => {
@@ -49,54 +93,37 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
     }
   };
 
-  // useEffect(() => {
-  //   playlistCreation && setShowPlaylistModal(false);
-  // }, [dispatch, playlistCreation]);
+  useEffect(() => {
+    playlistCreation && setShowPlaylistModal(false);
+  }, [dispatch, playlistCreation]);
 
   return (
     <article className="md:w-2/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
       <CloseBtn setShowModal={setShowPlaylistModal} />
       <div>
-        <h2 className="text-center text-xl font-semibold">Create Playlist</h2>
+        <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex pb-5">
-            {src ? (
-              <div className="mr-2 h-full md:w-60 w-full">
-                <label htmlFor="photo" className="mt-2 mb-5 cursor-pointer">
-                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
-                  <input
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                    id="photo"
-                    className="hidden"
-                    onChange={handleImg}
-                  />
-                </label>
-              </div>
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-grey-lighter mb-5 mr-2">
-                <label
-                  htmlFor="photo"
-                  className={
-                    errors.image
-                      ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                      : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
-                  }
-                >
-                  <svg
-                    className="w-8 h-8"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                  </svg>
-                  <span className="mt-2 text-base leading-normal">
-                    Select an Image
-                  </span>
+            {isEditModal && (
+              <div className="mr-2 h-full md:w-60 w-full mb-5">
+                <label htmlFor="photo" className="mt-2 mb-5">
+                  {src ? (
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  ) : (
+                    <img
+                      src={thumbnail}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                  )}
+
                   <input
                     type="file"
                     accept=".png, .jpg, .jpeg"
@@ -107,6 +134,56 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
                 </label>
               </div>
             )}
+
+            {!isEditModal &&
+              (src ? (
+                <div className="mr-2 h-full md:w-60 w-full">
+                  <label htmlFor="photo" className="mt-2 mb-5 cursor-pointer">
+                    <img
+                      src={src}
+                      alt="thumbnail"
+                      className="md:w-40 md:h-40"
+                    />
+                    <input
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      id="photo"
+                      className="hidden"
+                      onChange={handleImg}
+                    />
+                  </label>
+                </div>
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-grey-lighter mb-5 mr-2">
+                  <label
+                    htmlFor="photo"
+                    className={
+                      errors.image
+                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                    }
+                  >
+                    <svg
+                      className="w-8 h-8"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span className="mt-2 text-base leading-normal">
+                      Select an Image
+                    </span>
+                    <input
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      id="photo"
+                      className="hidden"
+                      onChange={handleImg}
+                    />
+                  </label>
+                </div>
+              ))}
           </div>
 
           <Input
@@ -183,7 +260,7 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
             className="btn rounded-full bg-indigo-500 hover:bg-indigo-600 w-full py-3 text-xl font-semibold mt-5"
             type="submit"
           >
-            Create
+            {modal.button}
           </button>
         </form>
       </div>
@@ -192,8 +269,12 @@ function PlaylistModal({ showPlaylistModal, setShowPlaylistModal }) {
 }
 
 PlaylistModal.propTypes = {
-  showPlaylistModal: bool.isRequired,
   setShowPlaylistModal: func.isRequired,
+  isEditModal: bool.isRequired,
+  selectedPlaylist: object,
+};
+PlaylistModal.defaultProps = {
+  selectedPlaylist: {},
 };
 
 export default PlaylistModal;

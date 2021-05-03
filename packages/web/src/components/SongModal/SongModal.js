@@ -16,13 +16,7 @@ import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import SongInput from "../SongInput";
 
-function SongModal({
-  setShowModal,
-  isEditModal,
-  setIsEditModal,
-  selectedTrack,
-  setSelectedTrack,
-}) {
+function SongModal({ setShowModal, isEditModal, selectedTrack }) {
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
@@ -300,15 +294,12 @@ function SongModal({
 
 SongModal.propTypes = {
   setShowModal: func.isRequired,
-  setIsEditModal: func.isRequired,
   isEditModal: bool.isRequired,
   selectedTrack: object,
-  setSelectedTrack: func,
 };
 
 SongModal.defaultProps = {
   selectedTrack: {},
-  setSelectedTrack: "",
 };
 
 export default SongModal;
