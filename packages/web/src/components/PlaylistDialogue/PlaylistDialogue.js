@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { func, object } from "prop-types";
 import { useSelector } from "react-redux";
 
@@ -13,6 +13,8 @@ function PlaylistDialogue({
   const { author } = playlist;
 
   const isMyPlaylist = _id === author[0];
+  const currentURL = window.location.href;
+  const inputRef = useRef(null);
 
   function handleEditClick() {
     setShowPlaylistModal(true);
@@ -25,8 +27,8 @@ function PlaylistDialogue({
     setSelectedPlaylist(playlist);
   }
 
-  function handleAuthorClick() {
-    console.log("handleAuthorClick");
+  function handleShareClick() {
+    navigator.clipboard.writeText(currentURL);
   }
 
   return (
@@ -46,16 +48,17 @@ function PlaylistDialogue({
       <button
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
-        onClick={handleAuthorClick}
       >
         Author
       </button>
       <button
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
+        onClick={handleShareClick}
       >
         Share
       </button>
+      <input type="hidden" ref={inputRef} value={currentURL} />
       <button
         type="button"
         className={

@@ -2,7 +2,6 @@ import { bool, func, object, oneOfType, string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { createPlaylist } from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
 import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
@@ -17,16 +16,10 @@ function PlaylistModal({
 }) {
   const dispatch = useDispatch();
   const { playlistCreation } = useSelector(playlistStateSelector);
-  const history = useHistory();
 
-  const {
-    _id,
-    thumbnail,
-    title,
-    description,
-    type,
-    publicAccessible,
-  } = isEditModal ? selectedPlaylist : "";
+  const { _id, thumbnail, title, description } = isEditModal
+    ? selectedPlaylist
+    : "";
 
   const modal = isEditModal
     ? { title: "Edit playlist information", type: "edit", button: "Update" }

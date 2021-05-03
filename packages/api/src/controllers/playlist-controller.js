@@ -340,7 +340,14 @@ async function fetchFollowedPlaylists(req, res, next) {
 }
 
 async function updatePlaylist(req, res, next) {
-  const { _id, title, type, publicAccessible, description } = req.body;
+  const {
+    _id,
+    title,
+    type,
+    thumbnail,
+    publicAccessible,
+    description,
+  } = req.body;
 
   try {
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
@@ -350,6 +357,7 @@ async function updatePlaylist(req, res, next) {
       {
         $set: {
           title: title,
+          thumbnail: thumbnail,
           type: type,
           publicAccessible: publicAccessible ? publicAccessible : true,
           description: description,
