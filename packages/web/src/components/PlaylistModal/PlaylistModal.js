@@ -44,8 +44,8 @@ function PlaylistModal({
       thumbnail,
       title,
       description,
-      type,
-      publicAccessible,
+      type: "playlist",
+      publicAccessible: true,
     },
   });
 
