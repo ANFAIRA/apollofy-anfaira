@@ -1,14 +1,17 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { func, object, oneOfType, string } from "prop-types";
+
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object, oneOfType, string } from "prop-types";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { playSong } from "../../redux/player/player-actions";
 import { likeSong } from "../../redux/song/song-actions";
+
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
@@ -74,7 +77,7 @@ function SongCard({
           </button>
           <button
             type="button"
-            className="card--icons--icon"
+            className="card--icons--icon ou"
             onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
           >
             {dotsH}
