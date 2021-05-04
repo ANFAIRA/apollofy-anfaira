@@ -48,7 +48,6 @@ function SongModal({ setShowModal, isEditModal, selectedTrack }) {
   const [src, setSrc] = useState();
 
   function onSubmit(data) {
-    console.log(data.genre);
     !isEditModal
       ? dispatch(
           uploadSong({

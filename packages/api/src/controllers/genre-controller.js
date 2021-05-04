@@ -5,7 +5,7 @@ async function createGenre(req, res, next) {
   const {
     body: { name },
   } = req;
-  // console.log(req.body);
+
   try {
     if (!name) {
       return res.status(400).send({
@@ -14,25 +14,25 @@ async function createGenre(req, res, next) {
       });
     }
 
-    // console.log(GenreRepo);
-
     const dbResponse = await GenreRepo.create({
       name: name,
     });
 
-    // console.log(dbResponse);
-
-    handleDbResponse(res, dbResponse);
+    if (dbResponse.data) {
+      return res.status(201).send({
+        data: dbResponse.data._id,
+        error: null,
+      });
+    }
   } catch (err) {
     next(err);
   }
 }
 
 async function fetchGenres(req, res, next) {
-  // const { params } = req;
   try {
     const dbResponse = await GenreRepo.find();
-    // console.log(dbResponse);
+
     handleDbResponse(res, dbResponse);
   } catch (err) {
     next(err);
@@ -67,18 +67,19 @@ async function fetchGenreByName(req, res, next) {
 
 async function addTrackToGenre(req, res, next) {
   const { genreId, trackId } = req.body;
-  console.log(req.body);
+
   try {
+    const genre = await GenreRepo.findOne({ _id: genreId });
     const dbResponse = await GenreRepo.findOneAndUpdate(
       { _id: genreId },
       {
         $set: {
-          tracks: [trackId],
+          tracks: [...genre.data.tracks, trackId],
         },
       },
       { new: true },
     );
-    console.log(dbResponse);
+
     handleDbResponse(res, dbResponse);
   } catch (err) {
     next(err);
