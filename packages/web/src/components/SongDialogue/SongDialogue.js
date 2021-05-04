@@ -47,7 +47,8 @@ function SongDialogue({
   function handleAddToPlaylistBtn(e) {
     const playlistId = e.currentTarget.id;
     const songId = song._id;
-    dispatch(addSongToPlaylist(playlistId, songId));
+    const updateType = "ADD";
+    dispatch(addSongToPlaylist(playlistId, songId, updateType));
   }
 
   function handleLikeClick() {

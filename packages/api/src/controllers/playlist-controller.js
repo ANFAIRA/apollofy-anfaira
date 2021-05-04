@@ -121,7 +121,7 @@ async function fetchPlaylistById(req, res, next) {
 }
 
 async function addTrackToPlaylist(req, res, next) {
-  const { playlistId, songId } = req.body;
+  const { playlistId, songId, updateType } = req.body;
 
   try {
     await PlaylistRepo.findByIdAndPopulate(playlistId, [
@@ -130,15 +130,65 @@ async function addTrackToPlaylist(req, res, next) {
         select: "username",
       },
     ]);
+    const playlist = await PlaylistRepo.findOne({ _id: playlistId });
+    console.log("DeletePlaylist", updateType);
 
+    if (updateType === "ADD") {
+      const indexSong = playlist.data.tracks.findIndex(
+        (id) => String(id) === String(songId),
+      );
+      if (indexSong === -1) {
+        playlist.data.tracks.push(songId);
+      }
+    } else if (updateType === "DELETE") {
+      console.log("DeletePlaylist", playlist.data.tracks);
+      const songIndex = playlist.data.tracks.indexOf(String(songId));
+      playlist.data.tracks.splice(songIndex, 1);
+      console.log(songIndex);
+    }
+
+    const dbResponse = await PlaylistRepo.findOneAndUpdate(
+      {
+        _id: playlistId,
+      },
+      {
+        tracks: playlist.data.tracks,
+      },
+      {
+        new: true,
+        select: {
+          __v: 0,
+        },
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteTrackFromPlaylist(req, res, next) {
+  const { playlistId, songId } = req.body;
+
+  try {
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
 
-    const indexSong = playlist.data.tracks.findIndex(
-      (id) => String(id) === String(songId),
-    );
-    if (indexSong === -1) {
-      playlist.data.tracks.push(songId);
-    }
+    const songIndex = playlist.data.tracks.indexOf(String(songId));
+    playlist.data.tracks.splice(songId, 1);
+    console.log(songIndex);
 
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
       {
@@ -390,6 +440,7 @@ module.exports = {
   createPlaylist: createPlaylist,
   fetchPlaylists: fetchPlaylists,
   addTrackToPlaylist: addTrackToPlaylist,
+  deleteTrackFromPlaylist: deleteTrackFromPlaylist,
   fetchPlaylistById: fetchPlaylistById,
   fetchOwnPlaylists: fetchOwnPlaylists,
   followPlaylist: followPlaylist,

@@ -1,4 +1,7 @@
-import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as farHeart,
+  faTrashAlt,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { array, object, string } from "prop-types";
 import React from "react";
@@ -13,12 +16,20 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
 
   const handleClick = (e) => {
     const songId = e.currentTarget.id;
+    const updateType = "ADD";
     if (icon.iconName === "plus") {
-      dispatch(addSongToPlaylist(playlistId, songId));
+      dispatch(addSongToPlaylist(playlistId, songId, updateType));
     } else {
       const selectedSong = data.find((song) => song._id === songId);
       dispatch(playSong(selectedSong));
     }
+  };
+
+  const handleDelete = (e) => {
+    console.log("Delete");
+    const songId = e.currentTarget.id;
+    const updateType = "DELETE";
+    dispatch(addSongToPlaylist(playlistId, songId, updateType));
   };
 
   return (
@@ -30,6 +41,7 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
         <div className="p-2 w-full">Artist</div>
         <div className="p-2 w-full">Genre</div>
         <div className="p-2 w-16 flex-shrink-0">Time</div>
+        <div className="p-2 w-12 flex-shrink-0" />
       </div>
       {songs?.map((song) => (
         <div
@@ -53,6 +65,14 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
           <div className="p-3 w-16 flex-shrink-0">
             {formatTime(song.duration)}
           </div>
+          <button
+            type="button"
+            id={song._id}
+            onClick={handleDelete}
+            className="p-3 w-12 flex-shrink-0"
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
         </div>
       ))}
     </div>
