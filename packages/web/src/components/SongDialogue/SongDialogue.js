@@ -1,8 +1,10 @@
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object, oneOfType, string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { func, object } from "prop-types";
+
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { addSongToQueue } from "../../redux/player/player-actions";
 // import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
@@ -10,16 +12,14 @@ import {
   // fetchPlaylists,
   fetchOwnPlaylists,
 } from "../../redux/playlist/playlist-actions";
+import {
+  showSongModal,
+  showDeleteModal,
+  setEditModalTrue,
+} from "../../redux/modals/modal-actions";
+import { setTrackToUpdate } from "../../redux/trackEditor/trackEditor-actions";
 
-function SongDialogue({
-  setShowModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  song,
-  setSelectedTrack,
-  handleLikeBtn,
-  setIsMenuOpen,
-}) {
+function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { authorId } = song;
   const isMySong = _id === authorId;
@@ -32,16 +32,16 @@ function SongDialogue({
   const dispatch = useDispatch();
 
   function handleEditClick() {
-    setShowModal(true);
-    setIsEditModal(true);
+    dispatch(showSongModal());
+    dispatch(setEditModalTrue());
+    dispatch(setTrackToUpdate(song));
+
     setIsMenuOpen(false);
-    setSelectedTrack(song);
   }
 
   function handleDeleteClick() {
-    setShowDeleteModal(true);
+    dispatch(showDeleteModal());
     setIsMenuOpen(false);
-    setSelectedTrack(song);
   }
 
   function handleAddToPlaylistBtn(e) {
@@ -140,19 +140,8 @@ function SongDialogue({
 
 SongDialogue.propTypes = {
   handleLikeBtn: func.isRequired,
-  setShowModal: oneOfType([string, func]),
-  setShowDeleteModal: oneOfType([string, func]),
-  setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
   setIsMenuOpen: func.isRequired,
   song: object.isRequired,
-};
-
-SongDialogue.defaultProps = {
-  setShowModal: "",
-  setShowDeleteModal: "",
-  setIsEditModal: "",
-  setSelectedTrack: "",
 };
 
 export default SongDialogue;

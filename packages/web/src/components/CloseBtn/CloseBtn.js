@@ -1,13 +1,20 @@
 import React from "react";
-import { func } from "prop-types";
+import { useDispatch } from "react-redux";
+
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { hideAllModals } from "../../redux/modals/modal-actions";
+import { setTrackToUpdate } from "../../redux/trackEditor/trackEditor-actions";
+
 const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
-function CloseBtn({ setShowModal }) {
+function CloseBtn() {
+  const dispatch = useDispatch();
+
   function handleCloseBtn() {
-    setShowModal(false);
+    dispatch(hideAllModals());
+    dispatch(setTrackToUpdate({}));
   }
   return (
     <div className="relative h-10">
@@ -21,9 +28,5 @@ function CloseBtn({ setShowModal }) {
     </div>
   );
 }
-
-CloseBtn.propTypes = {
-  setShowModal: func.isRequired,
-};
 
 export default CloseBtn;

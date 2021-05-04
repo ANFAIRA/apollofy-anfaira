@@ -4,11 +4,16 @@ const initialState = {
   isUpdatingTrack: false,
   trackUpdateSuccess: false,
   trackUpadateError: null,
-  selectedTrack: {},
+  trackToUpdate: {},
 };
 
 const TrackEditorReducer = (state = initialState, action) => {
   switch (action.type) {
+    case TrackEditorTypes.TRACK_TO_UPDATE:
+      return {
+        ...state,
+        trackToUpdate: action.payload,
+      };
     case TrackEditorTypes.UPDATE_TRACK_REQUEST:
       return {
         ...state,
@@ -21,7 +26,7 @@ const TrackEditorReducer = (state = initialState, action) => {
         isUpdatingTrack: false,
         trackUpdateSuccess: true,
         trackUpadateError: false,
-        selectedTrack: action.payload,
+        trackToUpdate: action.payload,
       };
     case TrackEditorTypes.UPDATE_TRACK_ERROR:
       return {

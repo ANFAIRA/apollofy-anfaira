@@ -1,27 +1,35 @@
-import { node } from "prop-types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { node } from "prop-types";
+
+import { modalStateSelector } from "../../redux/modals/modal-selectors";
+
 import Navbar from "../../components/Navbar";
 import Player from "../../components/Player";
-import PlaylistModal from "../../components/PlaylistModal/PlaylistModal";
+import PlaylistModal from "../../components/PlaylistModal";
 import SongModal from "../../components/SongModal";
+import DeleteModal from "../../components/DeleteModal";
 
 const Main = ({ children }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-  const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
-  const [isEditModal, setIsEditModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+  // const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+  // const [isEditModal, setIsEditModal] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
+
+  const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
+  const { showSongModal, showPlaylistModal, showDeleteModal } = useSelector(
+    modalStateSelector,
+  );
 
   return (
     <>
-      {showModal && (
+      {showSongModal && (
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <SongModal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            isEditModal={isEditModal}
-            setIsEditModal={setIsEditModal}
+            // showModal={showModal}
+            // setShowModal={setShowModal}
+            // isEditModal={isEditModal}
+            // setIsEditModal={setIsEditModal}
             selectedTrack={selectedTrack}
             setSelectedTrack={setSelectedTrack}
           />
@@ -30,16 +38,25 @@ const Main = ({ children }) => {
       {showPlaylistModal && (
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <PlaylistModal
-            showPlaylistModal={showPlaylistModal}
-            setShowPlaylistModal={setShowPlaylistModal}
+          // showPlaylistModal={showPlaylistModal}
+          // setShowPlaylistModal={setShowPlaylistModal}
+          />
+        </section>
+      )}
+      {showDeleteModal && (
+        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
+          <DeleteModal
+            // setShowDeleteModal={setShowDeleteModal}
+            selectedTrack={selectedTrack}
+            setSelectedTrack={setSelectedTrack}
           />
         </section>
       )}
       <Navbar
-        showModal={showModal}
-        setShowModal={setShowModal}
-        showPlaylistModal={showPlaylistModal}
-        setShowPlaylistModal={setShowPlaylistModal}
+      // showModal={showModal}
+      // setShowModal={setShowModal}
+      // showPlaylistModal={showPlaylistModal}
+      // setShowPlaylistModal={setShowPlaylistModal}
       />
       <section className="md:container md:mx-auto p-8">{children}</section>
       <Player tracks={tracksToPlay} />

@@ -1,14 +1,17 @@
+import React, { useState } from "react";
+import { object } from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object, oneOfType, string } from "prop-types";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { playSong } from "../../redux/player/player-actions";
 import { likeSong } from "../../redux/song/song-actions";
+
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
@@ -16,13 +19,7 @@ const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({
-  song,
-  setShowModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  setSelectedTrack,
-}) {
+function SongCard({ song }) {
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
       ? state.song.currentUser.data
@@ -81,11 +78,7 @@ function SongCard({
         </div>
         {isMenuOpen && (
           <SongDialogue
-            setShowModal={setShowModal}
-            setShowDeleteModal={setShowDeleteModal}
-            setIsEditModal={setIsEditModal}
             song={song}
-            setSelectedTrack={setSelectedTrack}
             handleLikeBtn={handleLikeBtn}
             setIsMenuOpen={setIsMenuOpen}
           />
@@ -105,17 +98,6 @@ function SongCard({
 
 SongCard.propTypes = {
   song: object.isRequired,
-  setShowModal: oneOfType([string, func]),
-  setShowDeleteModal: oneOfType([string, func]),
-  setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
-};
-
-SongCard.defaultProps = {
-  setShowModal: "",
-  setShowDeleteModal: "",
-  setIsEditModal: "",
-  setSelectedTrack: "",
 };
 
 export default SongCard;

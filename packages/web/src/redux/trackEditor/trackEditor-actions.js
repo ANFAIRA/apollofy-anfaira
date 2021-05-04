@@ -1,6 +1,11 @@
 import api from "../../api";
 import * as trackEditorTypes from "./trackEditor-types";
 
+export const setTrackToUpdate = (trackData) => ({
+  type: trackEditorTypes.TRACK_TO_UPDATE,
+  payload: trackData,
+});
+
 export const updateTrackRequest = () => ({
   type: trackEditorTypes.UPDATE_TRACK_REQUEST,
 });

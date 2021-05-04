@@ -73,7 +73,7 @@ export const fetchPlaylistsError = (message) => ({
   payload: message,
 });
 
-export const fetchAllPlaylistsSuccess = ({
+export const fetchPlaylistsSuccess = ({
   type,
   playlistByID,
   trackByID,
@@ -124,7 +124,7 @@ export function fetchAllPlaylists() {
       const normalizedData = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchAllPlaylistsSuccess({
+        fetchPlaylistsSuccess({
           playlistByID: normalizedData.entities.playlists,
           trackByID: normalizedData.entities.tracks,
           playlistIds: normalizedData.result,
@@ -161,7 +161,7 @@ export function fetchOwnPlaylists() {
       const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchAllPlaylistsSuccess({
+        fetchPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: res.data.type,
@@ -175,7 +175,7 @@ export function fetchOwnPlaylists() {
 
 // Fetch Playlist by ID
 
-export const fetchPlaylistSuccess = (playlist) => ({
+export const fetchPlaylistByIdSuccess = (playlist) => ({
   type: PlaylistTypes.FETCH_PLAYLIST_BY_ID_SUCCESS,
   payload: playlist,
 });
@@ -189,7 +189,7 @@ export function fetchPlaylistById(playlistId) {
       if (res.errorMessage) {
         return dispatch(fetchPlaylistsError(res.errorMessage));
       }
-      return dispatch(fetchPlaylistSuccess(res.data.data));
+      return dispatch(fetchPlaylistByIdSuccess(res.data.data));
     } catch (err) {
       return dispatch(fetchPlaylistsError(err));
     }
@@ -253,7 +253,7 @@ export function fetchFollowedPlaylists() {
       const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchAllPlaylistsSuccess({
+        fetchPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: res.data.type,

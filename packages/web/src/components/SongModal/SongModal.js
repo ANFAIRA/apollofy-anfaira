@@ -1,32 +1,45 @@
-import { bool, func, object } from "prop-types";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+
 import {
   updateSong,
   updateTrackReset,
+  setTrackToUpdate,
 } from "../../redux/trackEditor/trackEditor-actions";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
 import {
   uploadSong,
   uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
+import {
+  hideSongModal,
+  setEditModalFalse,
+} from "../../redux/modals/modal-actions";
+
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { modalStateSelector } from "../../redux/modals/modal-selectors";
+import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import SongInput from "../SongInput";
 
-function SongModal({ setShowModal, isEditModal, selectedTrack }) {
+function SongModal() {
   const dispatch = useDispatch();
+
+  const { isEditModal } = useSelector(modalStateSelector);
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
   );
-  const { isUpdatingTrack, trackUpdateSuccess, trackUpdateError } = useSelector(
-    trackEditorSelector,
-  );
+  const {
+    isUpdatingTrack,
+    trackUpdateSuccess,
+    trackUpdateError,
+    trackToUpdate,
+  } = useSelector(trackEditorSelector);
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
-    ? selectedTrack
+    ? trackToUpdate
     : "";
 
   const modal = isEditModal
@@ -43,7 +56,7 @@ function SongModal({ setShowModal, isEditModal, selectedTrack }) {
     defaultValues: { _id, thumbnail, title, artist, genre },
   });
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(thumbnail);
   const [song, setSong] = useState();
   const [src, setSrc] = useState();
 
@@ -67,6 +80,9 @@ function SongModal({ setShowModal, isEditModal, selectedTrack }) {
             _id: data._id,
           }),
         );
+    dispatch(setTrackToUpdate({}));
+    dispatch(hideSongModal());
+    dispatch(setEditModalFalse());
   }
 
   const handleImg = (e) => {
@@ -91,22 +107,14 @@ function SongModal({ setShowModal, isEditModal, selectedTrack }) {
   //   setSrc(null);
   // }
 
-  // function handleCloseBtn() {
-  //   setShowModal(false);
-  //   setIsEditModal(false);
-  //   setSelectedTrack(null);
-  // }
-
   useEffect(() => {
     dispatch(uploadSongReset());
     dispatch(updateTrackReset());
-    uploadSongSuccess && setShowModal(false);
-    trackUpdateSuccess && setShowModal(false);
-  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, setShowModal]);
+  }, [dispatch, uploadSongSuccess, trackUpdateSuccess]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <CloseBtn setShowModal={setShowModal} />
+      <CloseBtn />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
@@ -291,15 +299,5 @@ function SongModal({ setShowModal, isEditModal, selectedTrack }) {
     </article>
   );
 }
-
-SongModal.propTypes = {
-  setShowModal: func.isRequired,
-  isEditModal: bool.isRequired,
-  selectedTrack: object,
-};
-
-SongModal.defaultProps = {
-  selectedTrack: {},
-};
 
 export default SongModal;

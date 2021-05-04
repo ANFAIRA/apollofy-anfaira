@@ -10,6 +10,7 @@ import mySongReducer from "./mySong/mySong-reducer";
 import playlistReducer from "./playlist/playlist-reducer";
 import playlistDeleteReducer from "./playlistDelete/playlistDelete-reducer";
 import playlistEditorReducer from "./playlistEditor/playlistEditor-reducer";
+import modalReducer from "./modals/modal-reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   playlists: playlistReducer,
   playlistDelete: playlistDeleteReducer,
   playlistEditor: playlistEditorReducer,
+  modal: modalReducer,
 });
 
 export default rootReducer;
