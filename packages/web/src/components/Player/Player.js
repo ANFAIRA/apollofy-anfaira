@@ -10,11 +10,15 @@ import Controls from "./Controls";
 import "./Player.scss";
 
 const Player = ({ tracks }) => {
-  const [trackIndex, setTrackIndex] = useState(0);
+  const collectionIndex = useSelector((state) => state.player.collectionIndex);
+
+  const [trackIndex, setTrackIndex] = useState(collectionIndex);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+
   const { artist, title, url, thumbnail, _id, likedBy } =
     tracks[trackIndex] || "";
+
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
   const isReady = useRef(false);
@@ -128,7 +132,7 @@ const Player = ({ tracks }) => {
         <div className="player--info">
           <img
             src={thumbnail}
-            alt={`track thumbnail for ${title} by ${artist}`}
+            alt={thumbnail ? `track thumbnail for ${title} by ${artist}` : ""}
             className="player--info--img"
           />
           <div className="player--info--details">

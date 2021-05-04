@@ -3,7 +3,7 @@ export const formatTime = (timeInSecond) => {
   minutes = minutes < 10 ? `0${minutes}` : minutes;
   let seconds = Math.floor(timeInSecond % 60);
   seconds = seconds < 10 ? `0${seconds}` : seconds;
-  return `${minutes}:${seconds}`;
+  return isNaN(minutes) || isNaN(seconds) ? "--:--" : `${minutes}:${seconds}`;
 };
 
 export const calcRemainingTime = (duration, currentTime) => {
