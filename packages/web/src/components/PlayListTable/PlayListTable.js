@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { array, object, string } from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { playSongFromCollection } from "../../redux/player/player-actions";
+import { playSong } from "../../redux/player/player-actions";
 import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
@@ -17,7 +17,7 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
       dispatch(addSongToPlaylist(playlistId, songId));
     } else {
       const selectedSong = data.find((song) => song._id === songId);
-      dispatch(playSongFromCollection(songs, selectedSong));
+      dispatch(playSong(selectedSong));
     }
   };
 
