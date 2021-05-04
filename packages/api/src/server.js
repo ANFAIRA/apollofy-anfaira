@@ -6,7 +6,12 @@ const cors = require("cors");
 
 const { config } = require("./config");
 const { errorMiddleware } = require("./middlewares");
-const { userRouter, trackRouter, playlistRouter } = require("./routes");
+const {
+  userRouter,
+  trackRouter,
+  playlistRouter,
+  genreRouter,
+} = require("./routes");
 
 const app = express();
 
@@ -24,6 +29,7 @@ app.use(
 app.use(userRouter);
 app.use(trackRouter);
 app.use(playlistRouter);
+app.use(genreRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send({

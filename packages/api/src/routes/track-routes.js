@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 
 const { authMiddleware } = require("../middlewares");
-const { trackController } = require("../controllers");
+const { trackController, trackPlaybackController } = require("../controllers");
 
 const trackRouter = Router();
 
@@ -16,6 +16,11 @@ trackRouter.get(
   trackController.getLikedSongs,
 );
 trackRouter.patch("/tracks/:id/like", authMiddleware, trackController.likeSong);
+trackRouter.post(
+  "/tracks/:id/playback",
+  authMiddleware,
+  trackPlaybackController.addPlayback,
+);
 
 module.exports = {
   trackRouter: trackRouter,
