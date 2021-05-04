@@ -131,20 +131,12 @@ async function addTrackToPlaylist(req, res, next) {
       },
     ]);
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
-    console.log("DeletePlaylist", updateType);
 
-    if (updateType === "ADD") {
-      const indexSong = playlist.data.tracks.findIndex(
-        (id) => String(id) === String(songId),
-      );
-      if (indexSong === -1) {
-        playlist.data.tracks.push(songId);
-      }
-    } else if (updateType === "DELETE") {
-      console.log("DeletePlaylist", playlist.data.tracks);
-      const songIndex = playlist.data.tracks.indexOf(String(songId));
-      playlist.data.tracks.splice(songIndex, 1);
-      console.log(songIndex);
+    const indexSong = playlist.data.tracks.findIndex(
+      (id) => String(id) === String(songId),
+    );
+    if (indexSong === -1) {
+      playlist.data.tracks.push(songId);
     }
 
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
@@ -187,8 +179,11 @@ async function deleteTrackFromPlaylist(req, res, next) {
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
 
     const songIndex = playlist.data.tracks.indexOf(String(songId));
-    playlist.data.tracks.splice(songId, 1);
-    console.log(songIndex);
+    console.log(
+      "🚀 ~ file: playlist-controller.js ~ line 182 ~ deleteTrackFromPlaylist ~ songIndex",
+      songIndex,
+    );
+    playlist.data.tracks.splice(songIndex, 1);
 
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
       {

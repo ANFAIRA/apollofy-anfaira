@@ -3,33 +3,41 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { array, object, string } from "prop-types";
+import { array, object } from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import { playSong } from "../../redux/player/player-actions";
-import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
+import {
+  addSongToPlaylist,
+  deleteSongFromPlaylist,
+} from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon, playlistId }) => {
+const PlayListTable = ({ songs, icon }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { data } = useSelector((state) => state.song.songs);
+
+  const handleDelete = (e) => {
+    const songId = e.currentTarget.id;
+    console.log(
+      "🚀 ~ file: PlayListTable.js ~ line 34 ~ handleDelete ~ id",
+      id,
+    );
+    dispatch(deleteSongFromPlaylist(id, songId));
+  };
 
   const handleClick = (e) => {
     const songId = e.currentTarget.id;
-    const updateType = "ADD";
     if (icon.iconName === "plus") {
-      dispatch(addSongToPlaylist(playlistId, songId, updateType));
+      dispatch(addSongToPlaylist(id, songId));
     } else {
       const selectedSong = data.find((song) => song._id === songId);
       dispatch(playSong(selectedSong));
     }
-  };
-
-  const handleDelete = (e) => {
-    console.log("Delete");
-    const songId = e.currentTarget.id;
-    const updateType = "DELETE";
-    dispatch(addSongToPlaylist(playlistId, songId, updateType));
+    return id;
   };
 
   return (
@@ -82,11 +90,6 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
 PlayListTable.propTypes = {
   songs: array.isRequired,
   icon: object.isRequired,
-  playlistId: string,
-};
-
-PlayListTable.defaultProps = {
-  playlistId: "",
 };
 
 export default PlayListTable;
