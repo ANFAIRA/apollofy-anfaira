@@ -22,10 +22,6 @@ const PlayListTable = ({ songs, icon }) => {
 
   const handleDelete = (e) => {
     const songId = e.currentTarget.id;
-    console.log(
-      "🚀 ~ file: PlayListTable.js ~ line 34 ~ handleDelete ~ id",
-      id,
-    );
     dispatch(deleteSongFromPlaylist(id, songId));
   };
 

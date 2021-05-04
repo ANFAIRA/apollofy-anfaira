@@ -179,10 +179,6 @@ async function deleteTrackFromPlaylist(req, res, next) {
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
 
     const songIndex = playlist.data.tracks.indexOf(String(songId));
-    console.log(
-      "🚀 ~ file: playlist-controller.js ~ line 182 ~ deleteTrackFromPlaylist ~ songIndex",
-      songIndex,
-    );
     playlist.data.tracks.splice(songIndex, 1);
 
     const dbResponse = await PlaylistRepo.findOneAndUpdate(

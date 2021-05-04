@@ -138,11 +138,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function deleteSongFromPlaylist(options) {
-    console.log(
-      "🚀 ~ file: api.js ~ line 141 ~ deleteSongFromPlaylist ~ options",
-      options,
-    );
-
     return request({
       url: `/api/playlists/${options.playlistId}`,
       requestMethod: "DELETE",

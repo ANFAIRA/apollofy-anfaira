@@ -28,7 +28,9 @@ import { collectionTime } from "../../utils/utils";
 const PlaylistView = () => {
   const { id } = useParams();
   const { songs } = useSelector(songSelector);
-  const { addingSong, playlistUpdate } = useSelector(playlistStateSelector);
+  const { addingSong, playlistUpdate, deletingSong } = useSelector(
+    playlistStateSelector,
+  );
   const { isUpdatingPlaylist } = useSelector(playlistEditorSelector);
   const currentUser = useSelector((state) => state.auth?.currentUser);
 
@@ -52,7 +54,15 @@ const PlaylistView = () => {
 
   useEffect(() => {
     !isUpdatingPlaylist && dispatch(fetchPlaylistById(id));
-  }, [dispatch, id, addingSong, playlistUpdate, isUpdatingPlaylist, isFollow]);
+  }, [
+    dispatch,
+    id,
+    addingSong,
+    playlistUpdate,
+    isUpdatingPlaylist,
+    isFollow,
+    deletingSong,
+  ]);
 
   if (!playlist) {
     return null;
