@@ -43,7 +43,9 @@ function PlaylistModal({
   });
 
   const [image, setImage] = useState();
-  const [src, setSrc] = useState();
+  const [src, setSrc] = useState(
+    "blob:http://localhost:3000/5d03c831-44ed-4403-af11-3a26a106f6eb",
+  );
 
   function onSubmit(data) {
     setShowPlaylistModal(false);
