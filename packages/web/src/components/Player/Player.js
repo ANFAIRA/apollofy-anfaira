@@ -10,9 +10,7 @@ import Controls from "./Controls";
 import "./Player.scss";
 
 const Player = ({ tracks }) => {
-  const collectionIndex = useSelector((state) => state.player.collectionIndex);
-
-  const [trackIndex, setTrackIndex] = useState(collectionIndex);
+  const [trackIndex, setTrackIndex] = useState(0);
   const [trackProgress, setTrackProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
