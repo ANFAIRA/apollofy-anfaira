@@ -23,6 +23,7 @@ import {
 import { followPlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
 import { songSelector } from "../../redux/song/song-selector";
+import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
   const { id } = useParams();
@@ -101,11 +102,14 @@ const PlaylistView = () => {
                     {author[1].toUpperCase()}
                   </span>
                 </p>
-                <p className="text-white mr-2 text-sm">·</p>
+                <p className="text-gray-600 mr-2 text-sm">·</p>
                 <p className="text-gray-600 mr-2 text-sm">
                   {tracks.length > 0
                     ? `${tracks.length} songs`
                     : `${tracks.length} song`}
+                </p>
+                <p className="text-gray-600 mr-2 text-sm">
+                  {collectionTime(tracks)}
                 </p>
               </div>
             </div>
