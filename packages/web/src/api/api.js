@@ -170,6 +170,31 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getGenres(headers) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function createGenre({ headers, body }) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "POST",
+      headers: headers,
+      body: body,
+    });
+  }
+
+  function addTrackToGenre(body) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "PATCH",
+      body: body,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -191,6 +216,9 @@ function makeApi(request = makeRequest()) {
     getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
     updatePlaylistInfo: updatePlaylistInfo,
+    getGenres: getGenres,
+    createGenre: createGenre,
+    addTrackToGenre: addTrackToGenre,
   };
 }
 

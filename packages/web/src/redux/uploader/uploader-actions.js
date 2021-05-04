@@ -57,6 +57,39 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
 
       const { url, duration } = urlRes.data;
 
+      const getGenreRes = await api.getGenres({
+        Authorization: `Bearer ${userToken}`,
+      });
+
+      const existingGenres = getGenreRes.data.data;
+      console.log(existingGenres);
+      console.log(existingGenres);
+
+      const genreExists = existingGenres.filter(
+        (existingGenre) =>
+          existingGenre.name.toLowerCase() === genre.toLowerCase(),
+      );
+
+      const genreRes = genreExists
+        ? getGenreRes.data.data._id
+        : api.createGenre({
+            body: { name: genre },
+            header: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          });
+
+      // console.log(genreRes);
+
+      // const genreRes = await api.createGenre({
+      //   body: { name: genre },
+      //   header: {
+      //     Authorization: `Bearer ${userToken}`,
+      //   },
+      // });
+
+      console.log(genreRes);
+
       const songRes = await api.createTrack({
         body: {
           title: title,
@@ -64,12 +97,21 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
           url: url,
           duration: duration,
           artist: artist,
-          genre: genre,
+          genre: genreRes,
         },
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
       });
+      // console.log(songRes);
+      // console.log(genreRes);
+
+      const addTrackToGenre = await api.addTrackToGenre({
+        trackId: songRes.data.data._id,
+        genreId: genreRes.data.data._id,
+      });
+
+      // console.log(addTrackToGenre);
 
       if (songRes.errorMessage) {
         return dispatch(uploadSongError(songRes.errorMessage));
