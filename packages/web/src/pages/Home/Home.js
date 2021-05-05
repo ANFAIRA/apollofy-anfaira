@@ -32,17 +32,18 @@ export default function Home() {
   const [selectedSong, setSelectedSong] = useState(null);
 
   const dispatch = useDispatch();
-  const fetchedSongs = [];
+  // const fetchedSongs = [];
 
-  if (fetchSong) {
-    songsIds.map((id) => {
-      fetchedSongs.push(songsByID[id]);
-      return id;
-    });
-  }
+  // if (fetchSong) {
+  //   songsIds.map((id) => {
+  //     fetchedSongs.push(songsByID[id]);
+  //     return id;
+  //   });
+  // }
 
   useEffect(() => {
-    fetchedSongs.length == 0 && dispatch(fetchSong());
+    // fetchedSongs.length == 0 &&
+    dispatch(fetchSong());
     dispatch(fetchAllPlaylists());
     // dispatch(fetchPlaylists(playlistTypes.ALL));
   }, [dispatch, uploadSongSuccess, songUpdateSuccess, songDeleteSuccess]);
@@ -76,10 +77,10 @@ export default function Home() {
             <h2 className="pb-2 font-semibold">Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {fetchedSongs?.map((song) => (
+              {songsIds?.map((song) => (
                 <SongCard
-                  key={song._id}
-                  song={song}
+                  key={songsByID[song]._id}
+                  song={songsByID[song]}
                   setShowModal={setShowModal}
                   setShowDeleteModal={setShowDeleteModal}
                   setIsEditModal={setIsEditModal}

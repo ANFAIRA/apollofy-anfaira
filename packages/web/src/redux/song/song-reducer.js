@@ -32,7 +32,7 @@ const songReducer = (state = initialState, action) => {
           ...state.songsByID,
           ...action.payload.songsByID,
         },
-        songsIds: [...state.songsIds, ...action.payload.songsIds],
+        songsIds: [...action.payload.songsIds],
       };
     case song.FETCH_SONG_ERROR:
       return {
