@@ -18,7 +18,6 @@ import { formatTime } from "../../utils/utils";
 const PlayListTable = ({ songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { data } = useSelector((state) => state.song.songsArray);
 
   const handleDelete = (e) => {
     const songId = e.currentTarget.id;
@@ -30,7 +29,7 @@ const PlayListTable = ({ songs, icon }) => {
     if (icon.iconName === "plus") {
       dispatch(addSongToPlaylist(id, songId));
     } else {
-      const selectedSong = data.find((song) => song._id === songId);
+      const selectedSong = songs.find((song) => song._id === songId);
       dispatch(playSong(selectedSong));
     }
     return id;

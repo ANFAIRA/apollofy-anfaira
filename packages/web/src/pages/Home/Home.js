@@ -19,7 +19,7 @@ import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  const { data } = useSelector((state) => state.song.songsArray);
+  const { songsByID, songsIds } = useSelector((state) => state.song);
   const { uploadSongSuccess } = useSelector(uploaderSelector);
   const { songUpdateSuccess } = useSelector(songEditorSelector);
   const { songDeleteSuccess } = useSelector(songDeleteSelector);
@@ -32,9 +32,17 @@ export default function Home() {
   const [selectedSong, setSelectedSong] = useState(null);
 
   const dispatch = useDispatch();
+  const fetchedSongs = [];
+
+  if (fetchSong) {
+    songsIds.map((id) => {
+      fetchedSongs.push(songsByID[id]);
+      return id;
+    });
+  }
 
   useEffect(() => {
-    dispatch(fetchSong());
+    fetchedSongs.length == 0 && dispatch(fetchSong());
     dispatch(fetchAllPlaylists());
     // dispatch(fetchPlaylists(playlistTypes.ALL));
   }, [dispatch, uploadSongSuccess, songUpdateSuccess, songDeleteSuccess]);
@@ -68,7 +76,7 @@ export default function Home() {
             <h2 className="pb-2 font-semibold">Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {data?.map((song) => (
+              {fetchedSongs?.map((song) => (
                 <SongCard
                   key={song._id}
                   song={song}

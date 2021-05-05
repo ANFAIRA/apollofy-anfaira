@@ -4,7 +4,8 @@ const initialState = {
   isFetchRequest: false,
   isFetchSuccess: false,
   isFetchFail: null,
-  songsArray: [],
+  songsByID: {},
+  songsIds: [],
   currentUser: {},
   selectedSong: {},
 };
@@ -20,7 +21,6 @@ const songReducer = (state = initialState, action) => {
         isLikeRequest: true,
         isLikeSuccess: false,
         isLikeFail: false,
-        songsArray: [],
       };
     case song.FETCH_SONG_SUCCESS:
       return {
@@ -28,7 +28,11 @@ const songReducer = (state = initialState, action) => {
         isFetchRequest: false,
         isFetchSuccess: true,
         isFetchFail: false,
-        songsArray: action.payload,
+        songsByID: {
+          ...state.songsByID,
+          ...action.payload.songsByID,
+        },
+        songsIds: [...state.songsIds, ...action.payload.songsIds],
       };
     case song.FETCH_SONG_ERROR:
       return {

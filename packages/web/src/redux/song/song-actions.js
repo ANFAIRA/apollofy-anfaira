@@ -1,6 +1,7 @@
 import api from "../../api";
 import * as songTypes from "./song-type";
 import * as auth from "../../services/auth";
+import { normalizeSongs } from "../../schema/song-schema";
 
 export const fetchSongRequest = () => {
   return { type: songTypes.FETCH_SONG_REQUEST };
@@ -10,8 +11,11 @@ export const fetchSongError = (message) => {
   return { type: songTypes.FETCH_SONG_ERROR, payload: message };
 };
 
-export const fetchSongSuccess = (data) => {
-  return { type: songTypes.FETCH_SONG_SUCCESS, payload: data };
+export const fetchSongSuccess = ({ songsByID, songsIds }) => {
+  return {
+    type: songTypes.FETCH_SONG_SUCCESS,
+    payload: { songsByID, songsIds },
+  };
 };
 
 export const fetchSongReset = () => {
@@ -33,7 +37,14 @@ export const fetchSong = () => {
         return dispatch(fetchSongError(songs.errorMessage));
       }
 
-      return dispatch(fetchSongSuccess(songs));
+      const normalizedSongs = normalizeSongs(songs.data);
+
+      return dispatch(
+        fetchSongSuccess({
+          songsByID: normalizedSongs.entities.songs,
+          songsIds: normalizedSongs.result,
+        }),
+      );
     } catch (error) {
       return dispatch(fetchSongError(error.message));
     }
