@@ -18,7 +18,7 @@ import { formatTime } from "../../utils/utils";
 const PlayListTable = ({ songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { data } = useSelector((state) => state.song.songs);
+  const { data } = useSelector((state) => state.song.songsArray);
 
   const handleDelete = (e) => {
     const songId = e.currentTarget.id;

@@ -76,13 +76,13 @@ export const fetchPlaylistsError = (message) => ({
 export const fetchAllPlaylistsSuccess = ({
   type,
   playlistByID,
-  trackByID,
+  songByID,
   playlistIds,
 }) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_SUCCESS,
   payload: {
     playlistByID: playlistByID,
-    trackByID: trackByID,
+    songByID: songByID,
     playlistIds: playlistIds,
     type: type,
   },
@@ -126,7 +126,7 @@ export function fetchAllPlaylists() {
       return dispatch(
         fetchAllPlaylistsSuccess({
           playlistByID: normalizedData.entities.playlists,
-          trackByID: normalizedData.entities.tracks,
+          songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
           type: res.data.type,
         }),

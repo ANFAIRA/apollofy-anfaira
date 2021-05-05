@@ -24,6 +24,10 @@ export const fetchSong = () => {
 
     try {
       const songs = await api.getAllSongs();
+      console.log(
+        "🚀 ~ file: song-actions.js ~ line 27 ~ fetchSongThunk ~ songs",
+        songs,
+      );
 
       if (songs.errorMessage) {
         return dispatch(fetchSongError(songs.errorMessage));

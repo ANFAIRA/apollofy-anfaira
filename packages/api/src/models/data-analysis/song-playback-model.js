@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const TrackPlaybackSchema = Schema(
+const SongPlaybackSchema = Schema(
   {
     metadata: {
       type: {
@@ -9,9 +9,9 @@ const TrackPlaybackSchema = Schema(
           type: Date,
           default: Date.now,
         },
-        track: {
+        song: {
           type: Schema.Types.ObjectId,
-          ref: "track",
+          ref: "song",
         },
       },
     },
@@ -48,6 +48,6 @@ const TrackPlaybackSchema = Schema(
   },
 );
 
-const TrackPlayback = mongoose.model("track-playback", TrackPlaybackSchema);
+const SongPlayback = mongoose.model("song-playback", SongPlaybackSchema);
 
-module.exports = TrackPlayback;
+module.exports = SongPlayback;

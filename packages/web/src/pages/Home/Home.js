@@ -12,24 +12,24 @@ import {
 } from "../../redux/playlist/playlist-actions";
 // import { playlistTypes } from "../../redux/playlist/playlist-types";
 import { fetchSong } from "../../redux/song/song-actions";
-import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+import { songDeleteSelector } from "../../redux/songDelete/songDelete-selectors";
+import { songEditorSelector } from "../../redux/songEditor/songEditor-selectors";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  const { data } = useSelector((state) => state.song.songs);
+  const { data } = useSelector((state) => state.song.songsArray);
   const { uploadSongSuccess } = useSelector(uploaderSelector);
-  const { trackUpdateSuccess } = useSelector(trackEditorSelector);
-  const { trackDeleteSuccess } = useSelector(trackDeleteSelector);
+  const { songUpdateSuccess } = useSelector(songEditorSelector);
+  const { songDeleteSuccess } = useSelector(songDeleteSelector);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
   const { playlistByID } = useSelector((state) => state.playlists);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState(null);
+  const [selectedSong, setSelectedSong] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export default function Home() {
     dispatch(fetchSong());
     dispatch(fetchAllPlaylists());
     // dispatch(fetchPlaylists(playlistTypes.ALL));
-  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
+  }, [dispatch, uploadSongSuccess, songUpdateSuccess, songDeleteSuccess]);
 
   return (
     <>
@@ -47,8 +47,8 @@ export default function Home() {
             setShowModal={setShowModal}
             setIsEditModal={setIsEditModal}
             isEditModal={isEditModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -56,8 +56,8 @@ export default function Home() {
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <DeleteModal
             setShowDeleteModal={setShowDeleteModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -75,7 +75,7 @@ export default function Home() {
                   setShowModal={setShowModal}
                   setShowDeleteModal={setShowDeleteModal}
                   setIsEditModal={setIsEditModal}
-                  setSelectedTrack={setSelectedTrack}
+                  setSelectedSong={setSelectedSong}
                 />
               ))}
             </section>

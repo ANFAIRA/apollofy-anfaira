@@ -16,7 +16,7 @@ function SongDialogue({
   setShowDeleteModal,
   setIsEditModal,
   song,
-  setSelectedTrack,
+  setSelectedSong,
   handleLikeBtn,
   setIsMenuOpen,
 }) {
@@ -35,13 +35,13 @@ function SongDialogue({
     setShowModal(true);
     setIsEditModal(true);
     setIsMenuOpen(false);
-    setSelectedTrack(song);
+    setSelectedSong(song);
   }
 
   function handleDeleteClick() {
     setShowDeleteModal(true);
     setIsMenuOpen(false);
-    setSelectedTrack(song);
+    setSelectedSong(song);
   }
 
   function handleAddToPlaylistBtn(e) {
@@ -143,7 +143,7 @@ SongDialogue.propTypes = {
   setShowModal: oneOfType([string, func]),
   setShowDeleteModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
+  setSelectedSong: oneOfType([string, func]),
   setIsMenuOpen: func.isRequired,
   song: object.isRequired,
 };
@@ -152,7 +152,7 @@ SongDialogue.defaultProps = {
   setShowModal: "",
   setShowDeleteModal: "",
   setIsEditModal: "",
-  setSelectedTrack: "",
+  setSelectedSong: "",
 };
 
 export default SongDialogue;

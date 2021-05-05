@@ -35,7 +35,7 @@ export const uploadImageSuccess = (imageUrl) => ({
   payload: imageUrl,
 });
 
-export function uploadSong({ track, thumbnail, title, artist, genre }) {
+export function uploadSong({ song, thumbnail, title, artist, genre }) {
   return async function uploadThunk(dispatch) {
     dispatch(uploadSongRequest());
 
@@ -47,19 +47,27 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
       }
 
       const urlRes = await getFileUrl({
-        file: track,
+        file: song,
         fileType: fileTypes.AUDIO,
       });
 
       if (urlRes.status >= 400) {
         return dispatch(uploadSongError(urlRes.statusText));
       }
+      console.log(
+        "🚀 ~ file: uploader-actions.js ~ line 59 ~ uploadThunk ~ urlRes",
+        urlRes,
+      );
 
       const { url, duration } = urlRes.data;
 
       const getGenreRes = await api.getGenres({
         Authorization: `Bearer ${userToken}`,
       });
+      console.log(
+        "🚀 ~ file: uploader-actions.js ~ line 67 ~ uploadThunk ~ getGenreRes",
+        getGenreRes,
+      );
 
       const existingGenres = getGenreRes.data.data;
 
@@ -78,7 +86,7 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
               },
             });
 
-      const songRes = await api.createTrack({
+      const songRes = await api.createSong({
         body: {
           title: title,
           thumbnail: thumbnail,
@@ -92,8 +100,8 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
         },
       });
 
-      await api.addTrackToGenre({
-        trackId: songRes.data.data._id,
+      await api.addSongToGenre({
+        songId: songRes.data.data._id,
         genreId: genreRes,
       });
 
@@ -121,7 +129,7 @@ export function uploadImage({ file, name = "", onUploadProgress = (_) => {} }) {
 
       const imageUrl = urlRes.data.url;
 
-      const imgRes = api.createTrack({
+      const imgRes = api.createSong({
         title: name,
         url: imageUrl,
       });

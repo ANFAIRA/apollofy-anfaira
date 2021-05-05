@@ -12,7 +12,7 @@ export const PlaylistInitState = {
   playlistLoadingError: null,
   playlistFetched: false,
   playlistByID: {},
-  trackByID: {},
+  songByID: {},
   addingSong: false,
   addSongError: null,
   playlistIds: {
@@ -77,9 +77,9 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           ...state.playlistByID,
           ...action.payload.playlistByID,
         },
-        trackByID: {
-          ...state.trackByID,
-          ...action.payload.trackByID,
+        songByID: {
+          ...state.songByID,
+          ...action.payload.songByID,
         },
         playlistIds: newIds,
       };

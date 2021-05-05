@@ -2,12 +2,12 @@ import { normalize, schema } from "normalizr";
 
 const playlist = new schema.Entity("playlists", {}, { idAttribute: "_id" });
 
-const track = new schema.Entity("tracks", {}, { idAttribute: "_id" });
+const song = new schema.Entity("songs", {}, { idAttribute: "_id" });
 
 const fullPlaylist = new schema.Entity(
   "playlists",
   {
-    tracks: [track],
+    songs: [song],
   },
   { idAttribute: "_id" },
 );

@@ -27,7 +27,7 @@ import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
   const { id } = useParams();
-  const { songs } = useSelector(songSelector);
+  const { songsArray } = useSelector(songSelector);
   const { addingSong, playlistUpdate, deletingSong } = useSelector(
     playlistStateSelector,
   );
@@ -68,7 +68,7 @@ const PlaylistView = () => {
     return null;
   }
 
-  const { title, thumbnail, description, author, type, tracks } = playlist;
+  const { title, thumbnail, description, author, type, songs } = playlist;
 
   return (
     <>
@@ -101,7 +101,7 @@ const PlaylistView = () => {
               height="200"
             />
             <div className="flex flex-col justify-center">
-              <h4 className="mt-0 mb-2 uppercase text-gray-500 tracking-widest text-xs">
+              <h4 className="mt-0 mb-2 uppercase text-gray-500 songing-widest text-xs">
                 {type}
               </h4>
               <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
@@ -115,12 +115,12 @@ const PlaylistView = () => {
                 </p>
                 <p className="text-gray-600 mr-2 text-sm">·</p>
                 <p className="text-gray-600 mr-2 text-sm">
-                  {tracks.length > 0
-                    ? `${tracks.length} songs`
-                    : `${tracks.length} song`}
+                  {songs.length > 0
+                    ? `${songs.length} songs`
+                    : `${songs.length} song`}
                 </p>
                 <p className="text-gray-600 mr-2 text-sm">
-                  {collectionTime(tracks)}
+                  {collectionTime(songs)}
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@ const PlaylistView = () => {
               <button
                 type="button"
                 className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
-                onClick={() => dispatch(playCollection(tracks))}
+                onClick={() => dispatch(playCollection(songs))}
               >
                 <FontAwesomeIcon icon={faPlay} />
               </button>
@@ -169,11 +169,11 @@ const PlaylistView = () => {
             </p>
           </div>
           <div className="mt-10">
-            <PlayListTable songs={tracks} icon={faPlay} />
+            <PlayListTable songs={songs} icon={faPlay} />
           </div>
           <div className="mt-10">
             <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
-            <PlayListTable songs={songs.data} icon={faPlus} />
+            <PlayListTable songs={songsArray.data} icon={faPlus} />
           </div>
         </div>
       </Main>

@@ -21,7 +21,7 @@ function SongCard({
   setShowModal,
   setShowDeleteModal,
   setIsEditModal,
-  setSelectedTrack,
+  setSelectedSong,
 }) {
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
@@ -85,7 +85,7 @@ function SongCard({
             setShowDeleteModal={setShowDeleteModal}
             setIsEditModal={setIsEditModal}
             song={song}
-            setSelectedTrack={setSelectedTrack}
+            setSelectedSong={setSelectedSong}
             handleLikeBtn={handleLikeBtn}
             setIsMenuOpen={setIsMenuOpen}
           />
@@ -108,14 +108,14 @@ SongCard.propTypes = {
   setShowModal: oneOfType([string, func]),
   setShowDeleteModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
+  setSelectedSong: oneOfType([string, func]),
 };
 
 SongCard.defaultProps = {
   setShowModal: "",
   setShowDeleteModal: "",
   setIsEditModal: "",
-  setSelectedTrack: "",
+  setSelectedSong: "",
 };
 
 export default SongCard;

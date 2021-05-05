@@ -2,15 +2,15 @@ const db = require("../models");
 const normalizeDBQuery = require("../utils/normalizeDBQuery");
 
 /*
-options = { trackId, userId, lat, long, agent }
+options = { songId, userId, lat, long, agent }
 */
 
-class TrackPlaybackRepository {
+class SongPlaybackRepository {
   create(options) {
     return normalizeDBQuery(
-      db.TrackPlayback.create({
+      db.SongPlayback.create({
         metadata: {
-          track: options.trackId,
+          song: options.songId,
           date: options.currDay,
         },
         totalPlaybacks: 1,
@@ -29,9 +29,9 @@ class TrackPlaybackRepository {
 
   createMonthly(options) {
     return normalizeDBQuery(
-      db.MonthlyTrackPlayback.create({
+      db.MonthlySongPlayback.create({
         metadata: {
-          track: options.trackId,
+          song: options.songId,
           date: options.currMonth,
         },
         totalPlaybacks: 0,
@@ -42,7 +42,7 @@ class TrackPlaybackRepository {
 
   findOneAndUpdate({ query, data }) {
     return normalizeDBQuery(
-      db.TrackPlayback.findOneAndUpdate(
+      db.SongPlayback.findOneAndUpdate(
         query,
         {
           $push: {
@@ -62,7 +62,7 @@ class TrackPlaybackRepository {
 
   findOneMonthlyAndUpdate({ query, dailyKey }) {
     return normalizeDBQuery(
-      db.MonthlyTrackPlayback.findOneAndUpdate(query, {
+      db.MonthlySongPlayback.findOneAndUpdate(query, {
         $inc: {
           totalPlaybacks: 1,
           [dailyKey]: 1,
@@ -72,20 +72,20 @@ class TrackPlaybackRepository {
   }
 
   find(query) {
-    return normalizeDBQuery(db.DailyTrackPlayback.find(query, "-__v"));
+    return normalizeDBQuery(db.DailySongPlayback.find(query, "-__v"));
   }
 
   findOne(query) {
-    return normalizeDBQuery(db.DailyTrackPlayback.findOne(query, "-__v"));
+    return normalizeDBQuery(db.DailySongPlayback.findOne(query, "-__v"));
   }
 
   findMonthly(query) {
-    return normalizeDBQuery(db.MonthlyTrackPlayback.find(query, "-__v"));
+    return normalizeDBQuery(db.MonthlySongPlayback.find(query, "-__v"));
   }
 
   findOneMonthly(query) {
-    return normalizeDBQuery(db.MonthlyTrackPlayback.findOne(query, "-__v"));
+    return normalizeDBQuery(db.MonthlySongPlayback.findOne(query, "-__v"));
   }
 }
 
-module.exports = new TrackPlaybackRepository();
+module.exports = new SongPlaybackRepository();

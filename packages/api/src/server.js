@@ -8,7 +8,7 @@ const { config } = require("./config");
 const { errorMiddleware } = require("./middlewares");
 const {
   userRouter,
-  trackRouter,
+  songRouter,
   playlistRouter,
   genreRouter,
 } = require("./routes");
@@ -27,7 +27,7 @@ app.use(
 );
 
 app.use(userRouter);
-app.use(trackRouter);
+app.use(songRouter);
 app.use(playlistRouter);
 app.use(genreRouter);
 
