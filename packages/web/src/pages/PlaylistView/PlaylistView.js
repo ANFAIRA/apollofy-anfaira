@@ -22,7 +22,6 @@ import {
 } from "../../redux/playlist/playlist-selector";
 import { followPlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
-import { songSelector } from "../../redux/song/song-selector";
 import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
@@ -74,7 +73,7 @@ const PlaylistView = () => {
   const fetchedSongs = [];
 
   if (isFetchSuccess) {
-    songsIds.map((songId) => {
+    songsIds.ALL_SONGS.map((songId) => {
       fetchedSongs.push(songsByID[songId]);
       return songId;
     });

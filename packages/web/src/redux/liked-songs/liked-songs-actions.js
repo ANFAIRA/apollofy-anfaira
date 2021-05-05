@@ -1,6 +1,6 @@
 import api from "../../api";
-import * as likedSongTypes from "./liked-songs-type";
 import * as auth from "../../services/auth";
+import * as likedSongTypes from "./liked-songs-type";
 
 export const fetchLikedSongRequest = () => {
   return { type: likedSongTypes.FETCH_LIKED_SONG_REQUEST };
@@ -21,7 +21,7 @@ export const fetchLikedSong = () => {
     const token = await auth.getCurrentUserToken();
 
     if (!token) {
-      return dispatch(fetchLikedSongError("Uset token null"));
+      return dispatch(fetchLikedSongError("User token null"));
     }
 
     try {

@@ -3,7 +3,7 @@ import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
 import * as PlaylistTypes from "./playlist-types";
-// import { playlistTypes } from "./playlist-types";
+import { playlistTypes } from "./playlist-types";
 
 // Create new playlist
 
@@ -74,7 +74,7 @@ export const fetchPlaylistsError = (message) => ({
 });
 
 export const fetchAllPlaylistsSuccess = ({
-  type,
+  type = playlistTypes.ALL,
   playlistByID,
   songByID,
   playlistIds,
@@ -88,17 +88,19 @@ export const fetchAllPlaylistsSuccess = ({
   },
 });
 
-// export function fetchPlaylists(fetchType) {
-//   switch (fetchType) {
-//     case playlistTypes.ALL:
-//       return fetchAllPlaylists();
-//     case playlistTypes.OWN:
-//       return fetchOwnPlaylists();
-//     default:
-//       break;
-//   }
-//   return fetchAllPlaylists();
-// }
+export function fetchPlaylists(fetchType) {
+  switch (fetchType) {
+    case playlistTypes.ALL:
+      return fetchAllPlaylists();
+    case playlistTypes.OWN:
+      return fetchOwnPlaylists();
+    case playlistTypes.FOLLOWING:
+      return fetchFollowedPlaylists();
+    default:
+      break;
+  }
+  return fetchAllPlaylists();
+}
 
 // Fetch all playlists
 
@@ -128,7 +130,7 @@ export function fetchAllPlaylists() {
           playlistByID: normalizedData.entities.playlists,
           songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
-          type: res.data.type,
+          type: playlistTypes.ALL,
         }),
       );
     } catch (err) {
@@ -164,7 +166,7 @@ export function fetchOwnPlaylists() {
         fetchAllPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          fetchType: playlistTypes.OWN,
         }),
       );
     } catch (err) {
@@ -295,7 +297,7 @@ export function fetchFollowedPlaylists() {
         fetchAllPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          type: playlistTypes.FOLLOWING,
         }),
       );
     } catch (err) {

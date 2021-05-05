@@ -1,19 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-// import { playlistTypes } from "../../redux/playlist/playlist-types";
-import { fetchMySong } from "../../redux/mySong/mySong-actions";
-import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
-import {
-  fetchOwnPlaylists,
-  fetchFollowedPlaylists,
-  // fetchPlaylists,
-} from "../../redux/playlist/playlist-actions";
-
+import PlaylistCard from "../../components/PlayListCard";
+import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
-import SongCard from "../../components/SongCard";
-import PlaylistCard from "../../components/PlayListCard";
+import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
+import { fetchMySong } from "../../redux/mySong/mySong-actions";
+import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
+import { playlistTypes } from "../../redux/playlist/playlist-types";
 import "./Profile.scss";
 
 const Profile = () => {
@@ -40,10 +34,10 @@ const Profile = () => {
   useEffect(() => {
     dispatch(fetchMySong());
     dispatch(fetchLikedSong());
-    // dispatch(fetchPlaylists(playlistTypes.OWN));
-    // dispatch(fetchPlaylists(playlistTypes.FOLLOWING));
-    dispatch(fetchOwnPlaylists());
-    dispatch(fetchFollowedPlaylists());
+    dispatch(fetchPlaylists(playlistTypes.OWN));
+    dispatch(fetchPlaylists(playlistTypes.FOLLOWING));
+    // dispatch(fetchOwnPlaylists());
+    // dispatch(fetchFollowedPlaylists());
   }, [dispatch, likedSongs]);
 
   return (
