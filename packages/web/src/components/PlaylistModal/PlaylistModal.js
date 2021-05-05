@@ -8,6 +8,7 @@ import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-action
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";
+import PlaylistDefaultImage from "../../assets/playlist.png";
 
 function PlaylistModal({
   setShowPlaylistModal,
@@ -43,9 +44,7 @@ function PlaylistModal({
   });
 
   const [image, setImage] = useState();
-  const [src, setSrc] = useState(
-    "blob:http://localhost:3000/5d03c831-44ed-4403-af11-3a26a106f6eb",
-  );
+  const [src, setSrc] = useState(PlaylistDefaultImage);
 
   function onSubmit(data) {
     setShowPlaylistModal(false);
