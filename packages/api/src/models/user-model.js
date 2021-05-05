@@ -32,7 +32,7 @@ const UserSchema = Schema(
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "tracks",
+          ref: "songs",
         },
       ],
       default: [],

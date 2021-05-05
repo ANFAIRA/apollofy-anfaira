@@ -13,7 +13,7 @@ genreRouter.post(
 genreRouter.patch(
   "/api/genres",
   // authMiddleware,
-  genreController.addTrackToGenre,
+  genreController.addSongToGenre,
 );
 genreRouter.get("/api/genres", authMiddleware, genreController.fetchGenres);
 //genreRouter.get("/genres/:id", authMiddleware, genreController.fetchGenreById);

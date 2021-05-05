@@ -14,7 +14,7 @@ const SongInput = ({
     <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 ml-2">
       <label
         htmlFor="song"
-        className="w-full h-full sm:h-40 flex flex-col items-center justify-center font-semibold px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+        className="w-full h-full sm:h-40 flex flex-col items-center justify-center font-semibold px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
       >
         {placeholder}
         <input

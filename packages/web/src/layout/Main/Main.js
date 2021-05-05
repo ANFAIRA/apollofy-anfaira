@@ -9,9 +9,9 @@ import SongModal from "../../components/SongModal";
 const Main = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-  const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
+  const songsToPlay = useSelector((state) => state.player.songsToPlay);
   const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState(null);
+  const [selectedSong, setSelectedSong] = useState(null);
 
   return (
     <>
@@ -22,8 +22,8 @@ const Main = ({ children }) => {
             setShowModal={setShowModal}
             isEditModal={isEditModal}
             setIsEditModal={setIsEditModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -42,7 +42,7 @@ const Main = ({ children }) => {
         setShowPlaylistModal={setShowPlaylistModal}
       />
       <section className="md:container md:mx-auto p-8">{children}</section>
-      <Player tracks={tracksToPlay} />
+      <Player songs={songsToPlay} />
     </>
   );
 };

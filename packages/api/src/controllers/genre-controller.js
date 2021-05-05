@@ -65,8 +65,8 @@ async function fetchGenreByName(req, res, next) {
   }
 }
 
-async function addTrackToGenre(req, res, next) {
-  const { genreId, trackId } = req.body;
+async function addSongToGenre(req, res, next) {
+  const { genreId, songId } = req.body;
 
   try {
     const genre = await GenreRepo.findOne({ _id: genreId });
@@ -74,7 +74,7 @@ async function addTrackToGenre(req, res, next) {
       { _id: genreId },
       {
         $set: {
-          tracks: [...genre.data.tracks, trackId],
+          songs: [...genre.data.songs, songId],
         },
       },
       { new: true },
@@ -91,5 +91,5 @@ module.exports = {
   fetchGenres: fetchGenres,
   fetchGenreById: fetchGenreById,
   fetchGenreByName: fetchGenreByName,
-  addTrackToGenre: addTrackToGenre,
+  addSongToGenre: addSongToGenre,
 };

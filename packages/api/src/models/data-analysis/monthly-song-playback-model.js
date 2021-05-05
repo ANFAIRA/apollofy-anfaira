@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const MonthlyTrackPlaybackSchema = Schema(
+const MonthlySongPlaybackSchema = Schema(
   {
     metadata: {
       type: {
@@ -9,9 +9,9 @@ const MonthlyTrackPlaybackSchema = Schema(
           type: Date,
           default: Date.now,
         },
-        track: {
+        song: {
           type: Schema.Types.ObjectId,
-          ref: "track",
+          ref: "song",
         },
       },
     },
@@ -29,9 +29,9 @@ const MonthlyTrackPlaybackSchema = Schema(
   },
 );
 
-const MonthlyTrackPlayback = mongoose.model(
+const MonthlySongPlayback = mongoose.model(
   "monthly-playback",
-  MonthlyTrackPlaybackSchema,
+  MonthlySongPlaybackSchema,
 );
 
-module.exports = MonthlyTrackPlayback;
+module.exports = MonthlySongPlayback;

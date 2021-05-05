@@ -1,6 +1,6 @@
-const { UserRepo, TrackRepo } = require("../repositories");
+const { UserRepo, SongRepo } = require("../repositories");
 
-async function createTrack(req, res, next) {
+async function createSong(req, res, next) {
   const {
     body: { title, url, artist, thumbnail, genre, duration },
     user: { uid },
@@ -18,7 +18,7 @@ async function createTrack(req, res, next) {
       firebaseId: uid,
     });
 
-    const response = await TrackRepo.create({
+    const response = await SongRepo.create({
       title: title,
       artist: artist,
       url: url ? url : null,
@@ -48,7 +48,7 @@ async function createTrack(req, res, next) {
 
 async function getAllSongs(req, res, next) {
   try {
-    const { data } = await TrackRepo.findAll();
+    const { data } = await SongRepo.findAll();
 
     if (data.error) {
       return res.status(404).send({
@@ -65,11 +65,11 @@ async function getAllSongs(req, res, next) {
   }
 }
 
-async function updateTrack(req, res, next) {
+async function updateSong(req, res, next) {
   const { _id, title, artist, thumbnail, genre } = req.body;
 
   try {
-    const response = await TrackRepo.findOneAndUpdate(
+    const response = await SongRepo.findOneAndUpdate(
       { _id: _id },
       {
         $set: {
@@ -108,7 +108,7 @@ async function getMeSongs(req, res, next) {
       firebaseId: uid,
     });
 
-    const { data } = await TrackRepo.findAll({ authorId: user.data._id });
+    const { data } = await SongRepo.findAll({ authorId: user.data._id });
 
     if (data.error) {
       return res.status(404).send({
@@ -130,7 +130,7 @@ async function likeSong(req, res, next) {
   const { firebaseId } = req.body;
 
   try {
-    const song = await TrackRepo.findById(id);
+    const song = await SongRepo.findById(id);
     const user = await UserRepo.findOne({
       firebaseId: firebaseId,
     });
@@ -157,7 +157,7 @@ async function likeSong(req, res, next) {
       );
     }
 
-    await TrackRepo.findOneAndUpdate(
+    await SongRepo.findOneAndUpdate(
       { _id: id },
       {
         $set: {
@@ -187,11 +187,11 @@ async function likeSong(req, res, next) {
   }
 }
 
-async function deleteTrack(req, res, next) {
+async function deleteSong(req, res, next) {
   const { _id } = req.body;
 
   try {
-    const response = await TrackRepo.findOneAndDelete({ _id: _id });
+    const response = await SongRepo.findOneAndDelete({ _id: _id });
 
     if (response.error) {
       return res.status(500).send({
@@ -220,7 +220,7 @@ async function getLikedSongs(req, res, next) {
     });
 
     const songIdArray = user.data.likedSongs;
-    const { data } = await TrackRepo.findAll({ _id: { $in: songIdArray } });
+    const { data } = await SongRepo.findAll({ _id: { $in: songIdArray } });
 
     if (data.error) {
       return res.status(404).send({
@@ -238,11 +238,11 @@ async function getLikedSongs(req, res, next) {
 }
 
 module.exports = {
-  createTrack: createTrack,
+  createSong: createSong,
   getAllSongs: getAllSongs,
-  updateTrack: updateTrack,
+  updateSong: updateSong,
   getMeSongs: getMeSongs,
   likeSong: likeSong,
-  deleteTrack: deleteTrack,
+  deleteSong: deleteSong,
   getLikedSongs: getLikedSongs,
 };

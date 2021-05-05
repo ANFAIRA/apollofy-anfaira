@@ -1,17 +1,17 @@
-const { TrackPlaybackRepo, TrackRepo } = require("../repositories");
+const { SongPlaybackRepo, SongRepo } = require("../repositories");
 const { handleDbResponse } = require("../repositories/repo-utils");
 
-// options: { trackId, userId, lat, long, agent }
+// options: { songId, userId, lat, long, agent }
 async function addPlayback(req, res, next) {
   const {
-    params: { id: trackId },
+    params: { id: songId },
     body: { lat, long, agent },
     user: { id: userId },
   } = req;
 
   try {
     let dbResponse;
-    dbResponse = await TrackRepo.findById(trackId);
+    dbResponse = await SongRepo.findById(songId);
 
     if (dbResponse.error) {
       res.status(400).send({
@@ -24,9 +24,9 @@ async function addPlayback(req, res, next) {
       const currDate = new Date(Date.now());
       const currDay = currDate.toISOString().substring(0, 10);
 
-      dbResponse = await TrackPlaybackRepo.findOneAndUpdate({
+      dbResponse = await SongPlaybackRepo.findOneAndUpdate({
         query: {
-          "metadata.track": trackId,
+          "metadata.song": songId,
           "metadata.date": currDay,
         },
         data: {
@@ -46,8 +46,8 @@ async function addPlayback(req, res, next) {
       }
 
       if (!dbResponse.data) {
-        dbResponse = await TrackPlaybackRepo.create({
-          trackId: trackId,
+        dbResponse = await SongPlaybackRepo.create({
+          songId: songId,
           currDay: currDay,
           user: userId,
           lat: lat,
@@ -66,9 +66,9 @@ async function addPlayback(req, res, next) {
       const currMonth = currDate.toISOString().substring(0, 7);
       const dailyKey = `daily.${currDate.getUTCDate()}`;
 
-      dbResponse = await TrackPlaybackRepo.findOneMonthlyAndUpdate({
+      dbResponse = await SongPlaybackRepo.findOneMonthlyAndUpdate({
         query: {
-          "metadata.track": trackId,
+          "metadata.song": songId,
           "metadata.date": currMonth,
         },
         dailyKey: dailyKey,
@@ -82,8 +82,8 @@ async function addPlayback(req, res, next) {
       }
 
       if (!dbResponse.data) {
-        dbResponse = await TrackPlaybackRepo.createMonthly({
-          trackId: trackId,
+        dbResponse = await SongPlaybackRepo.createMonthly({
+          songId: songId,
           currMonth: currMonth,
           dailyKey: dailyKey,
         });
@@ -99,7 +99,7 @@ async function fetchPlaybacks(req, res, next) {
   const { params } = req;
 
   try {
-    const dbResponse = await TrackPlaybackRepo.findDaily(params);
+    const dbResponse = await SongPlaybackRepo.findDaily(params);
     handleDbResponse(res, dbResponse);
   } catch (error) {
     next(error);
@@ -112,7 +112,7 @@ async function fetchById(req, res, next) {
   } = req;
 
   try {
-    const dbResponse = await TrackPlaybackRepo.findOneDaily({
+    const dbResponse = await SongPlaybackRepo.findOneDaily({
       id: id,
     });
     handleDbResponse(res, dbResponse);
@@ -125,7 +125,7 @@ async function fetchMonthlyPlaybacks(req, res, next) {
   const { params } = req;
 
   try {
-    const dbResponse = await TrackPlaybackRepo.findMonthly(params);
+    const dbResponse = await SongPlaybackRepo.findMonthly(params);
     handleDbResponse(res, dbResponse);
   } catch (error) {
     next(error);
@@ -138,7 +138,7 @@ async function fetchMonthlyById(req, res, next) {
   } = req;
 
   try {
-    const dbResponse = await TrackPlaybackRepo.findOneMonthly({
+    const dbResponse = await SongPlaybackRepo.findOneMonthly({
       id: id,
     });
     handleDbResponse(res, dbResponse);

@@ -2,7 +2,7 @@ import * as player from "./player-types";
 
 const initialState = {
   isPlaying: false,
-  tracksToPlay: [],
+  songsToPlay: [],
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -11,19 +11,19 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         isPlaying: true,
-        tracksToPlay: [action.payload],
+        songsToPlay: [action.payload],
       };
     case player.ADD_SONG_TO_QUEUE:
       return {
         ...state,
         isPlaying: true,
-        tracksToPlay: [...state.tracksToPlay, action.payload],
+        songsToPlay: [...state.songsToPlay, action.payload],
       };
     case player.PLAY_COLLECTION:
       return {
         ...state,
         isPlaying: true,
-        tracksToPlay: action.payload,
+        songsToPlay: action.payload,
       };
     default:
       return state;
