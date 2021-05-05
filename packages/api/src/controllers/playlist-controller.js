@@ -121,7 +121,7 @@ async function fetchPlaylistById(req, res, next) {
 }
 
 async function addTrackToPlaylist(req, res, next) {
-  const { playlistId, songId, updateType } = req.body;
+  const { playlistId, songId } = req.body;
 
   try {
     await PlaylistRepo.findByIdAndPopulate(playlistId, [
