@@ -18,6 +18,11 @@ playlistRouter.patch(
   playlistController.addTrackToPlaylist,
 );
 
+playlistRouter.delete(
+  "/api/playlists/:id",
+  playlistController.deleteTrackFromPlaylist,
+);
+
 playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);
 playlistRouter.delete("/api/playlists", playlistController.deletePlaylist);
 playlistRouter.patch("/api/playlists", playlistController.updatePlaylist);

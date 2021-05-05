@@ -137,6 +137,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromPlaylist(options) {
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   function followPlaylist(headers, options) {
     return request({
       url: `/api/playlist/${options.playlistId}/follow`,
@@ -210,6 +218,7 @@ function makeApi(request = makeRequest()) {
     createPlaylist: createPlaylist,
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
+    deleteSongFromPlaylist: deleteSongFromPlaylist,
     fetchPlaylistById: fetchPlaylistById,
     getOwnPlaylists: getOwnPlaylists,
     followPlaylist: followPlaylist,
