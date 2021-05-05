@@ -216,7 +216,10 @@ export function addSongToPlaylist(playlistId, songId) {
     dispatch(addSongToPlaylistRequest());
 
     try {
-      const res = await api.addSongToPlaylist({ playlistId, songId });
+      const res = await api.addSongToPlaylist({
+        playlistId,
+        songId,
+      });
 
       if (res.errorMessage) {
         return dispatch(addSongToPlaylistError(res.errorMessage));
@@ -225,6 +228,42 @@ export function addSongToPlaylist(playlistId, songId) {
       return dispatch(addSongToPlaylistSuccess());
     } catch (error) {
       return dispatch(addSongToPlaylistError(error));
+    }
+  };
+}
+
+// Delete song from playlist
+
+export const deleteSongFromPlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_REQUEST,
+});
+
+export const deleteSongFromPlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deleteSongFromPlaylistSuccess = () => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_SUCCESS,
+});
+
+export function deleteSongFromPlaylist(playlistId, songId) {
+  return async function deleteSongFromPlaylistThunk(dispatch) {
+    dispatch(deleteSongFromPlaylistRequest());
+
+    try {
+      const res = await api.deleteSongFromPlaylist({
+        playlistId,
+        songId,
+      });
+
+      if (res.errorMessage) {
+        return dispatch(deleteSongFromPlaylistError(res.errorMessage));
+      }
+
+      return dispatch(deleteSongFromPlaylistSuccess());
+    } catch (error) {
+      return dispatch(deleteSongFromPlaylistError(error));
     }
   };
 }
