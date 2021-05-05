@@ -1,9 +1,6 @@
 const Router = require("express").Router;
 
-const {
-  authMiddleware,
-  // geoMiddleware
-} = require("../middlewares");
+const { authMiddleware, geoMiddleware } = require("../middlewares");
 const { userController } = require("../controllers");
 
 const userRouter = Router();
@@ -11,7 +8,7 @@ const userRouter = Router();
 userRouter.post(
   "/sign-up",
   authMiddleware,
-  // geoMiddleware,
+  geoMiddleware,
   userController.signUp,
 );
 userRouter.post("/sign-out", authMiddleware, userController.signOut);
