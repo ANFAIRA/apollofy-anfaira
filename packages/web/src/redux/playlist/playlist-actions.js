@@ -166,7 +166,7 @@ export function fetchOwnPlaylists() {
         fetchAllPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          fetchType: playlistTypes.OWN,
+          type: playlistTypes.OWN,
         }),
       );
     } catch (err) {

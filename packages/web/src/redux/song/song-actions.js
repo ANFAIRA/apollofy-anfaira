@@ -23,7 +23,7 @@ export const fetchSongsSuccess = ({
   };
 };
 
-export function fetchSongsTypes(fetchType) {
+export function fetchSongs(fetchType) {
   switch (fetchType) {
     case songsTypes.ALL_SONGS:
       return fetchAllSongs();
@@ -41,6 +41,8 @@ export const fetchSongsReset = () => {
   return { type: SongTypes.FETCH_SONG_RESET };
 };
 
+// Fetch all songs
+
 export const fetchAllSongs = () => {
   return async function fetchSongThunk(dispatch) {
     dispatch(fetchSongsRequest());
@@ -51,7 +53,7 @@ export const fetchAllSongs = () => {
       if (songs.errorMessage) {
         return dispatch(fetchSongsError(songs.errorMessage));
       }
-
+      console.log(songs.data);
       const normalizedSongs = normalizeSongs(songs.data);
 
       return dispatch(
@@ -86,7 +88,7 @@ export const fetchMySongs = () => {
         return dispatch(fetchSongsError(MySongs.errorMessage));
       }
 
-      const normalizedSongs = normalizeSongs(MySongs);
+      const normalizedSongs = normalizeSongs(MySongs.data);
 
       return dispatch(
         fetchSongsSuccess({
@@ -120,7 +122,7 @@ export const fetchFavoriteSongs = () => {
         return dispatch(fetchSongsError(LikedSongs.errorMessage));
       }
 
-      const normalizedSongs = normalizeSongs(LikedSongs);
+      const normalizedSongs = normalizeSongs(LikedSongs.data);
 
       return dispatch(
         fetchSongsSuccess({
@@ -134,6 +136,8 @@ export const fetchFavoriteSongs = () => {
     }
   };
 };
+
+// Like songs
 
 export const likeSongRequest = () => {
   return { type: SongTypes.LIKE_SONG_REQUEST };

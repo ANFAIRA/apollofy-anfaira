@@ -38,8 +38,8 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetchRequest: false,
+        isFetchFail: null,
         isFetchSuccess: true,
-        isFetchFail: false,
         songsByID: {
           ...state.songsByID,
           ...action.payload.songsByID,

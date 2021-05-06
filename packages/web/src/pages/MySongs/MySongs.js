@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchMySong } from "../../redux/mySong/mySong-actions";
+import { fetchSongs } from "../../redux/song/song-actions";
+import { songsTypes } from "../../redux/song/song-type";
 
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
@@ -12,7 +13,7 @@ function MySongs() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMySong());
+    dispatch(fetchSongs(songsTypes.MY_SONGS));
   }, [dispatch]);
 
   return (

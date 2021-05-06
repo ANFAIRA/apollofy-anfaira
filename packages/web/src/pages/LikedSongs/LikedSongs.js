@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
-
+// import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
+import { fetchSongs } from "../../redux/song/song-actions";
+import { songsTypes } from "../../redux/song/song-type";
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
@@ -18,7 +19,7 @@ function LikedSongs() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchLikedSong());
+    dispatch(fetchSongs(songsTypes.FAVORITE));
   }, [dispatch, likedSongs]);
 
   return (
