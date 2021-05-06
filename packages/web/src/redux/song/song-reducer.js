@@ -16,6 +16,10 @@ const initialState = {
   },
   currentUser: {},
   selectedSong: {},
+  isDeletingSong: false,
+  songDeleteSuccess: false,
+  songDeleteError: null,
+  songId: null,
 };
 
 const songReducer = (state = initialState, action) => {
@@ -87,6 +91,55 @@ const songReducer = (state = initialState, action) => {
       return {
         ...initialState,
       };
+    case song.DELETE_TRACK_REQUEST:
+      return {
+        ...state,
+        isDeletingSong: true,
+        songDeleteError: false,
+      };
+    case song.DELETE_TRACK_SUCCESS:
+      // eslint-disable-next-line no-param-reassign
+      delete state.songsByID[action.payload.data._id];
+      // eslint-disable-next-line no-param-reassign
+      state.songsIds.ALL_SONGS = state.songsIds.ALL_SONGS.filter(
+        (itemId) => itemId !== action.payload.data._id,
+      );
+      return {
+        ...state,
+        isDeletingSong: false,
+        songDeleteSuccess: true,
+        songDeleteError: false,
+        songId: action.payload,
+        songsByID: { ...state.songsByID },
+        songsIds: { ...state.songsIds },
+      };
+    case song.DELETE_TRACK_ERROR:
+      return {
+        ...state,
+        isDeletingSong: false,
+        songDeleteSuccess: false,
+        songDeleteError: action.payload,
+      };
+    case song.DELETE_TRACK_RESET: {
+      return {
+        ...state,
+        isDeletingSong: false,
+        songDeleteSuccess: false,
+        songDeleteError: null,
+      };
+    }
+    case song.ADD_UPLOADED_SONG: {
+      const songId = action.payload.data._id;
+      const newIds = { ...state.songsIds };
+
+      newIds.ALL_SONGS = [...state.songsIds.ALL_SONGS, songId];
+
+      return {
+        ...state,
+        songsByID: { ...state.songsByID, [songId]: { ...action.payload.data } },
+        songsIds: newIds,
+      };
+    }
     default:
       return state;
   }

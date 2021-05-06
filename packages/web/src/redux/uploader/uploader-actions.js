@@ -109,7 +109,7 @@ export function uploadSong({ song, thumbnail, title, artist, genre }) {
         return dispatch(uploadSongError(songRes.errorMessage));
       }
 
-      return dispatch(uploadSongSuccess(url));
+      return dispatch(uploadSongSuccess(songRes.data));
     } catch (err) {
       return dispatch(uploadSongError(err.message));
     }

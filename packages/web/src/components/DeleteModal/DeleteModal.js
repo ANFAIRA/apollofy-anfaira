@@ -3,19 +3,16 @@ import { func, object } from "prop-types";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  deleteSong,
-  deleteSongReset,
-} from "../../redux/songDelete/songDelete-actions";
+import { deleteSong, deleteSongReset } from "../../redux/song/song-actions";
 
-import { songDeleteSelector } from "../../redux/songDelete/songDelete-selectors";
+import { songSelector } from "../../redux/song/song-selector";
 
 import CloseBtn from "../CloseBtn";
 
 function DeleteModal({ setShowDeleteModal, selectedSong, setSelectedSong }) {
   const dispatch = useDispatch();
   const { isDeletingSong, songDeleteSuccess, songDeleteError } = useSelector(
-    songDeleteSelector,
+    songSelector,
   );
 
   const { _id } = selectedSong;

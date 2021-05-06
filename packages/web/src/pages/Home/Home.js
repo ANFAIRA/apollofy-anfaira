@@ -11,9 +11,9 @@ import {
   fetchPlaylists,
 } from "../../redux/playlist/playlist-actions";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
-import { fetchAllSongs } from "../../redux/song/song-actions";
+import { fetchAllSongs, addUploadedSong } from "../../redux/song/song-actions";
 import { songsTypes } from "../../redux/song/song-type";
-import { songDeleteSelector } from "../../redux/songDelete/songDelete-selectors";
+import { songSelector } from "../../redux/song/song-selector";
 import { songEditorSelector } from "../../redux/songEditor/songEditor-selectors";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import "./Home.scss";
@@ -22,9 +22,9 @@ export default function Home() {
   const { currentUser } = useSelector(authSelector);
   const { songsByID } = useSelector((state) => state.song);
   const { ALL_SONGS } = useSelector((state) => state.song.songsIds);
-  const { uploadSongSuccess } = useSelector(uploaderSelector);
+  const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
   const { songUpdateSuccess } = useSelector(songEditorSelector);
-  const { songDeleteSuccess } = useSelector(songDeleteSelector);
+  // const { songDeleteSuccess } = useSelector(songSelector);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
   const { playlistByID } = useSelector((state) => state.playlists);
 
@@ -35,10 +35,21 @@ export default function Home() {
 
   const dispatch = useDispatch();
 
+  console.log(uploadedSong);
+
   useEffect(() => {
-    dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     dispatch(fetchPlaylists(playlistTypes.ALL));
-  }, [dispatch, uploadSongSuccess, songUpdateSuccess, songDeleteSuccess]);
+    if (ALL_SONGS.length === 0) {
+      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
+    }
+    uploadSongSuccess && dispatch(addUploadedSong(uploadedSong));
+  }, [
+    dispatch,
+    ALL_SONGS.length,
+    uploadSongSuccess,
+    uploadedSong,
+    // songUpdateSuccess
+  ]);
 
   return (
     <>

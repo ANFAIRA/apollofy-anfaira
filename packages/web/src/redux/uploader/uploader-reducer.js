@@ -9,6 +9,7 @@ export const UploaderInitialState = {
   uploadImageSuccess: false,
   uploadImageError: null,
   imageUrls: [],
+  uploadedSong: {},
 };
 
 const uploaderReducer = (state = UploaderInitialState, action) => {
@@ -35,7 +36,8 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
         isUploadingSong: false,
         uploadSongSuccess: true,
         uploadSongError: null,
-        songUrls: [...state.songUrls, action.payload],
+        // songUrls: [...state.songUrls, action.payload],
+        uploadedSong: action.payload,
       };
     }
     case UploaderTypes.UPLOAD_SONG_RESET: {

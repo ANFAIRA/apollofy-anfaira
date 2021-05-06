@@ -53,7 +53,7 @@ export const fetchAllSongs = () => {
       if (songs.errorMessage) {
         return dispatch(fetchSongsError(songs.errorMessage));
       }
-      console.log(songs.data);
+
       const normalizedSongs = normalizeSongs(songs.data);
 
       return dispatch(
@@ -170,3 +170,45 @@ export const likeSong = (songId, firebaseId) => {
     }
   };
 };
+
+// DELETE SONGS
+
+export const deleteSongRequest = () => ({
+  type: SongTypes.DELETE_TRACK_REQUEST,
+});
+
+export const deleteSongError = (message) => ({
+  type: SongTypes.DELETE_TRACK_ERROR,
+  payload: message,
+});
+
+export const deleteSongSuccess = (songId) => ({
+  type: SongTypes.DELETE_TRACK_SUCCESS,
+  payload: songId,
+});
+
+export const deleteSongReset = () => ({
+  type: SongTypes.DELETE_TRACK_RESET,
+});
+
+export function deleteSong(songId) {
+  return async function deleteSongThunk(dispatch) {
+    dispatch(deleteSongRequest());
+    try {
+      const response = await api.deleteSongApi(songId);
+      if (response.errorMessage) {
+        return dispatch(deleteSongError(response.errorMessage));
+      }
+      return dispatch(deleteSongSuccess(response.data));
+    } catch (error) {
+      return dispatch(deleteSongError(error.message));
+    }
+  };
+}
+
+// ADD UPLOADED SONG TO STATE
+
+export const addUploadedSong = (song) => ({
+  type: SongTypes.ADD_UPLOADED_SONG,
+  payload: song,
+});

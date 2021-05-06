@@ -36,6 +36,13 @@ async function createSong(req, res, next) {
     }
 
     if (response.data) {
+      await UserRepo.findOneAndUpdate(
+        { _id: user.data._id },
+        { $push: { uploadedSongs: response.data._id } },
+        {
+          new: true,
+        },
+      );
       return res.status(201).send({
         data: response.data,
         error: null,

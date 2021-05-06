@@ -4,7 +4,6 @@ import playerReducer from "./player/player-reducer";
 import songReducer from "./song/song-reducer";
 import uploaderReducer from "./uploader/uploader-reducer";
 import songEditorReducer from "./songEditor/songEditor-reducer";
-import songDeleteReducer from "./songDelete/songDelete-reducer";
 import playlistReducer from "./playlist/playlist-reducer";
 import playlistDeleteReducer from "./playlistDelete/playlistDelete-reducer";
 import playlistEditorReducer from "./playlistEditor/playlistEditor-reducer";
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
   song: songReducer,
   player: playerReducer,
   songEditor: songEditorReducer,
-  songDelete: songDeleteReducer,
   playlists: playlistReducer,
   playlistDelete: playlistDeleteReducer,
   playlistEditor: playlistEditorReducer,
