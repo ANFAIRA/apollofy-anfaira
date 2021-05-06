@@ -43,6 +43,7 @@ function SongCard({
     dispatch(likeSong(song._id, firebaseId));
   }
 
+  console.log(song);
   return (
     <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
       <div className="card">
@@ -93,11 +94,12 @@ function SongCard({
       </div>
       <div className="mt-2">
         <h3 className="text-lg">{song.title}</h3>
-        {song?.artist?.map((artist) => (
+        <p>{song.artist}</p>
+        {/* {song?.artist?.map((artist) => (
           <p key={song._id} className="text-sm">
             {artist}
           </p>
-        ))}
+        ))} */}
       </div>
     </div>
   );

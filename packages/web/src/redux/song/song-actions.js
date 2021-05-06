@@ -174,21 +174,21 @@ export const likeSong = (songId, firebaseId) => {
 // DELETE SONGS
 
 export const deleteSongRequest = () => ({
-  type: SongTypes.DELETE_TRACK_REQUEST,
+  type: SongTypes.DELETE_SONG_REQUEST,
 });
 
 export const deleteSongError = (message) => ({
-  type: SongTypes.DELETE_TRACK_ERROR,
+  type: SongTypes.DELETE_SONG_ERROR,
   payload: message,
 });
 
 export const deleteSongSuccess = (songId) => ({
-  type: SongTypes.DELETE_TRACK_SUCCESS,
+  type: SongTypes.DELETE_SONG_SUCCESS,
   payload: songId,
 });
 
 export const deleteSongReset = () => ({
-  type: SongTypes.DELETE_TRACK_RESET,
+  type: SongTypes.DELETE_SONG_RESET,
 });
 
 export function deleteSong(songId) {
@@ -205,6 +205,45 @@ export function deleteSong(songId) {
     }
   };
 }
+
+// UPDATE SONG
+export const updateSongRequest = () => ({
+  type: SongTypes.UPDATE_SONG_REQUEST,
+});
+
+export const updateSongError = (message) => ({
+  type: SongTypes.UPDATE_SONG_ERROR,
+  payload: message,
+});
+
+export const updateSongSuccess = (songData) => ({
+  type: SongTypes.UPDATE_SONG_SUCCESS,
+  payload: songData,
+});
+
+export const updateSongReset = () => ({
+  type: SongTypes.UPDATE_SONG_RESET,
+});
+
+export function updateSong(songData) {
+  return async function updateSongThunk(dispatch) {
+    dispatch(updateSongRequest());
+    try {
+      const response = await api.updateSongInfo(songData);
+      if (response.errorMessage) {
+        return dispatch(updateSongError(response.errorMessage));
+      }
+      return dispatch(updateSongSuccess(response.data));
+    } catch (error) {
+      return dispatch(updateSongError(error.message));
+    }
+  };
+}
+
+export const updateUpdatedSong = (song) => ({
+  type: SongTypes.UPDATE_UPDATED_SONG,
+  payload: song,
+});
 
 // ADD UPLOADED SONG TO STATE
 

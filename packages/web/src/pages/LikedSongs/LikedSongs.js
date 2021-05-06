@@ -9,7 +9,9 @@ import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
 
 function LikedSongs() {
-  const { data } = useSelector((state) => state?.likedSong?.likedSongs);
+  const { FAVORITE } = useSelector((state) => state?.song?.songsIds);
+  const { songsByID } = useSelector((state) => state?.song);
+
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
       ? state.song.currentUser.data
@@ -26,8 +28,8 @@ function LikedSongs() {
     <Main>
       <ProfileLayout>
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {data?.map((song) => (
-            <SongCard key={song._id} song={song} />
+          {FAVORITE?.map((song) => (
+            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
           ))}
         </section>
       </ProfileLayout>

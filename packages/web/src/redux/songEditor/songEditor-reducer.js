@@ -9,13 +9,13 @@ const initialState = {
 
 const SongEditorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SongEditorTypes.UPDATE_TRACK_REQUEST:
+    case SongEditorTypes.UPDATE_SONG_REQUEST:
       return {
         ...state,
         isUpdatingSong: true,
         songUpadateError: false,
       };
-    case SongEditorTypes.UPDATE_TRACK_SUCCESS:
+    case SongEditorTypes.UPDATE_SONG_SUCCESS:
       return {
         ...state,
         isUpdatingSong: false,
@@ -23,14 +23,14 @@ const SongEditorReducer = (state = initialState, action) => {
         songUpadateError: false,
         selectedSong: action.payload,
       };
-    case SongEditorTypes.UPDATE_TRACK_ERROR:
+    case SongEditorTypes.UPDATE_SONG_ERROR:
       return {
         ...state,
         isUpdatingSong: false,
         songUpdateSuccess: false,
         songUpadateError: action.payload,
       };
-    case SongEditorTypes.UPDATE_TRACK_RESET: {
+    case SongEditorTypes.UPDATE_SONG_RESET: {
       return {
         ...state,
         isUpdatingSong: false,
