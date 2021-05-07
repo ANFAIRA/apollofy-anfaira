@@ -16,7 +16,7 @@ function FollowingPlaylists() {
     (state) => state.playlists.playlistIds,
   );
 
-  const { playlistByID } = useSelector((state) => state.playlists);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const dispatch = useDispatch();
 
@@ -31,9 +31,9 @@ function FollowingPlaylists() {
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {followedPlaylistsArray?.map((playlist) => (
             <PlaylistCard
-              key={playlistByID[playlist]._id}
-              playlist={playlistByID[playlist]}
-              location={`playlist/${playlistByID[playlist]._id}`}
+              key={playlistsByID[playlist]._id}
+              playlist={playlistsByID[playlist]}
+              location={`playlist/${playlistsByID[playlist]._id}`}
             />
           ))}
         </section>

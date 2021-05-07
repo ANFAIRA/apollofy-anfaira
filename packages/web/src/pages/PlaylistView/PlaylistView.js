@@ -15,24 +15,26 @@ import PlaylistModal from "../../components/PlaylistModal";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
 import { playCollection } from "../../redux/player/player-actions";
-import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
+import {
+  fetchPlaylistById,
+  followPlaylist,
+} from "../../redux/playlist/playlist-actions";
 import {
   playlistItemSelector,
   playlistStateSelector,
+  selectPlaylistState,
 } from "../../redux/playlist/playlist-selector";
-import { followPlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
-import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
 import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
   const { id } = useParams();
-  const { songsByID, songsIds, isFetchSuccess } = useSelector(
+  const { songsByID, songIds, isFetchSuccess } = useSelector(
     (state) => state.song,
   );
   const { addingSong, playlistUpdate, deletingSong } = useSelector(
     playlistStateSelector,
   );
-  const { isUpdatingPlaylist } = useSelector(playlistEditorSelector);
+  const { isUpdatingPlaylist } = useSelector(selectPlaylistState);
   const currentUser = useSelector((state) => state.auth?.currentUser);
 
   const playlist = playlistItemSelector(id);
@@ -73,7 +75,7 @@ const PlaylistView = () => {
   const fetchedSongs = [];
 
   if (isFetchSuccess) {
-    songsIds.ALL_SONGS.map((songId) => {
+    songIds.ALL_SONGS.map((songId) => {
       fetchedSongs.push(songsByID[songId]);
       return songId;
     });

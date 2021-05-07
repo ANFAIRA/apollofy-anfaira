@@ -2,9 +2,11 @@ import { bool, func, object, oneOfType, string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { createPlaylist } from "../../redux/playlist/playlist-actions";
+import {
+  createPlaylist,
+  updatePlaylist,
+} from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
-import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";

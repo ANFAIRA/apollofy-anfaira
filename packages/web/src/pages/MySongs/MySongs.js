@@ -9,7 +9,7 @@ import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
 
 function MySongs() {
-  const { MY_SONGS } = useSelector((state) => state?.song?.songsIds);
+  const { MY_SONGS } = useSelector((state) => state?.song?.songIds);
   const { songsByID } = useSelector((state) => state?.song);
   const dispatch = useDispatch();
 

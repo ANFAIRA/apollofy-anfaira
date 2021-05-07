@@ -9,7 +9,7 @@ import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
 
 function LikedSongs() {
-  const { FAVORITE } = useSelector((state) => state?.song?.songsIds);
+  const { FAVORITE } = useSelector((state) => state?.song?.songIds);
   const { songsByID } = useSelector((state) => state?.song);
 
   const { likedSongs } = useSelector((state) =>

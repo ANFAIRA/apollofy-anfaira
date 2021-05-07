@@ -5,6 +5,8 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import {
   // fetchAllPlaylists,
   fetchPlaylists,
+  updateUpdatedPlaylist,
+  addCreatedPlaylist,
 } from "../../redux/playlist/playlist-actions";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
@@ -30,32 +32,45 @@ export default function Home() {
   const { songsByID, songEditing, songUpdateSuccess } = useSelector(
     songSelector,
   );
-  const { ALL_SONGS } = useSelector((state) => state.song.songsIds);
+  const { ALL_SONGS } = useSelector((state) => state.song.songIds);
   const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const { playlistByID } = useSelector((state) => state.playlists);
+  const {
+    playlistsByID,
+    playlistUpdateSuccess,
+    playlistEditing,
+    createdPlaylist,
+  } = useSelector((state) => state.playlists);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (ALL_SONGS.length === 0) {
+      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
+    }
     if (ALL.length === 0) {
       dispatch(fetchPlaylists(playlistTypes.ALL));
     }
-    if (ALL_SONGS.length === 0) {
-      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
-    } else if (songUpdateSuccess) {
+    if (songUpdateSuccess) {
       dispatch(updateUpdatedSong(songEditing.data));
+    }
+    if (playlistUpdateSuccess) {
+      dispatch(updateUpdatedPlaylist(playlistEditing.data));
     }
     uploadSongSuccess && dispatch(addUploadedSong(uploadedSong));
     dispatch(uploadSongReset());
+    createdPlaylist && dispatch(addCreatedPlaylist(createdPlaylist));
   }, [
     dispatch,
     ALL.length,
     ALL_SONGS.length,
+    playlistUpdateSuccess,
+    playlistEditing,
     uploadSongSuccess,
     uploadedSong,
     songUpdateSuccess,
     songEditing,
+    createdPlaylist,
   ]);
 
   return (
@@ -78,9 +93,9 @@ export default function Home() {
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
               {ALL?.map((playlist) => (
                 <PlaylistCard
-                  key={playlistByID[playlist]._id}
-                  playlist={playlistByID[playlist]}
-                  location={`playlist/${playlistByID[playlist]._id}`}
+                  key={playlistsByID[playlist]._id}
+                  playlist={playlistsByID[playlist]}
+                  location={`playlist/${playlistsByID[playlist]._id}`}
                 />
               ))}
             </section>

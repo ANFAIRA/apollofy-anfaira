@@ -15,11 +15,11 @@ export const fetchSongsError = (message) => {
 export const fetchSongsSuccess = ({
   type = songsTypes.ALL_SONGS,
   songsByID,
-  songsIds,
+  songIds,
 }) => {
   return {
     type: SongTypes.FETCH_SONG_SUCCESS,
-    payload: { type: type, songsByID: songsByID, songsIds: songsIds },
+    payload: { type: type, songsByID: songsByID, songIds: songIds },
   };
 };
 
@@ -60,7 +60,7 @@ export const fetchAllSongs = () => {
         fetchSongsSuccess({
           type: songsTypes.ALL_SONGS,
           songsByID: normalizedSongs.entities.songs,
-          songsIds: normalizedSongs.result,
+          songIds: normalizedSongs.result,
         }),
       );
     } catch (error) {
@@ -94,7 +94,7 @@ export const fetchMySongs = () => {
         fetchSongsSuccess({
           type: songsTypes.MY_SONGS,
           songsByID: normalizedSongs.entities.songs,
-          songsIds: normalizedSongs.result,
+          songIds: normalizedSongs.result,
         }),
       );
     } catch (error) {
@@ -128,7 +128,7 @@ export const fetchFavoriteSongs = () => {
         fetchSongsSuccess({
           type: songsTypes.FAVORITE,
           songsByID: normalizedSongs.entities.songs,
-          songsIds: normalizedSongs.result,
+          songIds: normalizedSongs.result,
         }),
       );
     } catch (error) {

@@ -73,15 +73,15 @@ export const fetchPlaylistsError = (message) => ({
   payload: message,
 });
 
-export const fetchPlaylistsSuccess = ({
-  type,
-  playlistByID,
+export const fetchAllPlaylistsSuccess = ({
+  type = playlistTypes.ALL,
+  playlistsByID,
   songByID,
   playlistIds,
 }) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_SUCCESS,
   payload: {
-    playlistByID: playlistByID,
+    playlistsByID: playlistsByID,
     songByID: songByID,
     playlistIds: playlistIds,
     type: type,
@@ -126,8 +126,8 @@ export function fetchAllPlaylists() {
       const normalizedData = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchPlaylistsSuccess({
-          playlistByID: normalizedData.entities.playlists,
+        fetchAllPlaylistsSuccess({
+          playlistsByID: normalizedData.entities.playlists,
           songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
           type: playlistTypes.ALL,
@@ -163,8 +163,8 @@ export function fetchOwnPlaylists() {
       const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+        fetchAllPlaylistsSuccess({
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: playlistTypes.OWN,
         }),
@@ -294,14 +294,121 @@ export function fetchFollowedPlaylists() {
       const normalizedPlaylists = normalizeFullPlaylists(res.data.data);
 
       return dispatch(
-        fetchPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+        fetchAllPlaylistsSuccess({
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: playlistTypes.FOLLOWING,
         }),
       );
     } catch (err) {
       return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}
+
+// Update playlist
+
+export const updatePlaylistRequest = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_REQUEST,
+});
+
+export const updatePlaylistError = (message) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const updatePlaylistSuccess = (playlistData) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_SUCCESS,
+  payload: playlistData,
+});
+
+export const updatePlaylistReset = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_RESET,
+});
+
+export function updatePlaylist(playlistData) {
+  return async function updatePlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const response = await api.updatePlaylistInfo(playlistData);
+      if (response.errorMessage) {
+        return dispatch(updatePlaylistError(response.errorMessage));
+      }
+      return dispatch(updatePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(updatePlaylistError(error.message));
+    }
+  };
+}
+
+export const updateUpdatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.UPDATE_UPDATED_PLAYLIST,
+  payload: playlist,
+});
+
+// ADD CREATED SONG TO STATE
+
+export const addCreatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.ADD_CREATED_PLAYLIST,
+  payload: playlist,
+});
+
+// Follow playlist
+
+export const followPlaylist = (playlistId, firebaseId) => {
+  return async function followPlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const token = await getCurrentUserToken();
+      const data = await api.followPlaylist(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { playlistId, firebaseId },
+      );
+      return dispatch(updatePlaylistSuccess(data));
+    } catch (err) {
+      return dispatch(updatePlaylistError(err.message));
+    }
+  };
+};
+
+// Delete playlist
+
+export const deletePlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_REQUEST,
+});
+
+export const deletePlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistSuccess = (playlistId) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_SUCCESS,
+  payload: playlistId,
+});
+
+export const deletePlaylistReset = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_RESET,
+});
+
+export function deletePlaylist(playlistId) {
+  return async function deletePlaylistThunk(dispatch) {
+    dispatch(deletePlaylistRequest());
+
+    console.log(
+      "🚀 ~ file: playlist-actions.js ~ line 397 ~ deletePlaylist ~ playlistId",
+      playlistId,
+    );
+    try {
+      const response = await api.deletePlaylist(playlistId);
+      if (response.errorMessage) {
+        return dispatch(deletePlaylistError(response.errorMessage));
+      }
+      return dispatch(deletePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(deletePlaylistError(error.message));
     }
   };
 }
