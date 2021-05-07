@@ -8,6 +8,7 @@ import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-action
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";
+import PlaylistDefaultImage from "../../assets/playlist.png";
 
 function PlaylistModal({
   setShowPlaylistModal,
@@ -43,7 +44,7 @@ function PlaylistModal({
   });
 
   const [image, setImage] = useState();
-  const [src, setSrc] = useState();
+  const [src, setSrc] = useState(PlaylistDefaultImage);
 
   function onSubmit(data) {
     setShowPlaylistModal(false);
@@ -149,8 +150,8 @@ function PlaylistModal({
                     htmlFor="photo"
                     className={
                       errors.image
-                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                     }
                   >
                     <svg

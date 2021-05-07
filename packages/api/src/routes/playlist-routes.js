@@ -15,7 +15,12 @@ playlistRouter.get("/api/playlists", playlistController.fetchPlaylists);
 
 playlistRouter.patch(
   "/api/playlists/:id",
-  playlistController.addTrackToPlaylist,
+  playlistController.addSongToPlaylist,
+);
+
+playlistRouter.delete(
+  "/api/playlists/:id",
+  playlistController.deleteSongFromPlaylist,
 );
 
 playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);

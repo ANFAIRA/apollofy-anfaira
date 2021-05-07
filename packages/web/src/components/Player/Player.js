@@ -9,15 +9,13 @@ import { calcRemainingTime, formatTime } from "../../utils/utils";
 import Controls from "./Controls";
 import "./Player.scss";
 
-const Player = ({ tracks }) => {
-  const collectionIndex = useSelector((state) => state.player.collectionIndex);
-
-  const [trackIndex, setTrackIndex] = useState(collectionIndex);
-  const [trackProgress, setTrackProgress] = useState(0);
+const Player = ({ songs }) => {
+  const [songIndex, setSongIndex] = useState(0);
+  const [songProgress, setSongProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const { artist, title, url, thumbnail, _id, likedBy } =
-    tracks[trackIndex] || "";
+    songs[songIndex] || "";
 
   const audioRef = useRef(new Audio(url));
   const intervalRef = useRef();
@@ -39,10 +37,10 @@ const Player = ({ tracks }) => {
     dispatch(likeSong(_id, currentUser.data.firebaseId));
   }
   const currentPercentage = duration
-    ? `${(trackProgress / duration) * 100}%`
+    ? `${(songProgress / duration) * 100}%`
     : "0%";
 
-  const trackStyling = `
+  const songStyling = `
   -webkit-gradient(
     linear, 0% 0%, 100% 0%,
     color-stop(${currentPercentage}, #6320ee),
@@ -53,19 +51,19 @@ const Player = ({ tracks }) => {
   const likeOn = <FontAwesomeIcon icon={faHeart} />;
   const likeOff = <FontAwesomeIcon icon={farHeart} />;
 
-  const toPrevTrack = () => {
-    if (trackIndex - 1 < 0) {
-      setTrackIndex(tracks.length - 1);
+  const toPrevSong = () => {
+    if (songIndex - 1 < 0) {
+      setSongIndex(songs.length - 1);
     } else {
-      setTrackIndex(trackIndex - 1);
+      setSongIndex(songIndex - 1);
     }
   };
 
-  const toNextTrack = () => {
-    if (trackIndex < tracks.length - 1) {
-      setTrackIndex(trackIndex + 1);
+  const toNextSong = () => {
+    if (songIndex < songs.length - 1) {
+      setSongIndex(songIndex + 1);
     } else {
-      setTrackIndex(0);
+      setSongIndex(0);
     }
   };
 
@@ -73,14 +71,14 @@ const Player = ({ tracks }) => {
     // Clear any timers already running
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setTrackProgress(audioRef.current.currentTime);
+      setSongProgress(audioRef.current.currentTime);
     }, [1000]);
   };
 
   const onScrub = (value) => {
     clearInterval(intervalRef.current);
     audioRef.current.currentTime = value;
-    setTrackProgress(audioRef.current.currentTime);
+    setSongProgress(audioRef.current.currentTime);
   };
 
   const onScrubEnd = () => {
@@ -108,7 +106,7 @@ const Player = ({ tracks }) => {
   }, [isPlaying]);
 
   useEffect(() => {
-    // Handle setup when changing tracks
+    // Handle setup when changing songs
     setIsFavorite(
       likedBy?.findIndex(
         (id) => String(id) === String(currentUser.data._id),
@@ -116,7 +114,7 @@ const Player = ({ tracks }) => {
     );
     audioRef.current.pause();
     audioRef.current = new Audio(url);
-    setTrackProgress(audioRef.current.currentTime);
+    setSongProgress(audioRef.current.currentTime);
     if (isReady.current) {
       audioRef.current.play();
       setIsPlaying(true);
@@ -132,7 +130,7 @@ const Player = ({ tracks }) => {
         <div className="player--info">
           <img
             src={thumbnail}
-            alt={thumbnail ? `track thumbnail for ${title} by ${artist}` : ""}
+            alt={thumbnail ? `song thumbnail for ${title} by ${artist}` : ""}
             className="player--info--img"
           />
           <div className="player--info--details">
@@ -144,8 +142,8 @@ const Player = ({ tracks }) => {
           <Controls
             isPlaying={isPlaying}
             onPlayPauseClick={setIsPlaying}
-            onPrevClick={toPrevTrack}
-            onNextClick={toNextTrack}
+            onPrevClick={toPrevSong}
+            onNextClick={toNextSong}
           />
           <div className="player--controller--progressBar">
             <p>{currentTime}</p>
@@ -154,8 +152,8 @@ const Player = ({ tracks }) => {
               step="1"
               min="0"
               max={duration || 0}
-              style={{ background: trackStyling }}
-              value={trackProgress}
+              style={{ background: songStyling }}
+              value={songProgress}
               onChange={(e) => onScrub(e.target.value)}
               onMouseUp={onScrubEnd}
               onKeyUp={onScrubEnd}
@@ -181,11 +179,11 @@ const Player = ({ tracks }) => {
 };
 
 Player.propTypes = {
-  tracks: array,
+  songs: array,
 };
 
 Player.defaultProps = {
-  tracks: [],
+  songs: [],
 };
 
 export default Player;

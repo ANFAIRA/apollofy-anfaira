@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 
 import {
   updateSong,
-  updateTrackReset,
-  setTrackToUpdate,
-} from "../../redux/trackEditor/trackEditor-actions";
+  updateSongReset,
+  setSongToUpdate,
+} from "../../redux/song/song-actions";
 import {
   uploadSong,
   uploadSongReset,
@@ -18,7 +18,7 @@ import {
 
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { modalStateSelector } from "../../redux/modals/modal-selectors";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
+import { songSelector } from "../../redux/song/song-selector";
 
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
@@ -32,14 +32,14 @@ function SongModal() {
     uploaderSelector,
   );
   const {
-    isUpdatingTrack,
-    trackUpdateSuccess,
-    trackUpdateError,
-    trackToUpdate,
-  } = useSelector(trackEditorSelector);
+    isUpdatingSong,
+    songUpdateSuccess,
+    songUpdateError,
+    songEditing,
+  } = useSelector(songSelector);
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
-    ? trackToUpdate
+    ? songEditing
     : "";
 
   const modal = isEditModal
@@ -64,7 +64,7 @@ function SongModal() {
     !isEditModal
       ? dispatch(
           uploadSong({
-            track: song,
+            song: song,
             thumbnail: image,
             title: data.title,
             genre: data.genre,
@@ -80,7 +80,7 @@ function SongModal() {
             _id: data._id,
           }),
         );
-    dispatch(setTrackToUpdate({}));
+    dispatch(setSongToUpdate({}));
     dispatch(hideSongModal());
     dispatch(setEditModalFalse());
   }
@@ -109,8 +109,8 @@ function SongModal() {
 
   useEffect(() => {
     dispatch(uploadSongReset());
-    dispatch(updateTrackReset());
-  }, [dispatch, uploadSongSuccess, trackUpdateSuccess]);
+    dispatch(updateSongReset());
+  }, [dispatch, uploadSongSuccess, songUpdateSuccess]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
@@ -174,8 +174,8 @@ function SongModal() {
                     htmlFor="photo"
                     className={
                       errors.image
-                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                     }
                   >
                     <svg
@@ -242,9 +242,9 @@ function SongModal() {
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
           {uploadSongError && <p className="mb-3">Upload error!</p>}
 
-          {isUpdatingTrack && <p className="mb-3">Updating song...</p>}
-          {trackUpdateSuccess && <p className="mb-3">Update successful!</p>}
-          {trackUpdateError && <p className="mb-3">Update error!</p>}
+          {isUpdatingSong && <p className="mb-3">Updating song...</p>}
+          {songUpdateSuccess && <p className="mb-3">Update successful!</p>}
+          {songUpdateError && <p className="mb-3">Update error!</p>}
 
           <Input
             name="title"

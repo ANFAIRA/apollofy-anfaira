@@ -28,9 +28,9 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function createTrack({ body, headers = {} }) {
+  function createSong({ body, headers = {} }) {
     return request({
-      url: "/api/tracks",
+      url: "/api/songs",
       requestMethod: "POST",
       headers: headers,
       body: body,
@@ -39,7 +39,7 @@ function makeApi(request = makeRequest()) {
 
   function getAllSongs(headers) {
     return request({
-      url: "/api/tracks",
+      url: "/api/songs",
       requestMethod: "GET",
       headers: headers,
     });
@@ -47,7 +47,7 @@ function makeApi(request = makeRequest()) {
 
   // function getSong(headers) {
   //   return request({
-  //     url: "/api/tracks/:id",
+  //     url: "/api/songs/:id",
   //     requestMethod: "GET",
   //     headers: headers,
   //   })
@@ -55,7 +55,7 @@ function makeApi(request = makeRequest()) {
 
   function updateSongInfo(options) {
     return request({
-      url: "/api/tracks",
+      url: "/api/songs",
       requestMethod: "PATCH",
       body: options,
     });
@@ -63,7 +63,7 @@ function makeApi(request = makeRequest()) {
 
   function likeSong(headers, options) {
     return request({
-      url: `/tracks/${options.songId}/like`,
+      url: `/songs/${options.songId}/like`,
       requestMethod: "PATCH",
       headers: headers,
       body: options,
@@ -72,16 +72,16 @@ function makeApi(request = makeRequest()) {
 
   function getMeSongs(headers, options) {
     return request({
-      url: "/api/me/tracks",
+      url: "/api/me/songs",
       requestMethod: "GET",
       headers: headers,
       body: options,
     });
   }
 
-  function deleteTrackApi(options) {
+  function deleteSongApi(options) {
     return request({
-      url: "/api/tracks",
+      url: "/api/songs",
       requestMethod: "DELETE",
       body: options,
     });
@@ -89,7 +89,7 @@ function makeApi(request = makeRequest()) {
 
   function getLikedSongs(headers, options) {
     return request({
-      url: "/api/me/tracks/liked",
+      url: "/api/me/songs/liked",
       requestMethod: "GET",
       headers: headers,
       body: options,
@@ -137,6 +137,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromPlaylist(options) {
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   function followPlaylist(headers, options) {
     return request({
       url: `/api/playlist/${options.playlistId}/follow`,
@@ -170,27 +178,56 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getGenres(headers) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function createGenre({ headers, body }) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "POST",
+      headers: headers,
+      body: body,
+    });
+  }
+
+  function addSongToGenre(body) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "PATCH",
+      body: body,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
     updateUserInfo: updateUserInfo,
-    createTrack: createTrack,
+    createSong: createSong,
     getAllSongs: getAllSongs,
     // getSong: getSong,
     updateSongInfo: updateSongInfo,
     getMeSongs: getMeSongs,
     getLikedSongs: getLikedSongs,
     likeSong: likeSong,
-    deleteTrackApi: deleteTrackApi,
+    deleteSongApi: deleteSongApi,
     createPlaylist: createPlaylist,
     fetchPlaylists: fetchPlaylists,
     addSongToPlaylist: addSongToPlaylist,
+    deleteSongFromPlaylist: deleteSongFromPlaylist,
     fetchPlaylistById: fetchPlaylistById,
     getOwnPlaylists: getOwnPlaylists,
     followPlaylist: followPlaylist,
     getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
     updatePlaylistInfo: updatePlaylistInfo,
+    getGenres: getGenres,
+    createGenre: createGenre,
+    addSongToGenre: addSongToGenre,
   };
 }
 

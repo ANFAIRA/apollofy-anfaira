@@ -86,11 +86,12 @@ function SongCard({ song }) {
       </div>
       <div className="mt-2">
         <h3 className="text-lg">{song.title}</h3>
-        {song?.artist?.map((artist) => (
+        <p>{song.artist}</p>
+        {/* {song?.artist?.map((artist) => (
           <p key={song._id} className="text-sm">
             {artist}
           </p>
-        ))}
+        ))} */}
       </div>
     </div>
   );

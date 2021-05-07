@@ -5,7 +5,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { hideAllModals } from "../../redux/modals/modal-actions";
-import { setTrackToUpdate } from "../../redux/trackEditor/trackEditor-actions";
+import { setSongToUpdate } from "../../redux/song/song-actions";
 
 const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
@@ -14,7 +14,7 @@ function CloseBtn() {
 
   function handleCloseBtn() {
     dispatch(hideAllModals());
-    dispatch(setTrackToUpdate({}));
+    dispatch(setSongToUpdate({}));
   }
   return (
     <div className="relative h-10">

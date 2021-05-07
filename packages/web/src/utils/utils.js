@@ -23,6 +23,6 @@ export const formatCollectionTime = (timeInSecond) => {
 };
 
 export const collectionTime = (collection) => {
-  const totalTime = collection.reduce((acc, track) => acc + track.duration, 0);
+  const totalTime = collection.reduce((acc, song) => acc + song.duration, 0);
   return formatCollectionTime(totalTime);
 };

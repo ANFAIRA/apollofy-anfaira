@@ -12,7 +12,7 @@ export const PlaylistInitState = {
   playlistLoadingError: null,
   playlistFetched: false,
   playlistByID: {},
-  trackByID: {},
+  songByID: {},
   addingSong: false,
   addSongError: null,
   playlistIds: {
@@ -77,9 +77,9 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           ...state.playlistByID,
           ...action.payload.playlistByID,
         },
-        trackByID: {
-          ...state.trackByID,
-          ...action.payload.trackByID,
+        songByID: {
+          ...state.songByID,
+          ...action.payload.songByID,
         },
         playlistIds: newIds,
       };
@@ -119,6 +119,27 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         ...state,
         addingSong: false,
         addSongError: null,
+      };
+    }
+    case PlaylistType.DELETE_SONG_FROM_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        deletingSong: true,
+        deleteSongError: null,
+      };
+    }
+    case PlaylistType.DELETE_SONG_FROM_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: action.payload,
+      };
+    }
+    case PlaylistType.DELETE_SONG_FROM_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: null,
       };
     }
     default: {

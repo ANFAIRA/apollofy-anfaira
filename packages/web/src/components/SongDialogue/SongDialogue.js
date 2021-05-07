@@ -17,7 +17,7 @@ import {
   showDeleteModal,
   setEditModalTrue,
 } from "../../redux/modals/modal-actions";
-import { setTrackToUpdate } from "../../redux/trackEditor/trackEditor-actions";
+import { setSongToUpdate } from "../../redux/song/song-actions";
 
 function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
@@ -34,7 +34,7 @@ function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   function handleEditClick() {
     dispatch(showSongModal());
     dispatch(setEditModalTrue());
-    dispatch(setTrackToUpdate(song));
+    dispatch(setSongToUpdate(song));
 
     setIsMenuOpen(false);
   }

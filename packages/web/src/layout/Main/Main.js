@@ -14,9 +14,9 @@ const Main = ({ children }) => {
   // const [showModal, setShowModal] = useState(false);
   // const [showPlaylistModal, setShowPlaylistModal] = useState(false);
   // const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState(null);
+  const [selectedSong, setSelectedSong] = useState(null);
 
-  const tracksToPlay = useSelector((state) => state.player.tracksToPlay);
+  const songsToPlay = useSelector((state) => state.player.songsToPlay);
   const { showSongModal, showPlaylistModal, showDeleteModal } = useSelector(
     modalStateSelector,
   );
@@ -30,8 +30,8 @@ const Main = ({ children }) => {
             // setShowModal={setShowModal}
             // isEditModal={isEditModal}
             // setIsEditModal={setIsEditModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -47,8 +47,8 @@ const Main = ({ children }) => {
         <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
           <DeleteModal
             // setShowDeleteModal={setShowDeleteModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
+            selectedSong={selectedSong}
+            setSelectedSong={setSelectedSong}
           />
         </section>
       )}
@@ -59,7 +59,7 @@ const Main = ({ children }) => {
       // setShowPlaylistModal={setShowPlaylistModal}
       />
       <section className="md:container md:mx-auto p-8">{children}</section>
-      <Player tracks={tracksToPlay} />
+      <Player songs={songsToPlay} />
     </>
   );
 };

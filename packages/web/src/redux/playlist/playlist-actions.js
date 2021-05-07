@@ -3,7 +3,7 @@ import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
 import * as PlaylistTypes from "./playlist-types";
-// import { playlistTypes } from "./playlist-types";
+import { playlistTypes } from "./playlist-types";
 
 // Create new playlist
 
@@ -76,29 +76,31 @@ export const fetchPlaylistsError = (message) => ({
 export const fetchPlaylistsSuccess = ({
   type,
   playlistByID,
-  trackByID,
+  songByID,
   playlistIds,
 }) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_SUCCESS,
   payload: {
     playlistByID: playlistByID,
-    trackByID: trackByID,
+    songByID: songByID,
     playlistIds: playlistIds,
     type: type,
   },
 });
 
-// export function fetchPlaylists(fetchType) {
-//   switch (fetchType) {
-//     case playlistTypes.ALL:
-//       return fetchAllPlaylists();
-//     case playlistTypes.OWN:
-//       return fetchOwnPlaylists();
-//     default:
-//       break;
-//   }
-//   return fetchAllPlaylists();
-// }
+export function fetchPlaylists(fetchType) {
+  switch (fetchType) {
+    case playlistTypes.ALL:
+      return fetchAllPlaylists();
+    case playlistTypes.OWN:
+      return fetchOwnPlaylists();
+    case playlistTypes.FOLLOWING:
+      return fetchFollowedPlaylists();
+    default:
+      break;
+  }
+  return fetchAllPlaylists();
+}
 
 // Fetch all playlists
 
@@ -126,9 +128,9 @@ export function fetchAllPlaylists() {
       return dispatch(
         fetchPlaylistsSuccess({
           playlistByID: normalizedData.entities.playlists,
-          trackByID: normalizedData.entities.tracks,
+          songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
-          type: res.data.type,
+          type: playlistTypes.ALL,
         }),
       );
     } catch (err) {
@@ -164,7 +166,7 @@ export function fetchOwnPlaylists() {
         fetchPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          type: playlistTypes.OWN,
         }),
       );
     } catch (err) {
@@ -216,7 +218,10 @@ export function addSongToPlaylist(playlistId, songId) {
     dispatch(addSongToPlaylistRequest());
 
     try {
-      const res = await api.addSongToPlaylist({ playlistId, songId });
+      const res = await api.addSongToPlaylist({
+        playlistId,
+        songId,
+      });
 
       if (res.errorMessage) {
         return dispatch(addSongToPlaylistError(res.errorMessage));
@@ -225,6 +230,42 @@ export function addSongToPlaylist(playlistId, songId) {
       return dispatch(addSongToPlaylistSuccess());
     } catch (error) {
       return dispatch(addSongToPlaylistError(error));
+    }
+  };
+}
+
+// Delete song from playlist
+
+export const deleteSongFromPlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_REQUEST,
+});
+
+export const deleteSongFromPlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deleteSongFromPlaylistSuccess = () => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_PLAYLIST_SUCCESS,
+});
+
+export function deleteSongFromPlaylist(playlistId, songId) {
+  return async function deleteSongFromPlaylistThunk(dispatch) {
+    dispatch(deleteSongFromPlaylistRequest());
+
+    try {
+      const res = await api.deleteSongFromPlaylist({
+        playlistId,
+        songId,
+      });
+
+      if (res.errorMessage) {
+        return dispatch(deleteSongFromPlaylistError(res.errorMessage));
+      }
+
+      return dispatch(deleteSongFromPlaylistSuccess());
+    } catch (error) {
+      return dispatch(deleteSongFromPlaylistError(error));
     }
   };
 }
@@ -256,7 +297,7 @@ export function fetchFollowedPlaylists() {
         fetchPlaylistsSuccess({
           playlistByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          type: playlistTypes.FOLLOWING,
         }),
       );
     } catch (err) {

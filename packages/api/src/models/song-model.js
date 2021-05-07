@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const TrackSchema = Schema(
+const SongSchema = Schema(
   {
     title: {
       type: String,
@@ -29,7 +29,8 @@ const TrackSchema = Schema(
       trim: true,
     },
     genre: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "genre",
     },
     authorId: {
       type: Schema.Types.ObjectId,
@@ -63,6 +64,6 @@ const TrackSchema = Schema(
   },
 );
 
-const Track = mongoose.model("track", TrackSchema);
+const Song = mongoose.model("song", SongSchema);
 
-module.exports = Track;
+module.exports = Song;
