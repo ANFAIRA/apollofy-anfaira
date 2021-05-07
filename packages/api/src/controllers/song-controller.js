@@ -17,6 +17,10 @@ async function createSong(req, res, next) {
     const user = await UserRepo.findOne({
       firebaseId: uid,
     });
+    console.log(
+      "🚀 ~ file: song-controller.js ~ line 20 ~ createSong ~ user",
+      user.data._id,
+    );
 
     const response = await SongRepo.create({
       title: title,

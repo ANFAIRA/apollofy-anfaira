@@ -171,10 +171,13 @@ const songReducer = (state = initialState, action) => {
         ...state,
         songsByID: {
           ...state.songsByID,
-          [action.payload._id.title]: action.payload.title,
-          [action.payload._id.thumbnail]: action.payload.thumbnail,
-          [action.payload._id.genre]: action.payload.genre,
-          [action.payload._id.artist]: action.payload.artist,
+          [action.payload._id]: {
+            ...state.songsByID[action.payload._id],
+            title: action.payload.title,
+            thumbnail: action.payload.thumbnail,
+            genre: action.payload.genre,
+            artist: action.payload.artist,
+          },
         },
       };
     case song.ADD_UPLOADED_SONG: {

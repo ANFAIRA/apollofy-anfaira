@@ -228,6 +228,7 @@ export const updateSongReset = () => ({
 export function updateSong(songData) {
   return async function updateSongThunk(dispatch) {
     dispatch(updateSongRequest());
+    console.log(songData);
     try {
       const response = await api.updateSongInfo(songData);
       if (response.errorMessage) {

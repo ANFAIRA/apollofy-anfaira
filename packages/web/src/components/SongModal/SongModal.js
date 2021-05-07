@@ -2,11 +2,8 @@ import { bool, func, object } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateSong,
-  updateSongReset,
-} from "../../redux/songEditor/songEditor-actions";
-import { songEditorSelector } from "../../redux/songEditor/songEditor-selectors";
+import { updateSong, updateSongReset } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
 import {
   uploadSong,
   uploadSongReset,
@@ -22,7 +19,7 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
     uploaderSelector,
   );
   const { isUpdatingSong, songUpdateSuccess, songUpdateError } = useSelector(
-    songEditorSelector,
+    songSelector,
   );
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
