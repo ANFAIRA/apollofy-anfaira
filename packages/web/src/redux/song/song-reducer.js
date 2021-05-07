@@ -166,7 +166,6 @@ const songReducer = (state = initialState, action) => {
         songEditing: {},
       };
     case song.UPDATE_UPDATED_SONG:
-      console.log(action.payload);
       return {
         ...state,
         songsByID: {

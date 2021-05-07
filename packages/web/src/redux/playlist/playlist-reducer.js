@@ -19,6 +19,10 @@ export const PlaylistInitState = {
   playlistUpadateError: null,
   playlistEditing: {},
   createdPlaylist: null,
+  isDeletingPlaylist: false,
+  playlistDeleteSuccess: false,
+  playlistDeleteError: null,
+  playlistId: null,
   playlistIds: {
     ALL: [],
     OWN: [],
@@ -78,10 +82,6 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         playlistsLoading: false,
         playlistsLoadingError: null,
         playlistsFetched: true,
-        playlistsByID: {
-          ...state.playlistsByID,
-          ...action.payload.playlistsByID,
-        },
         playlistsByID: {
           ...state.playlistsByID,
           ...action.payload.playlistsByID,
@@ -177,7 +177,6 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
       };
     }
     case PlaylistTypes.UPDATE_UPDATED_PLAYLIST:
-      console.log(action.payload);
       return {
         ...state,
         playlistsByID: {
@@ -205,6 +204,48 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           [playlistId]: { ...action.payload.data },
         },
         playlistIds: newIds,
+      };
+    }
+    case PlaylistTypes.DELETE_PLAYLIST_REQUEST:
+      return {
+        ...state,
+        isDeletingPlaylist: true,
+        playlistDeleteError: false,
+      };
+    case PlaylistTypes.DELETE_PLAYLIST_SUCCESS:
+      // eslint-disable-next-line no-param-reassign
+      delete state.playlistsByID[action.payload.data._id];
+      for (const keys in state.playlistIds) {
+        if (keys) {
+          // eslint-disable-next-line no-param-reassign
+          state.playlistIds[keys] = state.playlistIds[keys].filter(
+            (itemId) => itemId !== action.payload.data._id,
+          );
+        }
+      }
+
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        playlistDeleteSuccess: true,
+        playlistDeleteError: false,
+        playlistId: action.payload,
+        playlistsByID: { ...state.playlistsByID },
+        playlistIds: { ...state.playlistIds },
+      };
+    case PlaylistTypes.DELETE_PLAYLIST_ERROR:
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        playlistDeleteSuccess: false,
+        playlistDeleteError: action.payload,
+      };
+    case PlaylistTypes.DELETE_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        playlistDeleteSuccess: false,
+        playlistDeleteError: null,
       };
     }
     default: {

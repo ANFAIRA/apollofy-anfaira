@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deletePlaylist,
   deletePlaylistReset,
-} from "../../redux/playlistDelete/playlistDelete-actions";
+} from "../../redux/playlist/playlist-actions";
 
-import { playlistDeleteSelector } from "../../redux/playlistDelete/playlistDelete-selectors";
+import { selectPlaylistState } from "../../redux/playlist/playlist-selector";
 
 import CloseBtn from "../CloseBtn";
 
@@ -23,7 +23,7 @@ function PlaylistDeleteModal({
     isDeletingPlaylist,
     playlistDeleteSuccess,
     playlistDeleteError,
-  } = useSelector(playlistDeleteSelector);
+  } = useSelector(selectPlaylistState);
 
   const history = useHistory();
 

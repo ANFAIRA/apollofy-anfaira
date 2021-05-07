@@ -54,20 +54,12 @@ export function uploadSong({ song, thumbnail, title, artist, genre }) {
       if (urlRes.status >= 400) {
         return dispatch(uploadSongError(urlRes.statusText));
       }
-      console.log(
-        "🚀 ~ file: uploader-actions.js ~ line 59 ~ uploadThunk ~ urlRes",
-        urlRes,
-      );
 
       const { url, duration } = urlRes.data;
 
       const getGenreRes = await api.getGenres({
         Authorization: `Bearer ${userToken}`,
       });
-      console.log(
-        "🚀 ~ file: uploader-actions.js ~ line 67 ~ uploadThunk ~ getGenreRes",
-        getGenreRes,
-      );
 
       const existingGenres = getGenreRes.data.data;
 

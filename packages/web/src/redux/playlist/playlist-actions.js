@@ -372,3 +372,43 @@ export const followPlaylist = (playlistId, firebaseId) => {
     }
   };
 };
+
+// Delete playlist
+
+export const deletePlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_REQUEST,
+});
+
+export const deletePlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistSuccess = (playlistId) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_SUCCESS,
+  payload: playlistId,
+});
+
+export const deletePlaylistReset = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_RESET,
+});
+
+export function deletePlaylist(playlistId) {
+  return async function deletePlaylistThunk(dispatch) {
+    dispatch(deletePlaylistRequest());
+
+    console.log(
+      "🚀 ~ file: playlist-actions.js ~ line 397 ~ deletePlaylist ~ playlistId",
+      playlistId,
+    );
+    try {
+      const response = await api.deletePlaylist(playlistId);
+      if (response.errorMessage) {
+        return dispatch(deletePlaylistError(response.errorMessage));
+      }
+      return dispatch(deletePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(deletePlaylistError(error.message));
+    }
+  };
+}

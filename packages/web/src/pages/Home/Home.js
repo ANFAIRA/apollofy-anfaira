@@ -45,15 +45,11 @@ export default function Home() {
 
   const dispatch = useDispatch();
 
-  console.log(uploadedSong);
-  console.log(songEditing);
-
   useEffect(() => {
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
     if (songUpdateSuccess) {
-      console.log(songEditing);
       dispatch(updateUpdatedSong(songEditing.data));
     }
     if (ALL.length === 0) {
@@ -67,6 +63,9 @@ export default function Home() {
   }, [
     dispatch,
     ALL_SONGS.length,
+    ALL.length,
+    playlistUpdateSuccess,
+    playlistEditing,
     uploadSongSuccess,
     uploadedSong,
     songUpdateSuccess,
