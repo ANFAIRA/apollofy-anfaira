@@ -6,10 +6,10 @@ export const selectPlaylistState = (state) => state.playlists;
 
 export const playlistItemSelector = (props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useSelector((state) => state.playlists.playlistByID[props]);
+  return useSelector((state) => state.playlists.playlistsByID[props]);
 };
 
-export const playlistsSelector = createSelector(
+export const playlistSelector = createSelector(
   [selectPlaylists],
   (playlistIds) => playlistIds,
 );

@@ -2,9 +2,11 @@ import { bool, func, object, oneOfType, string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { createPlaylist } from "../../redux/playlist/playlist-actions";
+import {
+  createPlaylist,
+  updatePlaylist,
+} from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
-import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import "./PlaylistModal.scss";
@@ -150,8 +152,8 @@ function PlaylistModal({
                     htmlFor="photo"
                     className={
                       errors.image
-                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                     }
                   >
                     <svg

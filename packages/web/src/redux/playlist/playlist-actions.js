@@ -3,7 +3,7 @@ import { normalizeFullPlaylists } from "../../schema/playlist-schema";
 import { getCurrentUserToken } from "../../services/auth";
 import { signOutSuccess } from "../auth/auth-actions";
 import * as PlaylistTypes from "./playlist-types";
-// import { playlistTypes } from "./playlist-types";
+import { playlistTypes } from "./playlist-types";
 
 // Create new playlist
 
@@ -74,31 +74,33 @@ export const fetchPlaylistsError = (message) => ({
 });
 
 export const fetchAllPlaylistsSuccess = ({
-  type,
-  playlistByID,
-  trackByID,
+  type = playlistTypes.ALL,
+  playlistsByID,
+  songByID,
   playlistIds,
 }) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_SUCCESS,
   payload: {
-    playlistByID: playlistByID,
-    trackByID: trackByID,
+    playlistsByID: playlistsByID,
+    songByID: songByID,
     playlistIds: playlistIds,
     type: type,
   },
 });
 
-// export function fetchPlaylists(fetchType) {
-//   switch (fetchType) {
-//     case playlistTypes.ALL:
-//       return fetchAllPlaylists();
-//     case playlistTypes.OWN:
-//       return fetchOwnPlaylists();
-//     default:
-//       break;
-//   }
-//   return fetchAllPlaylists();
-// }
+export function fetchPlaylists(fetchType) {
+  switch (fetchType) {
+    case playlistTypes.ALL:
+      return fetchAllPlaylists();
+    case playlistTypes.OWN:
+      return fetchOwnPlaylists();
+    case playlistTypes.FOLLOWING:
+      return fetchFollowedPlaylists();
+    default:
+      break;
+  }
+  return fetchAllPlaylists();
+}
 
 // Fetch all playlists
 
@@ -125,10 +127,10 @@ export function fetchAllPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedData.entities.playlists,
-          trackByID: normalizedData.entities.tracks,
+          playlistsByID: normalizedData.entities.playlists,
+          songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
-          type: res.data.type,
+          type: playlistTypes.ALL,
         }),
       );
     } catch (err) {
@@ -162,9 +164,9 @@ export function fetchOwnPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          type: playlistTypes.OWN,
         }),
       );
     } catch (err) {
@@ -293,13 +295,120 @@ export function fetchFollowedPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
-          type: res.data.type,
+          type: playlistTypes.FOLLOWING,
         }),
       );
     } catch (err) {
       return dispatch(fetchPlaylistsError(err));
+    }
+  };
+}
+
+// Update playlist
+
+export const updatePlaylistRequest = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_REQUEST,
+});
+
+export const updatePlaylistError = (message) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const updatePlaylistSuccess = (playlistData) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_SUCCESS,
+  payload: playlistData,
+});
+
+export const updatePlaylistReset = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_RESET,
+});
+
+export function updatePlaylist(playlistData) {
+  return async function updatePlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const response = await api.updatePlaylistInfo(playlistData);
+      if (response.errorMessage) {
+        return dispatch(updatePlaylistError(response.errorMessage));
+      }
+      return dispatch(updatePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(updatePlaylistError(error.message));
+    }
+  };
+}
+
+export const updateUpdatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.UPDATE_UPDATED_PLAYLIST,
+  payload: playlist,
+});
+
+// ADD CREATED SONG TO STATE
+
+export const addCreatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.ADD_CREATED_PLAYLIST,
+  payload: playlist,
+});
+
+// Follow playlist
+
+export const followPlaylist = (playlistId, firebaseId) => {
+  return async function followPlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const token = await getCurrentUserToken();
+      const data = await api.followPlaylist(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { playlistId, firebaseId },
+      );
+      return dispatch(updatePlaylistSuccess(data));
+    } catch (err) {
+      return dispatch(updatePlaylistError(err.message));
+    }
+  };
+};
+
+// Delete playlist
+
+export const deletePlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_REQUEST,
+});
+
+export const deletePlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistSuccess = (playlistId) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_SUCCESS,
+  payload: playlistId,
+});
+
+export const deletePlaylistReset = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_RESET,
+});
+
+export function deletePlaylist(playlistId) {
+  return async function deletePlaylistThunk(dispatch) {
+    dispatch(deletePlaylistRequest());
+
+    console.log(
+      "🚀 ~ file: playlist-actions.js ~ line 397 ~ deletePlaylist ~ playlistId",
+      playlistId,
+    );
+    try {
+      const response = await api.deletePlaylist(playlistId);
+      if (response.errorMessage) {
+        return dispatch(deletePlaylistError(response.errorMessage));
+      }
+      return dispatch(deletePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(deletePlaylistError(error.message));
     }
   };
 }

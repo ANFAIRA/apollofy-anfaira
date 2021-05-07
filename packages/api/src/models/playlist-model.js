@@ -32,7 +32,7 @@ const PlaylistSchema = Schema(
       required: false,
       default: false,
     },
-    total_tracks: {
+    total_songs: {
       type: Number,
       default: 0,
     },
@@ -40,11 +40,11 @@ const PlaylistSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    tracks: {
+    songs: {
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "track",
+          ref: "song",
         },
       ],
       default: [],

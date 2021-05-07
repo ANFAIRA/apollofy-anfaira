@@ -16,7 +16,7 @@ function SongDialogue({
   setShowDeleteModal,
   setIsEditModal,
   song,
-  setSelectedTrack,
+  setSelectedSong,
   handleLikeBtn,
   setIsMenuOpen,
 }) {
@@ -25,7 +25,7 @@ function SongDialogue({
   const isMySong = _id === authorId;
 
   const { OWN } = useSelector((state) => state.playlists.playlistIds);
-  const { playlistByID } = useSelector((state) => state.playlists);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const [showPlaylists, setShowPlaylists] = useState(false);
 
@@ -35,13 +35,13 @@ function SongDialogue({
     setShowModal(true);
     setIsEditModal(true);
     setIsMenuOpen(false);
-    setSelectedTrack(song);
+    setSelectedSong(song);
   }
 
   function handleDeleteClick() {
     setShowDeleteModal(true);
     setIsMenuOpen(false);
-    setSelectedTrack(song);
+    setSelectedSong(song);
   }
 
   function handleAddToPlaylistBtn(e) {
@@ -99,12 +99,12 @@ function SongDialogue({
           {OWN?.map((playlist) => (
             <button
               type="button"
-              key={playlistByID[playlist]._id}
-              id={playlistByID[playlist]._id}
+              key={playlistsByID[playlist]._id}
+              id={playlistsByID[playlist]._id}
               className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 font-semibold text-left focus:outline-none flex justify-between items-center truncate"
               onClick={handleAddToPlaylistBtn}
             >
-              {playlistByID[playlist].title}
+              {playlistsByID[playlist].title}
             </button>
           ))}
         </div>
@@ -143,7 +143,7 @@ SongDialogue.propTypes = {
   setShowModal: oneOfType([string, func]),
   setShowDeleteModal: oneOfType([string, func]),
   setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
+  setSelectedSong: oneOfType([string, func]),
   setIsMenuOpen: func.isRequired,
   song: object.isRequired,
 };
@@ -152,7 +152,7 @@ SongDialogue.defaultProps = {
   setShowModal: "",
   setShowDeleteModal: "",
   setIsEditModal: "",
-  setSelectedTrack: "",
+  setSelectedSong: "",
 };
 
 export default SongDialogue;
