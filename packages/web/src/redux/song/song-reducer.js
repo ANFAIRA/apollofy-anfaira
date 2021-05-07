@@ -18,7 +18,7 @@ const initialState = {
   songEditing: {},
   isUpdatingSong: false,
   songUpdateSuccess: false,
-  songUpadateError: null,
+  songUpdateError: null,
   isDeletingSong: false,
   songDeleteSuccess: false,
   songDeleteError: null,
@@ -146,7 +146,7 @@ const songReducer = (state = initialState, action) => {
         ...state,
         isUpdatingSong: false,
         songUpdateSuccess: true,
-        songUpadateError: false,
+        songUpdateError: false,
         songEditing: action.payload,
       };
     case song.UPDATE_SONG_ERROR:
@@ -154,15 +154,15 @@ const songReducer = (state = initialState, action) => {
         ...state,
         isUpdatingSong: false,
         songUpdateSuccess: false,
-        songUpadateError: action.payload,
+        songUpdateError: action.payload,
       };
     case song.UPDATE_SONG_RESET:
       return {
         ...state,
         isUpdatingSong: false,
         songUpdateSuccess: false,
-        songUpadateError: null,
-        // songEditing: {},
+        songUpdateError: null,
+        songEditing: {},
       };
     case song.UPDATE_UPDATED_SONG:
       return {

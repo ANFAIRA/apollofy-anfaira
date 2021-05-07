@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
 import {
+  addCreatedPlaylist,
   // fetchAllPlaylists,
   fetchPlaylists,
   updateUpdatedPlaylist,
-  addCreatedPlaylist,
 } from "../../redux/playlist/playlist-actions";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
-  fetchAllSongs,
   addUploadedSong,
+  fetchAllSongs,
   updateUpdatedSong,
 } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-type";
 import { songSelector } from "../../redux/song/song-selector";
+import { songsTypes } from "../../redux/song/song-type";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { uploadSongReset } from "../../redux/uploader/uploader-actions";
 
@@ -24,16 +24,18 @@ import SongCard from "../../components/SongCard";
 
 import Main from "../../layout/Main";
 
+import { fetchUsers } from "../../redux/user/user-actions";
+import { userTypes } from "../../redux/user/user-types";
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  // const { songsByID, songEditing, songUpdateSuccess } = useSelector((state) => state.song);
   const { songsByID, songEditing, songUpdateSuccess } = useSelector(
     songSelector,
   );
   const { ALL_SONGS } = useSelector((state) => state.song.songIds);
   const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
+  const { ALL_USERS } = useSelector((state) => state.user.userIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
   const {
     playlistsByID,
@@ -45,6 +47,10 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (ALL_USERS.length === 0) {
+      dispatch(fetchUsers(userTypes.ALL_USERS));
+    }
+
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
@@ -62,8 +68,9 @@ export default function Home() {
     createdPlaylist && dispatch(addCreatedPlaylist(createdPlaylist));
   }, [
     dispatch,
-    ALL.length,
+    ALL_USERS.length,
     ALL_SONGS.length,
+    ALL.length,
     playlistUpdateSuccess,
     playlistEditing,
     uploadSongSuccess,
