@@ -9,6 +9,8 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import {
   // fetchAllPlaylists,
   fetchPlaylists,
+  updateUpdatedPlaylist,
+  addCreatedPlaylist,
 } from "../../redux/playlist/playlist-actions";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
@@ -24,12 +26,17 @@ import "./Home.scss";
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
   const { songsByID, songEditing } = useSelector((state) => state.song);
-  const { ALL_SONGS } = useSelector((state) => state.song.songsIds);
+  const { ALL_SONGS } = useSelector((state) => state.song.songIds);
   const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
   const { songUpdateSuccess } = useSelector(songSelector);
   // const { songDeleteSuccess } = useSelector(songSelector);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const { playlistByID } = useSelector((state) => state.playlists);
+  const {
+    playlistsByID,
+    playlistUpdateSuccess,
+    playlistEditing,
+    createdPlaylist,
+  } = useSelector((state) => state.playlists);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -42,7 +49,6 @@ export default function Home() {
   console.log(songEditing);
 
   useEffect(() => {
-    dispatch(fetchPlaylists(playlistTypes.ALL));
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
@@ -50,7 +56,14 @@ export default function Home() {
       console.log(songEditing);
       dispatch(updateUpdatedSong(songEditing.data));
     }
+    if (ALL.length === 0) {
+      dispatch(fetchPlaylists(playlistTypes.ALL));
+    }
+    if (playlistUpdateSuccess) {
+      dispatch(updateUpdatedPlaylist(playlistEditing.data));
+    }
     uploadSongSuccess && dispatch(addUploadedSong(uploadedSong));
+    createdPlaylist && dispatch(addCreatedPlaylist(createdPlaylist));
   }, [
     dispatch,
     ALL_SONGS.length,
@@ -58,6 +71,7 @@ export default function Home() {
     uploadedSong,
     songUpdateSuccess,
     songEditing,
+    createdPlaylist,
   ]);
 
   return (
@@ -107,9 +121,9 @@ export default function Home() {
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
               {ALL?.map((playlist) => (
                 <PlaylistCard
-                  key={playlistByID[playlist]._id}
-                  playlist={playlistByID[playlist]}
-                  location={`playlist/${playlistByID[playlist]._id}`}
+                  key={playlistsByID[playlist]._id}
+                  playlist={playlistsByID[playlist]}
+                  location={`playlist/${playlistsByID[playlist]._id}`}
                 />
               ))}
             </section>

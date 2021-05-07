@@ -75,13 +75,13 @@ export const fetchPlaylistsError = (message) => ({
 
 export const fetchAllPlaylistsSuccess = ({
   type = playlistTypes.ALL,
-  playlistByID,
+  playlistsByID,
   songByID,
   playlistIds,
 }) => ({
   type: PlaylistTypes.FETCH_PLAYLISTS_SUCCESS,
   payload: {
-    playlistByID: playlistByID,
+    playlistsByID: playlistsByID,
     songByID: songByID,
     playlistIds: playlistIds,
     type: type,
@@ -127,7 +127,7 @@ export function fetchAllPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedData.entities.playlists,
+          playlistsByID: normalizedData.entities.playlists,
           songByID: normalizedData.entities.songs,
           playlistIds: normalizedData.result,
           type: playlistTypes.ALL,
@@ -164,7 +164,7 @@ export function fetchOwnPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: playlistTypes.OWN,
         }),
@@ -295,7 +295,7 @@ export function fetchFollowedPlaylists() {
 
       return dispatch(
         fetchAllPlaylistsSuccess({
-          playlistByID: normalizedPlaylists.entities.playlists,
+          playlistsByID: normalizedPlaylists.entities.playlists,
           playlistIds: normalizedPlaylists.result,
           type: playlistTypes.FOLLOWING,
         }),
@@ -305,3 +305,70 @@ export function fetchFollowedPlaylists() {
     }
   };
 }
+
+// Update playlist
+
+export const updatePlaylistRequest = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_REQUEST,
+});
+
+export const updatePlaylistError = (message) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const updatePlaylistSuccess = (playlistData) => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_SUCCESS,
+  payload: playlistData,
+});
+
+export const updatePlaylistReset = () => ({
+  type: PlaylistTypes.UPDATE_PLAYLIST_RESET,
+});
+
+export function updatePlaylist(playlistData) {
+  return async function updatePlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const response = await api.updatePlaylistInfo(playlistData);
+      if (response.errorMessage) {
+        return dispatch(updatePlaylistError(response.errorMessage));
+      }
+      return dispatch(updatePlaylistSuccess(response.data));
+    } catch (error) {
+      return dispatch(updatePlaylistError(error.message));
+    }
+  };
+}
+
+export const updateUpdatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.UPDATE_UPDATED_PLAYLIST,
+  payload: playlist,
+});
+
+// ADD CREATED SONG TO STATE
+
+export const addCreatedPlaylist = (playlist) => ({
+  type: PlaylistTypes.ADD_CREATED_PLAYLIST,
+  payload: playlist,
+});
+
+// Follow playlist
+
+export const followPlaylist = (playlistId, firebaseId) => {
+  return async function followPlaylistThunk(dispatch) {
+    dispatch(updatePlaylistRequest());
+    try {
+      const token = await getCurrentUserToken();
+      const data = await api.followPlaylist(
+        {
+          Authorization: `Bearer ${token}`,
+        },
+        { playlistId, firebaseId },
+      );
+      return dispatch(updatePlaylistSuccess(data));
+    } catch (err) {
+      return dispatch(updatePlaylistError(err.message));
+    }
+  };
+};

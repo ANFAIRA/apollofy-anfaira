@@ -5,7 +5,6 @@ import songReducer from "./song/song-reducer";
 import uploaderReducer from "./uploader/uploader-reducer";
 import playlistReducer from "./playlist/playlist-reducer";
 import playlistDeleteReducer from "./playlistDelete/playlistDelete-reducer";
-import playlistEditorReducer from "./playlistEditor/playlistEditor-reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
   player: playerReducer,
   playlists: playlistReducer,
   playlistDelete: playlistDeleteReducer,
-  playlistEditor: playlistEditorReducer,
 });
 
 export default rootReducer;

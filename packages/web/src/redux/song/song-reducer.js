@@ -5,7 +5,7 @@ const initialState = {
   isFetchSuccess: false,
   isFetchFail: null,
   songsByID: {},
-  songsIds: {
+  songIds: {
     ALL_SONGS: [],
     MY_SONGS: [],
     FAVORITE: [],
@@ -39,8 +39,8 @@ const songReducer = (state = initialState, action) => {
       };
     case song.FETCH_SONG_SUCCESS: {
       const actionType = action.payload.type;
-      const newIds = { ...state.songsIds };
-      newIds[actionType] = [...action.payload.songsIds];
+      const newIds = { ...state.songIds };
+      newIds[actionType] = [...action.payload.songIds];
 
       return {
         ...state,
@@ -51,7 +51,7 @@ const songReducer = (state = initialState, action) => {
           ...state.songsByID,
           ...action.payload.songsByID,
         },
-        songsIds: newIds,
+        songIds: newIds,
       };
     }
     case song.FETCH_SONG_ERROR:
@@ -103,10 +103,10 @@ const songReducer = (state = initialState, action) => {
     case song.DELETE_SONG_SUCCESS:
       // eslint-disable-next-line no-param-reassign
       delete state.songsByID[action.payload.data._id];
-      for (const keys in state.songsIds) {
+      for (const keys in state.songIds) {
         if (keys) {
           // eslint-disable-next-line no-param-reassign
-          state.songsIds[keys] = state.songsIds[keys].filter(
+          state.songIds[keys] = state.songIds[keys].filter(
             (itemId) => itemId !== action.payload.data._id,
           );
         }
@@ -119,7 +119,7 @@ const songReducer = (state = initialState, action) => {
         songDeleteError: false,
         songId: action.payload,
         songsByID: { ...state.songsByID },
-        songsIds: { ...state.songsIds },
+        songIds: { ...state.songIds },
       };
     case song.DELETE_SONG_ERROR:
       return {
@@ -182,14 +182,14 @@ const songReducer = (state = initialState, action) => {
       };
     case song.ADD_UPLOADED_SONG: {
       const songId = action.payload.data._id;
-      const newIds = { ...state.songsIds };
+      const newIds = { ...state.songIds };
 
-      newIds.ALL_SONGS = [...state.songsIds.ALL_SONGS, songId];
+      newIds.ALL_SONGS = [...state.songIds.ALL_SONGS, songId];
 
       return {
         ...state,
         songsByID: { ...state.songsByID, [songId]: { ...action.payload.data } },
-        songsIds: newIds,
+        songIds: newIds,
       };
     }
     default:

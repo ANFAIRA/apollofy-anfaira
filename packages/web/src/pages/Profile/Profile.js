@@ -19,7 +19,7 @@ const Profile = () => {
   const { FOLLOWING: followedPlaylistsArray } = useSelector(
     (state) => state.playlists.playlistIds,
   );
-  const { playlistByID } = useSelector((state) => state.playlists);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
@@ -27,7 +27,7 @@ const Profile = () => {
       : state.auth?.currentUser?.data,
   );
 
-  const { MY_SONGS, FAVORITE } = useSelector((state) => state.song.songsIds);
+  const { MY_SONGS, FAVORITE } = useSelector((state) => state.song.songIds);
 
   const { songsByID } = useSelector(selectSongState);
 
@@ -55,9 +55,9 @@ const Profile = () => {
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {ownPlaylistsArray?.slice(0, 6).map((playlist) => (
             <PlaylistCard
-              key={playlistByID[playlist]._id}
-              playlist={playlistByID[playlist]}
-              location={`playlist/${playlistByID[playlist]._id}`}
+              key={playlistsByID[playlist]._id}
+              playlist={playlistsByID[playlist]}
+              location={`playlist/${playlistsByID[playlist]._id}`}
             />
           ))}
         </section>
@@ -73,9 +73,9 @@ const Profile = () => {
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {followedPlaylistsArray?.slice(0, 6).map((playlist) => (
             <PlaylistCard
-              key={playlistByID[playlist]._id}
-              playlist={playlistByID[playlist]}
-              location={`playlist/${playlistByID[playlist]._id}`}
+              key={playlistsByID[playlist]._id}
+              playlist={playlistsByID[playlist]}
+              location={`playlist/${playlistsByID[playlist]._id}`}
             />
           ))}
         </section>
