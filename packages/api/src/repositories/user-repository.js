@@ -6,6 +6,10 @@ class UserRepository {
     return normalizeDBQuery(db.User.create(options));
   }
 
+  find(query) {
+    return normalizeDBQuery(db.User.find(query, "-__v"));
+  }
+
   findOne(query, options = "-__v") {
     return normalizeDBQuery(db.User.findOne(query, options));
   }
