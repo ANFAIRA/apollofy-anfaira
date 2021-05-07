@@ -5,6 +5,7 @@ export const RESET_PASSWORD = "/reset-password";
 export const ACCOUNT = "/account";
 export const CHANGE_PASSWORD = "/change-password";
 export const PROFILE = "/profile";
+export const USER_BY_ID = "/users/:id";
 export const MY_SONGS = "/my-songs";
 export const MY_FAVOURITE_SONGS = "/my-favourite-songs";
 export const PLAYLIST_BY_ID = "/playlist/:id";

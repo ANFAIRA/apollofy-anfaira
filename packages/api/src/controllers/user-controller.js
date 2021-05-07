@@ -97,10 +97,10 @@ async function fetchUsers(req, res, next) {
 }
 
 async function fetchUserById(req, res, next) {
-  const { _id } = req.params;
+  const { id } = req.params;
 
   try {
-    const dbResponse = await UserRepo.findOne({ _id: _id });
+    const dbResponse = await UserRepo.findOne({ _id: id });
 
     if (dbResponse.error) {
       res.status(400).send({

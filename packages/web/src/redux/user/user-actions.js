@@ -151,13 +151,11 @@ export function fetchFollowersUsers() {
 export function fetchUserByID(userID) {
   return async function fetchUserByIDThunk(dispatch) {
     dispatch(fetchUserRequest());
-
-    const res = await api.getUserById(userID);
-
-    if (res.isSuccessful) {
-      dispatch(fetchUserSuccess(res.data));
-    } else {
-      dispatch(fetchUserError(res.errorMessage));
+    try {
+      const res = await api.getUserById(userID);
+      return dispatch(fetchUserSuccess(res.data.data));
+    } catch (err) {
+      return dispatch(fetchUserError(err.message));
     }
   };
 }
