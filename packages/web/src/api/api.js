@@ -28,6 +28,46 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getUserById(userID) {
+    return request({
+      url: `/users/${userID}`,
+      requestMethod: "GET",
+    });
+  }
+
+  function getUsers(headers) {
+    return request({
+      url: "/users",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function getFollowingUsers(headers) {
+    return request({
+      url: "/me/users/following",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function getFollowersUsers(headers) {
+    return request({
+      url: "/me/users/followers",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function getPopularUsers(headers) {
+    return request({
+      url: "/users/popular",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  // SONG
   function createSong({ body, headers = {} }) {
     return request({
       url: "/api/songs",
@@ -96,6 +136,7 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  // PLAYLIST
   function createPlaylist({ body, headers }) {
     return request({
       url: "/api/playlists",
@@ -178,6 +219,7 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  // GENRE
   function getGenres(headers) {
     return request({
       url: "/api/genres",
@@ -228,6 +270,11 @@ function makeApi(request = makeRequest()) {
     getGenres: getGenres,
     createGenre: createGenre,
     addSongToGenre: addSongToGenre,
+    getUserById: getUserById,
+    getUsers: getUsers,
+    getFollowersUsers: getFollowersUsers,
+    getFollowingUsers: getFollowingUsers,
+    getPopularUsers: getPopularUsers,
   };
 }
 

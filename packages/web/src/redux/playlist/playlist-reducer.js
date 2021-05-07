@@ -204,6 +204,7 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           [playlistId]: { ...action.payload.data },
         },
         playlistIds: newIds,
+        createdPlaylist: null,
       };
     }
     case PlaylistTypes.DELETE_PLAYLIST_REQUEST:
