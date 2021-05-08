@@ -58,7 +58,7 @@ function SongModal() {
 
   const [image, setImage] = useState(thumbnail);
   const [song, setSong] = useState();
-  const [src, setSrc] = useState();
+  const [src, setSrc] = useState(thumbnail);
 
   function onSubmit(data) {
     !isEditModal
@@ -125,19 +125,15 @@ function SongModal() {
             {isEditModal && (
               <div className="mr-2 h-full md:w-60 w-full mb-5">
                 <label htmlFor="photo" className="mt-2 mb-5">
-                  {src ? (
-                    <img
-                      src={src}
-                      alt="thumbnail"
-                      className="md:w-40 md:h-40"
-                    />
-                  ) : (
+                  {/* {src ? ( */}
+                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
+                  {/* ) : (
                     <img
                       src={thumbnail}
                       alt="thumbnail"
                       className="md:w-40 md:h-40"
                     />
-                  )}
+                  )} */}
 
                   <input
                     type="file"

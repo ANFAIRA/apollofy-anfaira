@@ -1,4 +1,4 @@
-import * as song from "./song-type";
+import * as song from "./song-types";
 
 const initialState = {
   isFetchRequest: false,

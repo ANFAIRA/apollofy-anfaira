@@ -2,6 +2,8 @@ import api from "../../api";
 import { getCurrentUserToken } from "../../services/auth";
 import { fileTypes, getFileUrl } from "../../services/cloudinary";
 import * as UploaderTypes from "./uploader-types";
+import { addUploadedSong } from "../song/song-actions";
+import * as SongTypes from "../song/song-types";
 
 export const uploadSongRequest = () => ({
   type: UploaderTypes.UPLOAD_SONG_REQUEST,
@@ -101,7 +103,8 @@ export function uploadSong({ song, thumbnail, title, artist, genre }) {
         return dispatch(uploadSongError(songRes.errorMessage));
       }
 
-      return dispatch(uploadSongSuccess(songRes.data));
+      dispatch(uploadSongSuccess(songRes.data));
+      return dispatch(addUploadedSong(songRes.data));
     } catch (err) {
       return dispatch(uploadSongError(err.message));
     }

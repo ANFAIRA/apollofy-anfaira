@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchSongs } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-type";
+import { songsTypes } from "../../redux/song/song-types";
 
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";

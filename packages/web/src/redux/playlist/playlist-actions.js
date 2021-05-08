@@ -55,7 +55,8 @@ export function createPlaylist({
         return dispatch(playlistCreateError(res.errorMessage));
       }
 
-      return dispatch(playlistCreateSuccess(res.data));
+      dispatch(playlistCreateSuccess(res.data));
+      return dispatch(addCreatedPlaylist(res.data));
     } catch (err) {
       return dispatch(playlistCreateError(err));
     }
@@ -334,12 +335,15 @@ export function updatePlaylist(playlistData) {
       if (response.errorMessage) {
         return dispatch(updatePlaylistError(response.errorMessage));
       }
-      return dispatch(updatePlaylistSuccess(response.data));
+      dispatch(updatePlaylistSuccess(response.data));
+      return dispatch(updateUpdatedPlaylist(response.data.data));
     } catch (error) {
       return dispatch(updatePlaylistError(error.message));
     }
   };
 }
+
+// UPDATE THE STATE OF AN UPDATED PLAYLIST WITH ITS NEW INFO
 
 export const updateUpdatedPlaylist = (playlist) => ({
   type: PlaylistTypes.UPDATE_UPDATED_PLAYLIST,
@@ -397,10 +401,6 @@ export function deletePlaylist(playlistId) {
   return async function deletePlaylistThunk(dispatch) {
     dispatch(deletePlaylistRequest());
 
-    console.log(
-      "🚀 ~ file: playlist-actions.js ~ line 397 ~ deletePlaylist ~ playlistId",
-      playlistId,
-    );
     try {
       const response = await api.deletePlaylist(playlistId);
       if (response.errorMessage) {

@@ -2,22 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
-import {
-  addCreatedPlaylist,
-  // fetchAllPlaylists,
-  fetchPlaylists,
-  updateUpdatedPlaylist,
-} from "../../redux/playlist/playlist-actions";
+import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
-import {
-  addUploadedSong,
-  fetchAllSongs,
-  updateUpdatedSong,
-} from "../../redux/song/song-actions";
+import { fetchAllSongs } from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
-import { songsTypes } from "../../redux/song/song-type";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-import { uploadSongReset } from "../../redux/uploader/uploader-actions";
+import { songsTypes } from "../../redux/song/song-types";
 
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
@@ -30,19 +19,11 @@ import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  const { songsByID, songEditing, songUpdateSuccess } = useSelector(
-    songSelector,
-  );
+  const { songsByID } = useSelector(songSelector);
   const { ALL_SONGS } = useSelector((state) => state.song.songIds);
-  const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
   const { ALL_USERS } = useSelector((state) => state.user.userIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const {
-    playlistsByID,
-    playlistUpdateSuccess,
-    playlistEditing,
-    createdPlaylist,
-  } = useSelector((state) => state.playlists);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const dispatch = useDispatch();
 
@@ -57,28 +38,7 @@ export default function Home() {
     if (ALL.length === 0) {
       dispatch(fetchPlaylists(playlistTypes.ALL));
     }
-    if (songUpdateSuccess) {
-      dispatch(updateUpdatedSong(songEditing.data));
-    }
-    if (playlistUpdateSuccess) {
-      dispatch(updateUpdatedPlaylist(playlistEditing.data));
-    }
-    uploadSongSuccess && dispatch(addUploadedSong(uploadedSong));
-    dispatch(uploadSongReset());
-    createdPlaylist && dispatch(addCreatedPlaylist(createdPlaylist));
-  }, [
-    dispatch,
-    ALL_USERS.length,
-    ALL_SONGS.length,
-    ALL.length,
-    playlistUpdateSuccess,
-    playlistEditing,
-    uploadSongSuccess,
-    uploadedSong,
-    songUpdateSuccess,
-    songEditing,
-    createdPlaylist,
-  ]);
+  }, [dispatch, ALL_USERS.length, ALL_SONGS.length, ALL.length]);
 
   return (
     <>

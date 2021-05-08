@@ -1,8 +1,8 @@
 import api from "../../api";
 import { normalizeSongs } from "../../schema/song-schema";
 import * as auth from "../../services/auth";
-import * as SongTypes from "./song-type";
-import { songsTypes } from "./song-type";
+import * as SongTypes from "./song-types";
+import { songsTypes } from "./song-types";
 
 export const fetchSongsRequest = () => {
   return { type: SongTypes.FETCH_SONG_REQUEST };
@@ -233,12 +233,15 @@ export function updateSong(songData) {
       if (response.errorMessage) {
         return dispatch(updateSongError(response.errorMessage));
       }
-      return dispatch(updateSongSuccess(response.data));
+      dispatch(updateSongSuccess(response.data));
+      return dispatch(updateUpdatedSong(response.data.data));
     } catch (error) {
       return dispatch(updateSongError(error.message));
     }
   };
 }
+
+// UPDATE THE STATE OF AN UPDATED SONG WITH ITS NEW INFO
 
 export const updateUpdatedSong = (song) => ({
   type: SongTypes.UPDATE_UPDATED_SONG,

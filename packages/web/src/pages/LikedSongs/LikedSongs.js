@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // import { fetchLikedSong } from "../../redux/liked-songs/liked-songs-actions";
 import { fetchSongs } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-type";
+import { songsTypes } from "../../redux/song/song-types";
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";

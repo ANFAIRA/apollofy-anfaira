@@ -7,7 +7,7 @@ import ProfileLayout from "../../layout/ProfileLayout";
 
 import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
 import { fetchSongs } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-type";
+import { songsTypes } from "../../redux/song/song-types";
 import { selectSongState } from "../../redux/song/song-selector";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
 import "./Profile.scss";
