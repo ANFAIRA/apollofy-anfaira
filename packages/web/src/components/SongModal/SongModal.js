@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import {
   updateSong,
-  updateSongReset,
-  setSongToUpdate,
+  // updateSongReset
 } from "../../redux/song/song-actions";
 import {
   uploadSong,
-  uploadSongReset,
+  // uploadSongReset,
 } from "../../redux/uploader/uploader-actions";
-import {
-  hideSongModal,
-  setEditModalFalse,
-} from "../../redux/modals/modal-actions";
+import { hideSongModal } from "../../redux/modals/modal-actions";
 
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+// import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
 import { modalStateSelector } from "../../redux/modals/modal-selectors";
 import { songSelector } from "../../redux/song/song-selector";
 
@@ -27,16 +23,16 @@ import SongInput from "../SongInput";
 function SongModal() {
   const dispatch = useDispatch();
 
-  const { isEditModal } = useSelector(modalStateSelector);
-  const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
-    uploaderSelector,
-  );
   const {
-    isUpdatingSong,
-    songUpdateSuccess,
-    songUpdateError,
+    // isUpdatingSong,
+    // songUpdateSuccess,
+    // songUpdateError,
     songEditing,
   } = useSelector(songSelector);
+  const { isEditModal } = useSelector(modalStateSelector);
+  // const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
+  //   uploaderSelector,
+  // );
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
     ? songEditing
@@ -80,9 +76,7 @@ function SongModal() {
             _id: data._id,
           }),
         );
-    dispatch(setSongToUpdate({}));
     dispatch(hideSongModal());
-    dispatch(setEditModalFalse());
   }
 
   const handleImg = (e) => {
@@ -107,14 +101,9 @@ function SongModal() {
   //   setSrc(null);
   // }
 
-  useEffect(() => {
-    dispatch(uploadSongReset());
-    dispatch(updateSongReset());
-  }, [dispatch, uploadSongSuccess, songUpdateSuccess]);
-
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <CloseBtn />
+      <CloseBtn songEditModal={isEditModal ? true : null} />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
@@ -234,13 +223,13 @@ function SongModal() {
               ))}
           </div>
 
-          {isUploadingSong && <p className="mb-3">Uploading song...</p>}
+          {/* {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
-          {uploadSongError && <p className="mb-3">Upload error!</p>}
+          {uploadSongError && <p className="mb-3">Upload error!</p>} */}
 
-          {isUpdatingSong && <p className="mb-3">Updating song...</p>}
+          {/* {isUpdatingSong && <p className="mb-3">Updating song...</p>}
           {songUpdateSuccess && <p className="mb-3">Update successful!</p>}
-          {songUpdateError && <p className="mb-3">Update error!</p>}
+          {songUpdateError && <p className="mb-3">Update error!</p>} */}
 
           <Input
             name="title"

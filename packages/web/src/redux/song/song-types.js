@@ -29,6 +29,7 @@ export const ADD_UPLOADED_SONG = "ADD_UPLOADED_SONG";
 
 export const SONG_TO_UPLOAD = "SONG_TO_UPLOAD";
 export const SONG_TO_UPDATE = "SONG_TO_UPDATE";
+export const SONG_TO_DELETE = "SONG_TO_DELETE";
 
 export const songsTypes = {
   ALL_SONGS: "ALL_SONGS",

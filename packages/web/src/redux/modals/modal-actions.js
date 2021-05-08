@@ -24,12 +24,8 @@ export const hideDeleteModal = () => ({
   type: ModalTypes.HIDE_DELETE_MODAL,
 });
 
-export const setEditModalTrue = () => ({
-  type: ModalTypes.SET_EDIT_MODAL_TRUE,
-});
-
-export const setEditModalFalse = () => ({
-  type: ModalTypes.SET_EDIT_MODAL_FALSE,
+export const setEditModal = () => ({
+  type: ModalTypes.SET_EDIT_MODAL,
 });
 
 export const hideAllModals = () => ({

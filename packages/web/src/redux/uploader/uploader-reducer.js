@@ -2,7 +2,7 @@ import * as UploaderTypes from "./uploader-types";
 
 export const UploaderInitialState = {
   isUploadingSong: false,
-  uploadSongSuccess: false,
+  // songUpdateSuccess: false,
   uploadSongError: null,
   songUrls: [],
   isUploadingImage: false,
@@ -18,7 +18,7 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
       return {
         ...state,
         isUploadingSong: true,
-        uploadSongSuccess: false,
+        // uploadSongSuccess: false,
         uploadSongError: null,
       };
     }
@@ -26,7 +26,7 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
       return {
         ...state,
         isUploadingSong: false,
-        uploadSongSuccess: false,
+        // uploadSongSuccess: false,
         uploadSongError: action.payload,
       };
     }
@@ -34,20 +34,19 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
       return {
         ...state,
         isUploadingSong: false,
-        uploadSongSuccess: true,
+        // uploadSongSuccess: true,
         uploadSongError: null,
-        // songUrls: [...state.songUrls, action.payload],
         uploadedSong: action.payload,
       };
     }
-    case UploaderTypes.UPLOAD_SONG_RESET: {
-      return {
-        ...state,
-        isUploadingSong: false,
-        uploadSongSuccess: false,
-        uploadSongError: null,
-      };
-    }
+    // case UploaderTypes.UPLOAD_SONG_RESET: {
+    //   return {
+    //     ...state,
+    //     isUploadingSong: false,
+    //     uploadSongSuccess: false,
+    //     uploadSongError: null,
+    //   };
+    // }
     case UploaderTypes.UPLOAD_IMAGE_REQUEST: {
       return {
         ...state,

@@ -15,14 +15,15 @@ const initialState = {
     BASED_ON_LISTENED: [],
   },
   currentUser: {},
-  songEditing: {},
+
+  songEditing: null,
   isUpdatingSong: false,
-  songUpdateSuccess: false,
+  // songUpdateSuccess: false,
   songUpdateError: null,
+
   isDeletingSong: false,
-  songDeleteSuccess: false,
-  songDeleteError: null,
-  songId: null,
+  songDeletingError: null,
+  songDeleting: null,
 };
 
 const songReducer = (state = initialState, action) => {
@@ -98,7 +99,7 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isDeletingSong: true,
-        songDeleteError: false,
+        songDeletingError: null,
       };
     case song.DELETE_SONG_SUCCESS:
       // eslint-disable-next-line no-param-reassign
@@ -114,55 +115,45 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isDeletingSong: false,
-        songDeleteSuccess: true,
-        songDeleteError: false,
-        songId: action.payload,
+        songDeletingError: null,
         songsByID: { ...state.songsByID },
         songIds: { ...state.songIds },
+        songDeleting: null,
       };
     case song.DELETE_SONG_ERROR:
       return {
         ...state,
         isDeletingSong: false,
-        songDeleteSuccess: false,
-        songDeleteError: action.payload,
+        songDeletingError: action.payload,
       };
-    case song.DELETE_SONG_RESET: {
-      return {
-        ...state,
-        isDeletingSong: false,
-        songDeleteSuccess: false,
-        songDeleteError: null,
-      };
-    }
     case song.UPDATE_SONG_REQUEST:
       return {
         ...state,
         isUpdatingSong: true,
-        songUpadateError: false,
+        songUpdateError: null,
       };
     case song.UPDATE_SONG_SUCCESS:
       return {
         ...state,
         isUpdatingSong: false,
-        songUpdateSuccess: true,
-        songUpdateError: false,
-        songEditing: action.payload,
+        // songUpdateSuccess: true,
+        songUpdateError: null,
+        songEditing: null,
       };
     case song.UPDATE_SONG_ERROR:
       return {
         ...state,
         isUpdatingSong: false,
-        songUpdateSuccess: false,
+        // songUpdateSuccess: false,
         songUpdateError: action.payload,
       };
     case song.UPDATE_SONG_RESET:
       return {
         ...state,
         isUpdatingSong: false,
-        songUpdateSuccess: false,
+        // songUpdateSuccess: false,
         songUpdateError: null,
-        songEditing: {},
+        songEditing: null,
       };
     case song.UPDATE_UPDATED_SONG:
       return {
@@ -177,6 +168,7 @@ const songReducer = (state = initialState, action) => {
             artist: action.payload.artist,
           },
         },
+        // songUpdateSuccess: false,
       };
     case song.ADD_UPLOADED_SONG: {
       const songId = action.payload.data._id;
@@ -194,6 +186,11 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         songEditing: action.payload,
+      };
+    case song.SONG_TO_DELETE:
+      return {
+        ...state,
+        songDeleting: action.payload,
       };
 
     default:

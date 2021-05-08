@@ -187,10 +187,6 @@ export const deleteSongSuccess = (songId) => ({
   payload: songId,
 });
 
-export const deleteSongReset = () => ({
-  type: SongTypes.DELETE_SONG_RESET,
-});
-
 export function deleteSong(songId) {
   return async function deleteSongThunk(dispatch) {
     dispatch(deleteSongRequest());
@@ -205,6 +201,14 @@ export function deleteSong(songId) {
     }
   };
 }
+
+// SET SONG TO DELETE
+// (when clicking on "delete" from option menu, select song for deleting with modal)
+
+export const setSongToDelete = (songId) => ({
+  type: SongTypes.SONG_TO_DELETE,
+  payload: songId,
+});
 
 // UPDATE SONG
 export const updateSongRequest = () => ({
@@ -248,17 +252,17 @@ export const updateUpdatedSong = (song) => ({
   payload: song,
 });
 
-// ADD UPLOADED SONG TO STATE
-
-export const addUploadedSong = (song) => ({
-  type: SongTypes.ADD_UPLOADED_SONG,
-  payload: song,
-});
-
 // SET SONG TO UPDATE
 // (when clicking on "edit" from option menu, select song for updating with modal)
 
 export const setSongToUpdate = (song) => ({
   type: SongTypes.SONG_TO_UPDATE,
+  payload: song,
+});
+
+// ADD UPLOADED SONG TO STATE
+
+export const addUploadedSong = (song) => ({
+  type: SongTypes.ADD_UPLOADED_SONG,
   payload: song,
 });

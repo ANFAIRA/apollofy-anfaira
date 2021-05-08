@@ -6,18 +6,20 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { addSongToQueue } from "../../redux/player/player-actions";
-// import { playlistTypes } from "../../redux/playlist/playlist-types";
+import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
   addSongToPlaylist,
-  // fetchPlaylists,
-  fetchOwnPlaylists,
+  fetchPlaylists,
 } from "../../redux/playlist/playlist-actions";
 import {
   showSongModal,
   showDeleteModal,
-  setEditModalTrue,
+  setEditModal,
 } from "../../redux/modals/modal-actions";
-import { setSongToUpdate } from "../../redux/song/song-actions";
+import {
+  setSongToUpdate,
+  setSongToDelete,
+} from "../../redux/song/song-actions";
 
 function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
@@ -32,15 +34,16 @@ function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   const dispatch = useDispatch();
 
   function handleEditClick() {
-    dispatch(showSongModal());
-    dispatch(setEditModalTrue());
     dispatch(setSongToUpdate(song));
+    dispatch(showSongModal());
+    dispatch(setEditModal());
 
     setIsMenuOpen(false);
   }
 
   function handleDeleteClick() {
     dispatch(showDeleteModal());
+    dispatch(setSongToDelete(song._id));
     setIsMenuOpen(false);
   }
 
@@ -61,8 +64,7 @@ function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   }
 
   useEffect(() => {
-    // dispatch(fetchPlaylists(playlistTypes.OWN));
-    dispatch(fetchOwnPlaylists());
+    dispatch(fetchPlaylists(playlistTypes.OWN));
   }, [dispatch]);
 
   return (
@@ -126,7 +128,7 @@ function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
         type="button"
         className={
           isMySong
-            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 font-semibold text-left focus:outline-none"
             : "px-5 py-1 text-gray-500 text-left focus:outline-none"
         }
         onClick={handleDeleteClick}

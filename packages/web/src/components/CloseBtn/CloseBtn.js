@@ -1,20 +1,25 @@
 import React from "react";
+import { bool } from "prop-types";
 import { useDispatch } from "react-redux";
 
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { hideAllModals } from "../../redux/modals/modal-actions";
-import { setSongToUpdate } from "../../redux/song/song-actions";
+import {
+  setSongToUpdate,
+  setSongToDelete,
+} from "../../redux/song/song-actions";
 
 const closeBtn = <FontAwesomeIcon icon={faTimes} size="2x" />;
 
-function CloseBtn() {
+function CloseBtn({ songDeleteModal, songEditModal }) {
   const dispatch = useDispatch();
 
   function handleCloseBtn() {
     dispatch(hideAllModals());
-    dispatch(setSongToUpdate({}));
+    songEditModal && dispatch(setSongToUpdate(null));
+    songDeleteModal && dispatch(setSongToDelete(null));
   }
   return (
     <div className="relative h-10">
@@ -28,5 +33,15 @@ function CloseBtn() {
     </div>
   );
 }
+
+CloseBtn.propTypes = {
+  songDeleteModal: bool,
+  songEditModal: bool,
+};
+
+CloseBtn.defaultProps = {
+  songDeleteModal: false,
+  songEditModal: false,
+};
 
 export default CloseBtn;

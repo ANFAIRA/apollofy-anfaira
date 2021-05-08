@@ -1,43 +1,40 @@
-import React, { useEffect } from "react";
-import { func, object } from "prop-types";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { deleteSong, deleteSongReset } from "../../redux/song/song-actions";
-
+import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
+
+import { hideDeleteModal } from "../../redux/modals/modal-actions";
 
 import CloseBtn from "../CloseBtn";
 
-function DeleteModal({ setShowDeleteModal, selectedSong, setSelectedSong }) {
+function DeleteModal() {
   const dispatch = useDispatch();
-  const { isDeletingSong, songDeleteSuccess, songDeleteError } = useSelector(
-    songSelector,
-  );
-
-  const { _id } = selectedSong;
+  const {
+    isDeletingSong,
+    songDeleteSuccess,
+    songDeleteError,
+    songDeleting,
+  } = useSelector(songSelector);
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
   });
 
   function handleCloseBtn() {
-    setShowDeleteModal(false);
-    setSelectedSong(null);
+    dispatch(hideDeleteModal());
+    dispatch(setSongToDelete(null));
   }
 
   function onSubmit() {
-    dispatch(deleteSong({ _id: _id }));
+    dispatch(deleteSong({ _id: songDeleting }));
+    dispatch(hideDeleteModal());
   }
-
-  useEffect(() => {
-    dispatch(deleteSongReset());
-    songDeleteSuccess && setShowDeleteModal(false);
-  }, [dispatch, songDeleteSuccess, setShowDeleteModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
-      <CloseBtn setShowModal={setShowDeleteModal} />
+      <CloseBtn songDeleteModal />
       <div>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"
@@ -73,11 +70,5 @@ function DeleteModal({ setShowDeleteModal, selectedSong, setSelectedSong }) {
     </article>
   );
 }
-
-DeleteModal.propTypes = {
-  setShowDeleteModal: func.isRequired,
-  selectedSong: object.isRequired,
-  setSelectedSong: func.isRequired,
-};
 
 export default DeleteModal;

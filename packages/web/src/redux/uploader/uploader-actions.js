@@ -3,7 +3,6 @@ import { getCurrentUserToken } from "../../services/auth";
 import { fileTypes, getFileUrl } from "../../services/cloudinary";
 import * as UploaderTypes from "./uploader-types";
 import { addUploadedSong } from "../song/song-actions";
-import * as SongTypes from "../song/song-types";
 
 export const uploadSongRequest = () => ({
   type: UploaderTypes.UPLOAD_SONG_REQUEST,
@@ -19,9 +18,9 @@ export const uploadSongSuccess = (songUrl) => ({
   payload: songUrl,
 });
 
-export const uploadSongReset = () => ({
-  type: UploaderTypes.UPLOAD_SONG_RESET,
-});
+// export const uploadSongReset = () => ({
+//   type: UploaderTypes.UPLOAD_SONG_RESET,
+// });
 
 export const uploadImageRequest = () => ({
   type: UploaderTypes.UPLOAD_IMAGE_REQUEST,

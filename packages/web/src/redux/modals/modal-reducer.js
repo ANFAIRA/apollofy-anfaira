@@ -19,6 +19,7 @@ const ModalReducer = (state = ModalInitialState, action) => {
       return {
         ...state,
         showSongModal: false,
+        isEditModal: false,
       };
 
     case ModalTypes.SHOW_PLAYLIST_MODAL:
@@ -44,15 +45,10 @@ const ModalReducer = (state = ModalInitialState, action) => {
         ...state,
         showDeleteModal: false,
       };
-    case ModalTypes.SET_EDIT_MODAL_TRUE:
+    case ModalTypes.SET_EDIT_MODAL:
       return {
         ...state,
         isEditModal: true,
-      };
-    case ModalTypes.SET_EDIT_MODAL_FALSE:
-      return {
-        ...state,
-        isEditModal: false,
       };
     case ModalTypes.HIDE_ALL_MODALS:
       return {
