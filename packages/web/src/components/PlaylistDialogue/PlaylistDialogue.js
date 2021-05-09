@@ -1,14 +1,19 @@
 import React, { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { func, object } from "prop-types";
-import { useSelector } from "react-redux";
 
-function PlaylistDialogue({
-  setShowPlaylistModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  playlist,
-  setSelectedPlaylist,
-}) {
+import {
+  showPlaylistModal,
+  showPlaylistDeleteModal,
+  setEditModal,
+} from "../../redux/modals/modal-actions";
+
+import {
+  setPlaylistToUpdate,
+  setPlaylistToDelete,
+} from "../../redux/playlist/playlist-actions";
+
+function PlaylistDialogue({ setShowDeleteModal, playlist }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { author } = playlist;
 
@@ -16,15 +21,17 @@ function PlaylistDialogue({
   const currentURL = window.location.href;
   const inputRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   function handleEditClick() {
-    setShowPlaylistModal(true);
-    setIsEditModal(true);
-    setSelectedPlaylist(playlist);
+    dispatch(setPlaylistToUpdate(playlist));
+    dispatch(setEditModal());
+    dispatch(showPlaylistModal());
   }
 
   function handleDeleteClick() {
-    setShowDeleteModal(true);
-    setSelectedPlaylist(playlist);
+    dispatch(setPlaylistToDelete(playlist._id));
+    dispatch(showPlaylistDeleteModal());
   }
 
   function handleShareClick() {
@@ -76,11 +83,8 @@ function PlaylistDialogue({
 }
 
 PlaylistDialogue.propTypes = {
-  setShowPlaylistModal: func.isRequired,
   setShowDeleteModal: func.isRequired,
-  setIsEditModal: func.isRequired,
   playlist: object.isRequired,
-  setSelectedPlaylist: func.isRequired,
 };
 
 export default PlaylistDialogue;

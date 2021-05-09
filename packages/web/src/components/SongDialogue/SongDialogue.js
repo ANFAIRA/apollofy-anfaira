@@ -35,8 +35,8 @@ function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
 
   function handleEditClick() {
     dispatch(setSongToUpdate(song));
-    dispatch(showSongModal());
     dispatch(setEditModal());
+    dispatch(showSongModal());
 
     setIsMenuOpen(false);
   }

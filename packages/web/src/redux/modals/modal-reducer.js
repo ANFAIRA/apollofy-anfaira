@@ -4,6 +4,7 @@ export const ModalInitialState = {
   showSongModal: false,
   showPlaylistModal: false,
   showDeleteModal: false,
+  showPlaylistDeleteModal: false,
   isEditModal: false,
 };
 
@@ -45,6 +46,17 @@ const ModalReducer = (state = ModalInitialState, action) => {
         ...state,
         showDeleteModal: false,
       };
+    case ModalTypes.SHOW_PLAYLIST_DELETE_MODAL:
+      return {
+        ...state,
+        showPlaylistDeleteModal: true,
+      };
+
+    case ModalTypes.HIDE_PLAYLIST_DELETE_MODAL:
+      return {
+        ...state,
+        showPlaylistDeleteModal: false,
+      };
     case ModalTypes.SET_EDIT_MODAL:
       return {
         ...state,
@@ -56,6 +68,7 @@ const ModalReducer = (state = ModalInitialState, action) => {
         showSongModal: false,
         showPlaylistModal: false,
         showDeleteModal: false,
+        showPlaylistDeleteModal: false,
         isEditModal: false,
       };
     default:

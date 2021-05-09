@@ -18,9 +18,9 @@ export const uploadSongSuccess = (songUrl) => ({
   payload: songUrl,
 });
 
-// export const uploadSongReset = () => ({
-//   type: UploaderTypes.UPLOAD_SONG_RESET,
-// });
+export const uploadSongReset = () => ({
+  type: UploaderTypes.UPLOAD_SONG_RESET,
+});
 
 export const uploadImageRequest = () => ({
   type: UploaderTypes.UPLOAD_IMAGE_REQUEST,
@@ -103,7 +103,8 @@ export function uploadSong({ song, thumbnail, title, artist, genre }) {
       }
 
       dispatch(uploadSongSuccess(songRes.data));
-      return dispatch(addUploadedSong(songRes.data));
+      dispatch(addUploadedSong(songRes.data));
+      return dispatch(uploadSongReset());
     } catch (err) {
       return dispatch(uploadSongError(err.message));
     }

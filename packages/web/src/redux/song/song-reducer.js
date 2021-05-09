@@ -4,6 +4,18 @@ const initialState = {
   isFetchRequest: false,
   isFetchSuccess: false,
   isFetchFail: null,
+
+  isUpdatingSong: false,
+  songUpdateSuccess: false,
+  songUpdateError: null,
+  songEditing: null,
+
+  isDeletingSong: false,
+  songDeleteSuccess: false,
+  songDeletingError: null,
+  songDeleting: null,
+
+  currentUser: {},
   songsByID: {},
   songIds: {
     ALL_SONGS: [],
@@ -14,16 +26,6 @@ const initialState = {
     LISTENED_RECENTLY: [],
     BASED_ON_LISTENED: [],
   },
-  currentUser: {},
-
-  songEditing: null,
-  isUpdatingSong: false,
-  // songUpdateSuccess: false,
-  songUpdateError: null,
-
-  isDeletingSong: false,
-  songDeletingError: null,
-  songDeleting: null,
 };
 
 const songReducer = (state = initialState, action) => {
@@ -62,13 +64,13 @@ const songReducer = (state = initialState, action) => {
         isFetchSuccess: false,
         isFetchFail: action.payload,
       };
-    case song.FETCH_SONG_RESET:
-      return {
-        ...state,
-        isFetchRequest: false,
-        isFetchSuccess: false,
-        isFetchFail: null,
-      };
+    // case song.FETCH_SONG_RESET:
+    //   return {
+    //     ...state,
+    //     isFetchRequest: false,
+    //     isFetchSuccess: false,
+    //     isFetchFail: null,
+    //   };
     // case song.LIKE_SONG_REQUEST:
     //   return {
     //     ...state,
@@ -119,6 +121,7 @@ const songReducer = (state = initialState, action) => {
         songsByID: { ...state.songsByID },
         songIds: { ...state.songIds },
         songDeleting: null,
+        songDeleteSuccess: true,
       };
     case song.DELETE_SONG_ERROR:
       return {
@@ -126,6 +129,15 @@ const songReducer = (state = initialState, action) => {
         isDeletingSong: false,
         songDeletingError: action.payload,
       };
+    case song.DELETE_SONG_RESET: {
+      return {
+        ...state,
+        isDeletingSong: false,
+        songDeleteSuccess: false,
+        songDeletingError: null,
+        songEditing: null,
+      };
+    }
     case song.UPDATE_SONG_REQUEST:
       return {
         ...state,
@@ -136,24 +148,14 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isUpdatingSong: false,
-        // songUpdateSuccess: true,
+        songUpdateSuccess: true,
         songUpdateError: null,
-        songEditing: null,
       };
     case song.UPDATE_SONG_ERROR:
       return {
         ...state,
         isUpdatingSong: false,
-        // songUpdateSuccess: false,
         songUpdateError: action.payload,
-      };
-    case song.UPDATE_SONG_RESET:
-      return {
-        ...state,
-        isUpdatingSong: false,
-        // songUpdateSuccess: false,
-        songUpdateError: null,
-        songEditing: null,
       };
     case song.UPDATE_UPDATED_SONG:
       return {
@@ -168,7 +170,14 @@ const songReducer = (state = initialState, action) => {
             artist: action.payload.artist,
           },
         },
-        // songUpdateSuccess: false,
+      };
+    case song.UPDATE_SONG_RESET:
+      return {
+        ...state,
+        isUpdatingSong: false,
+        songUpdateSuccess: false,
+        songUpdateError: null,
+        songEditing: null,
       };
     case song.ADD_UPLOADED_SONG: {
       const songId = action.payload.data._id;
@@ -194,7 +203,7 @@ const songReducer = (state = initialState, action) => {
       };
 
     default:
-      return state;
+      return { ...state };
   }
 };
 

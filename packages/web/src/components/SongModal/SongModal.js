@@ -2,14 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
-import {
-  updateSong,
-  // updateSongReset
-} from "../../redux/song/song-actions";
-import {
-  uploadSong,
-  // uploadSongReset,
-} from "../../redux/uploader/uploader-actions";
+import { updateSong } from "../../redux/song/song-actions";
+import { uploadSong } from "../../redux/uploader/uploader-actions";
 import { hideSongModal } from "../../redux/modals/modal-actions";
 
 // import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
@@ -225,9 +219,9 @@ function SongModal() {
 
           {/* {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
-          {uploadSongError && <p className="mb-3">Upload error!</p>} */}
+          {uploadSongError && <p className="mb-3">Upload error!</p>}
 
-          {/* {isUpdatingSong && <p className="mb-3">Updating song...</p>}
+          {isUpdatingSong && <p className="mb-3">Updating song...</p>}
           {songUpdateSuccess && <p className="mb-3">Update successful!</p>}
           {songUpdateError && <p className="mb-3">Update error!</p>} */}
 

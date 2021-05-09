@@ -4,6 +4,8 @@ import * as auth from "../../services/auth";
 import * as SongTypes from "./song-types";
 import { songsTypes } from "./song-types";
 
+// FETCH SONGS
+
 export const fetchSongsRequest = () => {
   return { type: SongTypes.FETCH_SONG_REQUEST };
 };
@@ -37,9 +39,9 @@ export function fetchSongs(fetchType) {
   return fetchAllSongs();
 }
 
-export const fetchSongsReset = () => {
-  return { type: SongTypes.FETCH_SONG_RESET };
-};
+// export const fetchSongsReset = () => {
+//   return { type: SongTypes.FETCH_SONG_RESET };
+// };
 
 // Fetch all songs
 
@@ -137,7 +139,7 @@ export const fetchFavoriteSongs = () => {
   };
 };
 
-// Like songs
+// LIKE SONGS
 
 export const likeSongRequest = () => {
   return { type: SongTypes.LIKE_SONG_REQUEST };
@@ -173,6 +175,11 @@ export const likeSong = (songId, firebaseId) => {
 
 // DELETE SONGS
 
+export const setSongToDelete = (songId) => ({
+  type: SongTypes.SONG_TO_DELETE,
+  payload: songId,
+});
+
 export const deleteSongRequest = () => ({
   type: SongTypes.DELETE_SONG_REQUEST,
 });
@@ -187,6 +194,10 @@ export const deleteSongSuccess = (songId) => ({
   payload: songId,
 });
 
+export const deleteSongReset = () => ({
+  type: SongTypes.DELETE_SONG_RESET,
+});
+
 export function deleteSong(songId) {
   return async function deleteSongThunk(dispatch) {
     dispatch(deleteSongRequest());
@@ -195,22 +206,21 @@ export function deleteSong(songId) {
       if (response.errorMessage) {
         return dispatch(deleteSongError(response.errorMessage));
       }
-      return dispatch(deleteSongSuccess(response.data));
+      dispatch(deleteSongSuccess(response.data));
+      return dispatch(deleteSongReset());
     } catch (error) {
       return dispatch(deleteSongError(error.message));
     }
   };
 }
 
-// SET SONG TO DELETE
-// (when clicking on "delete" from option menu, select song for deleting with modal)
+// UPDATE SONG
 
-export const setSongToDelete = (songId) => ({
-  type: SongTypes.SONG_TO_DELETE,
-  payload: songId,
+export const setSongToUpdate = (song) => ({
+  type: SongTypes.SONG_TO_UPDATE,
+  payload: song,
 });
 
-// UPDATE SONG
 export const updateSongRequest = () => ({
   type: SongTypes.UPDATE_SONG_REQUEST,
 });
@@ -220,45 +230,36 @@ export const updateSongError = (message) => ({
   payload: message,
 });
 
-export const updateSongSuccess = (songData) => ({
+export const updateSongSuccess = (song) => ({
   type: SongTypes.UPDATE_SONG_SUCCESS,
-  payload: songData,
+  payload: song,
 });
-
-export const updateSongReset = () => ({
-  type: SongTypes.UPDATE_SONG_RESET,
-});
-
-export function updateSong(songData) {
-  return async function updateSongThunk(dispatch) {
-    dispatch(updateSongRequest());
-    try {
-      const response = await api.updateSongInfo(songData);
-      if (response.errorMessage) {
-        return dispatch(updateSongError(response.errorMessage));
-      }
-      dispatch(updateSongSuccess(response.data));
-      return dispatch(updateUpdatedSong(response.data.data));
-    } catch (error) {
-      return dispatch(updateSongError(error.message));
-    }
-  };
-}
-
-// UPDATE THE STATE OF AN UPDATED SONG WITH ITS NEW INFO
 
 export const updateUpdatedSong = (song) => ({
   type: SongTypes.UPDATE_UPDATED_SONG,
   payload: song,
 });
 
-// SET SONG TO UPDATE
-// (when clicking on "edit" from option menu, select song for updating with modal)
-
-export const setSongToUpdate = (song) => ({
-  type: SongTypes.SONG_TO_UPDATE,
-  payload: song,
+export const updateSongReset = () => ({
+  type: SongTypes.UPDATE_SONG_RESET,
 });
+
+export function updateSong(song) {
+  return async function updateSongThunk(dispatch) {
+    dispatch(updateSongRequest());
+    try {
+      const response = await api.updateSongInfo(song);
+      if (response.errorMessage) {
+        return dispatch(updateSongError(response.errorMessage));
+      }
+      dispatch(updateSongSuccess(response.data));
+      dispatch(updateUpdatedSong(response.data.data));
+      return dispatch(updateSongReset());
+    } catch (error) {
+      return dispatch(updateSongError(error.message));
+    }
+  };
+}
 
 // ADD UPLOADED SONG TO STATE
 

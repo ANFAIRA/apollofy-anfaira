@@ -1,56 +1,49 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { func, object } from "prop-types";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   deletePlaylist,
-  deletePlaylistReset,
+  setPlaylistToDelete,
 } from "../../redux/playlist/playlist-actions";
-
 import { selectPlaylistState } from "../../redux/playlist/playlist-selector";
+
+import { hidePlaylistDeleteModal } from "../../redux/modals/modal-actions";
 
 import CloseBtn from "../CloseBtn";
 
-function PlaylistDeleteModal({
-  setShowDeleteModal,
-  selectedPlaylist,
-  setSelectedPlaylist,
-}) {
+function PlaylistDeleteModal() {
   const dispatch = useDispatch();
   const {
     isDeletingPlaylist,
     playlistDeleteSuccess,
     playlistDeleteError,
+    playlistDeleting,
   } = useSelector(selectPlaylistState);
 
   const history = useHistory();
-
-  const { _id } = selectedPlaylist;
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
   });
 
   function handleCloseBtn() {
-    setShowDeleteModal(false);
-    setSelectedPlaylist(null);
+    dispatch(hidePlaylistDeleteModal());
+    dispatch(setPlaylistToDelete(null));
   }
 
   function onSubmit() {
-    dispatch(deletePlaylist({ _id: _id }));
+    dispatch(deletePlaylist({ _id: playlistDeleting }));
     history.push(`/`);
+    setTimeout(() => {
+      dispatch(hidePlaylistDeleteModal());
+    }, 2000);
   }
-
-  useEffect(() => {
-    dispatch(deletePlaylistReset());
-    playlistDeleteSuccess && setShowDeleteModal(false);
-  }, [dispatch, playlistDeleteSuccess, setShowDeleteModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
-      <CloseBtn setShowModal={setShowDeleteModal} />
+      <CloseBtn />
       <div>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"
@@ -90,11 +83,5 @@ function PlaylistDeleteModal({
     </article>
   );
 }
-
-PlaylistDeleteModal.propTypes = {
-  setShowDeleteModal: func.isRequired,
-  selectedPlaylist: object.isRequired,
-  setSelectedPlaylist: func.isRequired,
-};
 
 export default PlaylistDeleteModal;

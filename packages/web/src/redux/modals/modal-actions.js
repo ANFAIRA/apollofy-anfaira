@@ -16,6 +16,14 @@ export const hidePlaylistModal = () => ({
   type: ModalTypes.HIDE_PLAYLIST_MODAL,
 });
 
+export const showPlaylistDeleteModal = () => ({
+  type: ModalTypes.SHOW_PLAYLIST_DELETE_MODAL,
+});
+
+export const hidePlaylistDeleteModal = () => ({
+  type: ModalTypes.HIDE_PLAYLIST_DELETE_MODAL,
+});
+
 export const showDeleteModal = () => ({
   type: ModalTypes.SHOW_DELETE_MODAL,
 });

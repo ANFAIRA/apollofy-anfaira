@@ -12,9 +12,9 @@ import CloseBtn from "../CloseBtn";
 function DeleteModal() {
   const dispatch = useDispatch();
   const {
-    isDeletingSong,
-    songDeleteSuccess,
-    songDeleteError,
+    // isDeletingSong,
+    // songDeleteSuccess,
+    // songDeleteError,
     songDeleting,
   } = useSelector(songSelector);
 
@@ -60,11 +60,11 @@ function DeleteModal() {
               </button>
             </div>
           </div>
-          {isDeletingSong && <p className="mb-3">Removing song...</p>}
+          {/* {isDeletingSong && <p className="mb-3">Removing song...</p>}
           {songDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
           {songDeleteError && (
             <p className="mb-3">An error occured while deleting the song!</p>
-          )}
+          )} */}
         </form>
       </div>
     </article>
