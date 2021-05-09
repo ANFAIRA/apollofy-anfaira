@@ -4,12 +4,10 @@ export const UploaderInitialState = {
   isUploadingSong: false,
   uploadSongSuccess: false,
   uploadSongError: null,
-  songUrls: [],
   isUploadingImage: false,
   uploadImageSuccess: false,
   uploadImageError: null,
   imageUrls: [],
-  uploadedSong: {},
 };
 
 const uploaderReducer = (state = UploaderInitialState, action) => {
@@ -18,7 +16,6 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
       return {
         ...state,
         isUploadingSong: true,
-        uploadSongSuccess: false,
         uploadSongError: null,
       };
     }
@@ -26,7 +23,6 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
       return {
         ...state,
         isUploadingSong: false,
-        uploadSongSuccess: false,
         uploadSongError: action.payload,
       };
     }
@@ -36,8 +32,6 @@ const uploaderReducer = (state = UploaderInitialState, action) => {
         isUploadingSong: false,
         uploadSongSuccess: true,
         uploadSongError: null,
-        // songUrls: [...state.songUrls, action.payload],
-        uploadedSong: action.payload,
       };
     }
     case UploaderTypes.UPLOAD_SONG_RESET: {

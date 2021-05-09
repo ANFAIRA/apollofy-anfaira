@@ -1,8 +1,10 @@
 import api from "../../api";
 import { normalizeSongs } from "../../schema/song-schema";
 import * as auth from "../../services/auth";
-import * as SongTypes from "./song-type";
-import { songsTypes } from "./song-type";
+import * as SongTypes from "./song-types";
+import { songsTypes } from "./song-types";
+
+// FETCH SONGS
 
 export const fetchSongsRequest = () => {
   return { type: SongTypes.FETCH_SONG_REQUEST };
@@ -37,9 +39,9 @@ export function fetchSongs(fetchType) {
   return fetchAllSongs();
 }
 
-export const fetchSongsReset = () => {
-  return { type: SongTypes.FETCH_SONG_RESET };
-};
+// export const fetchSongsReset = () => {
+//   return { type: SongTypes.FETCH_SONG_RESET };
+// };
 
 // Fetch all songs
 
@@ -137,7 +139,7 @@ export const fetchFavoriteSongs = () => {
   };
 };
 
-// Like songs
+// LIKE SONGS
 
 export const likeSongRequest = () => {
   return { type: SongTypes.LIKE_SONG_REQUEST };
@@ -173,6 +175,11 @@ export const likeSong = (songId, firebaseId) => {
 
 // DELETE SONGS
 
+export const setSongToDelete = (songId) => ({
+  type: SongTypes.SONG_TO_DELETE,
+  payload: songId,
+});
+
 export const deleteSongRequest = () => ({
   type: SongTypes.DELETE_SONG_REQUEST,
 });
@@ -199,7 +206,8 @@ export function deleteSong(songId) {
       if (response.errorMessage) {
         return dispatch(deleteSongError(response.errorMessage));
       }
-      return dispatch(deleteSongSuccess(response.data));
+      dispatch(deleteSongSuccess(response.data));
+      return dispatch(deleteSongReset());
     } catch (error) {
       return dispatch(deleteSongError(error.message));
     }
@@ -207,6 +215,12 @@ export function deleteSong(songId) {
 }
 
 // UPDATE SONG
+
+export const setSongToUpdate = (song) => ({
+  type: SongTypes.SONG_TO_UPDATE,
+  payload: song,
+});
+
 export const updateSongRequest = () => ({
   type: SongTypes.UPDATE_SONG_REQUEST,
 });
@@ -216,34 +230,36 @@ export const updateSongError = (message) => ({
   payload: message,
 });
 
-export const updateSongSuccess = (songData) => ({
+export const updateSongSuccess = (song) => ({
   type: SongTypes.UPDATE_SONG_SUCCESS,
-  payload: songData,
+  payload: song,
+});
+
+export const updateUpdatedSong = (song) => ({
+  type: SongTypes.UPDATE_UPDATED_SONG,
+  payload: song,
 });
 
 export const updateSongReset = () => ({
   type: SongTypes.UPDATE_SONG_RESET,
 });
 
-export function updateSong(songData) {
+export function updateSong(song) {
   return async function updateSongThunk(dispatch) {
     dispatch(updateSongRequest());
     try {
-      const response = await api.updateSongInfo(songData);
+      const response = await api.updateSongInfo(song);
       if (response.errorMessage) {
         return dispatch(updateSongError(response.errorMessage));
       }
-      return dispatch(updateSongSuccess(response.data));
+      dispatch(updateSongSuccess(response.data));
+      dispatch(updateUpdatedSong(response.data.data));
+      return dispatch(updateSongReset());
     } catch (error) {
       return dispatch(updateSongError(error.message));
     }
   };
 }
-
-export const updateUpdatedSong = (song) => ({
-  type: SongTypes.UPDATE_UPDATED_SONG,
-  payload: song,
-});
 
 // ADD UPLOADED SONG TO STATE
 

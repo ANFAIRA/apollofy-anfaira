@@ -34,6 +34,9 @@ export const DELETE_SONG_FROM_PLAYLIST_ERROR =
 
 export const FETCH_PLAYLIST_SUCCESS = "FETCH_PLAYLIST_SUCCESS";
 
+export const PLAYLIST_TO_UPDATE = "PLAYLIST_TO_UPDATE";
+export const PLAYLIST_TO_DELETE = "PLAYLIST_TO_DELETE";
+
 export const playlistTypes = {
   ALL: "ALL",
   OWN: "OWN",

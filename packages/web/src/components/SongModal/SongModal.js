@@ -1,29 +1,35 @@
-import { bool, func, object } from "prop-types";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateSong, updateSongReset } from "../../redux/song/song-actions";
+import { useForm } from "react-hook-form";
+
+import { updateSong } from "../../redux/song/song-actions";
+import { uploadSong } from "../../redux/uploader/uploader-actions";
+import { hideSongModal } from "../../redux/modals/modal-actions";
+
+// import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { modalStateSelector } from "../../redux/modals/modal-selectors";
 import { songSelector } from "../../redux/song/song-selector";
-import {
-  uploadSong,
-  uploadSongReset,
-} from "../../redux/uploader/uploader-actions";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import SongInput from "../SongInput";
 
-function SongModal({ setShowModal, isEditModal, selectedSong }) {
+function SongModal() {
   const dispatch = useDispatch();
-  const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
-    uploaderSelector,
-  );
-  const { isUpdatingSong, songUpdateSuccess, songUpdateError } = useSelector(
-    songSelector,
-  );
+
+  const {
+    // isUpdatingSong,
+    // songUpdateSuccess,
+    // songUpdateError,
+    songEditing,
+  } = useSelector(songSelector);
+  const { isEditModal } = useSelector(modalStateSelector);
+  // const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
+  //   uploaderSelector,
+  // );
 
   const { _id, thumbnail, title, artist, genre } = isEditModal
-    ? selectedSong
+    ? songEditing
     : "";
 
   const modal = isEditModal
@@ -40,9 +46,9 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
     defaultValues: { _id, thumbnail, title, artist, genre },
   });
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(thumbnail);
   const [song, setSong] = useState();
-  const [src, setSrc] = useState();
+  const [src, setSrc] = useState(thumbnail);
 
   function onSubmit(data) {
     !isEditModal
@@ -64,6 +70,7 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
             _id: data._id,
           }),
         );
+    dispatch(hideSongModal());
   }
 
   const handleImg = (e) => {
@@ -88,22 +95,9 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
   //   setSrc(null);
   // }
 
-  // function handleCloseBtn() {
-  //   setShowModal(false);
-  //   setIsEditModal(false);
-  //   setSelectedSong(null);
-  // }
-
-  useEffect(() => {
-    dispatch(uploadSongReset());
-    dispatch(updateSongReset());
-    uploadSongSuccess && setShowModal(false);
-    songUpdateSuccess && setShowModal(false);
-  }, [dispatch, uploadSongSuccess, songUpdateSuccess, setShowModal]);
-
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <CloseBtn setShowModal={setShowModal} />
+      <CloseBtn songEditModal={isEditModal ? true : null} />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
@@ -114,19 +108,15 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
             {isEditModal && (
               <div className="mr-2 h-full md:w-60 w-full mb-5">
                 <label htmlFor="photo" className="mt-2 mb-5">
-                  {src ? (
-                    <img
-                      src={src}
-                      alt="thumbnail"
-                      className="md:w-40 md:h-40"
-                    />
-                  ) : (
+                  {/* {src ? ( */}
+                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
+                  {/* ) : (
                     <img
                       src={thumbnail}
                       alt="thumbnail"
                       className="md:w-40 md:h-40"
                     />
-                  )}
+                  )} */}
 
                   <input
                     type="file"
@@ -227,13 +217,13 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
               ))}
           </div>
 
-          {isUploadingSong && <p className="mb-3">Uploading song...</p>}
+          {/* {isUploadingSong && <p className="mb-3">Uploading song...</p>}
           {uploadSongSuccess && <p className="mb-3">Upload successful!</p>}
           {uploadSongError && <p className="mb-3">Upload error!</p>}
 
           {isUpdatingSong && <p className="mb-3">Updating song...</p>}
           {songUpdateSuccess && <p className="mb-3">Update successful!</p>}
-          {songUpdateError && <p className="mb-3">Update error!</p>}
+          {songUpdateError && <p className="mb-3">Update error!</p>} */}
 
           <Input
             name="title"
@@ -288,15 +278,5 @@ function SongModal({ setShowModal, isEditModal, selectedSong }) {
     </article>
   );
 }
-
-SongModal.propTypes = {
-  setShowModal: func.isRequired,
-  isEditModal: bool.isRequired,
-  selectedSong: object,
-};
-
-SongModal.defaultProps = {
-  selectedSong: {},
-};
 
 export default SongModal;

@@ -1,27 +1,32 @@
-import { bool, func, object, oneOfType, string } from "prop-types";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+
 import {
   createPlaylist,
   updatePlaylist,
+  updatePlaylistReset,
+  deletePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
+
+import { hidePlaylistModal } from "../../redux/modals/modal-actions";
+import { modalStateSelector } from "../../redux/modals/modal-selectors";
+
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
+
 import "./PlaylistModal.scss";
+
 import PlaylistDefaultImage from "../../assets/playlist.png";
 
-function PlaylistModal({
-  setShowPlaylistModal,
-  isEditModal,
-  selectedPlaylist,
-}) {
+function PlaylistModal() {
   const dispatch = useDispatch();
-  const { playlistCreation } = useSelector(playlistStateSelector);
+  const { isEditModal } = useSelector(modalStateSelector);
+  const { playlistEditing } = useSelector(playlistStateSelector);
 
   const { _id, thumbnail, title, description } = isEditModal
-    ? selectedPlaylist
+    ? playlistEditing
     : "";
 
   const modal = isEditModal
@@ -49,7 +54,6 @@ function PlaylistModal({
   const [src, setSrc] = useState(PlaylistDefaultImage);
 
   function onSubmit(data) {
-    setShowPlaylistModal(false);
     !isEditModal
       ? dispatch(
           createPlaylist({
@@ -71,6 +75,10 @@ function PlaylistModal({
             description: data.description,
           }),
         );
+    dispatch(hidePlaylistModal());
+    setTimeout(() => {
+      isEditModal && dispatch(updatePlaylistReset());
+    }, 2000);
   }
 
   const handleImg = (e) => {
@@ -86,13 +94,9 @@ function PlaylistModal({
     }
   };
 
-  useEffect(() => {
-    playlistCreation && setShowPlaylistModal(false);
-  }, [dispatch, setShowPlaylistModal, playlistCreation]);
-
   return (
     <article className="md:w-2/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <CloseBtn setShowModal={setShowPlaylistModal} />
+      <CloseBtn />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
@@ -260,15 +264,5 @@ function PlaylistModal({
     </article>
   );
 }
-
-PlaylistModal.propTypes = {
-  setShowPlaylistModal: func.isRequired,
-  isEditModal: oneOfType([bool, string]),
-  selectedPlaylist: object,
-};
-PlaylistModal.defaultProps = {
-  selectedPlaylist: {},
-  isEditModal: "",
-};
 
 export default PlaylistModal;

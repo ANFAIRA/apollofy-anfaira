@@ -1,25 +1,27 @@
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object, oneOfType, string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { func, object } from "prop-types";
+
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { addSongToQueue } from "../../redux/player/player-actions";
-// import { playlistTypes } from "../../redux/playlist/playlist-types";
+import { playlistTypes } from "../../redux/playlist/playlist-types";
 import {
   addSongToPlaylist,
-  // fetchPlaylists,
-  fetchOwnPlaylists,
+  fetchPlaylists,
 } from "../../redux/playlist/playlist-actions";
+import {
+  showSongModal,
+  showDeleteModal,
+  setEditModal,
+} from "../../redux/modals/modal-actions";
+import {
+  setSongToUpdate,
+  setSongToDelete,
+} from "../../redux/song/song-actions";
 
-function SongDialogue({
-  setShowModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  song,
-  setSelectedSong,
-  handleLikeBtn,
-  setIsMenuOpen,
-}) {
+function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { authorId } = song;
   const isMySong = _id === authorId;
@@ -32,16 +34,17 @@ function SongDialogue({
   const dispatch = useDispatch();
 
   function handleEditClick() {
-    setShowModal(true);
-    setIsEditModal(true);
+    dispatch(setSongToUpdate(song));
+    dispatch(setEditModal());
+    dispatch(showSongModal());
+
     setIsMenuOpen(false);
-    setSelectedSong(song);
   }
 
   function handleDeleteClick() {
-    setShowDeleteModal(true);
+    dispatch(showDeleteModal());
+    dispatch(setSongToDelete(song._id));
     setIsMenuOpen(false);
-    setSelectedSong(song);
   }
 
   function handleAddToPlaylistBtn(e) {
@@ -61,8 +64,7 @@ function SongDialogue({
   }
 
   useEffect(() => {
-    // dispatch(fetchPlaylists(playlistTypes.OWN));
-    dispatch(fetchOwnPlaylists());
+    dispatch(fetchPlaylists(playlistTypes.OWN));
   }, [dispatch]);
 
   return (
@@ -126,7 +128,7 @@ function SongDialogue({
         type="button"
         className={
           isMySong
-            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none"
+            ? "px-5 py-1 hover:text-gray-100 hover:bg-gray-600 font-semibold text-left focus:outline-none"
             : "px-5 py-1 text-gray-500 text-left focus:outline-none"
         }
         onClick={handleDeleteClick}
@@ -140,19 +142,8 @@ function SongDialogue({
 
 SongDialogue.propTypes = {
   handleLikeBtn: func.isRequired,
-  setShowModal: oneOfType([string, func]),
-  setShowDeleteModal: oneOfType([string, func]),
-  setIsEditModal: oneOfType([string, func]),
-  setSelectedSong: oneOfType([string, func]),
   setIsMenuOpen: func.isRequired,
   song: object.isRequired,
-};
-
-SongDialogue.defaultProps = {
-  setShowModal: "",
-  setShowDeleteModal: "",
-  setIsEditModal: "",
-  setSelectedSong: "",
 };
 
 export default SongDialogue;

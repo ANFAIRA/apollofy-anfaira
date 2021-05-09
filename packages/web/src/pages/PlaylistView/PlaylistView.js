@@ -88,7 +88,6 @@ const PlaylistView = () => {
           <PlaylistModal
             isEditModal={isEditModal}
             selectedPlaylist={selectedPlaylist}
-            setShowPlaylistModal={setShowPlaylistModal}
           />
         </section>
       )}

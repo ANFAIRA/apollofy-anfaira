@@ -3,26 +3,31 @@ import * as PlaylistTypes from "./playlist-types";
 export const PlaylistInitState = {
   playlistCreation: false,
   playlistCreationError: null,
-  playlistUpdate: false,
+
+  isUpdatingPlaylist: false,
+  playlistUpdateSuccess: false,
   playlistUpdateError: null,
+  playlistEditing: null,
+
   playlistsLoading: false,
   playlistsLoadingError: null,
+
   playlistsFetched: false,
   playlistLoading: false,
   playlistLoadingError: null,
   playlistFetched: false,
-  playlistsByID: {},
+
   addingSong: false,
   addSongError: null,
-  isUpdatingPlaylist: false,
-  playlistUpdateSuccess: false,
-  playlistUpadateError: null,
-  playlistEditing: {},
-  createdPlaylist: null,
+
   isDeletingPlaylist: false,
   playlistDeleteSuccess: false,
   playlistDeleteError: null,
-  playlistId: null,
+  playlistDeleting: null,
+
+  // playlistId: null,
+
+  playlistsByID: {},
   playlistIds: {
     ALL: [],
     OWN: [],
@@ -55,7 +60,21 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         ...state,
         playlistCreation: false,
         playlistCreationError: null,
-        createdPlaylist: action.payload,
+      };
+    }
+    case PlaylistTypes.ADD_CREATED_PLAYLIST: {
+      const playlistId = action.payload.data._id;
+      const newIds = { ...state.playlistIds };
+
+      newIds.ALL = [...state.playlistIds.ALL, playlistId];
+
+      return {
+        ...state,
+        playlistsByID: {
+          ...state.playlistsByID,
+          [playlistId]: { ...action.payload.data },
+        },
+        playlistIds: newIds,
       };
     }
     case PlaylistTypes.FETCH_PLAYLISTS_REQUEST: {
@@ -147,35 +166,32 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         deleteSongError: null,
       };
     }
+    case PlaylistTypes.PLAYLIST_TO_UPDATE:
+      return {
+        ...state,
+        playlistEditing: action.payload,
+      };
     case PlaylistTypes.UPDATE_PLAYLIST_REQUEST:
       return {
         ...state,
         isUpdatingPlaylist: true,
-        playlistUpadateError: false,
-      };
-    case PlaylistTypes.UPDATE_PLAYLIST_SUCCESS:
-      return {
-        ...state,
-        isUpdatingPlaylist: false,
-        playlistUpdateSuccess: true,
-        playlistUpadateError: false,
-        playlistEditing: action.payload,
+        playlistUpdateError: null,
       };
     case PlaylistTypes.UPDATE_PLAYLIST_ERROR:
       return {
         ...state,
         isUpdatingPlaylist: false,
         playlistUpdateSuccess: false,
-        playlistUpadateError: action.payload,
+        playlistUpdateError: action.payload,
       };
-    case PlaylistTypes.UPDATE_PLAYLIST_RESET: {
+    case PlaylistTypes.UPDATE_PLAYLIST_SUCCESS:
       return {
         ...state,
         isUpdatingPlaylist: false,
-        playlistUpdateSuccess: false,
-        playlistUpadateError: null,
+        playlistUpdateSuccess: true,
+        playlistUpdateError: null,
+        playlistEditing: null,
       };
-    }
     case PlaylistTypes.UPDATE_UPDATED_PLAYLIST:
       return {
         ...state,
@@ -191,22 +207,20 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           },
         },
       };
-    case PlaylistTypes.ADD_CREATED_PLAYLIST: {
-      const playlistId = action.payload.data._id;
-      const newIds = { ...state.playlistIds };
-
-      newIds.ALL = [...state.playlistIds.ALL, playlistId];
-
+    case PlaylistTypes.UPDATE_PLAYLIST_RESET: {
       return {
         ...state,
-        playlistsByID: {
-          ...state.playlistsByID,
-          [playlistId]: { ...action.payload.data },
-        },
-        playlistIds: newIds,
-        createdPlaylist: null,
+        isUpdatingPlaylist: false,
+        playlistUpdateSuccess: false,
+        playlistUpdateError: null,
+        playlistEditing: null,
       };
     }
+    case PlaylistTypes.PLAYLIST_TO_DELETE:
+      return {
+        ...state,
+        playlistDeleting: action.payload,
+      };
     case PlaylistTypes.DELETE_PLAYLIST_REQUEST:
       return {
         ...state,
@@ -224,13 +238,13 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
           );
         }
       }
-
       return {
         ...state,
         isDeletingPlaylist: false,
         playlistDeleteSuccess: true,
         playlistDeleteError: false,
-        playlistId: action.payload,
+        // playlistId: action.payload,
+        playlistDeleting: action.payload,
         playlistsByID: { ...state.playlistsByID },
         playlistIds: { ...state.playlistIds },
       };

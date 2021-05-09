@@ -1,51 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteModal from "../../components/DeleteModal";
+
+import { authSelector } from "../../redux/auth/auth-selectors";
+import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
+import { playlistTypes } from "../../redux/playlist/playlist-types";
+import { fetchAllSongs } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
+import { songsTypes } from "../../redux/song/song-types";
+
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
-import SongModal from "../../components/SongModal";
+
 import Main from "../../layout/Main";
-import { authSelector } from "../../redux/auth/auth-selectors";
-import {
-  addCreatedPlaylist,
-  // fetchAllPlaylists,
-  fetchPlaylists,
-  updateUpdatedPlaylist,
-} from "../../redux/playlist/playlist-actions";
-import { playlistTypes } from "../../redux/playlist/playlist-types";
-import {
-  addUploadedSong,
-  fetchAllSongs,
-  updateUpdatedSong,
-} from "../../redux/song/song-actions";
-import { songSelector } from "../../redux/song/song-selector";
-import { songsTypes } from "../../redux/song/song-type";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+
 import { fetchUsers } from "../../redux/user/user-actions";
 import { userTypes } from "../../redux/user/user-types";
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  const { songsByID, songEditing } = useSelector((state) => state.song);
+  const { songsByID } = useSelector(songSelector);
   const { ALL_SONGS } = useSelector((state) => state.song.songIds);
-  const { uploadSongSuccess, uploadedSong } = useSelector(uploaderSelector);
-  const { songUpdateSuccess } = useSelector(songSelector);
   const { ALL_USERS } = useSelector((state) => state.user.userIds);
-
-  // const { songDeleteSuccess } = useSelector(songSelector);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const {
-    playlistsByID,
-    playlistUpdateSuccess,
-    playlistEditing,
-    createdPlaylist,
-  } = useSelector((state) => state.playlists);
-
-  const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedSong, setSelectedSong] = useState(null);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const dispatch = useDispatch();
 
@@ -57,53 +35,13 @@ export default function Home() {
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
-    if (songUpdateSuccess) {
-      dispatch(updateUpdatedSong(songEditing.data));
-    }
     if (ALL.length === 0) {
       dispatch(fetchPlaylists(playlistTypes.ALL));
     }
-    if (playlistUpdateSuccess) {
-      dispatch(updateUpdatedPlaylist(playlistEditing.data));
-    }
-    uploadSongSuccess && dispatch(addUploadedSong(uploadedSong));
-    createdPlaylist && dispatch(addCreatedPlaylist(createdPlaylist));
-  }, [
-    dispatch,
-    ALL_USERS.length,
-    ALL_SONGS.length,
-    ALL.length,
-    playlistUpdateSuccess,
-    playlistEditing,
-    uploadSongSuccess,
-    uploadedSong,
-    songUpdateSuccess,
-    songEditing,
-    createdPlaylist,
-  ]);
+  }, [dispatch, ALL_USERS.length, ALL_SONGS.length, ALL.length]);
 
   return (
     <>
-      {showModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <SongModal
-            setShowModal={setShowModal}
-            setIsEditModal={setIsEditModal}
-            isEditModal={isEditModal}
-            selectedSong={selectedSong}
-            setSelectedSong={setSelectedSong}
-          />
-        </section>
-      )}
-      {showDeleteModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <DeleteModal
-            setShowDeleteModal={setShowDeleteModal}
-            selectedSong={selectedSong}
-            setSelectedSong={setSelectedSong}
-          />
-        </section>
-      )}
       <Main>
         <h1 className="text-xl mb-4">Hello {currentUser?.data?.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
@@ -112,14 +50,7 @@ export default function Home() {
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
               {ALL_SONGS?.map((song) => (
-                <SongCard
-                  key={songsByID[song]._id}
-                  song={songsByID[song]}
-                  setShowModal={setShowModal}
-                  setShowDeleteModal={setShowDeleteModal}
-                  setIsEditModal={setIsEditModal}
-                  setSelectedSong={setSelectedSong}
-                />
+                <SongCard key={songsByID[song]._id} song={songsByID[song]} />
               ))}
             </section>
           </article>

@@ -7,7 +7,7 @@ import ProfileLayout from "../../layout/ProfileLayout";
 
 import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
 import { fetchSongs } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-type";
+import { songsTypes } from "../../redux/song/song-types";
 import { selectSongState } from "../../redux/song/song-selector";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
 import "./Profile.scss";
@@ -34,11 +34,20 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchSongs(songsTypes.FAVORITE));
-    dispatch(fetchSongs(songsTypes.MY_SONGS));
-    dispatch(fetchPlaylists(playlistTypes.OWN));
-    dispatch(fetchPlaylists(playlistTypes.FOLLOWING));
-  }, [dispatch, likedSongs]);
+    FAVORITE.length === 0 && dispatch(fetchSongs(songsTypes.FAVORITE));
+    MY_SONGS.length === 0 && dispatch(fetchSongs(songsTypes.MY_SONGS));
+    ownPlaylistsArray.length === 0 &&
+      dispatch(fetchPlaylists(playlistTypes.OWN));
+    followedPlaylistsArray.length === 0 &&
+      dispatch(fetchPlaylists(playlistTypes.FOLLOWING));
+  }, [
+    dispatch,
+    likedSongs,
+    FAVORITE.length,
+    MY_SONGS.length,
+    ownPlaylistsArray.length,
+    followedPlaylistsArray.length,
+  ]);
 
   return (
     <Main>

@@ -4,6 +4,7 @@ import playerReducer from "./player/player-reducer";
 import playlistReducer from "./playlist/playlist-reducer";
 import songReducer from "./song/song-reducer";
 import uploaderReducer from "./uploader/uploader-reducer";
+import modalReducer from "./modals/modal-reducer";
 import userReducer from "./user/user-reducer";
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   song: songReducer,
   player: playerReducer,
   playlists: playlistReducer,
+  modal: modalReducer,
   user: userReducer,
 });
 
