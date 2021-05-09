@@ -11,3 +11,7 @@ export const MY_FAVOURITE_SONGS = "/my-favourite-songs";
 export const PLAYLIST_BY_ID = "/playlist/:id";
 export const MY_PLAYLISTS = "/my-playlists";
 export const FOLLOWING_PLAYLISTS = "/following-playlists";
+export const USER_SONGS = "/user-songs";
+export const USER_FAVOURITE_SONGS = "/user-favourite-songs";
+export const USER_PLAYLISTS = "/user-playlists";
+export const USER_FOLLOWING_PLAYLISTS = "/user-following-playlists";

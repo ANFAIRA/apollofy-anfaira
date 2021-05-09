@@ -275,13 +275,13 @@ async function followPlaylist(req, res, next) {
       );
     }
 
-    const indexUser = user.data.follwedPlaylist.findIndex(
+    const indexUser = user.data.followedPlaylist.findIndex(
       (id) => String(id) === String(playlist.data._id),
     );
     if (indexUser === -1) {
-      user.data.follwedPlaylist.push(playlist.data._id);
+      user.data.followedPlaylist.push(playlist.data._id);
     } else {
-      user.data.follwedPlaylist = user.data.likedSongs.filter(
+      user.data.followedPlaylist = user.data.likedSongs.filter(
         (id) => String(id) !== String(playlist.data._id),
       );
     }
@@ -290,7 +290,7 @@ async function followPlaylist(req, res, next) {
       { firebaseId: firebaseId },
       {
         $set: {
-          follwedPlaylist: user.data.follwedPlaylist,
+          followedPlaylist: user.data.followedPlaylist,
         },
       },
       { new: true },
@@ -347,9 +347,9 @@ async function fetchFollowedPlaylists(req, res, next) {
       {
         firebaseId: uid,
       },
-      "follwedPlaylist",
+      "followedPlaylist",
     );
-    const followedPlaylistsIdsArray = followedPlaylists.data.follwedPlaylist;
+    const followedPlaylistsIdsArray = followedPlaylists.data.followedPlaylist;
 
     const dbResponse = await PlaylistRepo.find({
       _id: { $in: followedPlaylistsIdsArray },

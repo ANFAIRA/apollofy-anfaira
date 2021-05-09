@@ -10,6 +10,10 @@ import LikedSongs from "./pages/LikedSongs";
 import Login from "./pages/Login";
 import MyPlaylists from "./pages/MyPlaylists";
 import MySongs from "./pages/MySongs";
+import UserSongs from "./pages/UserSongs";
+import UserLikedSongs from "./pages/UserLikedSongs";
+import UserPlaylists from "./pages/UserPlaylists";
+import UserFollowingPlaylists from "./pages/UserFollowingPlaylists";
 import PlaylistView from "./pages/PlaylistView";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
@@ -57,6 +61,16 @@ function App() {
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
           <Route path={ROUTES.PLAYLIST_BY_ID} component={PlaylistView} />
           <Route path={ROUTES.MY_PLAYLISTS} component={MyPlaylists} />
+          <Route path={ROUTES.USER_SONGS} component={UserSongs} />
+          <Route
+            path={ROUTES.USER_FAVOURITE_SONGS}
+            component={UserLikedSongs}
+          />
+          <Route path={ROUTES.USER_PLAYLISTS} component={UserPlaylists} />
+          <Route
+            path={ROUTES.USER_FOLLOWING_PLAYLISTS}
+            component={UserFollowingPlaylists}
+          />
           <Route
             path={ROUTES.FOLLOWING_PLAYLISTS}
             component={FollowingPlaylists}
