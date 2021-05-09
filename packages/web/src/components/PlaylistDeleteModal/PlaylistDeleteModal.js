@@ -36,9 +36,7 @@ function PlaylistDeleteModal() {
   function onSubmit() {
     dispatch(deletePlaylist({ _id: playlistDeleting }));
     history.push(`/`);
-    setTimeout(() => {
-      dispatch(hidePlaylistDeleteModal());
-    }, 2000);
+    dispatch(hidePlaylistDeleteModal());
   }
 
   return (
