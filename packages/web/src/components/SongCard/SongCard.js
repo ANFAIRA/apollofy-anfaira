@@ -44,11 +44,7 @@ function SongCard({ song }) {
     <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
       <div className="card">
         <img
-          src={
-            song.thumbnail
-              ? song.thumbnail
-              : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
-          }
+          src={song.thumbnail}
           alt="song-img"
           className="object-contain w-full"
         />

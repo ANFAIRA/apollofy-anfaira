@@ -14,6 +14,8 @@ import CloseBtn from "../CloseBtn";
 import Input from "../Input";
 import SongInput from "../SongInput";
 
+import SongDefaultImage from "../../assets/song.jpg";
+
 function SongModal() {
   const dispatch = useDispatch();
 
@@ -46,7 +48,7 @@ function SongModal() {
     defaultValues: { _id, thumbnail, title, artist, genre },
   });
 
-  const [image, setImage] = useState(thumbnail);
+  const [image, setImage] = useState(SongDefaultImage);
   const [song, setSong] = useState();
   const [src, setSrc] = useState(thumbnail);
 
@@ -108,16 +110,7 @@ function SongModal() {
             {isEditModal && (
               <div className="mr-2 h-full md:w-60 w-full mb-5">
                 <label htmlFor="photo" className="mt-2 mb-5">
-                  {/* {src ? ( */}
                   <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
-                  {/* ) : (
-                    <img
-                      src={thumbnail}
-                      alt="thumbnail"
-                      className="md:w-40 md:h-40"
-                    />
-                  )} */}
-
                   <input
                     type="file"
                     accept=".png, .jpg, .jpeg"
