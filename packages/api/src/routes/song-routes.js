@@ -16,11 +16,7 @@ songRouter.get(
   songController.getLikedSongs,
 );
 songRouter.patch("/songs/:id/like", authMiddleware, songController.likeSong);
-songRouter.post(
-  "/songs/:id/playback",
-  authMiddleware,
-  songPlaybackController.addPlayback,
-);
+songRouter.post("/songs/:id/playback", songPlaybackController.addPlayback);
 
 module.exports = {
   songRouter: songRouter,

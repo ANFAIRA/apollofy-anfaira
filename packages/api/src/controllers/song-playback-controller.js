@@ -5,8 +5,8 @@ const { handleDbResponse } = require("../repositories/repo-utils");
 async function addPlayback(req, res, next) {
   const {
     params: { id: songId },
-    body: { lat, long, agent },
-    user: { id: userId },
+    // body: { lat, long, agent },
+    // user: { id: userId },
   } = req;
 
   try {
@@ -30,10 +30,10 @@ async function addPlayback(req, res, next) {
           "metadata.date": currDay,
         },
         data: {
-          lat: lat,
-          long: long,
-          user: userId,
-          agent: agent,
+          // lat: lat,
+          // long: long,
+          // user: userId,
+          // agent: agent,
           date: currDate,
         },
       });
@@ -49,10 +49,10 @@ async function addPlayback(req, res, next) {
         dbResponse = await SongPlaybackRepo.create({
           songId: songId,
           currDay: currDay,
-          user: userId,
-          lat: lat,
-          long: long,
-          agent: agent,
+          // user: userId,
+          // lat: lat,
+          // long: long,
+          // agent: agent,
         });
       }
 
@@ -88,6 +88,7 @@ async function addPlayback(req, res, next) {
           dailyKey: dailyKey,
         });
       }
+      console.log(dbResponse.data);
     }
     handleDbResponse(res, dbResponse);
   } catch (error) {

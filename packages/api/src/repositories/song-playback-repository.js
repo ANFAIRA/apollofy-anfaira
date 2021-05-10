@@ -47,10 +47,10 @@ class SongPlaybackRepository {
         {
           $push: {
             playbacks: {
-              lat: data.lat,
-              long: data.long,
-              user: data.user,
-              agent: data.agent,
+              // lat: data.lat,
+              // long: data.long,
+              // user: data.user,
+              // agent: data.agent,
               date: data.date,
             },
           },

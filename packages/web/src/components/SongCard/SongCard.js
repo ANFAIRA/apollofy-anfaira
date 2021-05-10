@@ -9,7 +9,10 @@ import {
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { playSong } from "../../redux/player/player-actions";
+import {
+  // playSong,
+  playSongAndSaveStats,
+} from "../../redux/player/player-actions";
 import { likeSong } from "../../redux/song/song-actions";
 
 import SongDialogue from "../SongDialogue";
@@ -63,7 +66,7 @@ function SongCard({ song }) {
             type="button"
             aria-label="play"
             className="card--icons--icon  card--icons--icon-play"
-            onClick={() => dispatch(playSong(song))}
+            onClick={() => dispatch(playSongAndSaveStats(song))}
           >
             <FontAwesomeIcon icon={farPlayCircle} />
           </button>

@@ -245,6 +245,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  // PLAYBACK
+
+  function addSongPlayback({ songID }) {
+    return request({
+      url: `/songs/${songID}/playback`,
+      requestMethod: "POST",
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -275,6 +284,7 @@ function makeApi(request = makeRequest()) {
     getFollowersUsers: getFollowersUsers,
     getFollowingUsers: getFollowingUsers,
     getPopularUsers: getPopularUsers,
+    addSongPlayback: addSongPlayback,
   };
 }
 

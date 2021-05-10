@@ -8,7 +8,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { playSong } from "../../redux/player/player-actions";
+import {
+  // playSong,
+  playSongAndSaveStats,
+} from "../../redux/player/player-actions";
 import {
   addSongToPlaylist,
   deleteSongFromPlaylist,
@@ -30,7 +33,7 @@ const PlayListTable = ({ songs, icon }) => {
       dispatch(addSongToPlaylist(id, songId));
     } else {
       const selectedSong = songs.find((song) => song._id === songId);
-      dispatch(playSong(selectedSong));
+      dispatch(playSongAndSaveStats(selectedSong));
     }
     return id;
   };
