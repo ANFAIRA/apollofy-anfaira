@@ -15,7 +15,7 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon }) => {
+const PlayListTable = ({ fetchedSongs, songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -29,7 +29,8 @@ const PlayListTable = ({ songs, icon }) => {
     if (icon.iconName === "plus") {
       dispatch(addSongToPlaylist(id, songId));
     } else {
-      const selectedSong = songs.find((song) => song._id === songId);
+      const selectedSong = fetchedSongs.find((song) => song._id === songId);
+      console.log(selectedSong);
       dispatch(playSong(selectedSong));
     }
     return id;
@@ -46,43 +47,52 @@ const PlayListTable = ({ songs, icon }) => {
         <div className="p-2 w-16 flex-shrink-0">Time</div>
         <div className="p-2 w-12 flex-shrink-0" />
       </div>
-      {songs?.map((song) => (
-        <div
-          key={song._id}
-          className="flex border-b border-gray-800 hover:bg-gray-800"
-        >
-          <button
-            type="button"
-            id={song._id}
-            onClick={handleClick}
-            className="p-3 w-12 flex-shrink-0"
-          >
-            <FontAwesomeIcon icon={icon} />
-          </button>
-          <button type="button" className="p-3 w-12 flex-shrink-0">
-            <FontAwesomeIcon icon={farHeart} />
-          </button>
-          <div className="p-3 w-full">{song.title}</div>
-          <div className="p-3 w-full">{song.artist}</div>
-          <div className="p-3 w-full">{song.genre} </div>
-          <div className="p-3 w-16 flex-shrink-0">
-            {formatTime(song.duration)}
-          </div>
-          <button
-            type="button"
-            id={song._id}
-            onClick={handleDelete}
-            className="p-3 w-12 flex-shrink-0"
-          >
-            <FontAwesomeIcon icon={faTrashAlt} />
-          </button>
-        </div>
-      ))}
+      {fetchedSongs?.map(function (song) {
+        const indexSong = songs.findIndex(
+          (item) => String(item._id) === String(song._id),
+        );
+        if (indexSong === -1) {
+          return (
+            <div
+              key={song._id}
+              className="flex border-b border-gray-800 hover:bg-gray-800"
+            >
+              <button
+                type="button"
+                id={song._id}
+                onClick={handleClick}
+                className="p-3 w-12 flex-shrink-0"
+              >
+                <FontAwesomeIcon icon={icon} />
+              </button>
+              <button type="button" className="p-3 w-12 flex-shrink-0">
+                <FontAwesomeIcon icon={farHeart} />
+              </button>
+              <div className="p-3 w-full">{song.title}</div>
+              <div className="p-3 w-full">{song.artist}</div>
+              <div className="p-3 w-full">{song.genre} </div>
+              <div className="p-3 w-16 flex-shrink-0">
+                {formatTime(song.duration)}
+              </div>
+              <button
+                type="button"
+                id={song._id}
+                onClick={handleDelete}
+                className="p-3 w-12 flex-shrink-0"
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            </div>
+          );
+        }
+        return "";
+      })}
     </div>
   );
 };
 
 PlayListTable.propTypes = {
+  fetchedSongs: array.isRequired,
   songs: array.isRequired,
   icon: object.isRequired,
 };
