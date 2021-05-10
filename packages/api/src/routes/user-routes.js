@@ -9,7 +9,7 @@ const { userController } = require("../controllers");
 const userRouter = Router();
 
 userRouter.get("/users", userController.fetchUsers);
-userRouter.get("/users/:id", authMiddleware, userController.fetchUserById);
+userRouter.get("/users/:id", userController.fetchUserById);
 userRouter.post(
   "/sign-up",
   authMiddleware,

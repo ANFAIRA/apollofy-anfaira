@@ -173,7 +173,7 @@ export const likeSong = (songId, firebaseId) => {
   };
 };
 
-// DELETE SONGS
+// Delete song
 
 export const setSongToDelete = (songId) => ({
   type: SongTypes.SONG_TO_DELETE,
