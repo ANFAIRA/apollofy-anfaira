@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { func, object } from "prop-types";
+import { Link } from "react-router-dom";
 
 import {
   showPlaylistModal,
@@ -56,7 +57,9 @@ function PlaylistDialogue({ setShowDeleteModal, playlist }) {
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
       >
-        Author
+        <Link to={`/users/${author[0]}`}>
+          <span>Author</span>
+        </Link>
       </button>
       <button
         type="button"

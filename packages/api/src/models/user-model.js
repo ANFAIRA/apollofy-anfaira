@@ -37,7 +37,7 @@ const UserSchema = Schema(
       ],
       default: [],
     },
-    follwedPlaylist: {
+    followedPlaylist: {
       type: [
         {
           type: Schema.Types.ObjectId,

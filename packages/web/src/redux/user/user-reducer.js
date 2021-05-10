@@ -72,6 +72,7 @@ const UserReducer = (state = UserInitState, action) => {
         userLoading: false,
         userFetched: true,
         userLoadingError: null,
+        currentUser: action.payload,
         usersByID: {
           ...state.usersByID,
           [userID]: {
