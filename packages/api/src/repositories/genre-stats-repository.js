@@ -24,9 +24,9 @@ class GenreStatsRepository {
     );
   }
 
-  updateOneStats({ queryFilter, monthKey, monthValue, dailyKey, dailyValue }) {
+  updateOneStats({ query, monthKey, monthValue, dailyKey, dailyValue }) {
     return normalizeDBQuery(
-      db.GenreStatistics.findOneAndUpdate(queryFilter, {
+      db.GenreStatistics.findOneAndUpdate(query, {
         $inc: {
           totalPlaybacks: 1,
         },
