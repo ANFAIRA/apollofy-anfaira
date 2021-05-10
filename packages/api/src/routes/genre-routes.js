@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 
 const { authMiddleware } = require("../middlewares");
-const { genreController } = require("../controllers");
+const { genreController, genrePlaybackController } = require("../controllers");
 
 const genreRouter = Router();
 
@@ -22,6 +22,8 @@ genreRouter.get(
   authMiddleware,
   genreController.fetchGenreByName,
 );
+
+genreRouter.post("/songs/:id/playback", genrePlaybackController.addGenresStats);
 
 module.exports = {
   genreRouter: genreRouter,
