@@ -9,9 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
+// import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
-import PlaylistModal from "../../components/PlaylistModal";
+// import PlaylistModal from "../../components/PlaylistModal";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
 import { playCollection } from "../../redux/player/player-actions";
@@ -39,10 +39,10 @@ const PlaylistView = () => {
 
   const playlist = playlistItemSelector(id);
 
-  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  // const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+  // const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [isEditModal, setIsEditModal] = useState(false);
+  // const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -83,23 +83,6 @@ const PlaylistView = () => {
 
   return (
     <>
-      {showPlaylistModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <PlaylistModal
-            isEditModal={isEditModal}
-            selectedPlaylist={selectedPlaylist}
-          />
-        </section>
-      )}
-      {showDeleteModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <PlaylistDeleteModal
-            setShowDeleteModal={setShowDeleteModal}
-            selectedPlaylist={selectedPlaylist}
-            setSelectedPlaylist={setSelectedPlaylist}
-          />
-        </section>
-      )}
       <Main>
         <div className="text-gray-300 min-h-screen p-10">
           <div className="flex">
@@ -162,15 +145,7 @@ const PlaylistView = () => {
               >
                 <FontAwesomeIcon icon={faEllipsisH} />
               </button>
-              {isMenuOpen && (
-                <PlaylistDialogue
-                  setShowPlaylistModal={setShowPlaylistModal}
-                  setShowDeleteModal={setShowDeleteModal}
-                  setIsEditModal={setIsEditModal}
-                  playlist={playlist}
-                  setSelectedPlaylist={setSelectedPlaylist}
-                />
-              )}
+              {isMenuOpen && <PlaylistDialogue playlist={playlist} />}
             </div>
             <p className="text-gray-600 text-sm">
               {playlist.followedBy.length > 1

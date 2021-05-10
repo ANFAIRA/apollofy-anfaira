@@ -26,6 +26,13 @@ async function createPlaylist(req, res, next) {
     }
 
     if (dbResponse.data) {
+      await UserRepo.findOneAndUpdate(
+        { _id: user.data._id },
+        { $push: { uploadedPlaylist: dbResponse.data._id } },
+        {
+          new: true,
+        },
+      );
       res.status(201).send({
         data: dbResponse.data,
         error: null,

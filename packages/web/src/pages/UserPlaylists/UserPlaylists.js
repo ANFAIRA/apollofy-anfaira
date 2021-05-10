@@ -6,7 +6,7 @@ import Main from "../../layout/Main";
 import UserProfileLayout from "../../layout/UserProfileLayout";
 
 function MyPlaylists() {
-  const { uploadedPlaylists } = useSelector((state) => state.user.currentUser);
+  const { uploadedPlaylist } = useSelector((state) => state.user.currentUser);
 
   const { playlistsByID } = useSelector((state) => state.playlists);
 
@@ -14,7 +14,7 @@ function MyPlaylists() {
     <Main>
       <UserProfileLayout>
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {uploadedPlaylists?.map((playlist) => (
+          {uploadedPlaylist?.map((playlist) => (
             <PlaylistCard
               key={playlistsByID[playlist]._id}
               playlist={playlistsByID[playlist]}
