@@ -27,7 +27,6 @@ function SongCard({ song }) {
   );
 
   const { FAVORITE } = useSelector((state) => state?.song?.songIds);
-  console.log(FAVORITE);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
