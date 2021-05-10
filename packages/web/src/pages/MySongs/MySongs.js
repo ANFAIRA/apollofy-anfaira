@@ -1,26 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchMySong } from "../../redux/mySong/mySong-actions";
+import { fetchSongs } from "../../redux/song/song-actions";
+import { songsTypes } from "../../redux/song/song-types";
 
 import SongCard from "../../components/SongCard";
 import Main from "../../layout/Main";
 import ProfileLayout from "../../layout/ProfileLayout";
 
 function MySongs() {
-  const { data } = useSelector((state) => state?.mySong?.mySongs);
+  const { MY_SONGS } = useSelector((state) => state?.song?.songIds);
+  const { songsByID } = useSelector((state) => state?.song);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMySong());
+    dispatch(fetchSongs(songsTypes.MY_SONGS));
   }, [dispatch]);
 
   return (
     <Main>
       <ProfileLayout>
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {data?.map((song) => (
-            <SongCard key={song._id} song={song} />
+          {MY_SONGS?.map((song) => (
+            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
           ))}
         </section>
       </ProfileLayout>

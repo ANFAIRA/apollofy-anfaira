@@ -1,66 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteModal from "../../components/DeleteModal";
+
+import { authSelector } from "../../redux/auth/auth-selectors";
+import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
+import { playlistTypes } from "../../redux/playlist/playlist-types";
+import { fetchAllSongs } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
+import { songsTypes } from "../../redux/song/song-types";
+
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
-import SongModal from "../../components/SongModal";
+
 import Main from "../../layout/Main";
-import { authSelector } from "../../redux/auth/auth-selectors";
-import {
-  fetchAllPlaylists,
-  // fetchPlaylists,
-} from "../../redux/playlist/playlist-actions";
-// import { playlistTypes } from "../../redux/playlist/playlist-types";
-import { fetchSong } from "../../redux/song/song-actions";
-import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
-import { trackEditorSelector } from "../../redux/trackEditor/trackEditor-selectors";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+
+import { fetchUsers } from "../../redux/user/user-actions";
+import { userTypes } from "../../redux/user/user-types";
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
-  const { data } = useSelector((state) => state.song.songs);
-  const { uploadSongSuccess } = useSelector(uploaderSelector);
-  const { trackUpdateSuccess } = useSelector(trackEditorSelector);
-  const { trackDeleteSuccess } = useSelector(trackDeleteSelector);
+  const { songsByID } = useSelector(songSelector);
+  const { ALL_SONGS } = useSelector((state) => state.song.songIds);
+  const { ALL_USERS } = useSelector((state) => state.user.userIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const { playlistByID } = useSelector((state) => state.playlists);
-
-  const [showModal, setShowModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedTrack, setSelectedTrack] = useState(null);
+  const { playlistsByID } = useSelector((state) => state.playlists);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchSong());
-    dispatch(fetchAllPlaylists());
-    // dispatch(fetchPlaylists(playlistTypes.ALL));
-  }, [dispatch, uploadSongSuccess, trackUpdateSuccess, trackDeleteSuccess]);
+    if (ALL_USERS.length === 0) {
+      dispatch(fetchUsers(userTypes.ALL_USERS));
+    }
+
+    if (ALL_SONGS.length === 0) {
+      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
+    }
+    if (ALL.length === 0) {
+      dispatch(fetchPlaylists(playlistTypes.ALL));
+    }
+  }, [dispatch, ALL_USERS.length, ALL_SONGS.length, ALL.length]);
 
   return (
     <>
-      {showModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <SongModal
-            setShowModal={setShowModal}
-            setIsEditModal={setIsEditModal}
-            isEditModal={isEditModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
-          />
-        </section>
-      )}
-      {showDeleteModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <DeleteModal
-            setShowDeleteModal={setShowDeleteModal}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
-          />
-        </section>
-      )}
       <Main>
         <h1 className="text-xl mb-4">Hello {currentUser?.data?.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
@@ -68,15 +49,8 @@ export default function Home() {
             <h2 className="pb-2 font-semibold">Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {data?.map((song) => (
-                <SongCard
-                  key={song._id}
-                  song={song}
-                  setShowModal={setShowModal}
-                  setShowDeleteModal={setShowDeleteModal}
-                  setIsEditModal={setIsEditModal}
-                  setSelectedTrack={setSelectedTrack}
-                />
+              {ALL_SONGS?.map((song) => (
+                <SongCard key={songsByID[song]._id} song={songsByID[song]} />
               ))}
             </section>
           </article>
@@ -86,9 +60,9 @@ export default function Home() {
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
               {ALL?.map((playlist) => (
                 <PlaylistCard
-                  key={playlistByID[playlist]._id}
-                  playlist={playlistByID[playlist]}
-                  location={`playlist/${playlistByID[playlist]._id}`}
+                  key={playlistsByID[playlist]._id}
+                  playlist={playlistsByID[playlist]}
+                  location={`playlist/${playlistsByID[playlist]._id}`}
                 />
               ))}
             </section>

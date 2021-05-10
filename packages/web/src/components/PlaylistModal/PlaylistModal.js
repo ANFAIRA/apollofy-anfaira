@@ -1,24 +1,31 @@
-import { bool, func, object, oneOfType, string } from "prop-types";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPlaylist } from "../../redux/playlist/playlist-actions";
+import { useForm } from "react-hook-form";
+
+import {
+  createPlaylist,
+  updatePlaylist,
+  updatePlaylistReset,
+} from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
-import { updatePlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
+
+import { hidePlaylistModal } from "../../redux/modals/modal-actions";
+import { modalStateSelector } from "../../redux/modals/modal-selectors";
+
 import CloseBtn from "../CloseBtn";
 import Input from "../Input";
+
 import "./PlaylistModal.scss";
 
-function PlaylistModal({
-  setShowPlaylistModal,
-  isEditModal,
-  selectedPlaylist,
-}) {
+import PlaylistDefaultImage from "../../assets/playlist.png";
+
+function PlaylistModal() {
   const dispatch = useDispatch();
-  const { playlistCreation } = useSelector(playlistStateSelector);
+  const { isEditModal } = useSelector(modalStateSelector);
+  const { playlistEditing } = useSelector(playlistStateSelector);
 
   const { _id, thumbnail, title, description } = isEditModal
-    ? selectedPlaylist
+    ? playlistEditing
     : "";
 
   const modal = isEditModal
@@ -42,11 +49,10 @@ function PlaylistModal({
     },
   });
 
-  const [image, setImage] = useState();
-  const [src, setSrc] = useState();
+  const [image, setImage] = useState(PlaylistDefaultImage);
+  const [src, setSrc] = useState(thumbnail);
 
   function onSubmit(data) {
-    setShowPlaylistModal(false);
     !isEditModal
       ? dispatch(
           createPlaylist({
@@ -61,13 +67,17 @@ function PlaylistModal({
       : dispatch(
           updatePlaylist({
             _id: data._id,
-            thumbnail: image,
+            thumbnail: src,
             title: data.title,
             type: data.type,
             publicAccessible: data.publicAccessible,
             description: data.description,
           }),
         );
+    dispatch(hidePlaylistModal());
+    setTimeout(() => {
+      isEditModal && dispatch(updatePlaylistReset());
+    }, 2000);
   }
 
   const handleImg = (e) => {
@@ -83,13 +93,9 @@ function PlaylistModal({
     }
   };
 
-  useEffect(() => {
-    playlistCreation && setShowPlaylistModal(false);
-  }, [dispatch, setShowPlaylistModal, playlistCreation]);
-
   return (
     <article className="md:w-2/6 md:mx-auto left-0 right-0 bg-dark mt-20 rounded-md">
-      <CloseBtn setShowModal={setShowPlaylistModal} />
+      <CloseBtn />
       <div>
         <h2 className="text-center text-xl font-semibold">{modal.title}</h2>
         <form
@@ -100,19 +106,7 @@ function PlaylistModal({
             {isEditModal && (
               <div className="mr-2 h-full md:w-60 w-full mb-5">
                 <label htmlFor="photo" className="mt-2 mb-5">
-                  {src ? (
-                    <img
-                      src={src}
-                      alt="thumbnail"
-                      className="md:w-40 md:h-40"
-                    />
-                  ) : (
-                    <img
-                      src={thumbnail}
-                      alt="thumbnail"
-                      className="md:w-40 md:h-40"
-                    />
-                  )}
+                  <img src={src} alt="thumbnail" className="md:w-40 md:h-40" />
 
                   <input
                     type="file"
@@ -149,8 +143,8 @@ function PlaylistModal({
                     htmlFor="photo"
                     className={
                       errors.image
-                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                        ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                     }
                   >
                     <svg
@@ -257,15 +251,5 @@ function PlaylistModal({
     </article>
   );
 }
-
-PlaylistModal.propTypes = {
-  setShowPlaylistModal: func.isRequired,
-  isEditModal: oneOfType([bool, string]),
-  selectedPlaylist: object,
-};
-PlaylistModal.defaultProps = {
-  selectedPlaylist: {},
-  isEditModal: "",
-};
 
 export default PlaylistModal;

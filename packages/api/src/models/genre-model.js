@@ -14,10 +14,10 @@ const GenreSchema = Schema(
       required: false,
       default: 0.0,
     },
-    tracks: [
+    songs: [
       {
         type: Schema.Types.ObjectId,
-        ref: "track",
+        ref: "song",
       },
     ],
   },

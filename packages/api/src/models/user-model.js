@@ -32,16 +32,52 @@ const UserSchema = Schema(
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "tracks",
+          ref: "songs",
         },
       ],
       default: [],
     },
-    follwedPlaylist: {
+    followedPlaylist: {
       type: [
         {
           type: Schema.Types.ObjectId,
           ref: "playlist",
+        },
+      ],
+      default: [],
+    },
+    uploadedSongs: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "songs",
+        },
+      ],
+      default: [],
+    },
+    uploadedPlaylist: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "playlist",
+        },
+      ],
+      default: [],
+    },
+    followedUsers: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "user",
+        },
+      ],
+      default: [],
+    },
+    followers: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "user",
         },
       ],
       default: [],

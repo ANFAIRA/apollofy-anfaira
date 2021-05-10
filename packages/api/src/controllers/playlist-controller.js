@@ -1,8 +1,8 @@
-const { PlaylistRepo, UserRepo, TrackRepo } = require("../repositories");
+const { PlaylistRepo, UserRepo, SongRepo } = require("../repositories");
 
 async function createPlaylist(req, res, next) {
   const {
-    body: { title, type, publicAccessible, tracks, description, thumbnail },
+    body: { title, type, publicAccessible, songs, description, thumbnail },
     user: { uid },
   } = req;
 
@@ -13,7 +13,7 @@ async function createPlaylist(req, res, next) {
       type: type,
       author: user.data._id,
       publicAccessible: publicAccessible ? publicAccessible : false,
-      tracks: tracks ? tracks : [],
+      songs: songs ? songs : [],
       description: description,
       thumbnail: thumbnail,
     });
@@ -26,6 +26,13 @@ async function createPlaylist(req, res, next) {
     }
 
     if (dbResponse.data) {
+      await UserRepo.findOneAndUpdate(
+        { _id: user.data._id },
+        { $push: { uploadedPlaylist: dbResponse.data._id } },
+        {
+          new: true,
+        },
+      );
       res.status(201).send({
         data: dbResponse.data,
         error: null,
@@ -36,17 +43,17 @@ async function createPlaylist(req, res, next) {
   }
 }
 
-async function addFullTracksInfo(playlist) {
-  const newTracks = await Promise.all(
-    playlist.tracks.map(async (trackId) => {
-      const trackResponse = await TrackRepo.findById(trackId);
-      if (trackResponse.data) {
-        return trackResponse.data;
+async function addFullSongsInfo(playlist) {
+  const newSongs = await Promise.all(
+    playlist.songs.map(async (songId) => {
+      const songResponse = await SongRepo.findById(songId);
+      if (songResponse.data) {
+        return songResponse.data;
       }
-      return { _id: trackId };
+      return { _id: songId };
     }),
   );
-  playlist.tracks = newTracks;
+  playlist.songs = newSongs;
   return playlist;
 }
 
@@ -69,7 +76,7 @@ async function fetchPlaylists(req, res, next) {
       if (fullFetch) {
         dbResponse.data = await Promise.all(
           dbResponse.data.map(async (p) => {
-            const newPlaylist = await addFullTracksInfo(p);
+            const newPlaylist = await addFullSongsInfo(p);
             return newPlaylist;
           }),
         );
@@ -97,7 +104,7 @@ async function fetchPlaylistById(req, res, next) {
         select: "username",
       },
       {
-        path: "tracks",
+        path: "songs",
         select: "-__v",
       },
     ]);
@@ -120,7 +127,7 @@ async function fetchPlaylistById(req, res, next) {
   }
 }
 
-async function addTrackToPlaylist(req, res, next) {
+async function addSongToPlaylist(req, res, next) {
   const { playlistId, songId } = req.body;
 
   try {
@@ -130,14 +137,13 @@ async function addTrackToPlaylist(req, res, next) {
         select: "username",
       },
     ]);
-
     const playlist = await PlaylistRepo.findOne({ _id: playlistId });
 
-    const indexSong = playlist.data.tracks.findIndex(
+    const indexSong = playlist.data.songs.findIndex(
       (id) => String(id) === String(songId),
     );
     if (indexSong === -1) {
-      playlist.data.tracks.push(songId);
+      playlist.data.songs.push(songId);
     }
 
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
@@ -145,7 +151,49 @@ async function addTrackToPlaylist(req, res, next) {
         _id: playlistId,
       },
       {
-        tracks: playlist.data.tracks,
+        songs: playlist.data.songs,
+      },
+      {
+        new: true,
+        select: {
+          __v: 0,
+        },
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteSongFromPlaylist(req, res, next) {
+  const { playlistId, songId } = req.body;
+
+  try {
+    const playlist = await PlaylistRepo.findOne({ _id: playlistId });
+
+    const songIndex = playlist.data.songs.indexOf(String(songId));
+    playlist.data.songs.splice(songIndex, 1);
+
+    const dbResponse = await PlaylistRepo.findOneAndUpdate(
+      {
+        _id: playlistId,
+      },
+      {
+        songs: playlist.data.songs,
       },
       {
         new: true,
@@ -197,7 +245,7 @@ async function fetchOwnPlaylists(req, res, next) {
       if (fullFetch) {
         dbResponse.data = await Promise.all(
           dbResponse.data.map(async (p) => {
-            const newPlaylist = await addFullTracksInfo(p);
+            const newPlaylist = await addFullSongsInfo(p);
             return newPlaylist;
           }),
         );
@@ -234,13 +282,13 @@ async function followPlaylist(req, res, next) {
       );
     }
 
-    const indexUser = user.data.follwedPlaylist.findIndex(
+    const indexUser = user.data.followedPlaylist.findIndex(
       (id) => String(id) === String(playlist.data._id),
     );
     if (indexUser === -1) {
-      user.data.follwedPlaylist.push(playlist.data._id);
+      user.data.followedPlaylist.push(playlist.data._id);
     } else {
-      user.data.follwedPlaylist = user.data.likedSongs.filter(
+      user.data.followedPlaylist = user.data.likedSongs.filter(
         (id) => String(id) !== String(playlist.data._id),
       );
     }
@@ -249,7 +297,7 @@ async function followPlaylist(req, res, next) {
       { firebaseId: firebaseId },
       {
         $set: {
-          follwedPlaylist: user.data.follwedPlaylist,
+          followedPlaylist: user.data.followedPlaylist,
         },
       },
       { new: true },
@@ -306,9 +354,9 @@ async function fetchFollowedPlaylists(req, res, next) {
       {
         firebaseId: uid,
       },
-      "follwedPlaylist",
+      "followedPlaylist",
     );
-    const followedPlaylistsIdsArray = followedPlaylists.data.follwedPlaylist;
+    const followedPlaylistsIdsArray = followedPlaylists.data.followedPlaylist;
 
     const dbResponse = await PlaylistRepo.find({
       _id: { $in: followedPlaylistsIdsArray },
@@ -323,7 +371,7 @@ async function fetchFollowedPlaylists(req, res, next) {
     if (fullFetch) {
       dbResponse.data = await Promise.all(
         dbResponse.data.map(async (p) => {
-          const newPlaylist = await addFullTracksInfo(p);
+          const newPlaylist = await addFullSongsInfo(p);
           return newPlaylist;
         }),
       );
@@ -389,7 +437,8 @@ async function updatePlaylist(req, res, next) {
 module.exports = {
   createPlaylist: createPlaylist,
   fetchPlaylists: fetchPlaylists,
-  addTrackToPlaylist: addTrackToPlaylist,
+  addSongToPlaylist: addSongToPlaylist,
+  deleteSongFromPlaylist: deleteSongFromPlaylist,
   fetchPlaylistById: fetchPlaylistById,
   fetchOwnPlaylists: fetchOwnPlaylists,
   followPlaylist: followPlaylist,

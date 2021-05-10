@@ -2,6 +2,7 @@ import api from "../../api";
 import { getCurrentUserToken } from "../../services/auth";
 import { fileTypes, getFileUrl } from "../../services/cloudinary";
 import * as UploaderTypes from "./uploader-types";
+import { addUploadedSong } from "../song/song-actions";
 
 export const uploadSongRequest = () => ({
   type: UploaderTypes.UPLOAD_SONG_REQUEST,
@@ -35,7 +36,7 @@ export const uploadImageSuccess = (imageUrl) => ({
   payload: imageUrl,
 });
 
-export function uploadSong({ track, thumbnail, title, artist, genre }) {
+export function uploadSong({ song, thumbnail, title, artist, genre }) {
   return async function uploadThunk(dispatch) {
     dispatch(uploadSongRequest());
 
@@ -47,7 +48,7 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
       }
 
       const urlRes = await getFileUrl({
-        file: track,
+        file: song,
         fileType: fileTypes.AUDIO,
       });
 
@@ -78,7 +79,7 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
               },
             });
 
-      const songRes = await api.createTrack({
+      const songRes = await api.createSong({
         body: {
           title: title,
           thumbnail: thumbnail,
@@ -92,8 +93,8 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
         },
       });
 
-      await api.addTrackToGenre({
-        trackId: songRes.data.data._id,
+      await api.addSongToGenre({
+        songId: songRes.data.data._id,
         genreId: genreRes,
       });
 
@@ -101,7 +102,9 @@ export function uploadSong({ track, thumbnail, title, artist, genre }) {
         return dispatch(uploadSongError(songRes.errorMessage));
       }
 
-      return dispatch(uploadSongSuccess(url));
+      dispatch(uploadSongSuccess(songRes.data));
+      dispatch(addUploadedSong(songRes.data));
+      return dispatch(uploadSongReset());
     } catch (err) {
       return dispatch(uploadSongError(err.message));
     }
@@ -121,7 +124,7 @@ export function uploadImage({ file, name = "", onUploadProgress = (_) => {} }) {
 
       const imageUrl = urlRes.data.url;
 
-      const imgRes = api.createTrack({
+      const imgRes = api.createSong({
         title: name,
         url: imageUrl,
       });

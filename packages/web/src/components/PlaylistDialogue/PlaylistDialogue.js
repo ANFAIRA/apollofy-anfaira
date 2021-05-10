@@ -1,14 +1,20 @@
 import React, { useRef } from "react";
-import { func, object } from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { object } from "prop-types";
+import { Link } from "react-router-dom";
 
-function PlaylistDialogue({
-  setShowPlaylistModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  playlist,
-  setSelectedPlaylist,
-}) {
+import {
+  showPlaylistModal,
+  showPlaylistDeleteModal,
+  setEditModal,
+} from "../../redux/modals/modal-actions";
+
+import {
+  setPlaylistToUpdate,
+  setPlaylistToDelete,
+} from "../../redux/playlist/playlist-actions";
+
+function PlaylistDialogue({ playlist }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { author } = playlist;
 
@@ -16,15 +22,17 @@ function PlaylistDialogue({
   const currentURL = window.location.href;
   const inputRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   function handleEditClick() {
-    setShowPlaylistModal(true);
-    setIsEditModal(true);
-    setSelectedPlaylist(playlist);
+    dispatch(setPlaylistToUpdate(playlist));
+    dispatch(setEditModal());
+    dispatch(showPlaylistModal());
   }
 
   function handleDeleteClick() {
-    setShowDeleteModal(true);
-    setSelectedPlaylist(playlist);
+    dispatch(setPlaylistToDelete(playlist._id));
+    dispatch(showPlaylistDeleteModal());
   }
 
   function handleShareClick() {
@@ -49,7 +57,9 @@ function PlaylistDialogue({
         type="button"
         className="px-5 py-1 hover:text-gray-100 hover:bg-gray-600 text-left focus:outline-none rounded"
       >
-        Author
+        <Link to={`/users/${author[0]}`}>
+          <span>Author</span>
+        </Link>
       </button>
       <button
         type="button"
@@ -76,11 +86,7 @@ function PlaylistDialogue({
 }
 
 PlaylistDialogue.propTypes = {
-  setShowPlaylistModal: func.isRequired,
-  setShowDeleteModal: func.isRequired,
-  setIsEditModal: func.isRequired,
   playlist: object.isRequired,
-  setSelectedPlaylist: func.isRequired,
 };
 
 export default PlaylistDialogue;

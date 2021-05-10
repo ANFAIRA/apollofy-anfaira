@@ -1,14 +1,20 @@
+import React, { useState } from "react";
+import { object } from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { func, object, oneOfType, string } from "prop-types";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { playSong } from "../../redux/player/player-actions";
+
+import {
+  // playSong,
+  playSongAndSaveStats,
+} from "../../redux/player/player-actions";
 import { likeSong } from "../../redux/song/song-actions";
+
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
@@ -16,26 +22,23 @@ const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({
-  song,
-  setShowModal,
-  setShowDeleteModal,
-  setIsEditModal,
-  setSelectedTrack,
-}) {
+function SongCard({ song }) {
   const { likedSongs } = useSelector((state) =>
     state.song?.currentUser?.data
       ? state.song.currentUser.data
       : state.auth?.currentUser?.data,
   );
 
+  const { FAVORITE } = useSelector((state) => state?.song?.songIds);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
-    likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
-      true,
+    likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 ||
+      (FAVORITE?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
+        true),
   );
 
   function handleLikeBtn() {
@@ -47,11 +50,7 @@ function SongCard({
     <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
       <div className="card">
         <img
-          src={
-            song.thumbnail
-              ? song.thumbnail
-              : "https://kzoomusic.com/wp-content/uploads/2019/11/logo-hd.jpg"
-          }
+          src={song.thumbnail}
           alt="song-img"
           className="object-contain w-full"
         />
@@ -67,7 +66,7 @@ function SongCard({
             type="button"
             aria-label="play"
             className="card--icons--icon  card--icons--icon-play"
-            onClick={() => dispatch(playSong(song))}
+            onClick={() => dispatch(playSongAndSaveStats(song))}
           >
             <FontAwesomeIcon icon={farPlayCircle} />
           </button>
@@ -81,11 +80,7 @@ function SongCard({
         </div>
         {isMenuOpen && (
           <SongDialogue
-            setShowModal={setShowModal}
-            setShowDeleteModal={setShowDeleteModal}
-            setIsEditModal={setIsEditModal}
             song={song}
-            setSelectedTrack={setSelectedTrack}
             handleLikeBtn={handleLikeBtn}
             setIsMenuOpen={setIsMenuOpen}
           />
@@ -93,11 +88,12 @@ function SongCard({
       </div>
       <div className="mt-2">
         <h3 className="text-lg">{song.title}</h3>
-        {song?.artist?.map((artist) => (
+        <p>{song.artist}</p>
+        {/* {song?.artist?.map((artist) => (
           <p key={song._id} className="text-sm">
             {artist}
           </p>
-        ))}
+        ))} */}
       </div>
     </div>
   );
@@ -105,17 +101,6 @@ function SongCard({
 
 SongCard.propTypes = {
   song: object.isRequired,
-  setShowModal: oneOfType([string, func]),
-  setShowDeleteModal: oneOfType([string, func]),
-  setIsEditModal: oneOfType([string, func]),
-  setSelectedTrack: oneOfType([string, func]),
-};
-
-SongCard.defaultProps = {
-  setShowModal: "",
-  setShowDeleteModal: "",
-  setIsEditModal: "",
-  setSelectedTrack: "",
 };
 
 export default SongCard;

@@ -1,24 +1,41 @@
-import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as farHeart,
+  faTrashAlt,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { array, object, string } from "prop-types";
+import { array, object } from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { playSong } from "../../redux/player/player-actions";
-import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
+import { useParams } from "react-router-dom";
+
+import {
+  // playSong,
+  playSongAndSaveStats,
+} from "../../redux/player/player-actions";
+import {
+  addSongToPlaylist,
+  deleteSongFromPlaylist,
+} from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon, playlistId }) => {
+const PlayListTable = ({ songs, icon }) => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.song.songs);
+  const { id } = useParams();
+
+  const handleDelete = (e) => {
+    const songId = e.currentTarget.id;
+    dispatch(deleteSongFromPlaylist(id, songId));
+  };
 
   const handleClick = (e) => {
     const songId = e.currentTarget.id;
     if (icon.iconName === "plus") {
-      dispatch(addSongToPlaylist(playlistId, songId));
+      dispatch(addSongToPlaylist(id, songId));
     } else {
-      const selectedSong = data.find((song) => song._id === songId);
-      dispatch(playSong(selectedSong));
+      const selectedSong = songs.find((song) => song._id === songId);
+      dispatch(playSongAndSaveStats(selectedSong));
     }
+    return id;
   };
 
   return (
@@ -30,6 +47,7 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
         <div className="p-2 w-full">Artist</div>
         <div className="p-2 w-full">Genre</div>
         <div className="p-2 w-16 flex-shrink-0">Time</div>
+        <div className="p-2 w-12 flex-shrink-0" />
       </div>
       {songs?.map((song) => (
         <div
@@ -53,6 +71,14 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
           <div className="p-3 w-16 flex-shrink-0">
             {formatTime(song.duration)}
           </div>
+          <button
+            type="button"
+            id={song._id}
+            onClick={handleDelete}
+            className="p-3 w-12 flex-shrink-0"
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </button>
         </div>
       ))}
     </div>
@@ -62,11 +88,6 @@ const PlayListTable = ({ songs, icon, playlistId }) => {
 PlayListTable.propTypes = {
   songs: array.isRequired,
   icon: object.isRequired,
-  playlistId: string,
-};
-
-PlayListTable.defaultProps = {
-  playlistId: "",
 };
 
 export default PlayListTable;

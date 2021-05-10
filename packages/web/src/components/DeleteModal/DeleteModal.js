@@ -1,46 +1,40 @@
-import React, { useEffect } from "react";
-import { func, object } from "prop-types";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  deleteTrack,
-  deleteTrackReset,
-} from "../../redux/trackDelete/trackDelete-actions";
+import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selector";
 
-import { trackDeleteSelector } from "../../redux/trackDelete/trackDelete-selectors";
+import { hideDeleteModal } from "../../redux/modals/modal-actions";
 
 import CloseBtn from "../CloseBtn";
 
-function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
+function DeleteModal() {
   const dispatch = useDispatch();
-  const { isDeletingTrack, trackDeleteSuccess, trackDeleteError } = useSelector(
-    trackDeleteSelector,
-  );
-
-  const { _id } = selectedTrack;
+  const {
+    // isDeletingSong,
+    // songDeleteSuccess,
+    // songDeleteError,
+    songDeleting,
+  } = useSelector(songSelector);
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
   });
 
   function handleCloseBtn() {
-    setShowDeleteModal(false);
-    setSelectedTrack(null);
+    dispatch(hideDeleteModal());
+    dispatch(setSongToDelete(null));
   }
 
   function onSubmit() {
-    dispatch(deleteTrack({ _id: _id }));
+    dispatch(deleteSong({ _id: songDeleting }));
+    dispatch(hideDeleteModal());
   }
-
-  useEffect(() => {
-    dispatch(deleteTrackReset());
-    trackDeleteSuccess && setShowDeleteModal(false);
-  }, [dispatch, trackDeleteSuccess, setShowDeleteModal]);
 
   return (
     <article className="md:w-3/6 md:mx-auto left-0 right-0 bg-dark mt-40 rounded-md">
-      <CloseBtn setShowModal={setShowDeleteModal} />
+      <CloseBtn songDeleteModal />
       <div>
         <form
           className="flex flex-col px-10 sm:px-20 py-10"
@@ -48,7 +42,7 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
         >
           <div className="flex flex-col">
             <h2 className="text-center text-xl font-semibold mb-8">
-              Are you sure you want to delete the track?
+              Are you sure you want to delete the song?
             </h2>
             <div className="flex">
               <button
@@ -66,21 +60,15 @@ function DeleteModal({ setShowDeleteModal, selectedTrack, setSelectedTrack }) {
               </button>
             </div>
           </div>
-          {isDeletingTrack && <p className="mb-3">Removing song...</p>}
-          {trackDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
-          {trackDeleteError && (
+          {/* {isDeletingSong && <p className="mb-3">Removing song...</p>}
+          {songDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
+          {songDeleteError && (
             <p className="mb-3">An error occured while deleting the song!</p>
-          )}
+          )} */}
         </form>
       </div>
     </article>
   );
 }
-
-DeleteModal.propTypes = {
-  setShowDeleteModal: func.isRequired,
-  selectedTrack: object.isRequired,
-  setSelectedTrack: func.isRequired,
-};
 
 export default DeleteModal;

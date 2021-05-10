@@ -1,15 +1,18 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   faCloudUploadAlt,
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { bool, func } from "prop-types";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+
 import { signOut } from "../../redux/auth/auth-actions";
 import { authSelector } from "../../redux/auth/auth-selectors";
+
 import * as ROUTES from "../../routes";
+
 import Avatar from "../Avatar";
 import SearchBar from "../SearchBar";
 import UploadButton from "../UploadButton";
@@ -19,17 +22,14 @@ const addPlaylist = (
   <FontAwesomeIcon title="Create playlist" icon={faPlusCircle} />
 );
 
-export default function Navbar({
-  showModal,
-  setShowModal,
-  showPlaylistModal,
-  setShowPlaylistModal,
-}) {
-  const dispatch = useDispatch();
-
+export default function Navbar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [toggleUserMenu, setToggleUserMenu] = useState(false);
+
   const { currentUser } = useSelector(authSelector);
+
+  const dispatch = useDispatch();
+
   function handleSignOut() {
     dispatch(signOut());
   }
@@ -91,11 +91,8 @@ export default function Navbar({
                 </div>
               </div>
               <div className="hidden sm:inline-block">
-                <UploadButton
-                  setShowModal={setShowPlaylistModal}
-                  icon={addPlaylist}
-                />
-                <UploadButton setShowModal={setShowModal} icon={addSong} />
+                <UploadButton modal="playlist" icon={addPlaylist} />
+                <UploadButton modal="song" icon={addSong} />
               </div>
             </div>
             {/* AVATAR */}
@@ -184,13 +181,10 @@ export default function Navbar({
         {isNavbarOpen ? (
           <div className="sm:hidden" id="mobile-menu">
             <div className="px-4">
-              <UploadButton
-                setShowModal={setShowPlaylistModal}
-                text=" Create a playlist"
-              />
+              <UploadButton modal="playlist" text=" Create a playlist" />
             </div>
             <div className="px-4">
-              <UploadButton setShowModal={setShowModal} text=" Upload a file" />
+              <UploadButton modal="song" text=" Upload a file" />
             </div>
             <div className="px-2 pt-2 pb-3 space-y-1">
               <SearchBar />
@@ -203,10 +197,3 @@ export default function Navbar({
     </>
   );
 }
-
-Navbar.propTypes = {
-  showModal: bool.isRequired,
-  setShowModal: func.isRequired,
-  showPlaylistModal: bool.isRequired,
-  setShowPlaylistModal: func.isRequired,
-};

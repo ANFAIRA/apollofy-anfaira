@@ -9,35 +9,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
+// import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
-import PlaylistModal from "../../components/PlaylistModal";
+// import PlaylistModal from "../../components/PlaylistModal";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
 import { playCollection } from "../../redux/player/player-actions";
-import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
+import {
+  fetchPlaylistById,
+  followPlaylist,
+} from "../../redux/playlist/playlist-actions";
 import {
   playlistItemSelector,
   playlistStateSelector,
+  selectPlaylistState,
 } from "../../redux/playlist/playlist-selector";
-import { followPlaylist } from "../../redux/playlistEditor/playlistEditor-actions";
-import { playlistEditorSelector } from "../../redux/playlistEditor/playlistEditor-selectors";
-import { songSelector } from "../../redux/song/song-selector";
 import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
   const { id } = useParams();
-  const { songs } = useSelector(songSelector);
-  const { addingSong, playlistUpdate } = useSelector(playlistStateSelector);
-  const { isUpdatingPlaylist } = useSelector(playlistEditorSelector);
+  const { songsByID, songIds, isFetchSuccess } = useSelector(
+    (state) => state.song,
+  );
+  const { addingSong, playlistUpdate, deletingSong } = useSelector(
+    playlistStateSelector,
+  );
+  const { isUpdatingPlaylist } = useSelector(selectPlaylistState);
   const currentUser = useSelector((state) => state.auth?.currentUser);
 
   const playlist = playlistItemSelector(id);
 
-  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  // const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+  // const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [isEditModal, setIsEditModal] = useState(false);
+  // const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -52,34 +57,32 @@ const PlaylistView = () => {
 
   useEffect(() => {
     !isUpdatingPlaylist && dispatch(fetchPlaylistById(id));
-  }, [dispatch, id, addingSong, playlistUpdate, isUpdatingPlaylist, isFollow]);
+  }, [
+    dispatch,
+    id,
+    addingSong,
+    playlistUpdate,
+    isUpdatingPlaylist,
+    isFollow,
+    deletingSong,
+  ]);
 
   if (!playlist) {
     return null;
   }
 
-  const { title, thumbnail, description, author, type, tracks } = playlist;
+  const { title, thumbnail, description, author, type, songs } = playlist;
+  const fetchedSongs = [];
+
+  if (isFetchSuccess) {
+    songIds.ALL_SONGS.map((songId) => {
+      fetchedSongs.push(songsByID[songId]);
+      return songId;
+    });
+  }
 
   return (
     <>
-      {showPlaylistModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <PlaylistModal
-            isEditModal={isEditModal}
-            selectedPlaylist={selectedPlaylist}
-            setShowPlaylistModal={setShowPlaylistModal}
-          />
-        </section>
-      )}
-      {showDeleteModal && (
-        <section className="w-screen h-screen p-8 fixed z-20 bg-gray-900 bg-opacity-90">
-          <PlaylistDeleteModal
-            setShowDeleteModal={setShowDeleteModal}
-            selectedPlaylist={selectedPlaylist}
-            setSelectedPlaylist={setSelectedPlaylist}
-          />
-        </section>
-      )}
       <Main>
         <div className="text-gray-300 min-h-screen p-10">
           <div className="flex">
@@ -91,7 +94,7 @@ const PlaylistView = () => {
               height="200"
             />
             <div className="flex flex-col justify-center">
-              <h4 className="mt-0 mb-2 uppercase text-gray-500 tracking-widest text-xs">
+              <h4 className="mt-0 mb-2 uppercase text-gray-500 songing-widest text-xs">
                 {type}
               </h4>
               <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
@@ -105,12 +108,12 @@ const PlaylistView = () => {
                 </p>
                 <p className="text-gray-600 mr-2 text-sm">·</p>
                 <p className="text-gray-600 mr-2 text-sm">
-                  {tracks.length > 0
-                    ? `${tracks.length} songs`
-                    : `${tracks.length} song`}
+                  {songs.length > 0
+                    ? `${songs.length} songs`
+                    : `${songs.length} song`}
                 </p>
                 <p className="text-gray-600 mr-2 text-sm">
-                  {collectionTime(tracks)}
+                  {collectionTime(songs)}
                 </p>
               </div>
             </div>
@@ -120,7 +123,7 @@ const PlaylistView = () => {
               <button
                 type="button"
                 className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
-                onClick={() => dispatch(playCollection(tracks))}
+                onClick={() => dispatch(playCollection(songs))}
               >
                 <FontAwesomeIcon icon={faPlay} />
               </button>
@@ -142,15 +145,7 @@ const PlaylistView = () => {
               >
                 <FontAwesomeIcon icon={faEllipsisH} />
               </button>
-              {isMenuOpen && (
-                <PlaylistDialogue
-                  setShowPlaylistModal={setShowPlaylistModal}
-                  setShowDeleteModal={setShowDeleteModal}
-                  setIsEditModal={setIsEditModal}
-                  playlist={playlist}
-                  setSelectedPlaylist={setSelectedPlaylist}
-                />
-              )}
+              {isMenuOpen && <PlaylistDialogue playlist={playlist} />}
             </div>
             <p className="text-gray-600 text-sm">
               {playlist.followedBy.length > 1
@@ -159,11 +154,11 @@ const PlaylistView = () => {
             </p>
           </div>
           <div className="mt-10">
-            <PlayListTable songs={tracks} icon={faPlay} />
+            <PlayListTable songs={songs} icon={faPlay} />
           </div>
           <div className="mt-10">
             <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
-            <PlayListTable songs={songs.data} icon={faPlus} playlistId={id} />
+            <PlayListTable songs={fetchedSongs} icon={faPlus} />
           </div>
         </div>
       </Main>

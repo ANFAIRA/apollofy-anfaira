@@ -1,9 +1,19 @@
-import { func, object, string } from "prop-types";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { object, string } from "prop-types";
 
-function UploadButton({ setShowModal, text, icon }) {
+import {
+  showSongModal,
+  showPlaylistModal,
+} from "../../redux/modals/modal-actions";
+
+function UploadButton({ modal, text, icon }) {
+  const dispatch = useDispatch();
+
   function handleClick() {
-    setShowModal(true);
+    modal === "song"
+      ? dispatch(showSongModal())
+      : dispatch(showPlaylistModal());
   }
   return (
     <button
@@ -19,7 +29,7 @@ function UploadButton({ setShowModal, text, icon }) {
 }
 
 UploadButton.propTypes = {
-  setShowModal: func.isRequired,
+  modal: string.isRequired,
   icon: object,
   text: string,
 };
