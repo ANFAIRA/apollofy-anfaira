@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { func, object } from "prop-types";
+import { object } from "prop-types";
 import { Link } from "react-router-dom";
 
 import {
@@ -14,7 +14,7 @@ import {
   setPlaylistToDelete,
 } from "../../redux/playlist/playlist-actions";
 
-function PlaylistDialogue({ setShowDeleteModal, playlist }) {
+function PlaylistDialogue({ playlist }) {
   const { _id } = useSelector((state) => state.auth.currentUser.data);
   const { author } = playlist;
 
@@ -86,7 +86,6 @@ function PlaylistDialogue({ setShowDeleteModal, playlist }) {
 }
 
 PlaylistDialogue.propTypes = {
-  setShowDeleteModal: func.isRequired,
   playlist: object.isRequired,
 };
 

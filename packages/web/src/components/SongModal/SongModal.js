@@ -65,7 +65,7 @@ function SongModal() {
         )
       : dispatch(
           updateSong({
-            thumbnail: image,
+            thumbnail: src,
             title: data.title,
             genre: data.genre,
             artist: data.artist,
