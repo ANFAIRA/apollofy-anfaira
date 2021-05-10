@@ -67,7 +67,7 @@ function PlaylistModal() {
       : dispatch(
           updatePlaylist({
             _id: data._id,
-            thumbnail: image,
+            thumbnail: src,
             title: data.title,
             type: data.type,
             publicAccessible: data.publicAccessible,
