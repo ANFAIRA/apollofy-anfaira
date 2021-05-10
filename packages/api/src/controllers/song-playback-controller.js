@@ -126,7 +126,9 @@ async function fetchMonthlyPlaybacks(req, res, next) {
   const { params } = req;
 
   try {
-    const dbResponse = await SongPlaybackRepo.findMonthly(params);
+    const dbResponse = await SongPlaybackRepo.findMonthly(params, {
+      totalPlaybacks: -1,
+    });
     handleDbResponse(res, dbResponse);
   } catch (error) {
     next(error);

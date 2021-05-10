@@ -254,6 +254,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getPopularSongs(headers) {
+    return request({
+      url: "/api/songs/popular",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -285,6 +293,7 @@ function makeApi(request = makeRequest()) {
     getFollowingUsers: getFollowingUsers,
     getPopularUsers: getPopularUsers,
     addSongPlayback: addSongPlayback,
+    getPopularSongs: getPopularSongs,
   };
 }
 

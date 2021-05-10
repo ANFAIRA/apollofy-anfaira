@@ -79,8 +79,10 @@ class SongPlaybackRepository {
     return normalizeDBQuery(db.DailySongPlayback.findOne(query, "-__v"));
   }
 
-  findMonthly(query) {
-    return normalizeDBQuery(db.MonthlySongPlayback.find(query, "-__v"));
+  findMonthly(query, value) {
+    return normalizeDBQuery(
+      db.MonthlySongPlayback.find(query, "-__v").sort(value).limit(5),
+    );
   }
 
   findOneMonthly(query) {

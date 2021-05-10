@@ -202,6 +202,37 @@ const songReducer = (state = initialState, action) => {
         songDeleting: action.payload,
       };
 
+    // case song.FETCH_MONTHLY_POPULAR_REQUEST:
+    //   return {
+    //     ...state,
+    //     isFetchRequest: true,
+    //     isFetchSuccess: false,
+    //     isFetchFail: false,
+    //   };
+    // case song.FETCH_MONTHLY_POPULAR_ERROR:
+    //   return {
+    //     ...state,
+    //     isFetchRequest: false,
+    //     isFetchSuccess: false,
+    //     isFetchFail: action.payload,
+    //   };
+    // case song.FETCH_MONTHLY_POPULAR_SUCCESS: {
+    //   const actionType = action.payload.type;
+    //   const newIds = { ...state.songIds };
+    //   newIds[actionType] = [...action.payload.songIds];
+
+    //   return {
+    //     ...state,
+    //     isFetchRequest: false,
+    //     isFetchFail: null,
+    //     isFetchSuccess: true,
+    //     songsByID: {
+    //       ...state.songsByID,
+    //       ...action.payload.songsByID,
+    //     },
+    //     songIds: newIds,
+    //   };
+    // }
     default:
       return { ...state };
   }

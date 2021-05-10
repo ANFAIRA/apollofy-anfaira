@@ -33,6 +33,8 @@ export function fetchSongs(fetchType) {
       return fetchMySongs();
     case songsTypes.FAVORITE:
       return fetchFavoriteSongs();
+    case songsTypes.POPULAR:
+      return fetchPopularSongs();
     default:
       break;
   }
@@ -129,6 +131,43 @@ export const fetchFavoriteSongs = () => {
       return dispatch(
         fetchSongsSuccess({
           type: songsTypes.FAVORITE,
+          songsByID: normalizedSongs.entities.songs,
+          songIds: normalizedSongs.result,
+        }),
+      );
+    } catch (error) {
+      return dispatch(fetchSongsError(error.message));
+    }
+  };
+};
+
+export const fetchPopularSongs = () => {
+  return async function fetchPoupularSongThunk(dispatch) {
+    dispatch(fetchSongsRequest());
+
+    const token = await auth.getCurrentUserToken();
+
+    if (!token) {
+      return dispatch(fetchSongsError("User token null"));
+    }
+
+    try {
+      const popularSongs = await api.getPopularSongs({
+        Authorization: `Bearer ${token}`,
+      });
+
+      if (popularSongs.errorMessage) {
+        return dispatch(fetchSongsError(popularSongs.errorMessage));
+      }
+
+      const popularSongsIds = popularSongs.data.data.map(
+        (song) => song.metadata.song,
+      );
+      const normalizedSongs = normalizeSongs(popularSongsIds);
+
+      return dispatch(
+        fetchSongsSuccess({
+          type: songsTypes.POPULAR,
           songsByID: normalizedSongs.entities.songs,
           songIds: normalizedSongs.result,
         }),
@@ -267,3 +306,5 @@ export const addUploadedSong = (song) => ({
   type: SongTypes.ADD_UPLOADED_SONG,
   payload: song,
 });
+
+// SONG PLAYBACK
