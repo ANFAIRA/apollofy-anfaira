@@ -26,13 +26,17 @@ function SongCard({ song }) {
       : state.auth?.currentUser?.data,
   );
 
+  const { FAVORITE } = useSelector((state) => state?.song?.songIds);
+  console.log(FAVORITE);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
-    likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
-      true,
+    likedSongs?.findIndex((id) => String(id) === String(song._id)) !== -1 ||
+      (FAVORITE?.findIndex((id) => String(id) === String(song._id)) !== -1 &&
+        true),
   );
 
   function handleLikeBtn() {
