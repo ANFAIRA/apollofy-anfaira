@@ -49,8 +49,8 @@ function PlaylistModal() {
     },
   });
 
-  const [image, setImage] = useState(PlaylistDefaultImage);
   const [src, setSrc] = useState(thumbnail);
+  const [image, setImage] = useState(!isEditModal ? PlaylistDefaultImage : src);
 
   function onSubmit(data) {
     !isEditModal
@@ -67,17 +67,15 @@ function PlaylistModal() {
       : dispatch(
           updatePlaylist({
             _id: data._id,
-            thumbnail: src,
+            thumbnail: image,
             title: data.title,
             type: data.type,
             publicAccessible: data.publicAccessible,
             description: data.description,
           }),
         );
+
     dispatch(hidePlaylistModal());
-    setTimeout(() => {
-      isEditModal && dispatch(updatePlaylistReset());
-    }, 2000);
   }
 
   const handleImg = (e) => {

@@ -348,7 +348,8 @@ export function updatePlaylist(playlistData) {
         return dispatch(updatePlaylistError(response.errorMessage));
       }
       dispatch(updatePlaylistSuccess(response.data));
-      return dispatch(updateUpdatedPlaylist(response.data.data));
+      dispatch(updateUpdatedPlaylist(response.data.data));
+      return dispatch(updatePlaylistReset());
     } catch (error) {
       return dispatch(updatePlaylistError(error.message));
     }

@@ -48,9 +48,9 @@ function SongModal() {
     defaultValues: { _id, thumbnail, title, artist, genre },
   });
 
-  const [image, setImage] = useState(SongDefaultImage);
   const [song, setSong] = useState();
   const [src, setSrc] = useState(thumbnail);
+  const [image, setImage] = useState(!isEditModal ? SongDefaultImage : src);
 
   function onSubmit(data) {
     !isEditModal
@@ -65,7 +65,7 @@ function SongModal() {
         )
       : dispatch(
           updateSong({
-            thumbnail: src,
+            thumbnail: image,
             title: data.title,
             genre: data.genre,
             artist: data.artist,
