@@ -24,13 +24,14 @@ const UserView = () => {
   } = useSelector((state) => state.user?.currentUser);
 
   useEffect(() => {
+    console.log("🚀 ~ file: UserView.js ~ line 29 ~ useEffect ~ id", id);
     dispatch(fetchUserByID(id));
     songsByID.length === 0 && dispatch(fetchSongs(songsTypes.ALL_SONGS));
   }, [dispatch, id, songsByID.length]);
 
-  if (!songsByID) {
-    return null;
-  }
+  // if (!songsByID) {
+  //   return null;
+  // }
 
   return (
     <Main>

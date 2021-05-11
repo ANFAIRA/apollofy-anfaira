@@ -1,4 +1,4 @@
-const { GenreStatsRepo, SongRepo } = require("../repositories");
+const { GenreStatsRepo, SongRepo, GenreRepo } = require("../repositories");
 const { handleDbResponse } = require("../repositories/repo-utils");
 
 async function extractGenres(req, res, next) {
@@ -57,11 +57,23 @@ async function addGenreStat(genreId) {
           dailyValue: dailyValue,
         });
       } else {
+        const currName = await GenreRepo.findById(genreId);
+
+        console.log(
+          "🚀 ~ file: genre-stats-controller.js ~ line 61 ~ addGenreStat ~ currName",
+          currName.data,
+        );
+        console.log(
+          "🚀 ~ file: genre-stats-controller.js ~ line 68 ~ addGenreStat ~ genreId",
+          genreId,
+        );
+
         dbResponse = await GenreStatsRepo.create({
           genreId: genreId,
           currYear: currYear,
           monthKey: monthKey,
           dailyKey: dailyKey,
+          currName: currName.data.name,
         });
       }
     }
@@ -69,10 +81,13 @@ async function addGenreStat(genreId) {
 }
 
 async function fetchStats(req, res, next) {
-  const { params } = req;
-
   try {
-    const dbResponse = await GenreStatsRepo.find(params);
+    const dbResponse = await GenreStatsRepo.find(
+      {},
+      {
+        totalPlaybacks: -1,
+      },
+    );
     handleDbResponse(res, dbResponse);
   } catch (error) {
     next(error);

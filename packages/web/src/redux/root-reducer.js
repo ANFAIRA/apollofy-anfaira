@@ -6,6 +6,7 @@ import songReducer from "./song/song-reducer";
 import uploaderReducer from "./uploader/uploader-reducer";
 import modalReducer from "./modals/modal-reducer";
 import userReducer from "./user/user-reducer";
+import genreReducer from "./genre/genre-reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   playlists: playlistReducer,
   modal: modalReducer,
   user: userReducer,
+  genre: genreReducer,
 });
 
 export default rootReducer;

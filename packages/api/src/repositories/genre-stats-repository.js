@@ -2,12 +2,13 @@ const db = require("../models");
 const normalizeDBQuery = require("../utils/normalizeDBQuery");
 
 class GenreStatsRepository {
-  create({ genreId, currYear, monthKey, dailyKey }) {
+  create({ genreId, currYear, name, monthKey, dailyKey }) {
     return normalizeDBQuery(
       db.GenreStatistics.create({
         metadata: {
           genre: genreId,
           date: currYear,
+          name: name,
         },
         totalPlaybacks: 1,
         playbacks: {
@@ -44,8 +45,10 @@ class GenreStatsRepository {
     );
   }
 
-  find(query) {
-    return normalizeDBQuery(db.GenreStatistics.find(query, "-__v"));
+  find(query, options) {
+    return normalizeDBQuery(
+      db.GenreStatistics.find(query, "-__v").sort(options).limit(5),
+    );
   }
 
   findOne(query) {

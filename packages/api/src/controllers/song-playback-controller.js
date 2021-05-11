@@ -2,6 +2,7 @@ const {
   SongPlaybackRepo,
   SongRepo,
   GenreStatsRepo,
+  GenreRepo,
 } = require("../repositories");
 const { handleDbResponse } = require("../repositories/repo-utils");
 
@@ -14,10 +15,9 @@ async function addPlayback(req, res, next) {
   } = req;
 
   try {
-    const song = await SongRepo.findById(songId);
     let dbResponse;
     dbResponse = await SongRepo.findById(songId);
-
+    const song = dbResponse.data;
     if (dbResponse.error) {
       res.status(400).send({
         data: null,
@@ -48,7 +48,7 @@ async function addPlayback(req, res, next) {
       const dailyKeyGenre = `${currDate.getUTCDate()}`;
 
       let queryFilter = {
-        "metadata.genre": song.data.genre,
+        "metadata.genre": song.genre,
         "metadata.date": currYear,
       };
 
@@ -70,8 +70,11 @@ async function addPlayback(req, res, next) {
             dailyValue: dailyValue,
           });
         } else {
+          const currName = await GenreRepo.findById(song.genre);
+
           dbResponseGenre = await GenreStatsRepo.create({
-            genreId: song.data.genre,
+            genreId: song.genre,
+            name: currName.data.name,
             currYear: currYear,
             monthKey: monthKey,
             dailyKey: dailyKeyGenre,

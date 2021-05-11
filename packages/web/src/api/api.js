@@ -245,6 +245,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function fetchPopularGenre(headers) {
+    return request({
+      url: "/api/genres/popular",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   // PLAYBACK
 
   function addSongPlayback({ songID }) {
@@ -294,6 +302,7 @@ function makeApi(request = makeRequest()) {
     getPopularUsers: getPopularUsers,
     addSongPlayback: addSongPlayback,
     getPopularSongs: getPopularSongs,
+    fetchPopularGenre: fetchPopularGenre,
   };
 }
 

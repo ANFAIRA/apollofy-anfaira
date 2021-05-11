@@ -13,6 +13,9 @@ const GenreStatisticsSchema = Schema(
           type: Schema.Types.ObjectId,
           ref: "genre",
         },
+        name: {
+          type: String,
+        },
       },
     },
     totalPlaybacks: {

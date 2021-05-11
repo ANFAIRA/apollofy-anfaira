@@ -5,6 +5,8 @@ const { genreController, genrePlaybackController } = require("../controllers");
 
 const genreRouter = Router();
 
+genreRouter.get("/api/genres/popular", genrePlaybackController.fetchStats);
+
 genreRouter.post(
   "/api/genres",
   // authMiddleware,
@@ -15,11 +17,11 @@ genreRouter.patch(
   // authMiddleware,
   genreController.addSongToGenre,
 );
-genreRouter.get("/api/genres", authMiddleware, genreController.fetchGenres);
-//genreRouter.get("/genres/:id", authMiddleware, genreController.fetchGenreById);
+genreRouter.get("/api/genres", genreController.fetchGenres);
+genreRouter.get("/api/genres/:id", genreController.fetchGenreById);
 genreRouter.get(
   "/api/genres/:name",
-  authMiddleware,
+  // authMiddleware,
   genreController.fetchGenreByName,
 );
 
