@@ -13,6 +13,7 @@ import {
   addSongToPlaylist,
   fetchPlaylistById,
   deleteSongFromPlaylist,
+  updatePlaylistOrder,
 } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 import {
@@ -56,6 +57,8 @@ const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setListOfSongs(items);
+    console.log(listOfSongs);
+    dispatch(updatePlaylistOrder(playlistId, listOfSongs));
   }
 
   useEffect(() => {

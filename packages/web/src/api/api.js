@@ -213,8 +213,16 @@ function makeApi(request = makeRequest()) {
 
   function updatePlaylistInfo(options) {
     return request({
-      url: "/api/playlists",
+      url: "/api/playlists/:id",
       requestMethod: "PATCH",
+      body: options,
+    });
+  }
+
+  function updatePlaylistOrder(options) {
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "PUT",
       body: options,
     });
   }
@@ -267,6 +275,7 @@ function makeApi(request = makeRequest()) {
     getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
     updatePlaylistInfo: updatePlaylistInfo,
+    updatePlaylistOrder: updatePlaylistOrder,
     getGenres: getGenres,
     createGenre: createGenre,
     addSongToGenre: addSongToGenre,
