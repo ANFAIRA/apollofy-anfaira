@@ -41,7 +41,15 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
 
   return (
     <div>
-      {songs?.map((song) => (
+      <div className="flex text-gray-600">
+        <div className="p-2 w-12 flex-shrink-0" />
+        <div className="p-2 w-12 flex-shrink-0" />
+        <div className="p-2 w-full">Title</div>
+        <div className="p-2 w-full">Artist</div>
+        <div className="p-2 w-full">Genre</div>
+        <div className="p-2 w-16 flex-shrink-0">Time</div>
+      </div>
+      {fetchedSongs?.map((song) => (
         <div
           key={song._id}
           className="flex border-b border-gray-800 hover:bg-gray-800"
