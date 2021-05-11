@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
 // import PlaylistModal from "../../components/PlaylistModal";
 import PlayListTable from "../../components/PlayListTable";
+import PlayListTableDnd from "../../components/PlayListTableDnd";
 import Main from "../../layout/Main";
 import { playCollection } from "../../redux/player/player-actions";
 import {
@@ -72,6 +73,7 @@ const PlaylistView = () => {
   }
 
   const { title, thumbnail, description, author, type, songs } = playlist;
+  console.log(songs);
   const fetchedSongs = [];
 
   if (isFetchSuccess) {
@@ -154,11 +156,20 @@ const PlaylistView = () => {
             </p>
           </div>
           <div className="mt-10">
-            <PlayListTable songs={songs} icon={faPlay} />
+            <PlayListTableDnd
+              fetchedSongs={fetchedSongs}
+              songs={songs}
+              icon={faPlay}
+              playlistId={id}
+            />
           </div>
           <div className="mt-10">
             <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
-            <PlayListTable songs={fetchedSongs} icon={faPlus} />
+            <PlayListTable
+              fetchedSongs={fetchedSongs}
+              icon={faPlus}
+              songs={songs}
+            />
           </div>
         </div>
       </Main>

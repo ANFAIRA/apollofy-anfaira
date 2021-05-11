@@ -18,7 +18,7 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
-const PlayListTable = ({ songs, icon }) => {
+const PlayListTable = ({ fetchedSongs, songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { genresByID } = useSelector((state) => state.genre);
@@ -72,6 +72,7 @@ const PlayListTable = ({ songs, icon }) => {
 };
 
 PlayListTable.propTypes = {
+  fetchedSongs: array.isRequired,
   songs: array.isRequired,
   icon: object.isRequired,
 };
