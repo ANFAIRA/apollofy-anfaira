@@ -13,6 +13,7 @@ import { songsTypes } from "../../redux/song/song-types";
 
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
+import GenreCard from "../../components/GenreCard";
 
 import Main from "../../layout/Main";
 
@@ -69,18 +70,13 @@ export default function Home() {
             <h2 className="pb-2 font-semibold">Most Popular Genres</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {genreIds?.map(
-                (genre) => (
-                  <p key={genresByID[genre]._id}>
-                    {genresByID[genre].metadata.name}{" "}
-                  </p>
-                ),
-                // <PlaylistCard
-                //   key={genresByID[genre]._id}
-                //   playlist={genresByID[genre]}
-                //   location={`genre/${genresByID[genre]._id}`}
-                // />
-              )}
+              {genreIds?.map((genre) => (
+                <GenreCard
+                  key={genresByID[genre]._id}
+                  genre={genresByID[genre]}
+                  location={`genre/${genresByID[genre].metadata.genre}`}
+                />
+              ))}
             </section>
           </article>
           <article className="pb-10">
