@@ -84,7 +84,11 @@ const GenreView = () => {
           </div>
           <div className="mt-10">
             <h2 className="text-gray-300 mb-5 text-xl">Songs</h2>
-            <PlayListTable songs={songsInGenre} icon={faPlay} />
+            <PlayListTable
+              songs={songsInGenre}
+              icon={faPlay}
+              fetchedSongs={["genre"]}
+            />
           </div>
         </div>
       </Main>

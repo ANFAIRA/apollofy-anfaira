@@ -22,7 +22,6 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { genresByID } = useSelector((state) => state.genre);
-  console.log(genresByID);
   const handleDelete = (e) => {
     const songId = e.currentTarget.id;
     dispatch(deleteSongFromPlaylist(id, songId));
@@ -38,6 +37,7 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
     }
     return id;
   };
+  console.log(fetchedSongs);
 
   return (
     <div>
@@ -49,32 +49,70 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
         <div className="p-2 w-full">Genre</div>
         <div className="p-2 w-16 flex-shrink-0">Time</div>
       </div>
-      {fetchedSongs?.map((song) => (
-        <div
-          key={song._id}
-          className="flex border-b border-gray-800 hover:bg-gray-800"
-        >
-          <button
-            type="button"
-            id={song._id}
-            onClick={handleClick}
-            className="p-3 w-12 flex-shrink-0"
-          >
-            <FontAwesomeIcon icon={icon} />
-          </button>
-          <button type="button" className="p-3 w-12 flex-shrink-0">
-            <FontAwesomeIcon icon={farHeart} />
-          </button>
-          <div className="p-3 w-full">{song.title}</div>
-          <div className="p-3 w-full">{song.artist}</div>
-          <div className="p-3 w-full">
-            {genresByID[song.genre]?.metadata.name}{" "}
-          </div>
-          <div className="p-3 w-16 flex-shrink-0">
-            {formatTime(song.duration)}
-          </div>
-        </div>
-      ))}
+
+      {fetchedSongs[0] !== "genre"
+        ? fetchedSongs?.map(function (song) {
+            const indexSong = songs.findIndex(
+              (item) => String(item._id) === String(song._id),
+            );
+            if (indexSong === -1) {
+              return (
+                <div
+                  key={song._id}
+                  className="flex border-b border-gray-800 hover:bg-gray-800"
+                >
+                  <button
+                    type="button"
+                    id={song._id}
+                    onClick={handleClick}
+                    className="p-3 w-12 flex-shrink-0"
+                  >
+                    <FontAwesomeIcon icon={icon} />
+                  </button>
+                  <button type="button" className="p-3 w-12 flex-shrink-0">
+                    <FontAwesomeIcon icon={farHeart} />
+                  </button>
+                  <div className="p-3 w-full">{song.title}</div>
+                  <div className="p-3 w-full">{song.artist}</div>
+                  <div className="p-3 w-full">
+                    {genresByID[song.genre]?.metadata.name}{" "}
+                  </div>
+                  <div className="p-3 w-16 flex-shrink-0">
+                    {formatTime(song.duration)}
+                  </div>
+                </div>
+              );
+            }
+            return "";
+          })
+        : songs?.map(function (song) {
+            return (
+              <div
+                key={song._id}
+                className="flex border-b border-gray-800 hover:bg-gray-800"
+              >
+                <button
+                  type="button"
+                  id={song._id}
+                  onClick={handleClick}
+                  className="p-3 w-12 flex-shrink-0"
+                >
+                  <FontAwesomeIcon icon={icon} />
+                </button>
+                <button type="button" className="p-3 w-12 flex-shrink-0">
+                  <FontAwesomeIcon icon={farHeart} />
+                </button>
+                <div className="p-3 w-full">{song.title}</div>
+                <div className="p-3 w-full">{song.artist}</div>
+                <div className="p-3 w-full">
+                  {genresByID[song.genre]?.metadata.name}{" "}
+                </div>
+                <div className="p-3 w-16 flex-shrink-0">
+                  {formatTime(song.duration)}
+                </div>
+              </div>
+            );
+          })}
     </div>
   );
 };
