@@ -309,7 +309,7 @@ export function deleteSongFromPlaylist(playlistId, songId) {
 
       return dispatch(deleteSongFromPlaylistSuccess());
     } catch (error) {
-      return dispatch(deleteSongFromPlaylistError(error));
+      return dispatch(deleteSongFromPlaylistError(error.message));
     }
   };
 }

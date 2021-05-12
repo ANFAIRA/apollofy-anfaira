@@ -261,6 +261,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromGenre(options) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   // PLAYBACK
 
   function addSongPlayback({ songID }) {
@@ -312,6 +320,7 @@ function makeApi(request = makeRequest()) {
     addSongPlayback: addSongPlayback,
     getPopularSongs: getPopularSongs,
     fetchPopularGenre: fetchPopularGenre,
+    deleteSongFromGenre: deleteSongFromGenre,
   };
 }
 

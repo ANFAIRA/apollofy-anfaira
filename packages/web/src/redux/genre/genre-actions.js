@@ -38,3 +38,46 @@ export function fetchGenres() {
     }
   };
 }
+
+// Delete song from genre
+
+// export const setSongToDelete = (songId) => ({
+//   type: SongTypes.SONG_TO_DELETE,
+//   payload: songId,
+// });
+
+export const deleteSongFromGenreRequest = () => ({
+  type: GenreTypes.DELETE_SONG_FROM_GENRE_REQUEST,
+});
+
+export const deleteSongFromGenreError = (message) => ({
+  type: GenreTypes.DELETE_SONG_FROM_GENRE_ERROR,
+  payload: message,
+});
+
+export const deleteSongFromGenreSuccess = (songId) => ({
+  type: GenreTypes.DELETE_SONG_FROM_GENRE_SUCCESS,
+  payload: songId,
+});
+
+// export const deleteSongFromGenreReset = () => ({
+//   type: GenreTypes.DELETE_SONG_FROM_GENRE_RESET,
+// });
+
+export function deleteSongFromGenre({ genreId, songId }) {
+  return async function deleteSongFromGenreThunk(dispatch) {
+    dispatch(deleteSongFromGenreRequest());
+    try {
+      const response = await api.deleteSongFromGenre({
+        genreId,
+        songId,
+      });
+      if (response.errorMessage) {
+        return dispatch(deleteSongFromGenreError(response.errorMessage));
+      }
+      return dispatch(deleteSongFromGenreSuccess());
+    } catch (error) {
+      return dispatch(deleteSongFromGenreError(error.message));
+    }
+  };
+}

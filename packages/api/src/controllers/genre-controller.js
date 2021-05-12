@@ -86,10 +86,57 @@ async function addSongToGenre(req, res, next) {
   }
 }
 
+async function deleteSongFromGenre(req, res, next) {
+  const { genreId, songId } = req.body;
+
+  try {
+    console.log("aqui");
+    console.log(songId);
+    const genre = await GenreRepo.findOne({ _id: genreId });
+
+    const songIndex = genre.data.songs.indexOf(String(songId));
+    console.log(genre.data.songs);
+
+    genre.data.songs.splice(songIndex, 1);
+
+    const dbResponse = await GenreRepo.findOneAndUpdate(
+      {
+        _id: genreId,
+      },
+      {
+        songs: genre.data.songs,
+      },
+      {
+        new: true,
+        select: {
+          __v: 0,
+        },
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createGenre: createGenre,
   fetchGenres: fetchGenres,
   fetchGenreById: fetchGenreById,
   fetchGenreByName: fetchGenreByName,
   addSongToGenre: addSongToGenre,
+  deleteSongFromGenre: deleteSongFromGenre,
 };

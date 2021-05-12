@@ -34,6 +34,27 @@ const GenreReducer = (state = GenreInitState, action) => {
         genreIds: action.payload.genreIds,
       };
     }
+    case GenreTypes.DELETE_SONG_FROM_GENRE_REQUEST: {
+      return {
+        ...state,
+        deletingSong: true,
+        deleteSongError: null,
+      };
+    }
+    case GenreTypes.DELETE_SONG_FROM_GENRE_ERROR: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: action.payload,
+      };
+    }
+    case GenreTypes.DELETE_SONG_FROM_GENRE_SUCCESS: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: null,
+      };
+    }
     default: {
       return state;
     }
