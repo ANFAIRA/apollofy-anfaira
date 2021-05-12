@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
-import { fetchPlaylists } from "../../redux/playlist/playlist-actions";
-import { playlistTypes } from "../../redux/playlist/playlist-types";
-import {
-  fetchAllSongs,
-  fetchPopularSongs,
-} from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
-import { songsTypes } from "../../redux/song/song-types";
 
 import PlaylistCard from "../../components/PlayListCard";
 import SongCard from "../../components/SongCard";
@@ -17,48 +10,15 @@ import GenreCard from "../../components/GenreCard";
 
 import Main from "../../layout/Main";
 
-import { fetchUsers } from "../../redux/user/user-actions";
-import { fetchGenres } from "../../redux/genre/genre-actions";
-import { userTypes } from "../../redux/user/user-types";
-
 import "./Home.scss";
 
 export default function Home() {
   const { currentUser } = useSelector(authSelector);
   const { songsByID } = useSelector(songSelector);
   const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
-  const { ALL_USERS } = useSelector((state) => state.user.userIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
   const { playlistsByID } = useSelector((state) => state.playlists);
   const { genresByID, genreIds } = useSelector((state) => state.genre);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (ALL_USERS.length === 0) {
-      dispatch(fetchUsers(userTypes.ALL_USERS));
-    }
-
-    if (ALL_SONGS.length === 0) {
-      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
-    }
-    if (ALL.length === 0) {
-      dispatch(fetchPlaylists(playlistTypes.ALL));
-    }
-    if (POPULAR.length === 0) {
-      dispatch(fetchPopularSongs(songsTypes.POPULAR));
-    }
-    if (genreIds.length === 0) {
-      dispatch(fetchGenres());
-    }
-  }, [
-    dispatch,
-    ALL_USERS.length,
-    ALL_SONGS.length,
-    ALL.length,
-    POPULAR.length,
-    genreIds.length,
-  ]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Account from "./pages/Account";
@@ -25,7 +25,19 @@ import { onAuthStateChanged } from "./services/auth";
 import "./styles/App.scss";
 import GenreView from "./pages/GenreView/GenreView";
 
+import { fetchUsers } from "./redux/user/user-actions";
+import { fetchGenres } from "./redux/genre/genre-actions";
+import { userTypes } from "./redux/user/user-types";
+import { fetchAllSongs, fetchPopularSongs } from "./redux/song/song-actions";
+import { fetchPlaylists } from "./redux/playlist/playlist-actions";
+import { playlistTypes } from "./redux/playlist/playlist-types";
+import { songsTypes } from "./redux/song/song-types";
+
 function App() {
+  const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
+  const { ALL_USERS } = useSelector((state) => state.user.userIds);
+  const { ALL } = useSelector((state) => state.playlists.playlistIds);
+  const { genreIds } = useSelector((state) => state.genre);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,6 +57,32 @@ function App() {
       }
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (ALL_USERS.length === 0) {
+      dispatch(fetchUsers(userTypes.ALL_USERS));
+    }
+
+    if (ALL_SONGS.length === 0) {
+      dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
+    }
+    if (ALL.length === 0) {
+      dispatch(fetchPlaylists(playlistTypes.ALL));
+    }
+    if (POPULAR.length === 0) {
+      dispatch(fetchPopularSongs(songsTypes.POPULAR));
+    }
+    if (genreIds.length === 0) {
+      dispatch(fetchGenres());
+    }
+  }, [
+    dispatch,
+    ALL_USERS.length,
+    ALL_SONGS.length,
+    ALL.length,
+    POPULAR.length,
+    genreIds.length,
+  ]);
 
   return (
     <div className="App__container">
