@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const GenrePlaybackSchema = Schema(
+const GenreStatisticsSchema = Schema(
   {
     metadata: {
       type: {
@@ -9,23 +9,35 @@ const GenrePlaybackSchema = Schema(
           type: Date,
           default: Date.now,
         },
-        genreId: {
-          type: String,
-          required: true,
+        genre: {
+          type: Schema.Types.ObjectId,
+          ref: "genre",
         },
-        genreName: {
+        name: {
           type: String,
-          required: false,
         },
       },
     },
-    daily: {
+    totalPlaybacks: {
       type: Number,
       default: 0,
     },
-    hourly: {
-      type: Map,
-      of: Number,
+    playbacks: {
+      type: {
+        monthly: {
+          type: Map,
+          of: {
+            totalPlaybacks: {
+              type: Number,
+              default: 0,
+            },
+            daily: {
+              type: Map,
+              of: Number,
+            },
+          },
+        },
+      },
     },
   },
   {
@@ -33,6 +45,9 @@ const GenrePlaybackSchema = Schema(
   },
 );
 
-const GenrePlayback = mongoose.model("genre-playback", GenrePlaybackSchema);
+const GenreStatistics = mongoose.model(
+  "genre-statistics",
+  GenreStatisticsSchema,
+);
 
-module.exports = GenrePlayback;
+module.exports = GenreStatistics;

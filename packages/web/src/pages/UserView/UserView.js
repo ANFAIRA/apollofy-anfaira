@@ -28,9 +28,9 @@ const UserView = () => {
     songsByID.length === 0 && dispatch(fetchSongs(songsTypes.ALL_SONGS));
   }, [dispatch, id, songsByID.length]);
 
-  if (!songsByID) {
-    return null;
-  }
+  // if (!songsByID) {
+  //   return null;
+  // }
 
   return (
     <Main>

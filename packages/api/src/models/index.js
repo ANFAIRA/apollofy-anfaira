@@ -2,7 +2,7 @@ const UserModel = require("./user-model");
 const SongModel = require("./song-model");
 const PlaylistModel = require("./playlist-model");
 const GenreModel = require("./genre-model");
-const GenrePlaybackModel = require("./data-analysis/genre-playback-model");
+const GenreStatistics = require("./data-analysis/genre-playback-model");
 const MonthlyGenrePlaybackModel = require("./data-analysis/monthly-genre-playback-model");
 const SongPlaybackModel = require("./data-analysis/song-playback-model");
 const PageRequestModel = require("./data-analysis/page-request-model");
@@ -14,7 +14,7 @@ module.exports = {
   Song: SongModel,
   Playlist: PlaylistModel,
   Genre: GenreModel,
-  GenrePlayback: GenrePlaybackModel,
+  GenreStatistics: GenreStatistics,
   MonthlyGenrePlayback: MonthlyGenrePlaybackModel,
   SongPlayback: SongPlaybackModel,
   PageRequest: PageRequestModel,

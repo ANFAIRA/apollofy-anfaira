@@ -213,8 +213,16 @@ function makeApi(request = makeRequest()) {
 
   function updatePlaylistInfo(options) {
     return request({
-      url: "/api/playlists",
+      url: "/api/playlists/:id",
       requestMethod: "PATCH",
+      body: options,
+    });
+  }
+
+  function updatePlaylistOrder(options) {
+    return request({
+      url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "PUT",
       body: options,
     });
   }
@@ -245,6 +253,31 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function fetchPopularGenre(headers) {
+    return request({
+      url: "/api/genres/popular",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  // PLAYBACK
+
+  function addSongPlayback({ songID }) {
+    return request({
+      url: `/songs/${songID}/playback`,
+      requestMethod: "POST",
+    });
+  }
+
+  function getPopularSongs(headers) {
+    return request({
+      url: "/api/songs/popular",
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -267,6 +300,7 @@ function makeApi(request = makeRequest()) {
     getFollowedPlaylists: getFollowedPlaylists,
     deletePlaylist: deletePlaylist,
     updatePlaylistInfo: updatePlaylistInfo,
+    updatePlaylistOrder: updatePlaylistOrder,
     getGenres: getGenres,
     createGenre: createGenre,
     addSongToGenre: addSongToGenre,
@@ -275,6 +309,9 @@ function makeApi(request = makeRequest()) {
     getFollowersUsers: getFollowersUsers,
     getFollowingUsers: getFollowingUsers,
     getPopularUsers: getPopularUsers,
+    addSongPlayback: addSongPlayback,
+    getPopularSongs: getPopularSongs,
+    fetchPopularGenre: fetchPopularGenre,
   };
 }
 

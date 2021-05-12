@@ -434,6 +434,43 @@ async function updatePlaylist(req, res, next) {
   }
 }
 
+async function updatePlaylistOrder(req, res, next) {
+  const { playlistId, songs } = req.body;
+
+  try {
+    const dbResponse = await PlaylistRepo.findOneAndUpdate(
+      {
+        _id: playlistId,
+      },
+      {
+        songs: songs,
+      },
+      {
+        new: true,
+        select: {
+          __v: 0,
+        },
+      },
+    );
+
+    if (dbResponse.error) {
+      res.status(400).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: dbResponse.data,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createPlaylist: createPlaylist,
   fetchPlaylists: fetchPlaylists,
@@ -445,4 +482,5 @@ module.exports = {
   fetchFollowedPlaylists: fetchFollowedPlaylists,
   deletePlaylist: deletePlaylist,
   updatePlaylist: updatePlaylist,
+  updatePlaylistOrder: updatePlaylistOrder,
 };

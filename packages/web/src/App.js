@@ -23,6 +23,7 @@ import { signOut, syncSignIn } from "./redux/auth/auth-actions";
 import * as ROUTES from "./routes";
 import { onAuthStateChanged } from "./services/auth";
 import "./styles/App.scss";
+import GenreView from "./pages/GenreView/GenreView";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
           <Route path={ROUTES.MY_FAVOURITE_SONGS} component={LikedSongs} />
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
           <Route path={ROUTES.PLAYLIST_BY_ID} component={PlaylistView} />
+          <Route path={ROUTES.GENRE_BY_ID} component={GenreView} />
           <Route path={ROUTES.MY_PLAYLISTS} component={MyPlaylists} />
           <Route path={ROUTES.USER_SONGS} component={UserSongs} />
           <Route

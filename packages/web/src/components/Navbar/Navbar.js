@@ -101,7 +101,7 @@ export default function Navbar() {
                 <div className="flex items-center">
                   <Avatar
                     placeholder={currentUser?.data?.username
-                      .charAt(0)
+                      ?.charAt(0)
                       .toUpperCase()}
                     height="h-8"
                     width="w-8"

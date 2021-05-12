@@ -424,3 +424,18 @@ export function deletePlaylist(playlistId) {
     }
   };
 }
+
+export function updatePlaylistOrder(playlistId, songs) {
+  return async function updatePlaylistOrderThunk(dispatch) {
+    try {
+      const response = await api.updatePlaylistOrder({ playlistId, songs });
+      // if (response.errorMessage) {
+      //   return dispatch(deletePlaylistError(response.errorMessage));
+      // }
+      // dispatch(deletePlaylistSuccess(response.data));
+      return response;
+    } catch (error) {
+      return dispatch(deletePlaylistError(error.message));
+    }
+  };
+}

@@ -15,3 +15,4 @@ export const USER_SONGS = "/user-songs";
 export const USER_FAVOURITE_SONGS = "/user-favourite-songs";
 export const USER_PLAYLISTS = "/user-playlists";
 export const USER_FOLLOWING_PLAYLISTS = "/user-following-playlists";
+export const GENRE_BY_ID = "/genre/:id";

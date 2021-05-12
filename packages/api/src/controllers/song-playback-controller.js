@@ -1,18 +1,23 @@
-const { SongPlaybackRepo, SongRepo } = require("../repositories");
+const {
+  SongPlaybackRepo,
+  SongRepo,
+  GenreStatsRepo,
+  GenreRepo,
+} = require("../repositories");
 const { handleDbResponse } = require("../repositories/repo-utils");
 
 // options: { songId, userId, lat, long, agent }
 async function addPlayback(req, res, next) {
   const {
     params: { id: songId },
-    body: { lat, long, agent },
-    user: { id: userId },
+    // body: { lat, long, agent },
+    // user: { id: userId },
   } = req;
 
   try {
     let dbResponse;
     dbResponse = await SongRepo.findById(songId);
-
+    const song = dbResponse.data;
     if (dbResponse.error) {
       res.status(400).send({
         data: null,
@@ -30,13 +35,52 @@ async function addPlayback(req, res, next) {
           "metadata.date": currDay,
         },
         data: {
-          lat: lat,
-          long: long,
-          user: userId,
-          agent: agent,
+          // lat: lat,
+          // long: long,
+          // user: userId,
+          // agent: agent,
           date: currDate,
         },
       });
+
+      const currYear = currDate.getUTCFullYear();
+      const monthKey = `${currDate.getUTCMonth() + 1}`;
+      const dailyKeyGenre = `${currDate.getUTCDate()}`;
+
+      let queryFilter = {
+        "metadata.genre": song.genre,
+        "metadata.date": currYear,
+      };
+
+      let dbResponseGenre = await GenreStatsRepo.findOne(queryFilter);
+
+      if (!dbResponseGenre.error) {
+        if (dbResponseGenre.data) {
+          const monthValue =
+            dbResponseGenre.data.playbacks.monthly[monthKey].totalPlaybacks + 1;
+          const dailyValue =
+            dbResponseGenre.data.playbacks.monthly[monthKey].daily[
+              dailyKeyGenre
+            ] + 1;
+          dbResponseGenre = await GenreStatsRepo.updateOneStats({
+            query: queryFilter,
+            monthKey: monthKey,
+            monthValue: monthValue,
+            dailyKey: dailyKeyGenre,
+            dailyValue: dailyValue,
+          });
+        } else {
+          const currName = await GenreRepo.findById(song.genre);
+
+          dbResponseGenre = await GenreStatsRepo.create({
+            genreId: song.genre,
+            name: currName.data.name,
+            currYear: currYear,
+            monthKey: monthKey,
+            dailyKey: dailyKeyGenre,
+          });
+        }
+      }
 
       if (dbResponse.error) {
         res.status(400).send({
@@ -46,13 +90,23 @@ async function addPlayback(req, res, next) {
       }
 
       if (!dbResponse.data) {
-        dbResponse = await SongPlaybackRepo.create({
+        dbResponseGenre = await SongPlaybackRepo.create({
           songId: songId,
           currDay: currDay,
-          user: userId,
-          lat: lat,
-          long: long,
-          agent: agent,
+          // user: userId,
+          // lat: lat,
+          // long: long,
+          // agent: agent,
+        });
+      }
+      if (!dbResponseGenre.data) {
+        dbResponse = await GenreStatsRepo.create({
+          genreId: song.data.genre,
+          currDay: currDay,
+          // user: userId,
+          // lat: lat,
+          // long: long,
+          // agent: agent,
         });
       }
 
@@ -125,7 +179,9 @@ async function fetchMonthlyPlaybacks(req, res, next) {
   const { params } = req;
 
   try {
-    const dbResponse = await SongPlaybackRepo.findMonthly(params);
+    const dbResponse = await SongPlaybackRepo.findMonthly(params, {
+      totalPlaybacks: -1,
+    });
     handleDbResponse(res, dbResponse);
   } catch (error) {
     next(error);
