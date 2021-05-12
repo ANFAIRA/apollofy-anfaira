@@ -30,7 +30,6 @@ async function createGenre(req, res, next) {
 }
 
 async function fetchGenres(req, res, next) {
-  console.log("controller");
   try {
     const dbResponse = await GenreRepo.find();
 

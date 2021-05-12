@@ -73,7 +73,6 @@ const PlaylistView = () => {
   }
 
   const { title, thumbnail, description, author, type, songs } = playlist;
-  console.log(songs);
   const fetchedSongs = [];
 
   if (isFetchSuccess) {
@@ -165,7 +164,6 @@ const PlaylistView = () => {
           </div>
           <div className="mt-10">
             <h2 className="text-gray-300 mb-5 text-xl">Recommended Songs</h2>
-            {console.log(fetchedSongs)}
             <PlayListTable
               fetchedSongs={fetchedSongs}
               icon={faPlus}

@@ -1,15 +1,8 @@
-import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
-import {
-  faEllipsisH,
-  faHeart,
-  faPlay,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PlaylistDialogue from "../../components/PlaylistDialogue";
 import PlayListTable from "../../components/PlayListTable";
 import Main from "../../layout/Main";
 import { playCollection } from "../../redux/player/player-actions";
@@ -28,10 +21,6 @@ const GenreView = () => {
       songsInGenre.push(songsByID[song]);
     }
   }
-
-  const currentUser = useSelector((state) => state.auth?.currentUser);
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
 

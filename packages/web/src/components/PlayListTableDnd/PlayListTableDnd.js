@@ -11,23 +11,12 @@ import { useParams } from "react-router-dom";
 import { playSong } from "../../redux/player/player-actions";
 import {
   addSongToPlaylist,
-  fetchPlaylistById,
   deleteSongFromPlaylist,
   updatePlaylistOrder,
 } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
-import {
-  playlistItemSelector,
-  playlistStateSelector,
-  selectPlaylistState,
-} from "../../redux/playlist/playlist-selector";
 
 const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
-  const { isUpdatingPlaylist } = useSelector(selectPlaylistState);
-  const { addingSong, playlistUpdate, deletingSong } = useSelector(
-    playlistStateSelector,
-  );
-
   const dispatch = useDispatch();
   const { id } = useParams();
   const { genresByID } = useSelector((state) => state.genre);
@@ -43,7 +32,6 @@ const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
       dispatch(addSongToPlaylist(id, songId));
     } else {
       const selectedSong = fetchedSongs.find((song) => song._id === songId);
-      console.log(selectedSong);
       dispatch(playSong(selectedSong));
     }
     return id;
@@ -54,11 +42,9 @@ const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
   function handleOnDragEnd(result) {
     if (!result.destination) return;
     const items = Array.from(listOfSongs);
-    console.log(items);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setListOfSongs(items);
-    console.log(listOfSongs);
     dispatch(updatePlaylistOrder(playlistId, listOfSongs));
   }
 

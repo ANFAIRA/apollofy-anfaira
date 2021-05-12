@@ -26,7 +26,6 @@ export function fetchGenres() {
 
     try {
       const res = await api.fetchPopularGenre();
-      console.log(res);
       const normalizedGenres = normalizeGenres(res.data.data);
       return dispatch(
         fetchGenresSuccess({

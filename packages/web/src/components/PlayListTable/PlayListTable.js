@@ -1,31 +1,18 @@
-import {
-  faHeart as farHeart,
-  faTrashAlt,
-} from "@fortawesome/free-regular-svg-icons";
+import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { array, object } from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import {
-  // playSong,
-  playSongAndSaveStats,
-} from "../../redux/player/player-actions";
-import {
-  addSongToPlaylist,
-  deleteSongFromPlaylist,
-} from "../../redux/playlist/playlist-actions";
+import { playSongAndSaveStats } from "../../redux/player/player-actions";
+import { addSongToPlaylist } from "../../redux/playlist/playlist-actions";
 import { formatTime } from "../../utils/utils";
 
 const PlayListTable = ({ fetchedSongs, songs, icon }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { genresByID } = useSelector((state) => state.genre);
-  const handleDelete = (e) => {
-    const songId = e.currentTarget.id;
-    dispatch(deleteSongFromPlaylist(id, songId));
-  };
 
   const handleClick = (e) => {
     const songId = e.currentTarget.id;
@@ -37,7 +24,6 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
     }
     return id;
   };
-  console.log(fetchedSongs);
 
   return (
     <div>
@@ -51,7 +37,7 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
       </div>
 
       {fetchedSongs[0] !== "genre"
-        ? fetchedSongs?.map(function (song) {
+        ? fetchedSongs?.map((song) => {
             const indexSong = songs.findIndex(
               (item) => String(item._id) === String(song._id),
             );
@@ -85,7 +71,7 @@ const PlayListTable = ({ fetchedSongs, songs, icon }) => {
             }
             return "";
           })
-        : songs?.map(function (song) {
+        : songs?.map((song) => {
             return (
               <div
                 key={song._id}

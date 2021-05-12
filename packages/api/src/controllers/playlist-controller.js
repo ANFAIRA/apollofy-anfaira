@@ -438,8 +438,6 @@ async function updatePlaylistOrder(req, res, next) {
   const { playlistId, songs } = req.body;
 
   try {
-    const playlist = await PlaylistRepo.findOne({ _id: playlistId });
-
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
       {
         _id: playlistId,

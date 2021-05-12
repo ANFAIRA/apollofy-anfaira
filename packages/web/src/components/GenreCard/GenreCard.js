@@ -1,12 +1,10 @@
 import { object, string } from "prop-types";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import defaultImg from "../../assets/background_cover.jpeg";
 
 function GenreCard({ genre = null, location }) {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const handleClick = () => {
     history.push(`/${location}`);

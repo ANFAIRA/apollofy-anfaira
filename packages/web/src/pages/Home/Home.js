@@ -49,7 +49,6 @@ export default function Home() {
       dispatch(fetchPopularSongs(songsTypes.POPULAR));
     }
     if (genreIds.length === 0) {
-      console.log("fetch");
       dispatch(fetchGenres());
     }
   }, [

@@ -432,7 +432,6 @@ export function updatePlaylistOrder(playlistId, songs) {
       //   return dispatch(deletePlaylistError(response.errorMessage));
       // }
       // dispatch(deletePlaylistSuccess(response.data));
-      console.log(response.data.data.songs);
       return response;
     } catch (error) {
       return dispatch(deletePlaylistError(error.message));
