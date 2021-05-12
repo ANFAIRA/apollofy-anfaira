@@ -8,10 +8,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-// import PlaylistDeleteModal from "../../components/PlaylistDeleteModal";
+import { useParams, Link } from "react-router-dom";
 import PlaylistDialogue from "../../components/PlaylistDialogue";
-// import PlaylistModal from "../../components/PlaylistModal";
 import PlayListTable from "../../components/PlayListTable";
 import PlayListTableDnd from "../../components/PlayListTableDnd";
 import Main from "../../layout/Main";
@@ -29,7 +27,7 @@ import { collectionTime } from "../../utils/utils";
 
 const PlaylistView = () => {
   const { id } = useParams();
-  const { songsByID, songIds, isFetchSuccess } = useSelector(
+  const { songsByID, songIds, isFetchAllSuccess } = useSelector(
     (state) => state.song,
   );
   const { addingSong, playlistUpdate, deletingSong } = useSelector(
@@ -40,10 +38,6 @@ const PlaylistView = () => {
 
   const playlist = playlistItemSelector(id);
 
-  // const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-  // const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // const [isEditModal, setIsEditModal] = useState(false);
-  // const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -75,7 +69,7 @@ const PlaylistView = () => {
   const { title, thumbnail, description, author, type, songs } = playlist;
   const fetchedSongs = [];
 
-  if (isFetchSuccess) {
+  if (isFetchAllSuccess) {
     songIds.ALL_SONGS.map((songId) => {
       fetchedSongs.push(songsByID[songId]);
       return songId;
@@ -101,12 +95,14 @@ const PlaylistView = () => {
               <h2 className="mt-0 mb-2 text-white text-4xl">{title}</h2>
               <p className="text-gray-600 mb-2 text-sm">{description}</p>
               <div className="flex content-center">
-                <p className="text-gray-600 mb-2 text-sm">
-                  Created by &nbsp;{" "}
-                  <span className="text-white mr-2 text-sm">
-                    {author[1].toUpperCase()}
-                  </span>
-                </p>
+                <Link to={`/users/${author[0]}`}>
+                  <p className="text-gray-600 mb-2 text-sm">
+                    Created by &nbsp;{" "}
+                    <span className="text-white mr-2 text-sm">
+                      {author[1].toUpperCase()}
+                    </span>
+                  </p>
+                </Link>
                 <p className="text-gray-600 mr-2 text-sm">·</p>
                 <p className="text-gray-600 mr-2 text-sm">
                   {songs.length > 0

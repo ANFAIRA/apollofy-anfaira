@@ -14,13 +14,46 @@ export const fetchSongsError = (message) => {
   return { type: SongTypes.FETCH_SONG_ERROR, payload: message };
 };
 
-export const fetchSongsSuccess = ({
+export const fetchAllSongsSuccess = ({
   type = songsTypes.ALL_SONGS,
   songsByID,
   songIds,
 }) => {
   return {
-    type: SongTypes.FETCH_SONG_SUCCESS,
+    type: SongTypes.FETCH_ALL_SONGS_SUCCESS,
+    payload: { type: type, songsByID: songsByID, songIds: songIds },
+  };
+};
+
+export const fetchOwnSongsSuccess = ({
+  type = songsTypes.MY_SONGS,
+  songsByID,
+  songIds,
+}) => {
+  return {
+    type: SongTypes.FETCH_MY_SONGS_SUCCESS,
+    payload: { type: type, songsByID: songsByID, songIds: songIds },
+  };
+};
+
+export const fetchPopularSongsSuccess = ({
+  type = songsTypes.POPULAR,
+  songsByID,
+  songIds,
+}) => {
+  return {
+    type: SongTypes.FETCH_POPULAR_SONGS_SUCCESS,
+    payload: { type: type, songsByID: songsByID, songIds: songIds },
+  };
+};
+
+export const fetchFavoriteSongsSuccess = ({
+  type = songsTypes.FAVORITE,
+  songsByID,
+  songIds,
+}) => {
+  return {
+    type: SongTypes.FETCH_FAVORITE_SONGS_SUCCESS,
     payload: { type: type, songsByID: songsByID, songIds: songIds },
   };
 };
@@ -53,7 +86,8 @@ export const fetchAllSongs = () => {
 
     try {
       const songs = await api.getAllSongs();
-
+      // eslint-disable-next-line no-debugger
+      // debugger;
       if (songs.errorMessage) {
         return dispatch(fetchSongsError(songs.errorMessage));
       }
@@ -61,7 +95,7 @@ export const fetchAllSongs = () => {
       const normalizedSongs = normalizeSongs(songs.data);
 
       return dispatch(
-        fetchSongsSuccess({
+        fetchAllSongsSuccess({
           type: songsTypes.ALL_SONGS,
           songsByID: normalizedSongs.entities.songs,
           songIds: normalizedSongs.result,
@@ -95,7 +129,7 @@ export const fetchMySongs = () => {
       const normalizedSongs = normalizeSongs(MySongs.data);
 
       return dispatch(
-        fetchSongsSuccess({
+        fetchOwnSongsSuccess({
           type: songsTypes.MY_SONGS,
           songsByID: normalizedSongs.entities.songs,
           songIds: normalizedSongs.result,
@@ -129,7 +163,7 @@ export const fetchFavoriteSongs = () => {
       const normalizedSongs = normalizeSongs(LikedSongs.data);
 
       return dispatch(
-        fetchSongsSuccess({
+        fetchFavoriteSongsSuccess({
           type: songsTypes.FAVORITE,
           songsByID: normalizedSongs.entities.songs,
           songIds: normalizedSongs.result,
@@ -145,16 +179,8 @@ export const fetchPopularSongs = () => {
   return async function fetchPoupularSongThunk(dispatch) {
     dispatch(fetchSongsRequest());
 
-    const token = await auth.getCurrentUserToken();
-
-    if (!token) {
-      return dispatch(fetchSongsError("User token null"));
-    }
-
     try {
-      const popularSongs = await api.getPopularSongs({
-        Authorization: `Bearer ${token}`,
-      });
+      const popularSongs = await api.getPopularSongs();
 
       if (popularSongs.errorMessage) {
         return dispatch(fetchSongsError(popularSongs.errorMessage));
@@ -166,7 +192,7 @@ export const fetchPopularSongs = () => {
       const normalizedSongs = normalizeSongs(popularSongsIds);
 
       return dispatch(
-        fetchSongsSuccess({
+        fetchPopularSongsSuccess({
           type: songsTypes.POPULAR,
           songsByID: normalizedSongs.entities.songs,
           songIds: normalizedSongs.result,

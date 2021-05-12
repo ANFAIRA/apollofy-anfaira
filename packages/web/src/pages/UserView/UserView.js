@@ -7,8 +7,6 @@ import PlaylistCard from "../../components/PlayListCard";
 import Main from "../../layout/Main";
 import UserProfileLayout from "../../layout/UserProfileLayout";
 import { fetchUserByID } from "../../redux/user/user-actions";
-import { fetchSongs } from "../../redux/song/song-actions";
-import { songsTypes } from "../../redux/song/song-types";
 
 const UserView = () => {
   const dispatch = useDispatch();
@@ -25,12 +23,7 @@ const UserView = () => {
 
   useEffect(() => {
     dispatch(fetchUserByID(id));
-    songsByID.length === 0 && dispatch(fetchSongs(songsTypes.ALL_SONGS));
-  }, [dispatch, id, songsByID.length]);
-
-  // if (!songsByID) {
-  //   return null;
-  // }
+  }, [dispatch, id]);
 
   return (
     <Main>
@@ -60,9 +53,11 @@ const UserView = () => {
         <h2 className="pb-2 font-semibold mt-10 ">Favorites</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {likedSongs?.slice(0, 6).map((song) => (
-            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-          ))}
+          {likedSongs?.slice(0, 6).map((song) => {
+            return (
+              <SongCard key={songsByID[song]._id} song={songsByID[song]} />
+            );
+          })}
         </section>
         <h2 className="pb-2 font-semibold mt-10 ">Following</h2>
         <hr className="border-gray-600 pb-2 " />
