@@ -32,6 +32,7 @@ import { fetchAllSongs, fetchPopularSongs } from "./redux/song/song-actions";
 import { fetchPlaylists } from "./redux/playlist/playlist-actions";
 import { playlistTypes } from "./redux/playlist/playlist-types";
 import { songsTypes } from "./redux/song/song-types";
+import SearchView from "./pages/SearchView";
 
 function App() {
   const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
@@ -53,6 +54,7 @@ function App() {
     unsubscribeFromAuth = onAuthStateChanged((user) => {
       if (user) {
         dispatch(syncSignIn());
+        fetchData();
       } else {
         dispatch(signOut());
       }
@@ -65,7 +67,7 @@ function App() {
     };
   }, [dispatch]);
 
-  useEffect(() => {
+  const fetchData = () => {
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
@@ -81,17 +83,10 @@ function App() {
     if (genreIds.length === 0) {
       dispatch(fetchGenres());
     }
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
-
-  if (
-    !isFetchAllSuccess ||
-    !isFetchPopularSuccess ||
-    !playlistsFetched ||
-    !usersFetched ||
-    !genresFetched
-  ) {
-    return null;
-  }
 
   return (
     <div className="App__container">
@@ -99,8 +94,15 @@ function App() {
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.LOGIN} component={Login} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-        <ProtectedRoute>
+        <ProtectedRoute
+          isFetchAllSuccess={isFetchAllSuccess}
+          isFetchPopularSuccess={isFetchPopularSuccess}
+          playlistsFetched={playlistsFetched}
+          usersFetched={usersFetched}
+          genresFetched={genresFetched}
+        >
           <Route path={ROUTES.HOME} component={Home} exact />
+          <Route path={ROUTES.SEARCH} component={SearchView} />
           <Route path={ROUTES.PROFILE} component={Profile} />
           <Route path={ROUTES.ACCOUNT} component={Account} />
           <Route path={ROUTES.USER_BY_ID} component={UserView} />
