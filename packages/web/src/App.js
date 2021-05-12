@@ -35,6 +35,13 @@ import { songsTypes } from "./redux/song/song-types";
 
 function App() {
   const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
+  const { isFetchAllSuccess, isFetchPopularSuccess } = useSelector(
+    (state) => state.song,
+  );
+  const { playlistsFetched } = useSelector((state) => state.playlists);
+  const { usersFetched } = useSelector((state) => state.user);
+  const { genresFetched } = useSelector((state) => state.genre);
+
   const { ALL_USERS } = useSelector((state) => state.user.userIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
   const { genreIds } = useSelector((state) => state.genre);
@@ -59,30 +66,32 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (ALL_USERS.length === 0) {
-      dispatch(fetchUsers(userTypes.ALL_USERS));
-    }
-
     if (ALL_SONGS.length === 0) {
       dispatch(fetchAllSongs(songsTypes.ALL_SONGS));
     }
-    if (ALL.length === 0) {
-      dispatch(fetchPlaylists(playlistTypes.ALL));
+    if (ALL_USERS.length === 0) {
+      dispatch(fetchUsers(userTypes.ALL_USERS));
     }
     if (POPULAR.length === 0) {
       dispatch(fetchPopularSongs(songsTypes.POPULAR));
     }
+    if (ALL.length === 0) {
+      dispatch(fetchPlaylists(playlistTypes.ALL));
+    }
     if (genreIds.length === 0) {
       dispatch(fetchGenres());
     }
-  }, [
-    dispatch,
-    ALL_USERS.length,
-    ALL_SONGS.length,
-    ALL.length,
-    POPULAR.length,
-    genreIds.length,
-  ]);
+  }, []);
+
+  if (
+    !isFetchAllSuccess ||
+    !isFetchPopularSuccess ||
+    !playlistsFetched ||
+    !usersFetched ||
+    !genresFetched
+  ) {
+    return null;
+  }
 
   return (
     <div className="App__container">

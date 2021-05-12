@@ -2,8 +2,12 @@ import * as song from "./song-types";
 
 const initialState = {
   isFetchRequest: false,
-  isFetchSuccess: false,
   isFetchFail: null,
+
+  isFetchAllSuccess: false,
+  isFetchOwnSuccess: false,
+  isFetchPopularSuccess: false,
+  isFetchFavoriteSuccess: false,
 
   isUpdatingSong: false,
   songUpdateSuccess: false,
@@ -34,13 +38,12 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetchRequest: true,
-        isFetchSuccess: false,
         isFetchFail: false,
         isLikeRequest: true,
         isLikeSuccess: false,
         isLikeFail: false,
       };
-    case song.FETCH_SONG_SUCCESS: {
+    case song.FETCH_ALL_SONGS_SUCCESS: {
       const actionType = action.payload.type;
       const newIds = { ...state.songIds };
       newIds[actionType] = [...action.payload.songIds];
@@ -49,7 +52,58 @@ const songReducer = (state = initialState, action) => {
         ...state,
         isFetchRequest: false,
         isFetchFail: null,
-        isFetchSuccess: true,
+        isFetchAllSuccess: true,
+        songsByID: {
+          ...state.songsByID,
+          ...action.payload.songsByID,
+        },
+        songIds: newIds,
+      };
+    }
+    case song.FETCH_POPULAR_SONGS_SUCCESS: {
+      const actionType = action.payload.type;
+      const newIds = { ...state.songIds };
+      newIds[actionType] = [...action.payload.songIds];
+
+      return {
+        ...state,
+        isFetchRequest: false,
+        isFetchFail: null,
+        isFetchPopularSuccess: true,
+        songsByID: {
+          ...state.songsByID,
+          ...action.payload.songsByID,
+        },
+        songIds: newIds,
+      };
+    }
+    case song.FETCH_MY_SONGS_SUCCESS: {
+      const actionType = action.payload.type;
+      const newIds = { ...state.songIds };
+      newIds[actionType] = [...action.payload.songIds];
+
+      return {
+        ...state,
+        isFetchRequest: false,
+        isFetchFail: null,
+        isFetchOwnSuccess: true,
+        songsByID: {
+          ...state.songsByID,
+          ...action.payload.songsByID,
+        },
+        songIds: newIds,
+      };
+    }
+    case song.FETCH_FAVORITE_SONGS_SUCCESS: {
+      const actionType = action.payload.type;
+      const newIds = { ...state.songIds };
+      newIds[actionType] = [...action.payload.songIds];
+
+      return {
+        ...state,
+        isFetchRequest: false,
+        isFetchFail: null,
+        isFetchFavoriteSuccess: true,
         songsByID: {
           ...state.songsByID,
           ...action.payload.songsByID,
@@ -61,38 +115,8 @@ const songReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetchRequest: false,
-        isFetchSuccess: false,
         isFetchFail: action.payload,
       };
-    // case song.FETCH_SONG_RESET:
-    //   return {
-    //     ...state,
-    //     isFetchRequest: false,
-    //     isFetchSuccess: false,
-    //     isFetchFail: null,
-    //   };
-    // case song.LIKE_SONG_REQUEST:
-    //   return {
-    //     ...state,
-    //     isLikeRequest: true,
-    //     isLikeSuccess: false,
-    //     isLikeFail: false,
-    //   };
-    // case song.LIKE_SONG_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLikeRequest: false,
-    //     isLikeSuccess: true,
-    //     isLikeFail: false,
-    //     currentUser: action.payload.data,
-    //   };
-    // case song.LIKE_SONG_ERROR:
-    //   return {
-    //     ...state,
-    //     isLikeRequest: true,
-    //     isLikeSuccess: false,
-    //     isLikeFail: action.payload,
-    //   };
     case song.RESET_STATE:
       return {
         ...initialState,
@@ -201,38 +225,6 @@ const songReducer = (state = initialState, action) => {
         ...state,
         songDeleting: action.payload,
       };
-
-    // case song.FETCH_MONTHLY_POPULAR_REQUEST:
-    //   return {
-    //     ...state,
-    //     isFetchRequest: true,
-    //     isFetchSuccess: false,
-    //     isFetchFail: false,
-    //   };
-    // case song.FETCH_MONTHLY_POPULAR_ERROR:
-    //   return {
-    //     ...state,
-    //     isFetchRequest: false,
-    //     isFetchSuccess: false,
-    //     isFetchFail: action.payload,
-    //   };
-    // case song.FETCH_MONTHLY_POPULAR_SUCCESS: {
-    //   const actionType = action.payload.type;
-    //   const newIds = { ...state.songIds };
-    //   newIds[actionType] = [...action.payload.songIds];
-
-    //   return {
-    //     ...state,
-    //     isFetchRequest: false,
-    //     isFetchFail: null,
-    //     isFetchSuccess: true,
-    //     songsByID: {
-    //       ...state.songsByID,
-    //       ...action.payload.songsByID,
-    //     },
-    //     songIds: newIds,
-    //   };
-    // }
     default:
       return { ...state };
   }
