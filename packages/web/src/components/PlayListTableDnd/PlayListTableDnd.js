@@ -45,7 +45,14 @@ const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setListOfSongs(items);
-    dispatch(updatePlaylistOrder(playlistId, listOfSongs));
+    const ids = [];
+    for (const songId in items) {
+      if (songId) {
+        ids.push(items[songId]._id);
+      }
+    }
+    console.log(songs);
+    dispatch(updatePlaylistOrder(playlistId, ids));
   }
 
   useEffect(() => {
