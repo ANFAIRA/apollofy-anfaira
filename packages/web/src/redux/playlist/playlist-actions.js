@@ -429,8 +429,6 @@ export function updatePlaylistOrder(playlistId, ids) {
   return async function updatePlaylistOrderThunk(dispatch) {
     try {
       const response = await api.updatePlaylistOrder({ playlistId, ids });
-      console.log(ids);
-      console.log(response);
       // if (response.errorMessage) {
       //   return dispatch(deletePlaylistError(response.errorMessage));
       // }

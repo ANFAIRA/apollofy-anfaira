@@ -19,7 +19,7 @@ const UserView = () => {
     likedSongs,
     followedPlaylist,
     username,
-  } = useSelector((state) => state.user?.currentUser);
+  } = useSelector((state) => state.user?.selectedUser);
 
   useEffect(() => {
     dispatch(fetchUserByID(id));

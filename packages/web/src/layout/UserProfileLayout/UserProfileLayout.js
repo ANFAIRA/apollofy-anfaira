@@ -1,12 +1,32 @@
 import { node } from "prop-types";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import * as ROUTES from "../../routes";
+import { followUser } from "../../redux/user/user-actions";
+import { selectUser } from "../../redux/user/user-selector";
 
 const UserProfileLayout = ({ children }) => {
-  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { selectedUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.auth);
+  // const userToFollow = useSelector(selectUser(selectedUser._id));
+  const userToFollow = useSelector(
+    (state) => state.user?.usersByID[selectedUser._id],
+  );
+  console.log(userToFollow);
+
+  const [isFollowingUser, setIsFollowingUser] = useState(
+    userToFollow?.followers.find(
+      (followerId) => followerId === currentUser.data._id,
+    ),
+  );
+
+  const handleFollowUser = () => {
+    setIsFollowingUser(!isFollowingUser);
+    dispatch(followUser(selectedUser._id, currentUser.data.firebaseId));
+  };
 
   // TODO create route
   return (
@@ -15,7 +35,7 @@ const UserProfileLayout = ({ children }) => {
         <div className="text-gray-300 p-10">
           <div className="flex items-center">
             <Avatar
-              placeholder={currentUser?.username?.charAt(0).toUpperCase()}
+              placeholder={selectedUser?.username?.charAt(0).toUpperCase()}
               height="h-32"
               width="w-32"
               textSize="text-5xl"
@@ -25,13 +45,14 @@ const UserProfileLayout = ({ children }) => {
                 USER
               </h4>
               <h2 className="mt-0 mb-2 text-white text-4xl">
-                {currentUser.username}
+                {selectedUser.username}
               </h2>
             </div>
             <div className="ml-auto">
               <button
                 type="button"
                 className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
+                onClick={handleFollowUser}
               >
                 FOLLOW
               </button>
@@ -40,7 +61,7 @@ const UserProfileLayout = ({ children }) => {
         </div>
         <div className="flex ml-1 mb-3 text-md font-semibold uppercase">
           <NavLink
-            to={`/users/${currentUser._id}`}
+            to={`/users/${selectedUser._id}`}
             className="mr-12 cursor-pointer active:text-indigo-500"
             activeClassName="pb-2 border-b-4 border-indigo-500"
           >
@@ -51,14 +72,14 @@ const UserProfileLayout = ({ children }) => {
             className="mr-12 cursor-pointer"
             activeClassName="pb-2 border-b-4 border-indigo-500"
           >
-            {currentUser.username}&apos;s Songs
+            {selectedUser.username}&apos;s Songs
           </NavLink>
           <NavLink
             to={ROUTES.USER_PLAYLISTS}
             className="mr-12 cursor-pointer"
             activeClassName="pb-2 border-b-4 border-indigo-500"
           >
-            {currentUser.username}&apos;s Playlists
+            {selectedUser.username}&apos;s Playlists
           </NavLink>
           <NavLink
             to={ROUTES.USER_FAVOURITE_SONGS}

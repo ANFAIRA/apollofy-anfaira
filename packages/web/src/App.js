@@ -65,6 +65,7 @@ function App() {
         unsubscribeFromAuth();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const fetchData = () => {
@@ -86,6 +87,7 @@ function App() {
   };
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
