@@ -3,6 +3,13 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
+import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
+import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
+import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
+import {
+  deleteSongPlayback,
+  deleteSongPlaybackMonthly,
+} from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
@@ -16,6 +23,7 @@ function DeleteModal() {
     // songDeleteSuccess,
     // songDeleteError,
     songDeleting,
+    songsByID,
   } = useSelector(songSelector);
 
   const { handleSubmit } = useForm({
@@ -28,6 +36,17 @@ function DeleteModal() {
   }
 
   function onSubmit() {
+    dispatch(deleteSongFromAllPlaylists(songDeleting));
+    dispatch(deleteSongFromAllUsers(songDeleting));
+    dispatch(deleteSongPlayback(songDeleting));
+    dispatch(deleteSongPlaybackMonthly(songDeleting));
+    dispatch(
+      deleteSongFromGenre({
+        genreId: songsByID[songDeleting].genre,
+        songId: songDeleting,
+      }),
+    );
+
     dispatch(deleteSong({ _id: songDeleting }));
     dispatch(hideDeleteModal());
   }

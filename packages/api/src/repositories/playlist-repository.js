@@ -6,10 +6,12 @@ class PlaylistRepository {
     return normalizeDBQuery(db.Playlist.create(options));
   }
 
-  update(options) {
-    return normalizeDBQuery(
-      db.Playlist.updateOne({ _id: options._id }, options),
-    );
+  update(query, data) {
+    return normalizeDBQuery(db.Playlist.update(query, data, {}));
+  }
+
+  updateMany(query, data, options) {
+    return normalizeDBQuery(db.Playlist.updateMany(query, data, options));
   }
 
   find(query) {

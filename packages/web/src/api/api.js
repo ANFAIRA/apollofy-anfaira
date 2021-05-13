@@ -70,6 +70,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromAllUsers(options) {
+    return request({
+      url: "/api/users-song/",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   // SONG
   function createSong({ body, headers = {} }) {
     return request({
@@ -87,14 +95,6 @@ function makeApi(request = makeRequest()) {
       headers: headers,
     });
   }
-
-  // function getSong(headers) {
-  //   return request({
-  //     url: "/api/songs/:id",
-  //     requestMethod: "GET",
-  //     headers: headers,
-  //   })
-  // }
 
   function updateSongInfo(options) {
     return request({
@@ -189,6 +189,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromAllPlaylists(options) {
+    return request({
+      url: "/api/playlist-song/",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   function followPlaylist(headers, options) {
     return request({
       url: `/api/playlist/${options.playlistId}/follow`,
@@ -264,12 +272,36 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromGenre(options) {
+    return request({
+      url: "/api/genres",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   // PLAYBACK
 
   function addSongPlayback({ songID }) {
     return request({
       url: `/songs/${songID}/playback`,
       requestMethod: "POST",
+    });
+  }
+
+  function deleteSongPlayback(options) {
+    return request({
+      url: `/songs/${options}/playback`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
+  function deleteSongPlaybackMonthly(options) {
+    return request({
+      url: `/songs/${options}/playback-monthly`,
+      requestMethod: "DELETE",
+      body: options,
     });
   }
 
@@ -315,6 +347,11 @@ function makeApi(request = makeRequest()) {
     addSongPlayback: addSongPlayback,
     getPopularSongs: getPopularSongs,
     fetchPopularGenre: fetchPopularGenre,
+    deleteSongFromGenre: deleteSongFromGenre,
+    deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
+    deleteSongFromAllUsers: deleteSongFromAllUsers,
+    deleteSongPlayback: deleteSongPlayback,
+    deleteSongPlaybackMonthly: deleteSongPlaybackMonthly,
   };
 }
 
