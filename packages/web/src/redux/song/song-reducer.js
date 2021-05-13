@@ -244,6 +244,13 @@ const songReducer = (state = initialState, action) => {
         isDeletingPlayback: false,
         playbackDeleteError: action.payload,
       };
+    case song.DELETE_PLAYBACK_MONTHLY_SUCCESS:
+      return {
+        ...state,
+        isDeletingPlayback: false,
+        playbackDeleteSuccess: true,
+        playbackDeleteError: null,
+      };
     default:
       return { ...state };
   }

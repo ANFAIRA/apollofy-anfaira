@@ -287,9 +287,16 @@ function makeApi(request = makeRequest()) {
   }
 
   function deleteSongPlayback(options) {
-    console.log(options);
     return request({
       url: `/songs/${options}/playback`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
+  function deleteSongPlaybackMonthly(options) {
+    return request({
+      url: `/songs/${options}/playback-monthly`,
       requestMethod: "DELETE",
       body: options,
     });
@@ -341,6 +348,7 @@ function makeApi(request = makeRequest()) {
     deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
     deleteSongFromAllUsers: deleteSongFromAllUsers,
     deleteSongPlayback: deleteSongPlayback,
+    deleteSongPlaybackMonthly: deleteSongPlaybackMonthly,
   };
 }
 

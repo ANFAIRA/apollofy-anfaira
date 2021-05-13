@@ -92,6 +92,10 @@ class SongPlaybackRepository {
   findOneAndDelete(query) {
     return normalizeDBQuery(db.SongPlayback.findOneAndDelete(query));
   }
+
+  findOneAndDeleteMonthly(query) {
+    return normalizeDBQuery(db.MonthlySongPlayback.findOneAndDelete(query));
+  }
 }
 
 module.exports = new SongPlaybackRepository();

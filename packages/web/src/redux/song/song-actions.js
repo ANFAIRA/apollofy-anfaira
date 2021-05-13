@@ -365,3 +365,34 @@ export function deleteSongPlayback(songId) {
     }
   };
 }
+
+// Delete playback monthly
+
+export const deleteSongPlaybackMonthlyRequest = () => ({
+  type: SongTypes.DELETE_PLAYBACK_REQUEST,
+});
+
+export const deleteSongPlaybackMonthlyError = (message) => ({
+  type: SongTypes.DELETE_PLAYBACK_ERROR,
+  payload: message,
+});
+
+export const deleteSongPlaybackMonthlySuccess = (songId) => ({
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongPlaybackMonthly(songId) {
+  return async function deleteSongPlaybackMonthlyThunk(dispatch) {
+    dispatch(deleteSongPlaybackMonthlyRequest());
+    try {
+      const response = await api.deleteSongPlaybackMonthly(songId);
+      if (response.errorMessage) {
+        return dispatch(deleteSongPlaybackMonthlyError(response.errorMessage));
+      }
+      return dispatch(deleteSongPlaybackMonthlySuccess(response.data));
+    } catch (error) {
+      return dispatch(deleteSongPlaybackMonthlyError(error.message));
+    }
+  };
+}

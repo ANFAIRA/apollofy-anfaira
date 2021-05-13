@@ -19,7 +19,7 @@ class UserRepository {
   }
 
   updateMany(query, data, options) {
-    return normalizeDBQuery(db.Playlist.updateMany(query, data, options));
+    return normalizeDBQuery(db.User.updateMany(query, data, options));
   }
 }
 

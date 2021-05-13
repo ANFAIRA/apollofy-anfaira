@@ -21,6 +21,10 @@ songRouter.delete(
   "/songs/:id/playback",
   songPlaybackController.deleteSongPlayback,
 );
+songRouter.delete(
+  "/songs/:id/playback-monthly",
+  songPlaybackController.deleteSongPlaybackMonthly,
+);
 
 songRouter.get(
   "/api/songs/popular",
