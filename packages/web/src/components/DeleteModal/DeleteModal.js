@@ -36,19 +36,19 @@ function DeleteModal() {
   }
 
   function onSubmit() {
-    // dispatch(deleteSong({ _id: songDeleting }));
-    // dispatch(deleteSongFromAllPlaylists(songDeleting));
-    // dispatch(deleteSongFromAllUsers(songDeleting));
-    // dispatch(deleteSongPlayback(songDeleting));
+    dispatch(deleteSongFromAllPlaylists(songDeleting));
+    dispatch(deleteSongFromAllUsers(songDeleting));
+    dispatch(deleteSongPlayback(songDeleting));
     dispatch(deleteSongPlaybackMonthly(songDeleting));
-    // dispatch(
-    //   deleteSongFromGenre({
-    //     genreId: songsByID[songDeleting].genre,
-    //     songId: songDeleting,
-    //   }),
-    // );
+    dispatch(
+      deleteSongFromGenre({
+        genreId: songsByID[songDeleting].genre,
+        songId: songDeleting,
+      }),
+    );
 
-    // dispatch(hideDeleteModal());
+    dispatch(deleteSong({ _id: songDeleting }));
+    dispatch(hideDeleteModal());
   }
 
   return (

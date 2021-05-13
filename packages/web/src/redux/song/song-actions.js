@@ -369,11 +369,11 @@ export function deleteSongPlayback(songId) {
 // Delete playback monthly
 
 export const deleteSongPlaybackMonthlyRequest = () => ({
-  type: SongTypes.DELETE_PLAYBACK_REQUEST,
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_REQUEST,
 });
 
 export const deleteSongPlaybackMonthlyError = (message) => ({
-  type: SongTypes.DELETE_PLAYBACK_ERROR,
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_ERROR,
   payload: message,
 });
 

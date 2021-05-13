@@ -124,9 +124,14 @@ async function deleteSongFromAllUsers(req, res, next) {
   try {
     const dbResponse = await UserRepo.updateMany(
       {
-        uploadedSongs: songId,
+        $or: [{ uploadedSongs: songId }, { likedSongs: songId }],
       },
-      { $pull: { uploadedSongs: { $in: [songId] } } },
+      {
+        $pull: {
+          uploadedSongs: { $in: [songId] },
+          likedSongs: { $in: [songId] },
+        },
+      },
       { multi: true, new: true },
     );
     if (dbResponse.error) {
