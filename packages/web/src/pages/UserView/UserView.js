@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import SongCard from "../../components/SongCard";
 import PlaylistCard from "../../components/PlayListCard";
@@ -8,14 +9,17 @@ import UserProfileLayout from "../../layout/UserProfileLayout";
 
 const UserView = () => {
   const { playlistsByID } = useSelector((state) => state.playlists);
-  const { songsByID } = useSelector((state) => state?.song);
+  const { songsByID } = useSelector((state) => state.song);
+  const { usersByID } = useSelector((state) => state.user);
+  const { id } = useParams();
+  const selectedUser = usersByID[id];
   const {
     uploadedSongs,
     uploadedPlaylist,
     likedSongs,
     followedPlaylist,
     username,
-  } = useSelector((state) => state.user?.selectedUser);
+  } = selectedUser;
 
   return (
     <Main>
@@ -45,11 +49,9 @@ const UserView = () => {
         <h2 className="pb-2 font-semibold mt-10 ">Favorites</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {likedSongs?.slice(0, 6).map((song) => {
-            return (
-              <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-            );
-          })}
+          {likedSongs?.slice(0, 6).map((song) => (
+            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
+          ))}
         </section>
         <h2 className="pb-2 font-semibold mt-10 ">Following</h2>
         <hr className="border-gray-600 pb-2 " />
