@@ -26,7 +26,7 @@ const UserView = () => {
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {uploadedSongs?.slice(0, 6).map((song) => (
-            <SongCard key={songsByID[song]?._id} song={songsByID[song]} />
+            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
           ))}
         </section>
         <h2 className="pb-2 font-semibold mt-10 capitalize">
@@ -36,9 +36,9 @@ const UserView = () => {
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {uploadedPlaylist?.slice(0, 6).map((playlist) => (
             <PlaylistCard
-              key={playlistsByID[playlist]._id}
+              key={playlistsByID[playlist]?._id}
               playlist={playlistsByID[playlist]}
-              location={`playlist/${playlistsByID[playlist]._id}`}
+              location={`playlist/${playlistsByID[playlist]?._id}`}
             />
           ))}
         </section>
@@ -56,9 +56,9 @@ const UserView = () => {
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
           {followedPlaylist?.slice(0, 6).map((playlist) => (
             <PlaylistCard
-              key={playlistsByID[playlist]._id}
+              key={playlistsByID[playlist]?._id}
               playlist={playlistsByID[playlist]}
-              location={`playlist/${playlistsByID[playlist]._id}`}
+              location={`playlist/${playlistsByID[playlist]?._id}`}
             />
           ))}
         </section>

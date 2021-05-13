@@ -9,8 +9,15 @@ const FollowingUsers = () => {
     pathname.substring(pathname.lastIndexOf("/") + 1) === "following";
   const followed =
     pathname.substring(pathname.lastIndexOf("/") + 1) === "followed";
-  const { followers } = useSelector((state) => state.user.selectedUser);
-  const {usersByID} = useSelector((state)=> state.user);
+  const {
+    followers: selectedUserFollowers,
+    followedUsers: selectedUserFollowed,
+  } = useSelector((state) => state.user.selectedUser);
+  const {
+    followers: currentUserFollowers,
+    followedUsers: currentUserFollowed,
+  } = useSelector((state) => state.auth.currentUser);
+  const { usersByID } = useSelector((state) => state.user);
 
   return (
     <Main>
@@ -23,21 +30,47 @@ const FollowingUsers = () => {
           )}
           <hr className="border-gray-600 pb-2" />
           <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-            {following
-              ? followers?.map((follower) => (
-                  <UserCard
-                    key={usersByID[follower]._id}
-                    genre={usersByID[follower]}
-                    // location={`genre/${genresByID[follower].metadata.genre}`}
-                  />
-                ))
-              : followers?.map((genre) => (
-                  <UserCard
-                    key={usersByID[genre]._id}
-                    genre={usersByID[genre]}
-                    // location={`genre/${genresByID[follower].metadata.genre}`}
-                  />
-                ))}
+            {following &&
+              (selectedUserFollowers
+                ? selectedUserFollowers.map((follower) => {
+                    return (
+                      <UserCard
+                        key={usersByID[follower]._id}
+                        user={usersByID[follower]}
+                        location={`users/${usersByID[follower]._id}`}
+                      />
+                    );
+                  })
+                : currentUserFollowers?.map((follower) => {
+                    return (
+                      <UserCard
+                        key={usersByID[follower]._id}
+                        user={usersByID[follower]}
+                        location={`users/${usersByID[follower]._id}`}
+                      />
+                    );
+                  }))}
+
+            {followed &&
+              (selectedUserFollowed
+                ? selectedUserFollowed.map((follower) => {
+                    return (
+                      <UserCard
+                        key={usersByID[follower]._id}
+                        user={usersByID[follower]}
+                        location={`users/${usersByID[follower]._id}`}
+                      />
+                    );
+                  })
+                : currentUserFollowed?.map((follower) => {
+                    return (
+                      <UserCard
+                        key={usersByID[follower]._id}
+                        user={usersByID[follower]}
+                        location={`users/${usersByID[follower]._id}`}
+                      />
+                    );
+                  }))}
           </section>
         </article>
       </div>
