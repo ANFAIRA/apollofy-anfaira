@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const SearchBar = () => {
   function handleFocus(e) {
@@ -7,6 +7,7 @@ const SearchBar = () => {
   function handleBlur(e) {
     console.log("blur");
   }
+
   return (
     <div className="rounded-full overflow-hidden flex">
       <input
