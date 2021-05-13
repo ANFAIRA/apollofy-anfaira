@@ -105,7 +105,7 @@ const PlaylistView = () => {
                 </Link>
                 <p className="text-gray-600 mr-2 text-sm">·</p>
                 <p className="text-gray-600 mr-2 text-sm">
-                  {songs.length > 0
+                  {songs.length !== 1
                     ? `${songs.length} songs`
                     : `${songs.length} song`}
                 </p>
@@ -145,7 +145,7 @@ const PlaylistView = () => {
               {isMenuOpen && <PlaylistDialogue playlist={playlist} />}
             </div>
             <p className="text-gray-600 text-sm">
-              {playlist.followedBy.length > 1
+              {playlist.followedBy.length !== 1
                 ? `${playlist.followedBy.length} FOLLOWERS`
                 : `${playlist.followedBy.length} FOLLOWER`}
             </p>

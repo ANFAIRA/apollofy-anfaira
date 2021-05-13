@@ -7,19 +7,44 @@ import Avatar from "../../components/Avatar";
 
 const ProfileLayout = ({ children }) => {
   const currentUser = useSelector((state) => state.auth.currentUser);
+  const { followedUsers, followers } = useSelector(
+    (state) => state.auth.currentUser,
+  );
   return (
     <>
       <header>
-        <div className="flex items-center mb-5">
+        <div className="flex items-center mb-10">
           <Avatar
             placeholder={currentUser.username.charAt(0).toUpperCase()}
             height="h-24"
             width="w-24"
             textSize="text-5xl"
           />
-          <h3 className="text-5xl font-semibold ml-4">
-            {currentUser.username}
-          </h3>
+          <div className="ml-10">
+            <h3 className="text-5xl font-semibold">{currentUser.username}</h3>
+            <div className="flex mt-4">
+              <p
+                className={
+                  followers.length
+                    ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm mr-5"
+                    : "text-gray-600 cursor-pointer text-sm mr-5"
+                }
+              >
+                {followers.length !== 1
+                  ? `${followers.length} FOLLOWERS`
+                  : `${followers.length} FOLLOWER`}
+              </p>
+              <p
+                className={
+                  followedUsers.length
+                    ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm"
+                    : "text-gray-600 cursor-pointer text-sm"
+                }
+              >
+                {`${followedUsers.length} FOLLOWED`}
+              </p>
+            </div>
+          </div>
         </div>
         <div className="flex ml-1 mb-3 text-md font-semibold uppercase">
           <NavLink

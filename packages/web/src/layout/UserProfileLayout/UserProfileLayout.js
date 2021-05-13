@@ -14,7 +14,6 @@ const UserProfileLayout = ({ children }) => {
   const userToFollow = useSelector(
     (state) => state.user?.usersByID[selectedUser._id],
   );
-  console.log(userToFollow);
 
   const [isFollowingUser, setIsFollowingUser] = useState(
     userToFollow?.followers.find(
