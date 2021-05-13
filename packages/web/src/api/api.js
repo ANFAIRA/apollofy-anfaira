@@ -67,6 +67,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongFromAllUsers(options) {
+    return request({
+      url: "/api/users-song/",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   // SONG
   function createSong({ body, headers = {} }) {
     return request({
@@ -322,6 +330,7 @@ function makeApi(request = makeRequest()) {
     fetchPopularGenre: fetchPopularGenre,
     deleteSongFromGenre: deleteSongFromGenre,
     deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
+    deleteSongFromAllUsers: deleteSongFromAllUsers,
   };
 }
 

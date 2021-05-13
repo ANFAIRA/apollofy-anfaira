@@ -17,6 +17,10 @@ class UserRepository {
   findOneAndUpdate(query, data) {
     return normalizeDBQuery(db.User.findOneAndUpdate(query, data, {}));
   }
+
+  updateMany(query, data, options) {
+    return normalizeDBQuery(db.Playlist.updateMany(query, data, options));
+  }
 }
 
 module.exports = new UserRepository();

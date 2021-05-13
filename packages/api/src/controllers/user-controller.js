@@ -118,10 +118,41 @@ async function fetchUserById(req, res, next) {
   }
 }
 
+async function deleteSongFromAllUsers(req, res, next) {
+  const { songId } = req.body;
+  console.log(songId);
+
+  try {
+    const dbResponse = await UserRepo.updateMany(
+      {
+        uploadedSongs: songId,
+      },
+      { $pull: { uploadedSongs: { $in: [songId] } } },
+      { multi: true, new: true },
+    );
+    if (dbResponse.error) {
+      res.status(500).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: req.body,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   signUp: signUp,
   signOut: signOut,
   updateUser: updateUser,
   fetchUsers: fetchUsers,
   fetchUserById: fetchUserById,
+  deleteSongFromAllUsers: deleteSongFromAllUsers,
 };

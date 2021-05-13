@@ -159,3 +159,36 @@ export function fetchUserByID(userID) {
     }
   };
 }
+
+// Delete song from all users
+
+export const deleteSongFromAllUsersRequest = () => ({
+  type: UserTypes.DELETE_SONG_FROM_ALL_USERS_REQUEST,
+});
+
+export const deleteSongFromAllUsersError = (message) => ({
+  type: UserTypes.DELETE_SONG_FROM_ALL_USERS_ERROR,
+  payload: message,
+});
+
+export const deleteSongFromAllUsersSuccess = (songId) => ({
+  type: UserTypes.DELETE_SONG_FROM_ALL_USERS_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongFromAllUsers(songId) {
+  return async function deleteSongFromAllUsersThunk(dispatch) {
+    dispatch(deleteSongFromAllUsersRequest());
+    try {
+      const response = await api.deleteSongFromAllUsers({
+        songId,
+      });
+      if (response.errorMessage) {
+        return dispatch(deleteSongFromAllUsersError(response.errorMessage));
+      }
+      return dispatch(deleteSongFromAllUsersSuccess());
+    } catch (error) {
+      return dispatch(deleteSongFromAllUsersError(error.message));
+    }
+  };
+}
