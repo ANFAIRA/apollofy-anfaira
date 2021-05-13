@@ -120,7 +120,6 @@ async function fetchUserById(req, res, next) {
 
 async function deleteSongFromAllUsers(req, res, next) {
   const { songId } = req.body;
-  console.log(songId);
 
   try {
     const dbResponse = await UserRepo.updateMany(

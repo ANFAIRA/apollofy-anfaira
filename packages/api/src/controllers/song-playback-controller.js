@@ -203,10 +203,28 @@ async function fetchMonthlyById(req, res, next) {
   }
 }
 
+async function deleteSongPlayback(req, res, next) {
+  const {
+    params: { id },
+  } = req;
+  console.log("playback", id);
+
+  try {
+    const dbResponse = await SongPlaybackRepo.findOneAndDelete({
+      "metadata.song": id,
+    });
+
+    handleDbResponse(res, dbResponse);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   addPlayback: addPlayback,
   fetchPlaybacks: fetchPlaybacks,
   fetchById: fetchById,
   fetchMonthlyPlaybacks: fetchMonthlyPlaybacks,
   fetchMonthlyById: fetchMonthlyById,
+  deleteSongPlayback: deleteSongPlayback,
 };

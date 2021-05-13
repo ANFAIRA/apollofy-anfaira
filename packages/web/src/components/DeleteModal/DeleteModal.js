@@ -6,6 +6,7 @@ import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
 import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
 import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
 import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
+import { deleteSongPlayback } from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
@@ -37,6 +38,7 @@ function DeleteModal() {
     // console.log(songDeleting);
     // dispatch(deleteSongFromAllPlaylists(songDeleting));
     dispatch(deleteSongFromAllUsers(songDeleting));
+    dispatch(deleteSongPlayback(songDeleting));
     // dispatch(
     //   deleteSongFromGenre({
     //     genreId: songsByID[songDeleting].genre,

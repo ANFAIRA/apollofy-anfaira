@@ -225,6 +225,25 @@ const songReducer = (state = initialState, action) => {
         ...state,
         songDeleting: action.payload,
       };
+    case song.DELETE_PLAYBACK_REQUEST:
+      return {
+        ...state,
+        isDeletingPlayback: true,
+        playbackDeleteError: null,
+      };
+    case song.DELETE_PLAYBACK_SUCCESS:
+      return {
+        ...state,
+        isDeletingPlayback: false,
+        playbackDeleteSuccess: true,
+        playbackDeleteError: null,
+      };
+    case song.DELETE_PLAYBACK_ERROR:
+      return {
+        ...state,
+        isDeletingPlayback: false,
+        playbackDeleteError: action.payload,
+      };
     default:
       return { ...state };
   }

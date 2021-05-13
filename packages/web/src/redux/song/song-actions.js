@@ -334,3 +334,34 @@ export const addUploadedSong = (song) => ({
 });
 
 // SONG PLAYBACK
+
+// Delete playback
+
+export const deleteSongPlaybackRequest = () => ({
+  type: SongTypes.DELETE_PLAYBACK_REQUEST,
+});
+
+export const deleteSongPlaybackError = (message) => ({
+  type: SongTypes.DELETE_PLAYBACK_ERROR,
+  payload: message,
+});
+
+export const deleteSongPlaybackSuccess = (songId) => ({
+  type: SongTypes.DELETE_PLAYBACK_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongPlayback(songId) {
+  return async function deleteSongPlaybackThunk(dispatch) {
+    dispatch(deleteSongPlaybackRequest());
+    try {
+      const response = await api.deleteSongPlayback(songId);
+      if (response.errorMessage) {
+        return dispatch(deleteSongPlaybackError(response.errorMessage));
+      }
+      return dispatch(deleteSongPlaybackSuccess(response.data));
+    } catch (error) {
+      return dispatch(deleteSongPlaybackError(error.message));
+    }
+  };
+}

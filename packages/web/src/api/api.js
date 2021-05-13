@@ -286,6 +286,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deleteSongPlayback(options) {
+    console.log(options);
+    return request({
+      url: `/songs/${options}/playback`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   function getPopularSongs(headers) {
     return request({
       url: "/api/songs/popular",
@@ -331,6 +340,7 @@ function makeApi(request = makeRequest()) {
     deleteSongFromGenre: deleteSongFromGenre,
     deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
     deleteSongFromAllUsers: deleteSongFromAllUsers,
+    deleteSongPlayback: deleteSongPlayback,
   };
 }
 
