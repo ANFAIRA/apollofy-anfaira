@@ -15,7 +15,7 @@ import {
 } from "../../redux/playlist/playlist-actions";
 
 function PlaylistDialogue({ playlist }) {
-  const { _id } = useSelector((state) => state.auth.currentUser.data);
+  const { _id } = useSelector((state) => state.auth.currentUser);
   const { author } = playlist;
 
   const isMyPlaylist = _id === author[0];

@@ -33,6 +33,7 @@ const ModalReducer = (state = ModalInitialState, action) => {
       return {
         ...state,
         showPlaylistModal: false,
+        isEditModal: false,
       };
 
     case ModalTypes.SHOW_DELETE_MODAL:

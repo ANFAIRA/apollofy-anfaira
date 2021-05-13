@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 import SongCard from "../../components/SongCard";
 import PlaylistCard from "../../components/PlayListCard";
 import Main from "../../layout/Main";
 import UserProfileLayout from "../../layout/UserProfileLayout";
-import { fetchUserByID } from "../../redux/user/user-actions";
+// import { fetchUserByID } from "../../redux/user/user-actions";
 
 const UserView = () => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
+  // const dispatch = useDispatch();
+  // const { id } = useParams();
   const { playlistsByID } = useSelector((state) => state.playlists);
   const { songsByID } = useSelector((state) => state?.song);
   const {
@@ -19,11 +19,11 @@ const UserView = () => {
     likedSongs,
     followedPlaylist,
     username,
-  } = useSelector((state) => state.user?.currentUser);
+  } = useSelector((state) => state.user?.selectedUser);
 
-  useEffect(() => {
-    dispatch(fetchUserByID(id));
-  }, [dispatch, id]);
+  // useEffect(() => {
+  //   dispatch(fetchUserByID(id));
+  // }, [dispatch, id]);
 
   return (
     <Main>

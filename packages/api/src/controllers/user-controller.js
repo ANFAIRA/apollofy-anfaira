@@ -151,6 +151,61 @@ async function deleteSongFromAllUsers(req, res, next) {
     next(err);
   }
 }
+async function followUser(req, res, next) {
+  const { id } = req.params;
+  const { firebaseId } = req.body;
+
+  try {
+    const userToFollow = await UserRepo.findById(id);
+    const authUser = await UserRepo.findOne({
+      firebaseId: firebaseId,
+    });
+
+    const userToFollowIndex = userToFollow.data.followers.findIndex(
+      (id) => String(id) === String(authUser.data._id),
+    );
+    if (userToFollowIndex === -1) {
+      userToFollow.data.followers.push(authUser.data._id);
+    } else {
+      userToFollow.data.followers = userToFollow.data.followers.filter(
+        (id) => String(id) !== String(authUser.data._id),
+      );
+    }
+
+    const authUserIndex = authUser.data.followedUsers.findIndex(
+      (id) => String(id) === String(userToFollow.data._id),
+    );
+    if (authUserIndex === -1) {
+      authUser.data.followedUsers.push(userToFollow.data._id);
+    } else {
+      authUser.data.followedUsers = authUser.data.followedUsers.filter(
+        (id) => String(id) !== String(userToFollow.data._id),
+      );
+    }
+
+    const authUserFollowed = await UserRepo.findOneAndUpdate(
+      { firebaseId: firebaseId },
+      {
+        $set: {
+          followedUsers: authUser.data.followedUsers,
+        },
+      },
+    );
+
+    await UserRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          followers: userToFollow.data.followers,
+        },
+      },
+    );
+
+    res.status(200).send(authUserFollowed);
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   signUp: signUp,
@@ -159,4 +214,5 @@ module.exports = {
   fetchUsers: fetchUsers,
   fetchUserById: fetchUserById,
   deleteSongFromAllUsers: deleteSongFromAllUsers,
+  followUser: followUser,
 };

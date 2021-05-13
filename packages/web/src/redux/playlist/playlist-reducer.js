@@ -25,8 +25,6 @@ export const PlaylistInitState = {
   playlistDeleteError: null,
   playlistDeleting: null,
 
-  // playlistId: null,
-
   playlistsByID: {},
   playlistIds: {
     ALL: [],
@@ -264,7 +262,6 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         isDeletingPlaylist: false,
         playlistDeleteSuccess: true,
         playlistDeleteError: false,
-        // playlistId: action.payload,
         playlistDeleting: action.payload,
         playlistsByID: { ...state.playlistsByID },
         playlistIds: { ...state.playlistIds },

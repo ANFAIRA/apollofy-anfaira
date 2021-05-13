@@ -22,7 +22,7 @@ import {
 } from "../../redux/song/song-actions";
 
 function SongDialogue({ song, handleLikeBtn, setIsMenuOpen }) {
-  const { _id } = useSelector((state) => state.auth.currentUser.data);
+  const { _id } = useSelector((state) => state.auth.currentUser);
   const { authorId } = song;
   const isMySong = _id === authorId;
 

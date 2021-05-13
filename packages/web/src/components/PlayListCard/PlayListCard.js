@@ -1,10 +1,10 @@
-import { object, string } from "prop-types";
+import { bool, object, string } from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { fetchPlaylistById } from "../../redux/playlist/playlist-actions";
 
-function PlayListCard({ title, location, playlist = null }) {
+function PlayListCard({ title, location, playlist = null, slide = false }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -16,9 +16,9 @@ function PlayListCard({ title, location, playlist = null }) {
   return (
     <div
       className={
-        playlist
-          ? "my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4"
-          : "my-1 mb-6 px-1"
+        slide
+          ? "my-1 mb-6 px-1"
+          : "my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4"
       }
     >
       <div className={playlist ? "card" : ""}>
@@ -68,11 +68,13 @@ PlayListCard.propTypes = {
   title: string,
   location: string.isRequired,
   playlist: object,
+  slide: bool,
 };
 
 PlayListCard.defaultProps = {
   title: "",
   playlist: null,
+  slide: false,
 };
 
 export default PlayListCard;

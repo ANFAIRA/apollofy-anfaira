@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import {
   createPlaylist,
   updatePlaylist,
-  updatePlaylistReset,
+  // updatePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 import { playlistStateSelector } from "../../redux/playlist/playlist-selector";
 

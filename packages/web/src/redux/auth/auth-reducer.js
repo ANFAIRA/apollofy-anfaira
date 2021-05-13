@@ -124,6 +124,13 @@ const AuthReducer = (state = AuthInitialState, action) => {
         userUpdateError: action.payload,
       };
     }
+    case AuthTypes.UPDATE_USER_ACCOUNT_RESET:
+      return {
+        ...state,
+        userIsUpdated: false,
+        userIsUpdating: false,
+        userUpdateError: null,
+      };
     case AuthTypes.CHANGE_PASSWORD_REQUEST: {
       return {
         ...state,

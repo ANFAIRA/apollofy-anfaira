@@ -13,9 +13,7 @@ function LikedSongs() {
   const { songsByID } = useSelector((state) => state?.song);
 
   const { likedSongs } = useSelector((state) =>
-    state.song?.currentUser?.data
-      ? state.song.currentUser.data
-      : state.auth?.currentUser?.data,
+    state.song?.currentUser ? state.song.currentUser : state.auth?.currentUser,
   );
 
   const dispatch = useDispatch();

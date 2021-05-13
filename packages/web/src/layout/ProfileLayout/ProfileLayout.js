@@ -12,13 +12,13 @@ const ProfileLayout = ({ children }) => {
       <header>
         <div className="flex items-center mb-5">
           <Avatar
-            placeholder={currentUser.data.username.charAt(0).toUpperCase()}
+            placeholder={currentUser.username.charAt(0).toUpperCase()}
             height="h-24"
             width="w-24"
             textSize="text-5xl"
           />
           <h3 className="text-5xl font-semibold ml-4">
-            {currentUser.data.username}
+            {currentUser.username}
           </h3>
         </div>
         <div className="flex ml-1 mb-3 text-md font-semibold uppercase">

@@ -6,7 +6,7 @@ import Main from "../../layout/Main";
 import UserProfileLayout from "../../layout/UserProfileLayout";
 
 function UserSongs() {
-  const { uploadedSongs } = useSelector((state) => state.user.currentUser);
+  const { uploadedSongs } = useSelector((state) => state.user.selectedUser);
   const { songsByID } = useSelector((state) => state?.song);
 
   return (

@@ -42,12 +42,12 @@ const PlaylistView = () => {
 
   const dispatch = useDispatch();
   const [isFollow, setIsFollow] = useState(
-    playlist?.followedBy.find((like) => like === currentUser.data._id),
+    playlist?.followedBy.find((like) => like === currentUser._id),
   );
 
   const handleFollowPlaylist = () => {
     setIsFollow(!isFollow);
-    dispatch(followPlaylist(playlist._id, currentUser.data.firebaseId));
+    dispatch(followPlaylist(playlist._id, currentUser.firebaseId));
   };
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const PlaylistView = () => {
               >
                 <FontAwesomeIcon icon={faPlay} />
               </button>
-              {currentUser.data._id !== author[0] ? (
+              {currentUser._id !== author[0] ? (
                 <button
                   type="button"
                   className="mr-2 block p-2 focus:outline-none"

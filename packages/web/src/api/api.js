@@ -28,6 +28,8 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  // USERS
+
   function getUserById(userID) {
     return request({
       url: `/users/${userID}`,
@@ -59,11 +61,12 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function getPopularUsers(headers) {
+  function followUser(headers, options) {
     return request({
-      url: "/users/popular",
-      requestMethod: "GET",
+      url: `/api/users/${options.userId}/follow`,
+      requestMethod: "PATCH",
       headers: headers,
+      body: options,
     });
   }
 
@@ -221,7 +224,7 @@ function makeApi(request = makeRequest()) {
 
   function updatePlaylistInfo(options) {
     return request({
-      url: "/api/playlists/:id",
+      url: `/api/playlists`,
       requestMethod: "PATCH",
       body: options,
     });
@@ -340,7 +343,7 @@ function makeApi(request = makeRequest()) {
     getUsers: getUsers,
     getFollowersUsers: getFollowersUsers,
     getFollowingUsers: getFollowingUsers,
-    getPopularUsers: getPopularUsers,
+    followUser: followUser,
     addSongPlayback: addSongPlayback,
     getPopularSongs: getPopularSongs,
     fetchPopularGenre: fetchPopularGenre,

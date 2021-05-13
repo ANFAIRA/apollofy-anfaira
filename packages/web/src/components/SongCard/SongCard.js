@@ -1,20 +1,14 @@
-import React, { useState } from "react";
-import { object } from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-
 import {
   faHeart as farHeart,
   faPlayCircle as farPlayCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  // playSong,
-  playSongAndSaveStats,
-} from "../../redux/player/player-actions";
+import { bool, object } from "prop-types";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { playSongAndSaveStats } from "../../redux/player/player-actions";
 import { likeSong } from "../../redux/song/song-actions";
-
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
@@ -22,17 +16,15 @@ const likeOn = <FontAwesomeIcon icon={faHeart} />;
 const likeOff = <FontAwesomeIcon icon={farHeart} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
-function SongCard({ song }) {
+function SongCard({ song, slide = false }) {
   const { likedSongs } = useSelector((state) =>
-    state.song?.currentUser?.data
-      ? state.song.currentUser.data
-      : state.auth?.currentUser?.data,
+    state.song?.currentUser ? state.song.currentUser : state.auth?.currentUser,
   );
 
   const { FAVORITE } = useSelector((state) => state?.song?.songIds);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+  const { firebaseId } = useSelector((state) => state.auth?.currentUser);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(
@@ -47,7 +39,13 @@ function SongCard({ song }) {
   }
 
   return (
-    <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
+    <div
+      className={
+        slide
+          ? "my-1 mb-6 px-1"
+          : "my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4"
+      }
+    >
       <div className="card">
         <img
           src={song.thumbnail}
@@ -88,12 +86,9 @@ function SongCard({ song }) {
       </div>
       <div className="mt-2">
         <h3 className="text-lg">{song.title}</h3>
-        <p>{song.artist}</p>
-        {/* {song?.artist?.map((artist) => (
-          <p key={song._id} className="text-sm">
-            {artist}
-          </p>
-        ))} */}
+        <p className="text-gray-400 text-sm text-left leading-4 mt-1">
+          {song.artist}
+        </p>
       </div>
     </div>
   );
@@ -101,6 +96,11 @@ function SongCard({ song }) {
 
 SongCard.propTypes = {
   song: object.isRequired,
+  slide: bool,
+};
+
+SongCard.defaultProps = {
+  slide: false,
 };
 
 export default SongCard;

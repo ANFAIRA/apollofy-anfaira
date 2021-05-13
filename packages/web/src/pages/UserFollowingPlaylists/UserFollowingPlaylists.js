@@ -6,7 +6,7 @@ import Main from "../../layout/Main";
 import UserProfileLayout from "../../layout/UserProfileLayout";
 
 function FollowingPlaylists() {
-  const { followedPlaylist } = useSelector((state) => state.user?.currentUser);
+  const { followedPlaylist } = useSelector((state) => state.user?.selectedUser);
 
   const { playlistsByID } = useSelector((state) => state.playlists);
 
