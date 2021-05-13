@@ -88,6 +88,14 @@ class SongPlaybackRepository {
   findOneMonthly(query) {
     return normalizeDBQuery(db.MonthlySongPlayback.findOne(query, "-__v"));
   }
+
+  findOneAndDelete(query) {
+    return normalizeDBQuery(db.SongPlayback.findOneAndDelete(query));
+  }
+
+  findOneAndDeleteMonthly(query) {
+    return normalizeDBQuery(db.MonthlySongPlayback.findOneAndDelete(query));
+  }
 }
 
 module.exports = new SongPlaybackRepository();

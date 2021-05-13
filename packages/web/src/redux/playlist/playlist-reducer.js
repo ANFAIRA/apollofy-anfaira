@@ -164,6 +164,27 @@ const PlaylistReducer = (state = PlaylistInitState, action) => {
         deleteSongError: null,
       };
     }
+    case PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_REQUEST: {
+      return {
+        ...state,
+        deletingSong: true,
+        deleteSongError: null,
+      };
+    }
+    case PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_ERROR: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: action.payload,
+      };
+    }
+    case PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_SUCCESS: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: null,
+      };
+    }
     case PlaylistTypes.PLAYLIST_TO_UPDATE:
       return {
         ...state,

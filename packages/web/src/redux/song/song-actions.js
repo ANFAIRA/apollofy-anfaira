@@ -334,3 +334,65 @@ export const addUploadedSong = (song) => ({
 });
 
 // SONG PLAYBACK
+
+// Delete playback
+
+export const deleteSongPlaybackRequest = () => ({
+  type: SongTypes.DELETE_PLAYBACK_REQUEST,
+});
+
+export const deleteSongPlaybackError = (message) => ({
+  type: SongTypes.DELETE_PLAYBACK_ERROR,
+  payload: message,
+});
+
+export const deleteSongPlaybackSuccess = (songId) => ({
+  type: SongTypes.DELETE_PLAYBACK_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongPlayback(songId) {
+  return async function deleteSongPlaybackThunk(dispatch) {
+    dispatch(deleteSongPlaybackRequest());
+    try {
+      const response = await api.deleteSongPlayback(songId);
+      if (response.errorMessage) {
+        return dispatch(deleteSongPlaybackError(response.errorMessage));
+      }
+      return dispatch(deleteSongPlaybackSuccess(response.data));
+    } catch (error) {
+      return dispatch(deleteSongPlaybackError(error.message));
+    }
+  };
+}
+
+// Delete playback monthly
+
+export const deleteSongPlaybackMonthlyRequest = () => ({
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_REQUEST,
+});
+
+export const deleteSongPlaybackMonthlyError = (message) => ({
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_ERROR,
+  payload: message,
+});
+
+export const deleteSongPlaybackMonthlySuccess = (songId) => ({
+  type: SongTypes.DELETE_PLAYBACK_MONTHLY_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongPlaybackMonthly(songId) {
+  return async function deleteSongPlaybackMonthlyThunk(dispatch) {
+    dispatch(deleteSongPlaybackMonthlyRequest());
+    try {
+      const response = await api.deleteSongPlaybackMonthly(songId);
+      if (response.errorMessage) {
+        return dispatch(deleteSongPlaybackMonthlyError(response.errorMessage));
+      }
+      return dispatch(deleteSongPlaybackMonthlySuccess(response.data));
+    } catch (error) {
+      return dispatch(deleteSongPlaybackMonthlyError(error.message));
+    }
+  };
+}

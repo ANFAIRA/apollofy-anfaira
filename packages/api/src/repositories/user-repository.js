@@ -23,6 +23,10 @@ class UserRepository {
       db.User.findOneAndUpdate(query, data, { new: true }),
     );
   }
+
+  updateMany(query, data, options) {
+    return normalizeDBQuery(db.User.updateMany(query, data, options));
+  }
 }
 
 module.exports = new UserRepository();

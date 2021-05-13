@@ -434,9 +434,37 @@ async function updatePlaylist(req, res, next) {
   }
 }
 
+async function deleteSongFromAllPlaylists(req, res, next) {
+  const { songId } = req.body;
+
+  try {
+    const dbResponse = await PlaylistRepo.updateMany(
+      {
+        songs: songId,
+      },
+      { $pull: { songs: { $in: [songId] } } },
+      { multi: true, new: true },
+    );
+    if (dbResponse.error) {
+      res.status(500).send({
+        data: null,
+        error: dbResponse.error,
+      });
+    }
+
+    if (dbResponse.data) {
+      res.status(200).send({
+        data: req.body,
+        error: null,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function updatePlaylistOrder(req, res, next) {
   const { playlistId, ids } = req.body;
-  console.log(ids);
 
   try {
     const dbResponse = await PlaylistRepo.findOneAndUpdate(
@@ -484,4 +512,5 @@ module.exports = {
   deletePlaylist: deletePlaylist,
   updatePlaylist: updatePlaylist,
   updatePlaylistOrder: updatePlaylistOrder,
+  deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
 };

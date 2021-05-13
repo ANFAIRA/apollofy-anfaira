@@ -17,6 +17,14 @@ songRouter.get(
 );
 songRouter.patch("/songs/:id/like", authMiddleware, songController.likeSong);
 songRouter.post("/songs/:id/playback", songPlaybackController.addPlayback);
+songRouter.delete(
+  "/songs/:id/playback",
+  songPlaybackController.deleteSongPlayback,
+);
+songRouter.delete(
+  "/songs/:id/playback-monthly",
+  songPlaybackController.deleteSongPlaybackMonthly,
+);
 
 songRouter.get(
   "/api/songs/popular",

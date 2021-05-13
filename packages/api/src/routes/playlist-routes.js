@@ -28,6 +28,11 @@ playlistRouter.delete(
   playlistController.deleteSongFromPlaylist,
 );
 
+playlistRouter.delete(
+  "/api/playlist-song/",
+  playlistController.deleteSongFromAllPlaylists,
+);
+
 playlistRouter.get("/api/playlists/:id", playlistController.fetchPlaylistById);
 playlistRouter.delete("/api/playlists", playlistController.deletePlaylist);
 playlistRouter.patch("/api/playlists", playlistController.updatePlaylist);
