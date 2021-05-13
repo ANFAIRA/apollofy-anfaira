@@ -1,15 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
+import GenreCard from "../../components/GenreCard";
+import PlayListCard from "../../components/PlayListCard";
+import Slider from "../../components/Slider";
+import SongCard from "../../components/SongCard";
+import Main from "../../layout/Main";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { songSelector } from "../../redux/song/song-selector";
-
-import PlaylistCard from "../../components/PlayListCard";
-import SongCard from "../../components/SongCard";
-import GenreCard from "../../components/GenreCard";
-
-import Main from "../../layout/Main";
-
 import "./Home.scss";
 
 export default function Home() {
@@ -29,44 +26,61 @@ export default function Home() {
             <h2 className="pb-2 font-semibold">Most Popular Genres</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {genreIds?.map((genre) => (
-                <GenreCard
-                  key={genresByID[genre]._id}
-                  genre={genresByID[genre]}
-                  location={`genre/${genresByID[genre].metadata.genre}`}
-                />
-              ))}
+              <Slider>
+                {genreIds?.map((genre) => (
+                  <GenreCard
+                    key={genresByID[genre]._id}
+                    genre={genresByID[genre]}
+                    location={`genre/${genresByID[genre].metadata.genre}`}
+                  />
+                ))}
+              </Slider>
             </section>
           </article>
           <article className="pb-10">
             <h2 className="pb-2 font-semibold">Most Played Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {POPULAR?.map((song) => (
-                <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-              ))}
+              <Slider>
+                {POPULAR?.map((song) => (
+                  <SongCard
+                    key={songsByID[song]._id}
+                    song={songsByID[song]}
+                    slide
+                  />
+                ))}
+              </Slider>
             </section>
           </article>
           <article className="pb-10">
             <h2 className="pb-2 font-semibold">Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {ALL_SONGS?.map((song) => (
-                <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-              ))}
+              <Slider>
+                {ALL_SONGS?.map((song) => (
+                  <SongCard
+                    key={songsByID[song]._id}
+                    song={songsByID[song]}
+                    slide
+                  />
+                ))}
+              </Slider>
             </section>
           </article>
           <article className="pb-10">
             <h2 className="pb-2 font-semibold">Playlists</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {ALL?.map((playlist) => (
-                <PlaylistCard
-                  key={playlistsByID[playlist]._id}
-                  playlist={playlistsByID[playlist]}
-                  location={`playlist/${playlistsByID[playlist]._id}`}
-                />
-              ))}
+              <Slider>
+                {ALL?.map((playlist) => (
+                  <PlayListCard
+                    key={playlistsByID[playlist]._id}
+                    playlist={playlistsByID[playlist]}
+                    location={`playlist/${playlistsByID[playlist]._id}`}
+                    slide
+                  />
+                ))}
+              </Slider>
             </section>
           </article>
         </div>
