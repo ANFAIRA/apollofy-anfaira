@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { node } from "prop-types";
 import { useSelector } from "react-redux";
 import * as ROUTES from "../../routes";
@@ -23,26 +23,30 @@ const ProfileLayout = ({ children }) => {
           <div className="ml-10">
             <h3 className="text-5xl font-semibold">{currentUser.username}</h3>
             <div className="flex mt-4">
-              <p
-                className={
-                  followers.length
-                    ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm mr-5"
-                    : "text-gray-600 cursor-pointer text-sm mr-5"
-                }
-              >
-                {followers.length !== 1
-                  ? `${followers.length} FOLLOWERS`
-                  : `${followers.length} FOLLOWER`}
-              </p>
-              <p
-                className={
-                  followedUsers.length
-                    ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm"
-                    : "text-gray-600 cursor-pointer text-sm"
-                }
-              >
-                {`${followedUsers.length} FOLLOWED`}
-              </p>
+              <Link to={`/users/${currentUser?._id}/following`}>
+                <p
+                  className={
+                    followers.length
+                      ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm mr-5"
+                      : "text-gray-600 cursor-pointer text-sm mr-5"
+                  }
+                >
+                  {followers.length !== 1
+                    ? `${followers.length} FOLLOWERS`
+                    : `${followers.length} FOLLOWER`}
+                </p>
+              </Link>
+              <Link to={`/users/${currentUser?._id}/followed`}>
+                <p
+                  className={
+                    followedUsers.length
+                      ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm"
+                      : "text-gray-600 cursor-pointer text-sm"
+                  }
+                >
+                  {`${followedUsers.length} FOLLOWED`}
+                </p>
+              </Link>
             </div>
           </div>
         </div>

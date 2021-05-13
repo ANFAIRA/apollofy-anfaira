@@ -33,6 +33,7 @@ import { fetchPlaylists } from "./redux/playlist/playlist-actions";
 import { playlistTypes } from "./redux/playlist/playlist-types";
 import { songsTypes } from "./redux/song/song-types";
 import SearchView from "./pages/SearchView";
+import FollowingUsers from "./pages/FollowingUsers";
 
 function App() {
   const { isFetchAllSuccess, isFetchPopularSuccess } = useSelector(
@@ -107,7 +108,9 @@ function App() {
           <Route path={ROUTES.SEARCH} component={SearchView} />
           <Route path={ROUTES.PROFILE} component={Profile} />
           <Route path={ROUTES.ACCOUNT} component={Account} />
-          <Route path={ROUTES.USER_BY_ID} component={UserView} />
+          <Route path={ROUTES.USER_BY_ID} component={UserView} exact />
+          <Route path={ROUTES.FOLLOWING_USERS} component={FollowingUsers} />
+          <Route path={ROUTES.FOLLOWED_USERS} component={FollowingUsers} />
           <Route path={ROUTES.MY_SONGS} component={MySongs} />
           <Route path={ROUTES.MY_FAVOURITE_SONGS} component={LikedSongs} />
           <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
