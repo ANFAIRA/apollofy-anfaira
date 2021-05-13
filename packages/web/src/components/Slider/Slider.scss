@@ -1,0 +1,43 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  &--wrapper {
+    transition: transform 800ms ease-in-out;
+  }
+
+  &--container {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(12, calc(25% - 16px));
+    grid-template-rows: minmax(50px, auto);
+  }
+
+  &--button {
+    position: absolute;
+    height: 50%;
+    width: 50px;
+    top: calc(50% - 25%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    outline: none;
+    z-index: 4;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transition: background 200ms ease-in-out;
+    }
+
+    &-next {
+      right: 0px;
+    }
+
+    &-prev {
+      left: 0;
+    }
+  }
+}
