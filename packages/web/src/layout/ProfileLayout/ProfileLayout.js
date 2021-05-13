@@ -16,8 +16,8 @@ const ProfileLayout = ({ children }) => {
         <div className="flex items-center mb-10">
           <Avatar
             placeholder={currentUser.username.charAt(0).toUpperCase()}
-            height="h-24"
-            width="w-24"
+            height="h-28"
+            width="w-28"
             textSize="text-5xl"
           />
           <div className="ml-10">
