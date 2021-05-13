@@ -216,7 +216,7 @@ function makeApi(request = makeRequest()) {
 
   function updatePlaylistInfo(options) {
     return request({
-      url: "/api/playlists/:id",
+      url: `/api/playlists`,
       requestMethod: "PATCH",
       body: options,
     });
