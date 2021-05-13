@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { node } from "prop-types";
-
 import {
   faCloudUploadAlt,
   faPlusCircle,
@@ -18,6 +16,7 @@ import * as ROUTES from "../../routes";
 import Avatar from "../../components/Avatar";
 import SongCard from "../../components/SongCard";
 import PlaylistCard from "../../components/PlayListCard";
+import UserCard from "../../components/UserCard";
 import UploadButton from "../../components/UploadButton";
 import Player from "../../components/Player";
 import PlaylistModal from "../../components/PlaylistModal";
@@ -40,9 +39,8 @@ const SearchView = () => {
 
   const { songsByID } = useSelector((state) => state.song);
   const { playlistsByID } = useSelector((state) => state.playlists);
+  const { usersByID } = useSelector((state) => state.user);
 
-  const inputEl = useRef(null);
-  const [isEditing, setEditing] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [toggleUserMenu, setToggleUserMenu] = useState(false);
   const [search, setSearch] = useState("");
@@ -50,7 +48,7 @@ const SearchView = () => {
   const [songs, setSongs] = useState({ ...songsByID });
   const foundSongs = [];
   for (const index in songs) {
-    if (index && search != "") {
+    if (index && search !== "") {
       if (songsByID[index].title.toLowerCase().includes(search.toLowerCase())) {
         foundSongs.push(songsByID[index]);
       }
@@ -60,11 +58,29 @@ const SearchView = () => {
   const [playlists, setPlaylists] = useState({ ...playlistsByID });
   const foundPlaylists = [];
   for (const index in playlists) {
-    if (index && search != "") {
+    if (index && search !== "") {
       if (
         playlistsByID[index].title.toLowerCase().includes(search.toLowerCase())
       ) {
         foundPlaylists.push(playlistsByID[index]);
+      }
+    }
+  }
+
+  const [users, setUsers] = useState({ ...usersByID });
+  const foundUsers = [];
+  for (const index in users) {
+    if (index && search !== "" && index !== "undefined") {
+      if (
+        usersByID[index]?.username
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        usersByID[index]?.firstName
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        usersByID[index]?.lastName.toLowerCase().includes(search.toLowerCase())
+      ) {
+        foundUsers.push(usersByID[index]);
       }
     }
   }
@@ -76,6 +92,9 @@ const SearchView = () => {
   function handleSignOut() {
     dispatch(signOut());
   }
+
+  const inputRef = useRef(null);
+  useEffect(() => inputRef.current && inputRef.current.focus());
 
   return (
     <>
@@ -156,7 +175,7 @@ const SearchView = () => {
                       type="text"
                       className="px-4 py-2 h-8 w-full border-0 focus:outline-none text-black"
                       placeholder="Search..."
-                      ref={inputEl}
+                      ref={inputRef}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                     <button
@@ -303,13 +322,11 @@ const SearchView = () => {
           <h1 className="text-5xl">Search For Something...</h1>
         </div>
       ) : (
-        <div className="container my-12 mx-auto px-4 md:px-12">
+        <div className="container mb-24 my-12 mx-auto px-4 md:px-12">
           <article className="pb-10">
             <h2 className="pb-2 font-semibold">Songs</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              {/* {search === ""
-              ? "Search for something" */}
               {foundSongs.length === 0
                 ? "No songs found with this search query"
                 : foundSongs?.map((song) => (
@@ -336,7 +353,15 @@ const SearchView = () => {
             <h2 className="pb-2 font-semibold">Artist</h2>
             <hr className="border-gray-600 pb-2" />
             <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-              Artist results
+              {foundUsers.length === 0
+                ? "No artists found with this search query"
+                : foundUsers?.map((user) => (
+                    <UserCard
+                      key={user._id}
+                      user={user}
+                      location={`users/${user._id}`}
+                    />
+                  ))}
             </section>
           </article>
         </div>

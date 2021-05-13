@@ -51,7 +51,6 @@ const PlayListTableDnd = ({ fetchedSongs, songs, icon, playlistId }) => {
         ids.push(items[songId]._id);
       }
     }
-    console.log(songs);
     dispatch(updatePlaylistOrder(playlistId, ids));
   }
 

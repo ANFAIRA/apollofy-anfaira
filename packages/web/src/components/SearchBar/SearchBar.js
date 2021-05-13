@@ -1,21 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 const SearchBar = () => {
-  function handleFocus(e) {
-    console.log("focus");
-  }
-  function handleBlur(e) {
-    console.log("blur");
-  }
-
   return (
     <div className="rounded-full overflow-hidden flex">
       <input
         type="text"
         className="px-4 py-2 h-8 w-full border-0 focus:outline-none text-black"
         placeholder="Search..."
-        onFocus={handleFocus}
-        onBlur={handleBlur}
       />
       <button
         className="flex items-center justify-center px-4 bg-white border-none focus:outline-none"
