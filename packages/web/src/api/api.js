@@ -85,14 +85,6 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  // function getSong(headers) {
-  //   return request({
-  //     url: "/api/songs/:id",
-  //     requestMethod: "GET",
-  //     headers: headers,
-  //   })
-  // }
-
   function updateSongInfo(options) {
     return request({
       url: "/api/songs",
@@ -181,6 +173,14 @@ function makeApi(request = makeRequest()) {
   function deleteSongFromPlaylist(options) {
     return request({
       url: `/api/playlists/${options.playlistId}`,
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
+  function deleteSongFromAllPlaylists(options) {
+    return request({
+      url: "/api/playlist-song/",
       requestMethod: "DELETE",
       body: options,
     });
@@ -321,6 +321,7 @@ function makeApi(request = makeRequest()) {
     getPopularSongs: getPopularSongs,
     fetchPopularGenre: fetchPopularGenre,
     deleteSongFromGenre: deleteSongFromGenre,
+    deleteSongFromAllPlaylists: deleteSongFromAllPlaylists,
   };
 }
 

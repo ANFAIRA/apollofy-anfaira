@@ -90,12 +90,9 @@ async function deleteSongFromGenre(req, res, next) {
   const { genreId, songId } = req.body;
 
   try {
-    console.log("aqui");
-    console.log(songId);
     const genre = await GenreRepo.findOne({ _id: genreId });
 
     const songIndex = genre.data.songs.indexOf(String(songId));
-    console.log(genre.data.songs);
 
     genre.data.songs.splice(songIndex, 1);
 

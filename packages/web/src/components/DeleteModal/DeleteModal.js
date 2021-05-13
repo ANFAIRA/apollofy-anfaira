@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
 import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
-import { deleteSongFromPlaylist } from "../../redux/playlist/playlist-actions";
+import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
@@ -32,15 +32,15 @@ function DeleteModal() {
 
   function onSubmit() {
     // dispatch(deleteSong({ _id: songDeleting }));
-    console.log(songsByID[songDeleting].genre);
-    console.log(songDeleting);
-    // dispatch(deleteSongFromPlaylist());
-    dispatch(
-      deleteSongFromGenre({
-        genreId: songsByID[songDeleting].genre,
-        songId: songDeleting,
-      }),
-    );
+    // console.log(songsByID[songDeleting].genre);
+    // console.log(songDeleting);
+    dispatch(deleteSongFromAllPlaylists(songDeleting));
+    // dispatch(
+    //   deleteSongFromGenre({
+    //     genreId: songsByID[songDeleting].genre,
+    //     songId: songDeleting,
+    //   }),
+    // );
 
     // dispatch(hideDeleteModal());
   }

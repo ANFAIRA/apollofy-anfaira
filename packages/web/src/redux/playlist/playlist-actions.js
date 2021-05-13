@@ -314,6 +314,39 @@ export function deleteSongFromPlaylist(playlistId, songId) {
   };
 }
 
+// Delete song from all playlists
+
+export const deleteSongFromAllPlaylistsRequest = () => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_REQUEST,
+});
+
+export const deleteSongFromAllPlaylistsError = (message) => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_ERROR,
+  payload: message,
+});
+
+export const deleteSongFromAllPlaylistsSuccess = (songId) => ({
+  type: PlaylistTypes.DELETE_SONG_FROM_ALL_PLAYLISTS_SUCCESS,
+  payload: songId,
+});
+
+export function deleteSongFromAllPlaylists(songId) {
+  return async function deleteSongFromAllPlaylistsThunk(dispatch) {
+    dispatch(deleteSongFromAllPlaylistsRequest());
+    try {
+      const response = await api.deleteSongFromAllPlaylists({
+        songId,
+      });
+      if (response.errorMessage) {
+        return dispatch(deleteSongFromAllPlaylistsError(response.errorMessage));
+      }
+      return dispatch(deleteSongFromAllPlaylistsSuccess());
+    } catch (error) {
+      return dispatch(deleteSongFromAllPlaylistsError(error.message));
+    }
+  };
+}
+
 // UPDATE PLAYLIST INFO
 
 export const setPlaylistToUpdate = (playlist) => ({
