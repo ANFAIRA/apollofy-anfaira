@@ -12,7 +12,7 @@ function GenreCard({ genre = null, location }) {
 
   return (
     genre && (
-      <div className="my-1 mb-6 px-1 w-full max-w-sm sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 lg:my-4 lg:px-4">
+      <div className="my-1 mb-6 px-1">
         <div className="card">
           <button
             type="button"
