@@ -150,27 +150,25 @@ async function followUser(req, res, next) {
       );
     }
 
-    await UserRepo.findOneAndUpdate(
+    const authUserFollowed = await UserRepo.findOneAndUpdate(
       { firebaseId: firebaseId },
       {
         $set: {
           followedUsers: authUser.data.followedUsers,
         },
       },
-      { new: true },
     );
 
-    const followedUsers = await UserRepo.findOneAndUpdate(
+    await UserRepo.findOneAndUpdate(
       { _id: id },
       {
         $set: {
           followers: userToFollow.data.followers,
         },
       },
-      { new: true },
     );
-    console.log(followedUsers);
-    res.status(200).send(followedUsers);
+
+    res.status(200).send(authUserFollowed);
   } catch (error) {
     next(error);
   }

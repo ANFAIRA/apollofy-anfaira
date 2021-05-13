@@ -1,17 +1,16 @@
-import { node } from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
+import { node } from "prop-types";
 import Avatar from "../../components/Avatar";
 import * as ROUTES from "../../routes";
-import { followUser } from "../../redux/user/user-actions";
-import { selectUser } from "../../redux/user/user-selector";
+import { followUser, fetchUserByID } from "../../redux/user/user-actions";
 
 const UserProfileLayout = ({ children }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { selectedUser } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.auth);
-  // const userToFollow = useSelector(selectUser(selectedUser._id));
   const userToFollow = useSelector(
     (state) => state.user?.usersByID[selectedUser._id],
   );
@@ -19,14 +18,18 @@ const UserProfileLayout = ({ children }) => {
 
   const [isFollowingUser, setIsFollowingUser] = useState(
     userToFollow?.followers.find(
-      (followerId) => followerId === currentUser.data._id,
+      (followerId) => followerId === currentUser._id,
     ),
   );
 
   const handleFollowUser = () => {
     setIsFollowingUser(!isFollowingUser);
-    dispatch(followUser(selectedUser._id, currentUser.data.firebaseId));
+    dispatch(followUser(selectedUser._id, currentUser.firebaseId));
   };
+
+  useEffect(() => {
+    dispatch(fetchUserByID(id));
+  }, [dispatch, id]);
 
   // TODO create route
   return (
@@ -51,10 +54,14 @@ const UserProfileLayout = ({ children }) => {
             <div className="ml-auto">
               <button
                 type="button"
-                className="mr-2 bg-indigo-500 text-indigo-100 block py-2 px-8 rounded-full focus:outline-none"
+                className={
+                  isFollowingUser
+                    ? "mr-2 border-2 border-opacity-20 border-white hover:border-opacity-90 text-white font-semibold w-40 block py-2 px-8 rounded-full focus:outline-none"
+                    : "mr-2 bg-indigo-500 text-white font-semibold w-40 block py-2 px-8 rounded-full focus:outline-none"
+                }
                 onClick={handleFollowUser}
               >
-                FOLLOW
+                {isFollowingUser ? "FOLLOW" : "FOLLOWING"}
               </button>
             </div>
           </div>

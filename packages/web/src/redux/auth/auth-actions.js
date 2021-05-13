@@ -74,7 +74,7 @@ export function syncSignIn() {
       return dispatch(signUpError(response.errorMessage));
     }
 
-    return dispatch(signUpSuccess(response.data));
+    return dispatch(signUpSuccess(response.data.data));
   };
 }
 
@@ -160,7 +160,11 @@ export function updateUserAccount(userData) {
         },
         userData,
       );
-      return updateUserAccountSuccess(response);
+      if (response.errorMessage) {
+        return dispatch(updateUserAccountError(response.errorMessage));
+      }
+      updateUserAccountSuccess(response.data);
+      return dispatch(updateUserAccountReset());
     } catch (error) {
       dispatch(updateUserAccountError(error.message));
     }
@@ -180,6 +184,10 @@ export const updateUserAccountSuccess = (userData) => ({
 export const updateUserAccountError = (message) => ({
   type: AuthTypes.UPDATE_USER_ACCOUNT_ERROR,
   payload: message,
+});
+
+export const updateUserAccountReset = () => ({
+  type: AuthTypes.UPDATE_USER_ACCOUNT_RESET,
 });
 
 export const changePasswordRequest = () => ({

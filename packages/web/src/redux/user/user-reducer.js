@@ -65,8 +65,7 @@ const UserReducer = (state = UserInitState, action) => {
       };
     }
     case UserTypes.FETCH_USER_BY_ID_SUCCESS: {
-      const userID = action.payload.id;
-
+      const userID = action.payload._id;
       return {
         ...state,
         userLoading: false,

@@ -19,7 +19,9 @@ class UserRepository {
   }
 
   findOneAndUpdate(query, data) {
-    return normalizeDBQuery(db.User.findOneAndUpdate(query, data, {}));
+    return normalizeDBQuery(
+      db.User.findOneAndUpdate(query, data, { new: true }),
+    );
   }
 }
 

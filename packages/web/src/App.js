@@ -35,17 +35,17 @@ import { songsTypes } from "./redux/song/song-types";
 import SearchView from "./pages/SearchView";
 
 function App() {
-  const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
   const { isFetchAllSuccess, isFetchPopularSuccess } = useSelector(
     (state) => state.song,
   );
   const { playlistsFetched } = useSelector((state) => state.playlists);
   const { usersFetched } = useSelector((state) => state.user);
-  const { genresFetched } = useSelector((state) => state.genre);
+  const { genresFetched, genreIds } = useSelector((state) => state.genre);
 
   const { ALL_USERS } = useSelector((state) => state.user.userIds);
+  const { ALL_SONGS, POPULAR } = useSelector((state) => state.song.songIds);
   const { ALL } = useSelector((state) => state.playlists.playlistIds);
-  const { genreIds } = useSelector((state) => state.genre);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

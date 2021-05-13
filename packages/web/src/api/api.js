@@ -62,7 +62,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function followUser(headers, options) {
-    console.log(options);
     return request({
       url: `/api/users/${options.userId}/follow`,
       requestMethod: "PATCH",

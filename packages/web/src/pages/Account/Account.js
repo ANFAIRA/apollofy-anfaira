@@ -10,7 +10,7 @@ function Account() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { username, firstName, lastName, firebaseId } = useSelector(
-    (state) => state.auth?.currentUser?.data,
+    (state) => state.auth?.currentUser,
   );
 
   const {

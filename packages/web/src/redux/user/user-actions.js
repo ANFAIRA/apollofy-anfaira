@@ -7,6 +7,7 @@ import {
   updateUserAccountRequest,
   updateUserAccountSuccess,
   updateUserAccountError,
+  updateUserAccountReset,
 } from "../auth/auth-actions";
 
 // export const resetStoreAndLogOut = () => ({
@@ -176,34 +177,11 @@ export function fetchUserByID(userID) {
   };
 }
 
-// UPDATE USER ACCOUNT
-
-export function updateUserAccount(userData) {
-  return async function updateUserAccountThunk(dispatch) {
-    dispatch(updateUserAccountRequest());
-    try {
-      const token = await getCurrentUserToken();
-      const response = await api.updateUserInfo(
-        {
-          Authorization: `Bearer ${token}`,
-        },
-        userData,
-      );
-      return updateUserAccountSuccess(response);
-    } catch (error) {
-      dispatch(updateUserAccountError(error.message));
-    }
-    return dispatch(updateUserAccountSuccess(userData));
-  };
-}
-
 // FOLLOW USERS
 
 export const followUser = (userId, firebaseId) => {
   return async function followUserThunk(dispatch) {
     dispatch(updateUserAccountRequest());
-    console.log(userId);
-    console.log(firebaseId);
     try {
       const token = await getCurrentUserToken();
       const data = await api.followUser(
@@ -212,7 +190,9 @@ export const followUser = (userId, firebaseId) => {
         },
         { userId, firebaseId },
       );
-      return dispatch(updateUserAccountSuccess(data));
+      dispatch(updateUserAccountSuccess(data.data.data));
+      dispatch(fetchUserByID(userId));
+      return dispatch(updateUserAccountReset());
     } catch (err) {
       return dispatch(updateUserAccountError(err.message));
     }
