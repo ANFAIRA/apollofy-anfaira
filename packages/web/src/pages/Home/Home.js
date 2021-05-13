@@ -22,7 +22,7 @@ export default function Home() {
       <div className="container my-12 mx-auto px-4 md:px-12">
         <article className="pb-10">
           <h2 className="pb-2 font-semibold">Most Popular Genres</h2>
-          <hr className="border-gray-600 pb-2" />
+          <hr className="border-gray-600 pb-4" />
           <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
             <Slider>
               {genreIds?.map((genre) => (

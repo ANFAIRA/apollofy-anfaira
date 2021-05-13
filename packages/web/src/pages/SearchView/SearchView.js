@@ -204,15 +204,13 @@ const SearchView = () => {
               <div className="ml-3 relative">
                 <div className="flex items-center">
                   <Avatar
-                    placeholder={currentUser?.data?.username
-                      ?.charAt(0)
-                      .toUpperCase()}
+                    placeholder={currentUser?.username?.charAt(0).toUpperCase()}
                     height="h-8"
                     width="w-8"
                     textSize="text-base"
                   />
                   <Link to={ROUTES.PROFILE} className="ml-4">
-                    <span>{currentUser?.data?.username}</span>
+                    <span>{currentUser?.username}</span>
                   </Link>
                   <button
                     type="button"

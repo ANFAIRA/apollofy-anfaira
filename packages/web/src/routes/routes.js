@@ -17,3 +17,5 @@ export const USER_FAVOURITE_SONGS = "/user-favourite-songs";
 export const USER_PLAYLISTS = "/user-playlists";
 export const USER_FOLLOWING_PLAYLISTS = "/user-following-playlists";
 export const GENRE_BY_ID = "/genre/:id";
+export const FOLLOWING_USERS = "/users/:id/following";
+export const FOLLOWED_USERS = "/users/:id/followed";

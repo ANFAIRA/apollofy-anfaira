@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { node } from "prop-types";
 import { useSelector } from "react-redux";
 import * as ROUTES from "../../routes";
@@ -7,19 +7,48 @@ import Avatar from "../../components/Avatar";
 
 const ProfileLayout = ({ children }) => {
   const currentUser = useSelector((state) => state.auth.currentUser);
+  const { followedUsers, followers } = useSelector(
+    (state) => state.auth.currentUser,
+  );
   return (
     <>
       <header>
-        <div className="flex items-center mb-5">
+        <div className="flex items-center mb-10">
           <Avatar
             placeholder={currentUser.username.charAt(0).toUpperCase()}
-            height="h-24"
-            width="w-24"
+            height="h-28"
+            width="w-28"
             textSize="text-5xl"
           />
-          <h3 className="text-5xl font-semibold ml-4">
-            {currentUser.username}
-          </h3>
+          <div className="ml-10">
+            <h3 className="text-5xl font-semibold">{currentUser.username}</h3>
+            <div className="flex mt-4">
+              <Link to={`/users/${currentUser?._id}/following`}>
+                <p
+                  className={
+                    followers.length
+                      ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm mr-5"
+                      : "text-gray-600 cursor-pointer text-sm mr-5"
+                  }
+                >
+                  {followers.length !== 1
+                    ? `${followers.length} FOLLOWERS`
+                    : `${followers.length} FOLLOWER`}
+                </p>
+              </Link>
+              <Link to={`/users/${currentUser?._id}/followed`}>
+                <p
+                  className={
+                    followedUsers.length
+                      ? "text-gray-600 hover:text-gray-300 cursor-pointer text-sm"
+                      : "text-gray-600 cursor-pointer text-sm"
+                  }
+                >
+                  {`${followedUsers.length} FOLLOWED`}
+                </p>
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="flex ml-1 mb-3 text-md font-semibold uppercase">
           <NavLink
