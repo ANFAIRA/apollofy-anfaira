@@ -1,5 +1,4 @@
 const { PlaylistRepo, UserRepo, SongRepo } = require("../repositories");
-const mongoose = require("mongoose");
 
 async function createPlaylist(req, res, next) {
   const {
