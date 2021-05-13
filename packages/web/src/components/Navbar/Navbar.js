@@ -87,7 +87,9 @@ export default function Navbar() {
               </div>
               <div className="hidden sm:block m-auto">
                 <div className="flex space-x-4">
-                  <SearchBar />
+                  <Link to={ROUTES.SEARCH}>
+                    <SearchBar />
+                  </Link>
                 </div>
               </div>
               <div className="hidden sm:inline-block">
