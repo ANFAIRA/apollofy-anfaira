@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       <Main>
-        <h1 className="text-xl mb-4">Hello {currentUser?.data?.username}</h1>
+        <h1 className="text-xl mb-4">Hello {currentUser?.username}</h1>
         <div className="container my-12 mx-auto px-4 md:px-12">
           <article className="pb-10">
             <h2 className="pb-2 font-semibold">Most Popular Genres</h2>

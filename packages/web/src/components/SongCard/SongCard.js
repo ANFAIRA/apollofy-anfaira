@@ -24,15 +24,13 @@ const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({ song }) {
   const { likedSongs } = useSelector((state) =>
-    state.song?.currentUser?.data
-      ? state.song.currentUser.data
-      : state.auth?.currentUser?.data,
+    state.song?.currentUser ? state.song.currentUser : state.auth?.currentUser,
   );
 
   const { FAVORITE } = useSelector((state) => state?.song?.songIds);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { firebaseId } = useSelector((state) => state.auth?.currentUser?.data);
+  const { firebaseId } = useSelector((state) => state.auth?.currentUser);
 
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(

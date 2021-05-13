@@ -27,14 +27,14 @@ const Player = ({ songs }) => {
 
   const { currentUser } = useSelector((state) => state.auth);
   const [isFavorite, setIsFavorite] = useState(
-    likedBy?.findIndex((id) => String(id) === String(currentUser.data._id)) !==
-      -1 && true,
+    likedBy?.findIndex((id) => String(id) === String(currentUser._id)) !== -1 &&
+      true,
   );
   const dispatch = useDispatch();
 
   function handleLikeBtn() {
     setIsFavorite(!isFavorite);
-    dispatch(likeSong(_id, currentUser.data.firebaseId));
+    dispatch(likeSong(_id, currentUser.firebaseId));
   }
   const currentPercentage = duration
     ? `${(songProgress / duration) * 100}%`
@@ -108,9 +108,8 @@ const Player = ({ songs }) => {
   useEffect(() => {
     // Handle setup when changing songs
     setIsFavorite(
-      likedBy?.findIndex(
-        (id) => String(id) === String(currentUser.data._id),
-      ) !== -1 && true,
+      likedBy?.findIndex((id) => String(id) === String(currentUser._id)) !==
+        -1 && true,
     );
     audioRef.current.pause();
     audioRef.current = new Audio(url);
@@ -122,7 +121,7 @@ const Player = ({ songs }) => {
     } else {
       isReady.current = true;
     }
-  }, [url, likedBy, currentUser.data._id]);
+  }, [url, likedBy, currentUser._id]);
 
   return (
     <div className="player">

@@ -7,7 +7,7 @@ export const UserInitState = {
   userLoading: false,
   userLoadingError: null,
   userFetched: false,
-  currentUser: {},
+  selectedUser: {},
   usersByID: {},
   userIds: {
     ALL_USERS: [],
@@ -50,29 +50,28 @@ const UserReducer = (state = UserInitState, action) => {
         userIds: newIds,
       };
     }
-    case UserTypes.FETCH_USER_REQUEST: {
+    case UserTypes.FETCH_USER_BY_ID_REQUEST: {
       return {
         ...state,
         userLoading: true,
         userLoadingError: null,
       };
     }
-    case UserTypes.FETCH_USER_ERROR: {
+    case UserTypes.FETCH_USER_BY_ID_ERROR: {
       return {
         ...state,
         userLoading: false,
         userLoadingError: action.payload,
       };
     }
-    case UserTypes.FETCH_USER_SUCCESS: {
-      const userID = action.payload.id;
-
+    case UserTypes.FETCH_USER_BY_ID_SUCCESS: {
+      const userID = action.payload._id;
       return {
         ...state,
         userLoading: false,
         userFetched: true,
         userLoadingError: null,
-        currentUser: action.payload,
+        selectedUser: action.payload,
         usersByID: {
           ...state.usersByID,
           [userID]: {

@@ -22,9 +22,7 @@ const Profile = () => {
   const { playlistsByID } = useSelector((state) => state.playlists);
 
   const { likedSongs } = useSelector((state) =>
-    state.song?.currentUser?.data
-      ? state.song.currentUser.data
-      : state.auth?.currentUser?.data,
+    state.song?.currentUser ? state.song.currentUser : state.auth?.currentUser,
   );
 
   const { MY_SONGS, FAVORITE } = useSelector((state) => state.song.songIds);
