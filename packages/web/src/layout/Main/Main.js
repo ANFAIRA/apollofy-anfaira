@@ -43,7 +43,9 @@ const Main = ({ children }) => {
         </section>
       )}
       <Navbar />
-      <section className="md:container md:mx-auto p-8">{children}</section>
+      <section className="md:container md:mx-auto p-8 pt-24">
+        {children}
+      </section>
       <Player songs={songsToPlay} />
     </>
   );
