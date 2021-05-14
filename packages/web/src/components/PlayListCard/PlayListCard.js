@@ -24,7 +24,7 @@ function PlayListCard({ location, playlist, slide = false }) {
       <div className="card">
         <button
           type="button"
-          className="relative z-10 flex flex-col justify-center h-full object-cover bg-center shadow-md overflow-hidden cursor-pointer focus:outline-none"
+          className="relative z-10 flex flex-col justify-center h-full w-full object-cover bg-center shadow-md overflow-hidden cursor-pointer focus:outline-none"
           onClick={handleClick}
         >
           <img src={playlist.thumbnail} alt="thumbnail" />
