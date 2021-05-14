@@ -10,6 +10,7 @@ import { fetchSongs } from "../../redux/song/song-actions";
 import { songsTypes } from "../../redux/song/song-types";
 import { selectSongState } from "../../redux/song/song-selector";
 import { playlistTypes } from "../../redux/playlist/playlist-types";
+import Slider from "../../components/Slider";
 import "./Profile.scss";
 
 const Profile = () => {
@@ -53,38 +54,56 @@ const Profile = () => {
         <h2 className="pb-2 font-semibold mt-10 ">My Songs</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {MY_SONGS?.slice(0, 6).map((song) => (
-            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-          ))}
+          <Slider>
+            {MY_SONGS?.map((song) => (
+              <SongCard
+                key={songsByID[song]._id}
+                song={songsByID[song]}
+                slide
+              />
+            ))}
+          </Slider>
         </section>
         <h2 className="pb-2 font-semibold mt-10 ">My Playlists</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {ownPlaylistsArray?.slice(0, 6).map((playlist) => (
-            <PlaylistCard
-              key={playlistsByID[playlist]._id}
-              playlist={playlistsByID[playlist]}
-              location={`playlist/${playlistsByID[playlist]._id}`}
-            />
-          ))}
+          <Slider>
+            {ownPlaylistsArray?.map((playlist) => (
+              <PlaylistCard
+                key={playlistsByID[playlist]._id}
+                playlist={playlistsByID[playlist]}
+                location={`playlist/${playlistsByID[playlist]._id}`}
+                slide
+              />
+            ))}
+          </Slider>
         </section>
         <h2 className="pb-2 font-semibold mt-10 ">Favorites</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {FAVORITE?.slice(0, 6).map((song) => (
-            <SongCard key={songsByID[song]._id} song={songsByID[song]} />
-          ))}
+          <Slider>
+            {FAVORITE?.map((song) => (
+              <SongCard
+                key={songsByID[song]._id}
+                song={songsByID[song]}
+                slide
+              />
+            ))}
+          </Slider>
         </section>
         <h2 className="pb-2 font-semibold mt-10 ">Following</h2>
         <hr className="border-gray-600 pb-2 " />
         <section className="flex flex-wrap justify-center sm:justify-start mx-1 lg:mx-4">
-          {followedPlaylistsArray?.slice(0, 6).map((playlist) => (
-            <PlaylistCard
-              key={playlistsByID[playlist]._id}
-              playlist={playlistsByID[playlist]}
-              location={`playlist/${playlistsByID[playlist]._id}`}
-            />
-          ))}
+          <Slider>
+            {followedPlaylistsArray?.map((playlist) => (
+              <PlaylistCard
+                key={playlistsByID[playlist]._id}
+                playlist={playlistsByID[playlist]}
+                location={`playlist/${playlistsByID[playlist]._id}`}
+                slide
+              />
+            ))}
+          </Slider>
         </section>
       </ProfileLayout>
     </Main>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { node } from "prop-types";
 
@@ -19,6 +20,12 @@ const Main = ({ children }) => {
     showDeleteModal,
     showPlaylistDeleteModal,
   } = useSelector(modalStateSelector);
+
+  const pathName = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathName]);
 
   return (
     <>
@@ -43,7 +50,9 @@ const Main = ({ children }) => {
         </section>
       )}
       <Navbar />
-      <section className="md:container md:mx-auto p-8">{children}</section>
+      <section className="md:container md:mx-auto p-8 pt-24 mb-16">
+        {children}
+      </section>
       <Player songs={songsToPlay} />
     </>
   );

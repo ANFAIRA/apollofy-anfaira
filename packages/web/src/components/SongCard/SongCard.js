@@ -12,8 +12,8 @@ import { likeSong } from "../../redux/song/song-actions";
 import SongDialogue from "../SongDialogue";
 import "./SongCard.scss";
 
-const likeOn = <FontAwesomeIcon icon={faHeart} />;
-const likeOff = <FontAwesomeIcon icon={farHeart} />;
+const likeOff = <FontAwesomeIcon icon={faHeart} />;
+const likeOn = <FontAwesomeIcon icon={farHeart} />;
 const dotsH = <FontAwesomeIcon icon={faEllipsisH} />;
 
 function SongCard({ song, slide = false }) {

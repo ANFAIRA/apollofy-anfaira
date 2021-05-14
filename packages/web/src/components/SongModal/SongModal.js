@@ -141,13 +141,13 @@ function SongModal() {
                   </label>
                 </div>
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-grey-lighter mb-5 mr-2">
+                <div className="flex flex-col w-full h-40 items-center justify-center bg-grey-lighter mb-5 mr-2">
                   <label
                     htmlFor="photo"
                     className={
                       errors.image
                         ? "w-full sm:w-40 sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border-4 border-red-500 cursor-pointer bg-white text-red-500 hover:bg-red-500 hover:text-white"
-                        : "w-full h-full sm:h-40 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
+                        : "w-full h-full sm:h-40 flex flex-col items-center justify-center font-semibold px-4 py-6 rounded-lg shadow-lg songing-wide uppercase border border-indigo-500 cursor-pointer bg-white text-indigo-500 hover:bg-indigo-500 hover:text-white"
                     }
                   >
                     <svg
