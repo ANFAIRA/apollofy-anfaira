@@ -101,6 +101,27 @@ const UserReducer = (state = UserInitState, action) => {
         deleteSongError: null,
       };
     }
+    case UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_REQUEST: {
+      return {
+        ...state,
+        deletingSong: true,
+        deleteSongError: null,
+      };
+    }
+    case UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_ERROR: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: action.payload,
+      };
+    }
+    case UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_SUCCESS: {
+      return {
+        ...state,
+        deletingSong: false,
+        deleteSongError: null,
+      };
+    }
     default: {
       return state;
     }
