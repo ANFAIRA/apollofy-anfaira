@@ -238,6 +238,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function deletePlaylistFromAllUsers(options) {
+    console.log(options);
+    return request({
+      url: "/api/users-playlist/",
+      requestMethod: "DELETE",
+      body: options,
+    });
+  }
+
   // GENRE
   function getGenres(headers) {
     return request({
@@ -352,6 +361,7 @@ function makeApi(request = makeRequest()) {
     deleteSongFromAllUsers: deleteSongFromAllUsers,
     deleteSongPlayback: deleteSongPlayback,
     deleteSongPlaybackMonthly: deleteSongPlaybackMonthly,
+    deletePlaylistFromAllUsers: deletePlaylistFromAllUsers,
   };
 }
 

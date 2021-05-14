@@ -209,6 +209,7 @@ export function deleteSongFromAllUsers(songId) {
     }
   };
 }
+
 // FOLLOW USERS
 
 export const followUser = (userId, firebaseId) => {
@@ -230,3 +231,36 @@ export const followUser = (userId, firebaseId) => {
     }
   };
 };
+
+// Delete playlist from all users
+
+export const deletePlaylistFromAllUsersRequest = () => ({
+  type: UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_REQUEST,
+});
+
+export const deletePlaylistFromAllUsersError = (message) => ({
+  type: UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistFromAllUsersSuccess = (playlistId) => ({
+  type: UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_SUCCESS,
+  payload: playlistId,
+});
+
+export function deletePlaylistFromAllUsers(playlistId) {
+  return async function deletePlaylistFromAllUsersThunk(dispatch) {
+    dispatch(deletePlaylistFromAllUsersRequest());
+    try {
+      const response = await api.deletePlaylistFromAllUsers({
+        playlistId,
+      });
+      if (response.errorMessage) {
+        return dispatch(deletePlaylistFromAllUsersError(response.errorMessage));
+      }
+      return dispatch(deletePlaylistFromAllUsersSuccess());
+    } catch (error) {
+      return dispatch(deletePlaylistFromAllUsersError(error.message));
+    }
+  };
+}
