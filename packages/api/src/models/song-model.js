@@ -40,15 +40,6 @@ const SongSchema = Schema(
       type: [String],
       default: [],
     },
-    playlists: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "playlist",
-        },
-      ],
-      default: [],
-    },
     likedBy: {
       type: [
         {
