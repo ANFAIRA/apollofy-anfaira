@@ -1,7 +1,7 @@
 import { object, string } from "prop-types";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import defaultImg from "../../assets/background_cover.jpeg";
+import defaultImg from "../../assets/genre.png";
 
 function GenreCard({ genre = null, location }) {
   const history = useHistory();
