@@ -18,13 +18,7 @@ import CloseBtn from "../CloseBtn";
 
 function DeleteModal() {
   const dispatch = useDispatch();
-  const {
-    // isDeletingSong,
-    // songDeleteSuccess,
-    // songDeleteError,
-    songDeleting,
-    songsByID,
-  } = useSelector(songSelector);
+  const { songDeleting, songsByID } = useSelector(songSelector);
 
   const { handleSubmit } = useForm({
     mode: "onBlur",

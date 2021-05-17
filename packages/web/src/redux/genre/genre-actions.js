@@ -60,10 +60,6 @@ export const deleteSongFromGenreSuccess = (songId) => ({
   payload: songId,
 });
 
-// export const deleteSongFromGenreReset = () => ({
-//   type: GenreTypes.DELETE_SONG_FROM_GENRE_RESET,
-// });
-
 export function deleteSongFromGenre({ genreId, songId }) {
   return async function deleteSongFromGenreThunk(dispatch) {
     dispatch(deleteSongFromGenreRequest());
