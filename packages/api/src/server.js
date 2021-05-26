@@ -27,7 +27,6 @@ app.use(
     optionsSuccessStatus: 200,
   }),
 );
-0;
 
 app.use(userRouter);
 app.use(songRouter);
