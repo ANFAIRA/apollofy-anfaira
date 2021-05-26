@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 app.use(
   cors({
     origin: config.client.url,
-    methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200,
+    // methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
+    // optionsSuccessStatus: 200,
   }),
 );
 
