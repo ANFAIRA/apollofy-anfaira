@@ -45,7 +45,7 @@ const SearchView = () => {
   const [toggleUserMenu, setToggleUserMenu] = useState(false);
   const [search, setSearch] = useState("");
 
-  const [songs, setSongs] = useState({ ...songsByID });
+  const songs = { ...songsByID };
   const foundSongs = [];
   for (const index in songs) {
     if (index && search !== "") {
@@ -55,7 +55,7 @@ const SearchView = () => {
     }
   }
 
-  const [playlists, setPlaylists] = useState({ ...playlistsByID });
+  const playlists = { ...playlistsByID };
   const foundPlaylists = [];
   for (const index in playlists) {
     if (index && search !== "") {
@@ -67,7 +67,7 @@ const SearchView = () => {
     }
   }
 
-  const [users, setUsers] = useState({ ...usersByID });
+  const users = { ...usersByID };
   const foundUsers = [];
   for (const index in users) {
     if (index && search !== "" && index !== "undefined") {

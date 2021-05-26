@@ -35,7 +35,6 @@ function PlaylistDeleteModal() {
   }
 
   function onSubmit() {
-    console.log(playlistDeleting);
     dispatch(deletePlaylistFromAllUsers(playlistDeleting));
     dispatch(deletePlaylist({ _id: playlistDeleting }));
     history.push(`/`);
