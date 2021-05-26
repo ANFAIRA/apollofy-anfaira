@@ -20,7 +20,7 @@ export const signUpError = (message) => ({
 export function signUpWithGoogleRequest() {
   return async function signUpThunk(dispatch, getState) {
     const currentUser = getState().auth.currentUser;
-    dispatch(signUpRequest());
+    dispatch(signUpRequest(currentUser));
     try {
       await auth.singInWithGoogle();
     } catch (error) {

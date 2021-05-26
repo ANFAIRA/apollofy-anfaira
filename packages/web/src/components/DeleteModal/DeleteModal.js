@@ -2,14 +2,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { deleteSong, setSongToDelete } from "../../redux/song/song-actions";
-import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
-import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
-import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
 import {
+  deleteSong,
+  setSongToDelete,
   deleteSongPlayback,
   deleteSongPlaybackMonthly,
 } from "../../redux/song/song-actions";
+import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
+import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
+import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
