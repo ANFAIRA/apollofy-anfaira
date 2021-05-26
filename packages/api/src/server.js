@@ -17,12 +17,14 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(helmet());
-//app.use(json({limit:"30mb", extended:"true"}));
 app.use(bodyParser.json({ limit: "30mb", extended: "true" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 app.use(
   cors({
     origin: config.client.url,
+    methods: ["GET", "PUT", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200,
   }),
 );
 

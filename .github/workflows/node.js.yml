@@ -31,3 +31,11 @@ jobs:
           yarn run lint:js
           yarn run lint:format:check
           yarn run test:ci:all
+      - name: Add Heroku Remote Origin
+        run:
+          git remote add heroku https://heroku:${{ secrets.HEROKU_API_TOKEN
+          }}@git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}.git
+      - name: Split the packages/api subtree
+        run: git subtree split --prefix packages/api -b split
+      - name: Deploy API to Heroku
+        run: git push -f heroku split:main
