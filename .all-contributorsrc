@@ -33,7 +33,19 @@
         "data",
         "design"
       ]
-    }
+    },
+    {
+      "login": "fab-rvn",
+      "name": "Fabrizio Ervini",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66378887?v=4",
+      "profile": "https://fabrizioervini.com/",
+      "contributions": [
+        "code",
+        "content",
+        "data",
+        "design",
+      ]
+    },
   ],
   "contributorsPerLine": 7,
   "projectName": "Apollofy",
