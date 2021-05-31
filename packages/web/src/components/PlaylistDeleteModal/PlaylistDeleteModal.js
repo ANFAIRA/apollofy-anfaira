@@ -9,7 +9,8 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import { deletePlaylistFromAllUsers } from "../../redux/user/user-actions";
 import { selectPlaylistState } from "../../redux/playlist/playlist-selector";
-
+import { fetchUsers } from "../../redux/user/user-actions";
+import { userTypes } from "../../redux/user/user-types";
 import { hidePlaylistDeleteModal } from "../../redux/modals/modal-actions";
 
 import CloseBtn from "../CloseBtn";
@@ -35,9 +36,9 @@ function PlaylistDeleteModal() {
   }
 
   function onSubmit() {
-    console.log(playlistDeleting);
     dispatch(deletePlaylistFromAllUsers(playlistDeleting));
     dispatch(deletePlaylist({ _id: playlistDeleting }));
+    dispatch(fetchUsers(userTypes.ALL_USERS));
     history.push(`/`);
     dispatch(hidePlaylistDeleteModal());
   }

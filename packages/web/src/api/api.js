@@ -239,7 +239,6 @@ function makeApi(request = makeRequest()) {
   }
 
   function deletePlaylistFromAllUsers(options) {
-    console.log(options);
     return request({
       url: "/api/users-playlist/",
       requestMethod: "DELETE",

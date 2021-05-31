@@ -10,6 +10,8 @@ import {
   deleteSongPlayback,
   deleteSongPlaybackMonthly,
 } from "../../redux/song/song-actions";
+import { fetchUsers } from "../../redux/user/user-actions";
+import { userTypes } from "../../redux/user/user-types";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
@@ -42,6 +44,7 @@ function DeleteModal() {
     );
 
     dispatch(deleteSong({ _id: songDeleting }));
+    dispatch(fetchUsers(userTypes.ALL_USERS));
     dispatch(hideDeleteModal());
   }
 
@@ -73,11 +76,6 @@ function DeleteModal() {
               </button>
             </div>
           </div>
-          {/* {isDeletingSong && <p className="mb-3">Removing song...</p>}
-          {songDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
-          {songDeleteError && (
-            <p className="mb-3">An error occured while deleting the song!</p>
-          )} */}
         </form>
       </div>
     </article>

@@ -66,7 +66,6 @@ export function fetchAllUsers() {
       }
 
       const normalizedUsers = normalizeUsers(res.data.data);
-
       return dispatch(
         fetchUsersSuccess({
           type: userTypes.ALL_USERS,
@@ -165,10 +164,6 @@ export const fetchUserByIdSuccess = (user) => ({
   payload: user,
 });
 
-export const fetchUserByIdReset = () => ({
-  type: UserTypes.FETCH_USER_BY_ID_RESET,
-});
-
 export function fetchUserByID(userID) {
   return async function fetchUserByIDThunk(dispatch) {
     dispatch(fetchUserByIdRequest());
@@ -207,7 +202,6 @@ export function deleteSongFromAllUsers(songId) {
       if (response.errorMessage) {
         return dispatch(deleteSongFromAllUsersError(response.errorMessage));
       }
-      fetchUserByIdReset();
       return dispatch(deleteSongFromAllUsersSuccess());
     } catch (error) {
       return dispatch(deleteSongFromAllUsersError(error.message));
@@ -263,7 +257,6 @@ export function deletePlaylistFromAllUsers(playlistId) {
       if (response.errorMessage) {
         return dispatch(deletePlaylistFromAllUsersError(response.errorMessage));
       }
-      fetchUserByIdReset();
       return dispatch(deletePlaylistFromAllUsersSuccess());
     } catch (error) {
       return dispatch(deletePlaylistFromAllUsersError(error.message));
