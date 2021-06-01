@@ -8,11 +8,13 @@ import {
   deleteSongPlayback,
   deleteSongPlaybackMonthly,
 } from "../../redux/song/song-actions";
-import { fetchUsers } from "../../redux/user/user-actions";
+import {
+  fetchUsers,
+  deleteSongFromAllUsers,
+} from "../../redux/user/user-actions";
 import { userTypes } from "../../redux/user/user-types";
 import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
 import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
-import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
