@@ -153,7 +153,6 @@ async function deleteSongFromAllUsers(req, res, next) {
 }
 async function deletePlaylistFromAllUsers(req, res, next) {
   const { playlistId } = req.body;
-
   try {
     const dbResponse = await UserRepo.updateMany(
       {

@@ -8,9 +8,13 @@ import {
   deleteSongPlayback,
   deleteSongPlaybackMonthly,
 } from "../../redux/song/song-actions";
+import {
+  fetchUsers,
+  deleteSongFromAllUsers,
+} from "../../redux/user/user-actions";
+import { userTypes } from "../../redux/user/user-types";
 import { deleteSongFromGenre } from "../../redux/genre/genre-actions";
 import { deleteSongFromAllPlaylists } from "../../redux/playlist/playlist-actions";
-import { deleteSongFromAllUsers } from "../../redux/user/user-actions";
 import { songSelector } from "../../redux/song/song-selector";
 
 import { hideDeleteModal } from "../../redux/modals/modal-actions";
@@ -19,13 +23,7 @@ import CloseBtn from "../CloseBtn";
 
 function DeleteModal() {
   const dispatch = useDispatch();
-  const {
-    // isDeletingSong,
-    // songDeleteSuccess,
-    // songDeleteError,
-    songDeleting,
-    songsByID,
-  } = useSelector(songSelector);
+  const { songDeleting, songsByID } = useSelector(songSelector);
 
   const { handleSubmit } = useForm({
     mode: "onBlur",
@@ -49,6 +47,7 @@ function DeleteModal() {
     );
 
     dispatch(deleteSong({ _id: songDeleting }));
+    dispatch(fetchUsers(userTypes.ALL_USERS));
     dispatch(hideDeleteModal());
   }
 
@@ -80,11 +79,6 @@ function DeleteModal() {
               </button>
             </div>
           </div>
-          {/* {isDeletingSong && <p className="mb-3">Removing song...</p>}
-          {songDeleteSuccess && <p className="mb-3">Successfully removed!</p>}
-          {songDeleteError && (
-            <p className="mb-3">An error occured while deleting the song!</p>
-          )} */}
         </form>
       </div>
     </article>

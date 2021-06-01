@@ -95,6 +95,24 @@ const UserReducer = (state = UserInitState, action) => {
       };
     }
     case UserTypes.DELETE_SONG_FROM_ALL_USERS_SUCCESS: {
+      for (const userKeys in state.usersByID) {
+        if (userKeys) {
+          // eslint-disable-next-line no-param-reassign
+          state.usersByID[userKeys].uploadedSongs = state.usersByID[
+            userKeys
+          ].uploadedSongs.filter(
+            (itemId) => itemId !== action.payload.data._id,
+          );
+        }
+      }
+      for (const userKeys in state.usersByID) {
+        if (userKeys) {
+          // eslint-disable-next-line no-param-reassign
+          state.usersByID[userKeys].likedSongs = state.usersByID[
+            userKeys
+          ].likedSongs.filter((itemId) => itemId !== action.payload.data._id);
+        }
+      }
       return {
         ...state,
         deletingSong: false,
@@ -116,6 +134,26 @@ const UserReducer = (state = UserInitState, action) => {
       };
     }
     case UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_SUCCESS: {
+      for (const userKeys in state.usersByID) {
+        if (userKeys) {
+          // eslint-disable-next-line no-param-reassign
+          state.usersByID[userKeys].uploadedPlaylist = state.usersByID[
+            userKeys
+          ].uploadedPlaylist.filter(
+            (itemId) => itemId !== action.payload.data._id,
+          );
+        }
+      }
+      for (const userKeys in state.usersByID) {
+        if (userKeys) {
+          // eslint-disable-next-line no-param-reassign
+          state.usersByID[userKeys].followedPlaylist = state.usersByID[
+            userKeys
+          ].followedPlaylist.filter(
+            (itemId) => itemId !== action.payload.data._id,
+          );
+        }
+      }
       return {
         ...state,
         deletingSong: false,

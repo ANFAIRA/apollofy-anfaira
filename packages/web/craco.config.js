@@ -1,4 +1,3 @@
-const path = require("path");
 const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
 const postcssFocusVisible = require("postcss-focus-visible");

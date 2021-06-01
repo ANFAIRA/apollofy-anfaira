@@ -66,7 +66,6 @@ export function fetchAllUsers() {
       }
 
       const normalizedUsers = normalizeUsers(res.data.data);
-
       return dispatch(
         fetchUsersSuccess({
           type: userTypes.ALL_USERS,
