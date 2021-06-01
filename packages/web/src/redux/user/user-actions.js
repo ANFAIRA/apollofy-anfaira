@@ -176,6 +176,10 @@ export function fetchUserByID(userID) {
   };
 }
 
+export const fetchUserByIdReset = () => {
+  return { type: UserTypes.FETCH_USER_BY_ID_RESET };
+};
+
 // Delete song from all users
 
 export const deleteSongFromAllUsersRequest = () => ({
