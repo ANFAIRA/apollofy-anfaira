@@ -9,6 +9,7 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import {
   fetchUsers,
+  fetchUserByIdReset,
   deletePlaylistFromAllUsers,
 } from "../../redux/user/user-actions";
 import { selectPlaylistState } from "../../redux/playlist/playlist-selector";
@@ -41,6 +42,7 @@ function PlaylistDeleteModal() {
     dispatch(deletePlaylistFromAllUsers(playlistDeleting));
     dispatch(deletePlaylist({ _id: playlistDeleting }));
     dispatch(fetchUsers(userTypes.ALL_USERS));
+    dispatch(fetchUserByIdReset());
     history.push(`/`);
     dispatch(hidePlaylistDeleteModal());
   }

@@ -80,6 +80,10 @@ const UserReducer = (state = UserInitState, action) => {
         },
       };
     }
+    case UserTypes.FETCH_USER_BY_ID_RESET:
+      return {
+        ...UserInitState,
+      };
     case UserTypes.DELETE_SONG_FROM_ALL_USERS_REQUEST: {
       return {
         ...state,
@@ -117,6 +121,7 @@ const UserReducer = (state = UserInitState, action) => {
         ...state,
         deletingSong: false,
         deleteSongError: null,
+        selectedUser: {},
       };
     }
     case UserTypes.DELETE_PLAYLIST_FROM_ALL_USERS_REQUEST: {
@@ -158,6 +163,7 @@ const UserReducer = (state = UserInitState, action) => {
         ...state,
         deletingSong: false,
         deleteSongError: null,
+        selectedUser: {},
       };
     }
     default: {
