@@ -1,4 +1,5 @@
 const admin = require("firebase-admin");
+require("dotenv").config();
 
 const firebaseCertConfig = {
   type: process.env.FB_CERT_TYPE,
