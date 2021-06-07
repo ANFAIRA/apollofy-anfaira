@@ -46,6 +46,18 @@
         "design",
       ]
     },
+    {
+      "login": "Anntroy",
+      "name": "Anna Troyan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58558785?v=4",
+      "profile": "https://github.com/Anntroy",
+      "contributions": [
+        "code",
+        "content",
+        "data",
+        "ideas",
+      ]
+    },
   ],
   "contributorsPerLine": 7,
   "projectName": "Apollofy",
