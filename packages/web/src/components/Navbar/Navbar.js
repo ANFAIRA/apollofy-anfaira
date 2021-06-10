@@ -83,8 +83,7 @@ export default function Navbar() {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/">
-                  <img src={appLogo} alt="BigCo Inc. logo" />
-                  {/* <h4 className="font-bold mr-5">APOLLOFY</h4> */}
+                  <img src={appLogo} alt="Apollofy logo" />
                 </Link>
               </div>
               <div className="hidden sm:block m-auto">
