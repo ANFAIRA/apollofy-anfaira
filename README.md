@@ -4,7 +4,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <h1 align="center">
-  <img src="./packages/web/public/LogoReadme.png" align="center" alt=""/></br></br>
+  <img src="./packages/web/public/LogoApollofy.png" align="center" alt=""/></br></br>
   <b>Apollofy Music</b>
 </h1>
 
