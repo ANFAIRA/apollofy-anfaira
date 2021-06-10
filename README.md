@@ -10,6 +10,7 @@
 
 
 > Web platform to enjoy your favorite music and share it with your friends. This project contains both Server and Client App.
+> Try it [here](https://apollofy-music.netlify.app/)
 
 ## Getting Started
 
