@@ -16,6 +16,7 @@ import * as ROUTES from "../../routes";
 import Avatar from "../Avatar";
 import SearchBar from "../SearchBar";
 import UploadButton from "../UploadButton";
+import appLogo from "../../assets/logo.png";
 
 const addSong = <FontAwesomeIcon title="Upload song" icon={faCloudUploadAlt} />;
 const addPlaylist = (
@@ -82,7 +83,8 @@ export default function Navbar() {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/">
-                  <h4 className="font-bold mr-5">APOLLOFY</h4>
+                  <img src={appLogo} alt="BigCo Inc. logo" />
+                  {/* <h4 className="font-bold mr-5">APOLLOFY</h4> */}
                 </Link>
               </div>
               <div className="hidden sm:block m-auto">
