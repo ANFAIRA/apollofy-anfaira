@@ -1,17 +1,13 @@
-# Apollofy Music Project API
+# Apollofy API
 
 Server App for the Apollofy music project.
 
-## Repo
-
-- [apollofy-music-project](https://github.com/assembler-school/apollofy-music-project.git)
 
 ## Getting Started
 
-### Install Dependencies
+Create .env file in the root directory. See more in [Environment variables](#environment-variables)
 
-This is a monorepo app made with Yarn. Therefore, you will need to run `yarn` in
-the root and then the individual scripts of each package.
+To start the `api` package run yarn dev:api.
 
 The `api` package will be run by default in the following url:
 `http://localhost:4000`.
@@ -33,8 +29,6 @@ The `api` package will be run by default in the following url:
 This app uses Firebase Auth as the auth provider, so you will need to configure
 it first.
 
-You can follow this guide on enabling Firebase Auth:
-[Assembler School: Node.js REST API Design Intro Workshop](https://github.com/assembler-school/nodejs-rest-api-design-intro-workshop/tree/05-firebase-auth-testing#firebase-auth-1)
 
 ### Config
 
