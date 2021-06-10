@@ -20,7 +20,7 @@ function GenreCard({ genre = null, location }) {
             onClick={handleClick}
           >
             <img src={defaultImg} alt="thumbnail" />
-            <div className="absolute z-20 bg-purple-800 bg-opacity-85 shadow-md rounded-r-xl px-2 py-2 flex flex-col w-5/6 h-2/6 mt-16">
+            <div className="absolute z-20 bg-indigo-900 bg-opacity-85 shadow-md rounded-r-xl px-2 py-2 flex flex-col w-5/6 h-2/6 mt-16">
               <h3 className="text-lg font-semibold pb-2 text-left leading-4 break-all">
                 {genre.metadata.name}
               </h3>
