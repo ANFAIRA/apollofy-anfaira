@@ -16,7 +16,7 @@
 
 Clone Guit Hub repository in your local:
 
-git clone https://github.com/ANFAIRA/apollofy-anfaira.git
+`git clone https://github.com/ANFAIRA/apollofy-anfaira.git`
 
 Run `yarn` in the root folder to install all dependencies.
 
