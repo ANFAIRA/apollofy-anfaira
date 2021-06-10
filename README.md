@@ -34,13 +34,13 @@ This is a monorepo created with `Yarn`. The packages are `api` and `web`. Each o
 has scripts that can be executed individually. See each `package.json` file to learn what scripts are available.
 
 ## Technologies
-* NodeJS
-* Yarn
-* ReactJS
-* Express
-* MongoDB
-* FireBase
-* Cloudinary
+* `NodeJS`
+* `Yarn`
+* `ReactJS`
+* `Express`
+* `MongoDB`
+* `FireBase`
+* `Cloudinary`
 
 ## License
 
