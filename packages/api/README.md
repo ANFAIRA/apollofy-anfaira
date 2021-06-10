@@ -2,10 +2,10 @@
 
 Server App for the Apollofy music project.
 
-
 ## Getting Started
 
-Create .env file in the root directory. See more in [Environment variables](#environment-variables)
+Create .env file in the root directory. See more in
+[Environment variables](#environment-variables)
 
 To start the `api` package run yarn dev:api.
 
@@ -28,7 +28,6 @@ The `api` package will be run by default in the following url:
 
 This app uses Firebase Auth as the auth provider, so you will need to configure
 it first.
-
 
 ### Config
 

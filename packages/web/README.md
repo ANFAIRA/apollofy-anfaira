@@ -2,12 +2,12 @@
 
 Client App for the Apollofy music project.
 
-
 ## Getting Started
 
 ### Install Dependencies
 
-Create .env file in the root directory. See more in [Environment variables](#environment-variables).
+Create .env file in the root directory. See more in
+[Environment variables](#environment-variables).
 
 To start the `web` package run yarn dev:web.
 
